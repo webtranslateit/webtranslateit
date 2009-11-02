@@ -10,7 +10,7 @@ Installation
 
 From your project's RAILS_ROOT, run:
 
-    ruby script/plugin install git://github.com/AtelierConvivialite/web_translate_it.git
+    ruby script/plugin install git://github.com/AtelierConvivialite/webtranslateit.git
 
 The installation script will create a default translation.yml in RAILS_ROOT/config. The file should look like so:
 
