@@ -3,10 +3,7 @@ Web Translate It plugin for Ruby on Rails
 
 This is a plugin to integrate your app with [Web Translate It](https://webtranslateit.com).
 
-When you load a page on your app, the plugin check and fetch your latest translations from Web Translate It.
-It allows a team of translators to work on Web Translate It’s web interface and test their translations on your server by just reloading a page.
-
-Please note that this plugin is not finished yet. More improvements are coming shortly.
+This plugin adds a handy rake task to fetch your translations. You can also set it up to “autofetch” your translations on page load. This feature allows a team of translators to work on Web Translate It’s web interface and test their translations on your server by reloading a page.
 
 Installation
 ------------
@@ -34,7 +31,7 @@ This is the API key provided per project by Web Translate It.
   
 If set to true, the plugin will poll Web Translate It for updating the language files. This is useful on development and staging environment, so your app fetch your strings as soon as they are translated on Web Translate It, but you probably don’t want this on production.
 
-Once this is done, add the following lines in your `ApplicationController`:
+Add the following lines in your `ApplicationController` if you want to use the “autofetch” feature:
 
 <pre>before_filter :update_locale
 
