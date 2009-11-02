@@ -1,0 +1,19 @@
+api_key: SECRET
+
+development:
+  autofetch: false # Set autofetch to true to fetch new language files at page load
+  locales:
+    en_US: config/locales/en.yml
+    de_DE: config/locales/de.yml
+    
+staging:
+  autofetch: true # Set autofetch to true to fetch new language files at page load
+  locales:
+    en_US: config/locales/en.yml
+    de_DE: config/locales/de.yml
+
+production:
+  autofetch: false # Set autofetch to true to fetch new language files at page load
+  locales:
+    en_US: config/locales/en.yml
+    de_DE: config/locales/de.yml

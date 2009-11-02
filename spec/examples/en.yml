@@ -1,0 +1,38 @@
+en:
+  activerecord:
+    errors:
+      templates:
+        header:
+          one: "1 error prohibited this {{model}} from being saved"
+          other: "{{count}} errors prohibited this {{model}} from being saved"
+          body: "there were problems with the following fields:"
+          messages:
+            accepted: "must be accepted"
+            blank: "can't be blank"
+            confirmation: "doesn't match confirmation"
+            empty: "can't be empty"
+            equal_to: "must be equal to {{count}}"
+            even: "must be even"
+            exclusion: "is reserved"
+            greater_than: "must be greater than {{count}}"
+            greater_than_or_equal_to: "must be greater than or equal to {{count}}"
+            inclusion: "is not included in the list"
+            invalid: "is invalid"
+            less_than: "must be less than {{count}}"
+            less_than_or_equal_to: "must be less than or equal to {{count}}"
+            not_a_number: "is not a number"
+            odd: "must be odd"
+            taken: "is already taken"
+            too_long: "is too long (maximum is {{count}} characters)"
+            too_short: "is too short (minimum is {{count}} characters)"
+            wrong_length: "is the wrong length (should be {{count}} characters)" 
+      models:
+        invitation:
+          attributes:
+            email:
+              user_already_invited: "This user has already been invited"
+              user_already_member: "This user is already a member"
+        project_file:
+          attributes:
+            file:
+              file_format_not_supported: "Sorry, we currenly support only Gettext .pot/.po, .yml/.yaml and .strings"
