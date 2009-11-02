@@ -15,16 +15,16 @@ From your project's RAILS_ROOT, run:
 
     ruby script/plugin install git://github.com/AtelierConvivialite/web_translate_it.git
 
-The installation script will create a default translation.yml in RAILS_ROOT/config, it will look like so:
+The installation script will create a default translation.yml in RAILS_ROOT/config. The file should look like so:
 
-<pre>development:
-  api_key: something_secret
+<pre>api_key: something_secret
+development:
   autofetch: true
   locales:
     en: path/to/en/file.yml
     fr: path/to/fr/file.yml</pre>
       
-Edit your configuration file to point Web Translate It’s locale. Note that the locales you use in Web Translate It should match the locale used by Rails. If you use en_US in your Rails app, you should use the en_US locale in Web Translate It.
+Edit your configuration file to point to Web Translate It’s locale. Note that the locales you use in Web Translate It should match the locale used by Rails. If you use en_US in your Rails app, you should use the en_US locale in Web Translate It.
 
     api_key
   
@@ -40,11 +40,16 @@ Once this is done, add the following lines in your `ApplicationController`:
 
 def update_locale
   begin
-    WebTranslateIt.fetch_translations_for(I18n.locale)
-  rescue(Error)
-    puts "ERROR Web Translate It"
+    WebTranslateIt.fetch_translations
+  rescue Exception => e
+    puts "** Web Translate It raised an exception: " + e.message
   end
 end</pre>
+
+Restart your application for the changes to take effect. You should see something like this in the logs:
+
+<pre>Looking for fr translations...
+Done. Response code: 304</pre>
 
 Note that Web Translate It’s API doesn’t yet support projects with more than one file per language. We are working on fixing this limitation. 
 

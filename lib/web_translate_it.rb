@@ -5,11 +5,12 @@ module WebTranslateIt
   end
   
   def self.fetch_translations
-    # begin
-      config = Configuration.new
-      TranslationFile.fetch(config, I18N.locale) if config.autofetch?
-    # rescue
-      # puts "ERROR"
-    # end
+    config = Configuration.new
+    if config.autofetch?
+      locale= I18n.locale.to_s
+      puts "Looking for #{locale} translations..."
+      response_code = TranslationFile.fetch(config, locale)
+      puts "Done. Response code: #{response_code}"
+    end
   end
 end

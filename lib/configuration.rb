@@ -12,7 +12,11 @@ module WebTranslateIt
     end
     
     def locale_file_name_for(locale)
-      locales[locale].blank? ? raise(WebTranslateItLocaleNotFoundException) : locales[locale]
+      self.locales[locale].blank? ? raise(LocaleNotFoundException) : locales[locale]
+    end
+    
+    def autofetch?
+      self.autofetch
     end
   end
 end

@@ -8,13 +8,18 @@ module WebTranslateIt
       http.verify_mode = OpenSSL::SSL::VERIFY_NONE
       http.read_timeout = 10
       
-      locale_file = path_to_locale_file(config, locale)    
       request = Net::HTTP::Get.new("/projects/#{config.api_key}/get_translations_for/#{locale}")
-      request.add_field('If-Modified-Since', locale_file.mtime.rfc2822) if File.exist?(locale_file)
+      if File.exist?(config.locale_file_name_for(locale))
+        request.add_field('If-Modified-Since', File.mtime(config.locale_file_name_for(locale)).rfc2822)
+      end
       response = http.request(request)
       response_code = response.code.to_i
-      locale_file.puts(response.body) if response_code == 200 and ! response.body.blank?
-      locale_file.close
+      
+      if response_code == 200 and not response.body.blank?
+        locale_file = path_to_locale_file(config, locale)
+        locale_file.puts(response.body)
+        locale_file.close
+      end
       response_code
     end
   
