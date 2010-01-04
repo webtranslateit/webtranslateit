@@ -31,7 +31,7 @@ namespace :trans do
       colour_puts "<b>Fetching all files for all locales...</b>"
       locales.each do |locale|
         configuration.files.each do |file|
-          response_code = file.fetch(locale)
+          response_code 
           case response_code
           when 200
             colour_puts "<green>#{file.file_path_for_locale(locale)}: 200 OK.</green>"
@@ -51,7 +51,13 @@ namespace :trans do
     colour_puts "<b>Sending file for locale #{args.locale}...</b>"
     configuration = WebTranslateIt::Configuration.new
     configuration.files.each do |file|
-      file.send(args.locale)
+      response_code = file.send(args.locale)
+      case response_code
+      when 200
+        colour_puts "<green>#{file.file_path_for_locale(locale)} uploaded OK.</green>"
+      else
+        colour_puts "<red>#{file.file_path_for_locale(locale)}: Error uploading, unhandled response: #{response_code}</red>"
+      end
     end
   end
   
