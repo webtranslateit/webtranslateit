@@ -21,15 +21,15 @@ wti_id2: config/locales/file2_[locale].yml
 development:
   autofetch: true</pre>
 
-    api_key
+`api_key`
   
 This is the API key provided per project by Web Translate It.
 
-    master_locale
+`master_locale`
   
 This is the locale you translate your project from. The plugin will never fetch and update these files unless you specifically ask it to.
 
-    wti_id1: config/locales/file1_[locale].yml
+`wti_id1: config/locales/file1_[locale].yml`
     
 `wti_id1` is the id of your *master* language file on Web Translate It. If you only have one language file, then only put this one in the configuration file.
 
@@ -37,7 +37,7 @@ This is the locale you translate your project from. The plugin will never fetch 
 
 The plugin also assume that you use the same locale name on your project and on Web Translate It. For example if you use the locale `fr_FR` on Web Translate It, then you should use `fr_FR` on your project.
 
-    autofetch
+`autofetch:true`
   
 If set to true, the plugin will check the Web Translate It API on every page loaded and check for updated language files. The plugin use conditional requests using the date of last modification of your language file. It means that if your language file is up to date, Web Translate It’s API will return nothing, so querying on every page loaded is not too slow.
 
