@@ -15,7 +15,7 @@ From your project's RAILS_ROOT, run:
 The installation script will create a default translation.yml in RAILS_ROOT/config. The file should look like so:
 
 <pre>api_key: SECRET
-master_locale: en
+ignore_locales: :en
 wti_id1: config/locales/file1_[locale].yml
 wti_id2: config/locales/file2_[locale].yml
 development:
@@ -25,9 +25,9 @@ development:
   
 This is the API key provided per project by Web Translate It.
 
-`master_locale`
+`ignore_locales`
   
-This is the locale you translate your project from. The plugin will never fetch and update these files unless you specifically ask it to.
+Pass an array of symbols, an array of strings, a symbol or a string of locales not to sync with Web Translate It. You usually don’t want to sync your master language files.
 
 `wti_id1: config/locales/file1_[locale].yml`
     
@@ -68,15 +68,19 @@ That’s it!
 Rake tasks
 ------------
 
-The plugin provides 2 rake tasks.
+The plugin provides 3 rake tasks.
+
+    rake trans:fetch:all
+  
+Fetch the latest translations for all your files for all languages defined in Web Translate It’s interface, except for the languages set in `ignore_locales`.
 
     rake trans:fetch[fr_FR]
   
-To fetch the latest translations for all the languages defined in translation.yml. It takes the locale name as a parameter
+Fetch the latest translations for all the languages defined in Web Translate It’s interface. It takes the locale name as a parameter
   
     rake trans:version
   
-To display the plugin version.
+Display the plugin version.
 
 Supported Rails Versions
 ------------------------

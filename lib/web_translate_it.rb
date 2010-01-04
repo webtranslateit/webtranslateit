@@ -6,13 +6,12 @@ module WebTranslateIt
   
   def self.fetch_translations
     config = Configuration.new
-    if config.autofetch?
-      locale = I18n.locale.to_s
-      puts "Looking for #{locale} translations..."
-      config.files.each do |file|
-        response_code = file.fetch(locale)
-        puts "Done. Response code: #{response_code}"
-      end
+    return unless config.autofetch?
+    locale = I18n.locale.to_s
+    puts "Looking for #{locale} translations..."
+    config.files.each do |file|
+      response_code = file.fetch(locale)
+      puts "Done. Response code: #{response_code}"
     end
   end
 end
