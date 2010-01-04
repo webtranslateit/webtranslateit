@@ -30,7 +30,7 @@ namespace :trans do
       configuration = WebTranslateIt::Configuration.new
       locales = configuration.locales
       configuration.ignore_locales.each do |ignore|
-        locales.delete(ignore.to_s)
+        locales.delete(ignore)
       end
       colour_puts "<b>Fetching all files for all locales...</b>"
       locales.each do |locale|

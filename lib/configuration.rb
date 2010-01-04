@@ -9,7 +9,7 @@ module WebTranslateIt
       self.api_key        = configuration['api_key']
       self.autofetch      = configuration[RAILS_ENV]['autofetch']
       self.files          = []
-      self.ignore_locales = configuration['ignore_locales'].to_a
+      self.ignore_locales = configuration['ignore_locales'].to_a.map{ |l| l.to_s }
       configuration['files'].each do |file_id, file_path|
         self.files.push(WebTranslateIt::TranslationFile.new(file_id, file_path, api_key))
       end

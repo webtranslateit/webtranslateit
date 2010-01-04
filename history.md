@@ -1,3 +1,7 @@
+=== Version 1.1.1 / 2010-01-04
+
+* Fix: locales in exclude list are no longer autofetched when browsing the app in these locales.
+
 === Version 1.1 / 2010-01-04
 
 * Support for multi-files projects.

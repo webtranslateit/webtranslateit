@@ -6,7 +6,7 @@ module WebTranslateIt
   
   def self.fetch_translations
     config = Configuration.new
-    return unless config.autofetch?
+    return if !config.autofetch? or config.ignore_locales.include?(locale)
     locale = I18n.locale.to_s
     puts "Looking for #{locale} translations..."
     config.files.each do |file|
