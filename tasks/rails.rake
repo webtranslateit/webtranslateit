@@ -1,9 +1,5 @@
 namespace :trans do  
-
-  require File.join(File.dirname(__FILE__), '../lib/configuration.rb')
-  require File.join(File.dirname(__FILE__), '../lib/web_translate_it.rb')
-  require File.join(File.dirname(__FILE__), '../lib/util.rb')
-  require File.join(File.dirname(__FILE__), '../lib/translation_file.rb')
+  require File.join(File.dirname(__FILE__), '..', 'init')
   
   desc "Fetch translation files from Web Translate It"
   task :fetch, :locale do |t, args|
@@ -46,6 +42,16 @@ namespace :trans do
           end
         end
       end
+    end
+  end
+  
+  desc "Send a translation file to Web Translate It"
+  task :send, :locale do |t, args|
+    welcome_message
+    colour_puts "<b>Sending file for locale #{args.locale}...</b>"
+    configuration = WebTranslateIt::Configuration.new
+    configuration.files.each do |file|
+      file.send(args.locale)
     end
   end
   

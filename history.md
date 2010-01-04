@@ -1,3 +1,7 @@
+## Version 1.2 / 2010-01-04
+
+* New: Ability to **update** language files via PUT requests. Upload brand new language files is not possible at the moment.
+
 ## Version 1.1.1 / 2010-01-04
 
 * Fix: locales in exclude list are no longer autofetched when browsing the app in these locales.
