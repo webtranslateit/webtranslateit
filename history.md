@@ -1,6 +1,7 @@
 === (In Git)
 
 * Support for multi-files projects
+* Deprecate rake translation:* in favour of the shorter rake trans
 
 === Version 1.0.0 / 2009-11-02
 
