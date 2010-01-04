@@ -1,6 +1,21 @@
+# The Project API Token from Web Translate It
 api_key: abcd
+
+# The Master locale is the locale you translate your project from. Web Translate It shouldn’t 
+# attempt to edit these files.
+master_locale: en_GB
+
+# A list of files to translate
+# You can name your language files as you want, as long as the locale name match the
+# locale name you set in Web Translate It, and that the different language files names are
+# differenciated by their locale name.
+# For example, if you set to translate a project in en_US in WTI, you should use the locale en_US in your app
+files:
+  - config/locales/file1_[locale].yml
+  - config/locales/file2_[locale].yml
+
+# Set autofetch to true to fetch new language files at page load
+# Set this as you like, but you should not autofetch in production
+# for performance reasons.
 test:
-  autofetch: true # Set autofetch to true to fetch new language files at page load
-  locales:
-    en_US: config/locales/en.yml
-    de_DE: config/locales/de.yml
+  autofetch: true

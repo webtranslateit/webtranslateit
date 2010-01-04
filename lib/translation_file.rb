@@ -2,29 +2,42 @@ module WebTranslateIt
   class TranslationFile
     require 'net/https'
     
-    def self.fetch(config, locale)
-      http = Net::HTTP.new('webtranslateit.com', 443)
-      http.use_ssl = true
-      http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+    attr_accessor :id, :file_path, :api_key
+    
+    def initialize(id, file_path, api_key)
+      self.id        = id
+      self.file_path = file_path
+      self.api_key   = api_key
+    end
+    
+    def fetch(locale)
+      http              = Net::HTTP.new('webtranslateit.com', 443)
+      http.use_ssl      = true
+      http.verify_mode  = OpenSSL::SSL::VERIFY_NONE
       http.read_timeout = 10
       
-      request = Net::HTTP::Get.new("/projects/#{config.api_key}/get_translations_for/#{locale}")
-      if File.exist?(config.locale_file_name_for(locale))
-        request.add_field('If-Modified-Since', File.mtime(config.locale_file_name_for(locale)).rfc2822)
+      request = Net::HTTP::Get.new(api_url(locale))
+      
+      if File.exist?(file_path_for_locale(locale))
+        request.add_field('If-Modified-Since', File.mtime(File.new(file_path_for_locale(locale), 'w')).rfc2822)
       end
       response = http.request(request)
       response_code = response.code.to_i
       
       if response_code == 200 and not response.body.blank?
-        locale_file = path_to_locale_file(config, locale)
+        locale_file = File.new(file_path_for_locale(locale), 'w')
         locale_file.puts(response.body)
         locale_file.close
       end
       response_code
     end
-  
-    def self.path_to_locale_file(config, locale)
-      f = File.new(config.locale_file_name_for(locale), 'w')
+    
+    def file_path_for_locale(locale)
+      self.file_path.gsub("[locale]", locale)
+    end
+    
+    def api_url(locale)
+      "/api/projects/#{api_key}/files/#{self.id}/locales/#{locale}"
     end
   end
 end

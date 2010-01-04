@@ -17,23 +17,23 @@ describe WebTranslateIt::Configuration do
     end
     
     it "should load the content of the YAML file" do
-      config_hash = {"test"=>{"locales"=>{"en_US"=>"config/locales/en.yml", "de_DE"=>"config/locales/de.yml"}, "autofetch"=>true, "api_key"=>"abcd"}}
+      config_hash = {
+        "test"=> { "autofetch" => true },
+        "api_key" => "abcd",
+        "master_locale" => "en_GB",
+        "files" => ["config/locales/file1_[locale].yml", "config/locales/file2_[locale].yml"]
+      }
       YAML.should_receive(:load_file).and_return(config_hash)
       WebTranslateIt::Configuration.new
     end
     
-    it "should assign the API key, autofetch and locales" do
+    it "should assign the API key, autofetch, files and master_locale" do
       configuration = WebTranslateIt::Configuration.new
       configuration.api_key.should == 'abcd'
       configuration.autofetch.should == true
-      configuration.locales.should == {"en_US"=>"config/locales/en.yml", "de_DE"=>"config/locales/de.yml"}
+      configuration.files.first.should be_a(WebTranslateIt::TranslationFile)
+      configuration.master_locale.should == 'en_GB'
     end
   end
   
-  describe "#locale_file_name_for" do
-    it "should return a correct value given an existing locale" do
-      configuration = WebTranslateIt::Configuration.new
-      configuration.locale_file_name_for('en_US').should == "config/locales/en.yml"
-    end
-  end
 end
