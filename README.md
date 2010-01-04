@@ -68,7 +68,7 @@ That’s it!
 Rake tasks
 ------------
 
-The plugin provides 3 rake tasks.
+The plugin provides 4 rake tasks.
 
     rake trans:fetch:all
   
@@ -77,7 +77,11 @@ Fetch the latest translations for all your files for all languages defined in We
     rake trans:fetch[fr_FR]
   
 Fetch the latest translations for all the languages defined in Web Translate It’s interface. It takes the locale name as a parameter
-  
+
+    rake trans:send[fr_FR]
+    
+Updates the latest translations for all your files in a specific locale defined in Web Translate It’s interface.
+
     rake trans:version
   
 Display the plugin version.

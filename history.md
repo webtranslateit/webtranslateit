@@ -1,3 +1,8 @@
+## Version 1.2.1 / 2010-01-04
+
+* Add some documentation
+* More feedback on file upload
+
 ## Version 1.2 / 2010-01-04
 
 * New: Ability to **update** language files via PUT requests. Upload brand new language files is not possible at the moment.
