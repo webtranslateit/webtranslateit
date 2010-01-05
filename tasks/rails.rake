@@ -31,7 +31,7 @@ namespace :trans do
       colour_puts "<b>Fetching all files for all locales...</b>"
       locales.each do |locale|
         configuration.files.each do |file|
-          response_code 
+          response_code = file.fetch(locale) 
           case response_code
           when 200
             colour_puts "<green>#{file.file_path_for_locale(locale)}: 200 OK.</green>"
