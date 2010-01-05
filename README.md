@@ -9,27 +9,21 @@ This plugin provides your app with:
 
 ## First steps
 
-From your project's RAILS_ROOT, run:
+From your project’s root, run:
 
     ruby script/plugin install git://github.com/AtelierConvivialite/webtranslateit.git
 
-The installation script will create a default translation.yml in RAILS_ROOT/config. The file should look like so:
+The installation script will create a default `translation.yml` in `RAILS_ROOT/config`. The file should look like so:
 
-<pre>api_key: SECRET
-ignore_locales: :en
-wti_id1: config/locales/file1_[locale].yml
-wti_id2: config/locales/file2_[locale].yml</pre>
+    api_key: SECRET
+    ignore_locales: :en
+    wti_id1: config/locales/file1_[locale].yml
+    wti_id2: config/locales/file2_[locale].yml</pre>
 
-`api_key`
-  
-This is the API key provided per project by Web Translate It.
+`api_key` is the API key (or token) provided per project by Web Translate It.
 
-`ignore_locales`
-  
-Pass an array of symbols, an array of strings, a symbol or a string of locales not to sync with Web Translate It. You usually don’t want to sync your master language files.
+`ignore_locales` is an array of symbols, an array of strings, a symbol or a string of locales not to sync with Web Translate It. You usually don’t want to sync your master language files.
 
-`wti_id1: config/locales/file1_[locale].yml`
-    
 `wti_id1` is the id of your *master* language file on Web Translate It. If you only have one language file, then only put this one in the configuration file.
 
 `config/locales/file1_[locale].yml` is the name of your language file on your project. To keep things simple, the plugin makes the reasonable assumption that you differentiate your language files using the locale name. For example, you will have `file1_en.yml` for English, and `file1_fr.yml` for French. Replace `en` or `fr` by `[locale]` and the plugin will update the files `file1_en.yml` and `file1_fr.yml`.
@@ -64,12 +58,15 @@ This is useful for translators on development and staging environment: you get t
 
 Use the rack middleware!
 
-* Prior to anything, you need to setup a rack middleware to assign the value of the current locale to `I18n.locale`.
-  Since this is very much specific to any app, this is left as an exercise to the reader. You can inspire yourself on 
+* Before starting up anything, you need to have a rack middleware setup to assign the value of the current locale to
+  `I18n.locale`.
+  This is very much specific to your app, this is left as an exercise to the reader. You can inspire yourself from 
   Ryan Tomakyo’s [locale.rb](http://github.com/rack/rack-contrib/blob/master/lib/rack/contrib/locale.rb).
-  You can also find an example of a very simple middleware using the `locale` parameter in `examples/locale.rb`.
+  You can also find an example of a very simple middleware using the `locale` parameter in
+  `[examples/locale.rb](http://github.com/AtelierConvivialite/webtranslateit/blob/master/examples/locale.rb)`.
 
-* The next step is to setup the `autofetch` middleware. Add in `config/environments/development.rb` and any other environments you want to autofetch this line:
+* The next step is to setup the `autofetch` middleware. Add in `config/environments/development.rb` and any other 
+  environments you want to autofetch this line:
 
     config.middleware.use "WebTranslateIt::AutoFetch"
     
@@ -115,3 +112,5 @@ Please open a discussion on [the support forum](https://webtranslateit.com/forum
 Web Translate It is a web-based software for translating websites and applications. Its API it affords you to translate on Web Translate It’s web interface and test your translations on your development or staging environment. This is really useful for translations to translate on a stable environment, while being able to test their work directly.
 
 Take a look at the [tour page](https://webtranslateit.com/tour) and at our [plans](https://webtranslateit.com/plans). We have a 10-day free trial, so you can give it a try for free.
+
+Plugin released under the MIT License.
