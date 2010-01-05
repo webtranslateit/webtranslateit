@@ -3,7 +3,10 @@ Web Translate It plugin for Ruby on Rails
 
 This is a plugin to integrate your app with [Web Translate It](https://webtranslateit.com).
 
-This plugin adds a handy rake task to fetch your translations. If you want, you can also setup the plugin to “autofetch” your translations on page load. This feature allows a team of translators to work on Web Translate It’s web interface and test their translations on your server by just reloading a page.
+This plugin adds:
+* a handy rake task to fetch your translations.
+* a rack middleware to automatically fetch new translations from Web Translate It,
+If you want, you can also setup the plugin to “autofetch” your translations on page load. This feature allows a team of translators to work on Web Translate It’s web interface and test their translations on your server by just reloading a page.
 
 Installation
 ------------
@@ -17,9 +20,7 @@ The installation script will create a default translation.yml in RAILS_ROOT/conf
 <pre>api_key: SECRET
 ignore_locales: :en
 wti_id1: config/locales/file1_[locale].yml
-wti_id2: config/locales/file2_[locale].yml
-development:
-  autofetch: true</pre>
+wti_id2: config/locales/file2_[locale].yml</pre>
 
 `api_key`
   

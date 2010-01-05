@@ -16,13 +16,3 @@ ignore_locales: :en
 files:
   wti_id: config/locales/file1_[locale].yml
   wti_id: config/locales/file2_[locale].yml
-
-# Set autofetch to true to fetch new language files at page load
-# You should not autofetch in production for performance reasons.
-development:
-  autofetch: true
-staging:
-  autofetch: true
-production:
-  autofetch: false
-  

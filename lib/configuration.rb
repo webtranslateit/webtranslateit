@@ -1,13 +1,12 @@
 module WebTranslateIt
   class Configuration
     require 'yaml'
-    attr_accessor :api_key, :autofetch, :files, :ignore_locales
+    attr_accessor :api_key, :files, :ignore_locales
     
     def initialize
       file = File.join(RAILS_ROOT, 'config', 'translation.yml')
       configuration       = YAML.load_file(file)
       self.api_key        = configuration['api_key']
-      self.autofetch      = configuration[RAILS_ENV]['autofetch']
       self.files          = []
       self.ignore_locales = configuration['ignore_locales'].to_a.map{ |l| l.to_s }
       configuration['files'].each do |file_id, file_path|
