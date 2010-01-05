@@ -1,8 +1,9 @@
 ## (In Git)
 
 * Add rack middleware to automatically fetch your translations
-* Deprecate `autofetch` parameter in configuration file as it is better off to leave it to the user to
+* Remove `autofetch` parameter in configuration file as it is better off to leave it to the user to
   include the rack middleware in each environment file.
+* Add example of rack middleware for setting up I18n.locale
 
 ## Version 1.2.1 / 2010-01-04
 

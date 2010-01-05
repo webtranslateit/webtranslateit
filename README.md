@@ -1,15 +1,13 @@
-Web Translate It plugin for Ruby on Rails
-=========================================
+# Web Translate It plugin for Ruby on Rails
 
 This is a plugin to integrate your app with [Web Translate It](https://webtranslateit.com).
 
-This plugin adds:
-* a handy rake task to fetch your translations.
-* a rack middleware to automatically fetch new translations from Web Translate It,
-If you want, you can also setup the plugin to “autofetch” your translations on page load. This feature allows a team of translators to work on Web Translate It’s web interface and test their translations on your server by just reloading a page.
+This plugin provides your app with:
 
-Installation
-------------
+* a set of 4 handy rake task to fetch your translations.
+* a rack middleware to automatically fetch new translations from Web Translate It.
+
+## First steps
 
 From your project's RAILS_ROOT, run:
 
@@ -38,36 +36,7 @@ Pass an array of symbols, an array of strings, a symbol or a string of locales n
 
 The plugin also assume that you use the same locale name on your project and on Web Translate It. For example if you use the locale `fr_FR` on Web Translate It, then you should use `fr_FR` on your project.
 
-`autofetch:true`
-  
-If set to true, the plugin will check the Web Translate It API on every page loaded and check for updated language files. The plugin use conditional requests using the date of last modification of your language file. It means that if your language file is up to date, Web Translate It’s API will return nothing, so querying on every page loaded is not too slow.
-
-This is useful for translators on development and staging environment: you get the strings as soon as they are translated on Web Translate It, but you probably don’t want this on production for performance and reliability reasons.
-
-Add the following lines in your `ApplicationController` if you want to use the “autofetch” feature:
-
-<pre>before_filter :update_locale
-
-def update_locale
-  begin
-    WebTranslateIt.fetch_translations
-  rescue Exception => e
-    puts "** Web Translate It raised an exception: " + e.message
-  end
-end</pre>
-
-Restart your application for the changes to take effect. You should see something like this in the logs:
-
-<pre>Looking for fr translations...
-Done. Response code: 304</pre>
-
-Note that Web Translate It’s API doesn’t yet support projects with more than one file per language. We are working on fixing this limitation. 
-
-That’s it!
-
-
-Rake tasks
-------------
+### Rake tasks provided
 
 The plugin provides 4 rake tasks.
 
@@ -87,8 +56,52 @@ Updates the latest translations for all your files in a specific locale defined 
   
 Display the plugin version.
 
-Supported Rails Versions
-------------------------
+### Automatically fetch new language files
+
+This is useful for translators on development and staging environment: you get the strings as soon as they are translated on Web Translate It, but you probably don’t want this on production for performance and reliability reasons.
+
+#### Rails 2.3 and newer
+
+Use the rack middleware!
+
+* Prior to anything, you need to setup a rack middleware to assign the value of the current locale to `I18n.locale`.
+  Since this is very much specific to any app, this is left as an exercise to the reader. You can inspire yourself on 
+  Ryan Tomakyo’s [locale.rb](http://github.com/rack/rack-contrib/blob/master/lib/rack/contrib/locale.rb).
+  You can also find an example of a very simple middleware using the `locale` parameter in `examples/locale.rb`.
+
+* The next step is to setup the `autofetch` middleware. Add in `config/environments/development.rb` and any other environments you want to autofetch this line:
+
+    config.middleware.use "WebTranslateIt::AutoFetch"
+    
+* Restart your application, load a page. You should see this in the logs:
+
+    Looking for fr_FR translations...
+    Done. Response code: 200
+    
+* That’s it!
+
+#### Rails older than 2.3 (works also for 2.3 and newer)
+
+* Add the following lines in your `ApplicationController`:
+
+<pre>before_filter :update_locale
+
+def update_locale
+  begin
+    WebTranslateIt.fetch_translations
+  rescue Exception => e
+    puts "** Web Translate It raised an exception: " + e.message
+  end
+end</pre>
+
+* Restart your application for the changes to take effect. You should see something like this in the logs:
+
+    Looking for fr translations...
+    Done. Response code: 304
+
+* That’s it!
+
+## Supported Rails Versions
 
 The plugin currently has been tested against the following version of Rails:
 
@@ -97,8 +110,7 @@ The plugin currently has been tested against the following version of Rails:
 
 Please open a discussion on [the support forum](https://webtranslateit.com/forum) if you're using a version of Rails that is not listed above and the plugin is not working properly.
 
-What is Web Translate It anyway?
---------------------------------
+## What is Web Translate It anyway?
 
 Web Translate It is a web-based software for translating websites and applications. Its API it affords you to translate on Web Translate It’s web interface and test your translations on your development or staging environment. This is really useful for translations to translate on a stable environment, while being able to test their work directly.
 
