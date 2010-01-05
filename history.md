@@ -1,4 +1,4 @@
-## (In Git)
+## Version 1.3.0 / 2010-01-05
 
 * Add rack middleware to automatically fetch your translations
 * Remove `autofetch` parameter in configuration file as it is better off to leave it to the user to
