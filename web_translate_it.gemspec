@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.description = "Ruby on Rails plugin and rack middleware to sync your translations between webtranslateit.com and your rails applications."
   s.authors     = ["Édouard Brière"]
  
-  s.files =  ["history.md", "MIT-LICENSE", "README.md"]
+  s.files =  ["history.md", "MIT-LICENSE", "README.md", "version.yml"]
   s.files += ["examples/locale.rb", "examples/locale.rb"]
   s.files += ["lib/web_translate_it.rb", "lib/web_translate_it/auto_fetch.rb", "lib/web_translate_it/configuration.rb", "lib/web_translate_it/translation_file.rb", "lib/web_translate_it/util.rb", "lib/web_translate_it/tasks.rb"]
   
