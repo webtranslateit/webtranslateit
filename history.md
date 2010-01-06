@@ -2,6 +2,7 @@
 
 * Rename `rake trans:send[fr_Fr]` to `rake trans:upload[fr_FR]`
 * Remove `rake trans:version` task. Instead, version number is displayed in the welcome banner.
+* Code refactoring
 
 ## Version 1.4.0 / 2010-01-06
 
