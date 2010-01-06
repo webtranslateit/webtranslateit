@@ -1,6 +1,6 @@
-## Edge
+## Version 1.4.0 / 2010-01-06
 
-* Make the plugin a gem
+* The plugin is now a gem
 
 ## Version 1.3.0 / 2010-01-05
 
