@@ -9,12 +9,26 @@ This plugin provides your app with:
 
 ## First steps
 
-From your project’s root, run:
+* For each environment you want to use the gem, add to your config/environment/development.rb:
 
-    ruby script/plugin install git://github.com/AtelierConvivialite/webtranslateit.git
+    config.gem 'web_translate_it', :version => '~> 1.3.0', :source => 'http://gemcutter.org'
+    
+* Then, run:
 
-The installation script will create a default `translation.yml` in `RAILS_ROOT/config`. The file should look like so:
+    rake gems:install
+    
+  Web Translate It doesn’t to be unpacked.
+    
+* Add in your `Rakefile` to add Web Translate It’s rake tasks:
 
+    require 'web_translate_it/tasks' rescue LoadError
+
+* Run:
+
+    rake trans:config
+    
+  If it doesn’t exist already, it will create a `config/translation.yml` file that contains:
+  
     api_key: SECRET
     ignore_locales: :en
     wti_id1: config/locales/file1_[locale].yml
