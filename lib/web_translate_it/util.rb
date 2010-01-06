@@ -3,6 +3,11 @@ module WebTranslateIt
     DEFAULT_TERMINAL_COLORS = "\e[0m\e[37m\e[40m"
     MONOCHROME_OUTPUT = "\\1"
     
+    def self.version
+      hash = YAML.load_file File.join(File.dirname(__FILE__), '..', '..' '/version.yml')
+      [hash[:major], hash[:minor], hash[:patch]].join('.')
+    end
+    
     def self.colourise_output?
       @colourise_output = !!(RUBY_PLATFORM !~ /mswin/ || defined?(Win32::Console::ANSI)) if @colourise_output.nil?
       @colourise_output

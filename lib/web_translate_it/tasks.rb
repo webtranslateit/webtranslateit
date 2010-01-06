@@ -4,7 +4,7 @@ namespace :trans do
   desc "Fetch translation files from Web Translate It"
   task :fetch, :locale do |t, args|
     welcome_message
-    colour_puts "<b>Fetching file for locale #{args.locale}...</b>"
+    colour_puts "<b>Fetching file for locale #{args.locale}…</b>"
     configuration = WebTranslateIt::Configuration.new
     configuration.files.each do |file|
       response_code = file.fetch(args.locale)
@@ -28,7 +28,7 @@ namespace :trans do
       configuration.ignore_locales.each do |ignore|
         locales.delete(ignore)
       end
-      colour_puts "<b>Fetching all files for all locales...</b>"
+      colour_puts "<b>Fetching all files for all locales…</b>"
       locales.each do |locale|
         configuration.files.each do |file|
           response_code = file.fetch(locale) 
@@ -48,7 +48,7 @@ namespace :trans do
   desc "Upload a translation file to Web Translate It"
   task :upload, :locale do |t, args|
     welcome_message
-    colour_puts "<b>Uploading file for locale #{args.locale}...</b>"
+    colour_puts "<b>Uploading file for locale #{args.locale}…</b>"
     configuration = WebTranslateIt::Configuration.new
     configuration.files.each do |file|
       response_code = file.upload(args.locale)
@@ -84,9 +84,7 @@ namespace :trans do
 private
   
 WELCOME_SCREEN = <<-EO_WELCOME
-
 <banner>Web Translate It</banner>
 
 EO_WELCOME
-  
 end
