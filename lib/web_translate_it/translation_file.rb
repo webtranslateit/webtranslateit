@@ -1,6 +1,7 @@
 module WebTranslateIt
   class TranslationFile
     require 'net/https'
+    require 'net/http/post/multipart'
     require 'time'
     
     attr_accessor :id, :file_path, :api_key
@@ -13,7 +14,7 @@ module WebTranslateIt
     
     def fetch(locale, force = false)
       http_connection do |http|
-        request = Net::HTTP::Get.new(api_url)
+        request = Net::HTTP::Get.new(api_url(locale))
         request.add_field('If-Modified-Since', File.mtime(File.new(file_path, 'r')).rfc2822) if File.exist?(file_path) and force
         response      = http.request(request)
         response_code = response.code.to_i
