@@ -77,7 +77,7 @@ Use the rack middleware!
   This is very much specific to your app, this is left as an exercise to the reader. You can inspire yourself from 
   Ryan Tomakyo’s [locale.rb](http://github.com/rack/rack-contrib/blob/master/lib/rack/contrib/locale.rb).
   You can also find an example of a very simple middleware using the `locale` parameter in
-  `[examples/locale.rb](http://github.com/AtelierConvivialite/webtranslateit/blob/master/examples/locale.rb)`.
+  [examples/locale.rb](http://github.com/AtelierConvivialite/webtranslateit/blob/master/examples/locale.rb).
 
 * The next step is to setup the `autofetch` middleware. Add in `config/environments/development.rb` and any other 
   environments you want to autofetch this line:
