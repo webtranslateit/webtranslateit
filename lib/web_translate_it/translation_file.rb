@@ -32,7 +32,7 @@ module WebTranslateIt
       response_code
     end
     
-    def send(locale)
+    def upload(locale)
       File.open(file_path_for_locale(locale)) do |file|
         http              = Net::HTTP.new('webtranslateit.com', 443)
         http.use_ssl      = true

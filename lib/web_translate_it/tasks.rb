@@ -45,13 +45,13 @@ namespace :trans do
     end
   end
   
-  desc "Send a translation file to Web Translate It"
-  task :send, :locale do |t, args|
+  desc "Upload a translation file to Web Translate It"
+  task :upload, :locale do |t, args|
     welcome_message
-    colour_puts "<b>Sending file for locale #{args.locale}...</b>"
+    colour_puts "<b>Uploading file for locale #{args.locale}...</b>"
     configuration = WebTranslateIt::Configuration.new
     configuration.files.each do |file|
-      response_code = file.send(args.locale)
+      response_code = file.upload(args.locale)
       case response_code
       when 200
         colour_puts "<green>#{file.file_path_for_locale(args.locale)} uploaded OK.</green>"

@@ -1,3 +1,7 @@
+## Edge
+
+* Rename `rake trans:send[fr_Fr]` to `rake trans:upload[fr_FR]`
+
 ## Version 1.4.0 / 2010-01-06
 
 * The plugin is now a gem

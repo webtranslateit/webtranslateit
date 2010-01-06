@@ -56,9 +56,9 @@ Fetch the latest translations for all your files for all languages defined in We
   
 Fetch the latest translations for all the languages defined in Web Translate It’s interface. It takes the locale name as a parameter
 
-    rake trans:send[fr_FR]
+    rake trans:upload[fr_FR]
     
-Updates the latest translations for all your files in a specific locale defined in Web Translate It’s interface.
+Upload to Web Translate It your files in a specific locale defined in Web Translate It’s interface.
 
     rake trans:config
     
