@@ -11,46 +11,43 @@ module WebTranslateIt
       self.api_key   = api_key
     end
     
-    def fetch(locale)
-      http              = Net::HTTP.new('webtranslateit.com', 443)
-      http.use_ssl      = true
-      http.verify_mode  = OpenSSL::SSL::VERIFY_NONE
-      http.read_timeout = 10
-      request           = Net::HTTP::Get.new(api_url(locale))
-      
-      if File.exist?(file_path_for_locale(locale))
-        request.add_field('If-Modified-Since', File.mtime(File.new(file_path_for_locale(locale), 'r')).rfc2822)
+    def fetch(locale, force = false)
+      http_connection do |http|
+        request = Net::HTTP::Get.new(api_url)
+        request.add_field('If-Modified-Since', File.mtime(File.new(file_path, 'r')).rfc2822) if File.exist?(file_path) and force
+        response      = http.request(request)
+        response_code = response.code.to_i
+        File.open(file_path_for_locale(locale), 'w'){ |f| f << response.body } if response_code == 200 and !response.body == ''
+        response_code
       end
-      response      = http.request(request)
-      response_code = response.code.to_i
-      
-      if response_code == 200 and not response.body == ''
-        locale_file = File.new(file_path_for_locale(locale), 'w')
-        locale_file.puts(response.body)
-        locale_file.close
-      end
-      response_code
     end
     
     def upload(locale)
       File.open(file_path_for_locale(locale)) do |file|
-        http              = Net::HTTP.new('webtranslateit.com', 443)
-        http.use_ssl      = true
-        http.verify_mode  = OpenSSL::SSL::VERIFY_NONE
-        http.read_timeout = 10
-
-        request  = Net::HTTP::Put::Multipart.new(api_url(locale), "file" => UploadIO.new(file, "text/plain", file.path))
-        response = http.request(request)
-        response.code.to_i
+        http_connection do |http|
+          request  = Net::HTTP::Put::Multipart.new(api_url(locale), "file" => UploadIO.new(file, "text/plain", file.path))
+          response = http.request(request)
+          response.code.to_i
+        end
       end
     end
     
     def file_path_for_locale(locale)
       self.file_path.gsub("[locale]", locale)
     end
+        
+    protected
     
-    def api_url(locale)
-      "/api/projects/#{api_key}/files/#{self.id}/locales/#{locale}"
-    end
+      def http_connection
+        http = Net::HTTP.new('webtranslateit.com', 443)
+        http.use_ssl      = true
+        http.verify_mode  = OpenSSL::SSL::VERIFY_NONE
+        http.read_timeout = 10
+        yield http
+      end
+      
+      def api_url(locale)
+        "/api/projects/#{api_key}/files/#{self.id}/locales/#{locale}"
+      end
   end
 end
