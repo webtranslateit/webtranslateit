@@ -11,21 +11,21 @@ This gem provides your app with:
 
 * For each environment you want to use the gem, add to your config/environment/development.rb:
 
-      config.gem 'web_translate_it', :version => '~> 1.3.0', :source => 'http://gemcutter.org'
+    `config.gem 'web_translate_it', :version => '~> 1.3.0', :source => 'http://gemcutter.org'`
     
 * Then, run:
 
-      rake gems:install
+    `rake gems:install`
     
   Web Translate It doesn’t to be unpacked.
     
 * Add in your `Rakefile` to add Web Translate It’s rake tasks:
 
-      require 'web_translate_it/tasks' rescue LoadError
+      `require 'web_translate_it/tasks' rescue LoadError`
 
 * Run:
 
-      rake trans:config
+      `rake trans:config`
     
   If it doesn’t exist already, it will create a `config/translation.yml` file that contains:
   
