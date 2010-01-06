@@ -64,7 +64,7 @@ namespace :trans do
   desc "Install Web Translate It for your application"
   task :config do
     welcome_message
-    WebTranslateIt::Configuration.generate
+    WebTranslateIt::Configuration.create_config_file
   end
   
   desc "Output the Web Translate It gem version"

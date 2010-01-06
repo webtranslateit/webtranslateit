@@ -24,7 +24,7 @@ module WebTranslateIt
       response.body.split
     end
     
-    def self.generate
+    def self.create_config_file
       config_file = "config/translation.yml"
       unless File.exists?(config_file)
         puts "Creating #{config_file}"
