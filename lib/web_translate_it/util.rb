@@ -16,14 +16,5 @@ module WebTranslateIt
       data.gsub!(%r{<banner>(.*?)</banner>}m, colourise_output? ? "\e[33m\e[44m\e[1m\\1#{DEFAULT_TERMINAL_COLORS}" : MONOCHROME_OUTPUT)
       data
     end
-    
-    def self.insert_into(file, line)
-      logger.insert "#{line} into #{file}"
-      unless options[:pretend] || file_contains?(file, line)
-        gsub_file file, /^(class|module) .+$/ do |match|
-          "#{match}\n  #{line}"
-        end
-      end
-    end
   end
 end
