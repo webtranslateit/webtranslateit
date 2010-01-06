@@ -8,14 +8,7 @@ namespace :trans do
     configuration = WebTranslateIt::Configuration.new
     configuration.files.each do |file|
       response_code = file.fetch(args.locale)
-      case response_code
-      when 200
-        colour_puts "<green>#{file.file_path_for_locale(args.locale)}: 200 OK. Saving changes</green>"
-      when 304
-        colour_puts "<green>#{file.file_path_for_locale(args.locale)}: 304 Not Modified</green>"
-      else
-        colour_puts "<red>#{file.file_path_for_locale(args.locale)}: Error, unhandled response: #{response_code}</red>"
-      end
+      handle_response(file.file_path_for_locale(args.locale), response_code)
     end
   end
   
@@ -32,14 +25,7 @@ namespace :trans do
       locales.each do |locale|
         configuration.files.each do |file|
           response_code = file.fetch(locale) 
-          case response_code
-          when 200
-            colour_puts "<green>#{file.file_path_for_locale(locale)}: 200 OK.</green>"
-          when 304
-            colour_puts "<green>#{file.file_path_for_locale(locale)}: 304 Not Modified</green>"
-          else
-            colour_puts "<red>#{file.file_path_for_locale(locale)}: Error, unhandled response: #{response_code}</red>"
-          end
+          handle_response(file.file_path_for_locale(locale), response_code)
         end
       end
     end
@@ -52,12 +38,7 @@ namespace :trans do
     configuration = WebTranslateIt::Configuration.new
     configuration.files.each do |file|
       response_code = file.upload(args.locale)
-      case response_code
-      when 200
-        colour_puts "<green>#{file.file_path_for_locale(args.locale)} uploaded OK.</green>"
-      else
-        colour_puts "<red>#{file.file_path_for_locale(args.locale)}: Error uploading, unhandled response: #{response_code}</red>"
-      end
+      handle_response(file.file_path_for_locale(args.locale), response_code)
     end
   end
   
@@ -65,6 +46,14 @@ namespace :trans do
   task :config do
     welcome_message
     WebTranslateIt::Configuration.create_config_file
+  end
+  
+  def handle_response(file_path, response_code)
+    if response_code < 400
+      colour_puts "<green>#{file_path}: #{response_code}, OK</green>"
+    else
+      colour_puts "<red>#{file_path}: #{response_code}, Problem!</red>"
+    end
   end
   
   def welcome_message
