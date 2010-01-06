@@ -1,6 +1,7 @@
 module WebTranslateIt
   class TranslationFile
     require 'net/https'
+    require 'time'
     
     attr_accessor :id, :file_path, :api_key
     
@@ -23,7 +24,7 @@ module WebTranslateIt
       response      = http.request(request)
       response_code = response.code.to_i
       
-      if response_code == 200 and not response.body.blank?
+      if response_code == 200 and not response.body == ''
         locale_file = File.new(file_path_for_locale(locale), 'w')
         locale_file.puts(response.body)
         locale_file.close

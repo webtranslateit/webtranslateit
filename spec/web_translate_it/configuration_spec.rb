@@ -1,26 +1,20 @@
-require File.dirname(__FILE__) + '/spec_helper'
+require File.join(File.dirname(__FILE__), '..', 'spec_helper')
 
 describe WebTranslateIt::Configuration do
-  def setup
-    @file = File.dirname(__FILE__) + '/examples/translation.yml'
-    File.stub(:join => @file)
+  before(:each) do
+    WebTranslateIt::Configuration.const_set("RAILS_ROOT", File.dirname(__FILE__) + '/../examples')
   end
   
   describe "#initialize" do
-    it "should fetch not blow up" do
+    it "should fetch and not blow up" do
       lambda{ WebTranslateIt::Configuration.new }.should_not raise_error
     end
-    
-    it "should find the configuration file" do
-      File.should_receive(:join).and_return(@file)
-      WebTranslateIt::Configuration.new
-    end
-    
+        
     it "should load the content of the YAML file" do
       config_hash = {
-        "api_key" => "abcd",
+        "api_key"        => "abcd",
         "ignore_locales" => "en_GB",
-        "files" => ["config/locales/file1_[locale].yml", "config/locales/file2_[locale].yml"]
+        "files"          => ["config/locales/file1_[locale].yml", "config/locales/file2_[locale].yml"]
       }
       YAML.should_receive(:load_file).and_return(config_hash)
       WebTranslateIt::Configuration.new

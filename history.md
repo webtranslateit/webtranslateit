@@ -1,3 +1,7 @@
+## Edge
+
+* Make the plugin a gem
+
 ## Version 1.3.0 / 2010-01-05
 
 * Add rack middleware to automatically fetch your translations

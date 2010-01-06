@@ -1,0 +1,18 @@
+# The Project API Token from Web Translate It
+api_key: SECRET
+
+# The locales not to sync with Web Translate It.
+# Pass an array of string, or an array of symbols, a string or a symbol.
+# eg. [:en, :fr] or just 'en'
+ignore_locales: :en
+
+# A list of files to translate
+# You can name your language files as you want, as long as the locale name match the
+# locale name you set in Web Translate It, and that the different language files names are
+# differenciated by their locale name.
+# For example, if you set to translate a project in en_US in WTI, you should use the locale en_US in your app
+#
+# wti_id is the file id from Web Translate It.
+files:
+  wti_id: config/locales/file1_[locale].yml
+  wti_id: config/locales/file2_[locale].yml
