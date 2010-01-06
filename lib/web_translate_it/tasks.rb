@@ -85,10 +85,7 @@ private
   
 WELCOME_SCREEN = <<-EO_WELCOME
 
-<banner>Web Translate It for Ruby on Rails</banner>
-Should you need help, please visit:
-<b>*</b> https://webtranslateit.com/help
-<b>*</b> https://webtranslateit.com/forum
+<banner>Web Translate It</banner>
 
 EO_WELCOME
   
