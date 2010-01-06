@@ -4,10 +4,6 @@ require File.join(File.dirname(__FILE__), 'web_translate_it', 'translation_file'
 require File.join(File.dirname(__FILE__), 'web_translate_it', 'auto_fetch')
 
 module WebTranslateIt
-  def self.version
-    WebTranslateIt::Util.version
-  end
-  
   def self.fetch_translations
     config = Configuration.new
     locale = I18n.locale.to_s

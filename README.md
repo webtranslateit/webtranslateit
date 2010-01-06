@@ -4,7 +4,7 @@ This is a gem to integrate your app with [Web Translate It](https://webtranslate
 
 This gem provides your app with:
 
-* a set of 5 handy rake task to fetch your translations.
+* a set of 4 handy rake task to fetch your translations.
 * a rack middleware to automatically fetch new translations from Web Translate It.
 
 ## First steps
@@ -46,7 +46,7 @@ The gem also assume that you use the same locale name on your project and on Web
 
 ### Rake tasks provided
 
-The gem provides 5 rake tasks.
+The gem provides 4 rake tasks.
 
     rake trans:fetch:all
   
@@ -63,10 +63,6 @@ Upload to Web Translate It your files in a specific locale defined in Web Transl
     rake trans:config
     
 Copy a `translation.yml` file to `config/translation.yml` if the file doesn’t exist.
-
-    rake trans:version
-  
-Display the gem version.
 
 ### Automatically fetch new language files
 
