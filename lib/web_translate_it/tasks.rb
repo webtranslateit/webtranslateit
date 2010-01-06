@@ -1,6 +1,6 @@
+require File.join(File.dirname(__FILE__), '..', 'web_translate_it')
+
 namespace :trans do  
-  require File.join(File.dirname(__FILE__), '..', 'init')
-  
   desc "Fetch translation files from Web Translate It"
   task :fetch, :locale do |t, args|
     welcome_message
@@ -54,11 +54,17 @@ namespace :trans do
       response_code = file.send(args.locale)
       case response_code
       when 200
-        colour_puts "<green>#{file.file_path_for_locale(locale)} uploaded OK.</green>"
+        colour_puts "<green>#{file.file_path_for_locale(args.locale)} uploaded OK.</green>"
       else
-        colour_puts "<red>#{file.file_path_for_locale(locale)}: Error uploading, unhandled response: #{response_code}</red>"
+        colour_puts "<red>#{file.file_path_for_locale(args.locale)}: Error uploading, unhandled response: #{response_code}</red>"
       end
     end
+  end
+  
+  desc "Install Web Translate It for your application"
+  task :config do
+    welcome_message
+    WebTranslateIt::Configuration.generate
   end
   
   desc "Output the Web Translate It plugin version"

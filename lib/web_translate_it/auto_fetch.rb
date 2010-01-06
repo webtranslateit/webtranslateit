@@ -6,7 +6,7 @@ module WebTranslateIt
   
     def call(env)
       # Update language files
-      WebTranslateIt::fetch_translations
+      fetch_translations
       status, headers, response = @app.call(env)
       [status, headers, response.body]
     end

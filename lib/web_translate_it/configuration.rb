@@ -10,7 +10,7 @@ module WebTranslateIt
       self.files          = []
       self.ignore_locales = configuration['ignore_locales'].to_a.map{ |l| l.to_s }
       configuration['files'].each do |file_id, file_path|
-        self.files.push(WebTranslateIt::TranslationFile.new(file_id, file_path, api_key))
+        self.files.push(TranslationFile.new(file_id, file_path, api_key))
       end
     end
     
@@ -22,6 +22,14 @@ module WebTranslateIt
       request           = Net::HTTP::Get.new("/api/projects/#{api_key}/locales")
       response          = http.request(request)
       response.body.split
+    end
+    
+    def self.generate
+      config_file = "config/translation.yml"
+      unless File.exists?(config_file)
+        puts "Creating #{config_file}"
+        File.cp File.join(File.dirname(__FILE__), 'examples', 'translation.yml'), config_file
+      end
     end
   end
 end

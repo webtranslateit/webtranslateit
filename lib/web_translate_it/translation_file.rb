@@ -19,7 +19,7 @@ module WebTranslateIt
       request           = Net::HTTP::Get.new(api_url(locale))
       
       if File.exist?(file_path_for_locale(locale))
-        request.add_field('If-Modified-Since', File.mtime(File.new(file_path_for_locale(locale), 'w')).rfc2822)
+        request.add_field('If-Modified-Since', File.mtime(File.new(file_path_for_locale(locale), 'r')).rfc2822)
       end
       response      = http.request(request)
       response_code = response.code.to_i
