@@ -67,10 +67,10 @@ namespace :trans do
     WebTranslateIt::Configuration.generate
   end
   
-  desc "Output the Web Translate It plugin version"
+  desc "Output the Web Translate It gem version"
   task :version do
     welcome_message
-    colour_puts "Web Translate It plugin for Ruby on Rails <b>v#{WebTranslateIt.version}</b>"
+    colour_puts "Web Translate It gem for Ruby on Rails <b>v#{WebTranslateIt.version}</b>"
   end
   
   def welcome_message
@@ -85,7 +85,7 @@ private
   
 WELCOME_SCREEN = <<-EO_WELCOME
 
-<banner>Web Translate It plugin for Ruby on Rails</banner>
+<banner>Web Translate It for Ruby on Rails</banner>
 Should you need help, please visit:
 <b>*</b> https://webtranslateit.com/help
 <b>*</b> https://webtranslateit.com/forum
