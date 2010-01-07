@@ -15,11 +15,10 @@ module WebTranslateIt
     def fetch(locale, force = false)
       http_connection do |http|
         request = Net::HTTP::Get.new(api_url(locale))
-        request.add_field('If-Modified-Since', File.mtime(File.new(file_path, 'r')).rfc2822) if File.exist?(file_path) and !force
+        request.add_field('If-Modified-Since', last_modification(file_path)) if File.exist?(file_path) and !force
         response      = http.request(request)
-        response_code = response.code.to_i
-        File.open(file_path_for_locale(locale), 'w'){ |f| f << response.body } if response_code == 200 and !response.body == ''
-        response_code
+        File.open(file_path_for_locale(locale), 'w'){ |f| f << response.body } if response.code.to_i == 200 and !response.body == ''
+        response.code.to_i
       end
     end
     
@@ -38,7 +37,11 @@ module WebTranslateIt
     end
         
     protected
-    
+      
+      def last_modification(file_path)
+        File.mtime(File.new(file_path, 'r')).rfc2822
+      end
+      
       def http_connection
         http = Net::HTTP.new('webtranslateit.com', 443)
         http.use_ssl      = true
