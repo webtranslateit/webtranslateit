@@ -1,6 +1,7 @@
 module WebTranslateIt
   class Configuration
     require 'yaml'
+    require 'fileutils'
     attr_accessor :api_key, :files, :ignore_locales
     
     def initialize
@@ -27,8 +28,8 @@ module WebTranslateIt
     def self.create_config_file
       config_file = "config/translation.yml"
       unless File.exists?(config_file)
-        puts "Creating #{config_file}"
-        File.cp File.join(File.dirname(__FILE__), 'examples', 'translation.yml'), config_file
+        puts "Created #{config_file}"
+        FileUtils.copy File.join(File.dirname(__FILE__), '..', '..', 'examples', 'translation.yml'), config_file
       end
     end
   end

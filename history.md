@@ -1,3 +1,7 @@
+## Version 1.4.2 / 2010-01-07
+
+* Bug fix for `rake trans:config` which was not installing the translation.yml file properly.
+
 ## Version 1.4.1 / 2010-01-07
 
 * Rename `rake trans:send[fr_Fr]` to `rake trans:upload[fr_FR]`
