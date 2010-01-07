@@ -15,7 +15,7 @@ module WebTranslateIt
     def fetch(locale, force = false)
       http_connection do |http|
         request = Net::HTTP::Get.new(api_url(locale))
-        request.add_field('If-Modified-Since', File.mtime(File.new(file_path, 'r')).rfc2822) if File.exist?(file_path) and force
+        request.add_field('If-Modified-Since', File.mtime(File.new(file_path, 'r')).rfc2822) if File.exist?(file_path) or force
         response      = http.request(request)
         response_code = response.code.to_i
         File.open(file_path_for_locale(locale), 'w'){ |f| f << response.body } if response_code == 200 and !response.body == ''
