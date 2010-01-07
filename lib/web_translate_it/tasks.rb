@@ -2,7 +2,7 @@ require File.join(File.dirname(__FILE__), '..', 'web_translate_it')
 
 namespace :trans do  
   desc "Fetch translation files from Web Translate It"
-  task :fetch, :locale do |t, args|
+  task :fetch, :locale do |task, args|
     welcome_message
     puts "Fetching file for locale #{args.locale}…"
     configuration = WebTranslateIt::Configuration.new
@@ -32,7 +32,7 @@ namespace :trans do
   end
   
   desc "Upload a translation file to Web Translate It"
-  task :upload, :locale do |t, args|
+  task :upload, :locale do |task, args|
     welcome_message
     puts "Uploading file for locale #{args.locale}…"
     configuration = WebTranslateIt::Configuration.new
