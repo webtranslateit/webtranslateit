@@ -1,10 +1,10 @@
 Gem::Specification.new do |s|
   s.name        = "web_translate_it" 
-  s.version     = "1.4.0"
+  s.version     = "1.4.1"
   s.summary     = "Sync your translations between your Rails app and Web Translate It"
   s.email       = "edouard@atelierconvivialite.com"
   s.homepage    = "https://webtranslateit.com"
-  s.description = "Ruby on Rails plugin and rack middleware to sync your translations between webtranslateit.com and your rails applications."
+  s.description = "A rack middleware and a handful of rake tasks to sync your translations between webtranslateit.com and your rails applications."
   s.authors     = ["Édouard Brière"]
  
   s.files =  ["history.md", "MIT-LICENSE", "README.md", "version.yml"]
