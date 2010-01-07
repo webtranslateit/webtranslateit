@@ -1,3 +1,7 @@
+## Edge
+
+* Remove colour outputs as it increases code complexity and doesn't add any value.
+
 ## Version 1.4.2 / 2010-01-07
 
 * Bug fix for `rake trans:config` which was not installing the translation.yml file properly.

@@ -4,7 +4,7 @@ namespace :trans do
   desc "Fetch translation files from Web Translate It"
   task :fetch, :locale do |t, args|
     welcome_message
-    colour_puts "<b>Fetching file for locale #{args.locale}…</b>"
+    puts "Fetching file for locale #{args.locale}…"
     configuration = WebTranslateIt::Configuration.new
     configuration.files.each do |file|
       response_code = file.fetch(args.locale)
@@ -21,7 +21,7 @@ namespace :trans do
       configuration.ignore_locales.each do |ignore|
         locales.delete(ignore)
       end
-      colour_puts "<b>Fetching all files for all locales…</b>"
+      puts "Fetching all files for all locales…"
       locales.each do |locale|
         configuration.files.each do |file|
           response_code = file.fetch(locale) 
@@ -34,7 +34,7 @@ namespace :trans do
   desc "Upload a translation file to Web Translate It"
   task :upload, :locale do |t, args|
     welcome_message
-    colour_puts "<b>Uploading file for locale #{args.locale}…</b>"
+    puts "Uploading file for locale #{args.locale}…"
     configuration = WebTranslateIt::Configuration.new
     configuration.files.each do |file|
       response_code = file.upload(args.locale)
@@ -50,24 +50,13 @@ namespace :trans do
   
   def handle_response(file_path, response_code)
     if response_code < 400
-      colour_puts "<green>#{file_path}: #{response_code}, OK</green>"
+      puts "#{file_path}: #{response_code}, OK"
     else
-      colour_puts "<red>#{file_path}: #{response_code}, Problem!</red>"
+      puts "#{file_path}: #{response_code}, Problem!"
     end
   end
   
   def welcome_message
-    colour_puts WELCOME_SCREEN
+    puts "Web Translate It v#{WebTranslateIt::Util.version}"
   end
-  
-  def colour_puts(text)
-    puts WebTranslateIt::Util.subs_colour(text)
-  end
-  
-private
-  
-WELCOME_SCREEN = <<-EO_WELCOME
-<banner>Web Translate It v#{WebTranslateIt::Util.version}</banner>
-
-EO_WELCOME
 end
