@@ -7,6 +7,11 @@ This gem provides your app with:
 * a set of 4 handy rake task to fetch your translations.
 * a rack middleware to automatically fetch new translations from Web Translate It.
 
+Examples
+
+* See a [Rails 2.3 example app](http://github.com/AtelierConvivialite/rails_example_app) using it.
+* All the necessary changes have been made in [this commit](http://github.com/AtelierConvivialite/rails_example_app/commit/d88e4aa62b061f215d1784d76c94cd8613efc9bb)
+
 ## First steps
 
 * For each environment you want to use the gem, add to your config/environment/development.rb:
