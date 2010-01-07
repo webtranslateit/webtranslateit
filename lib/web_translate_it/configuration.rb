@@ -9,20 +9,19 @@ module WebTranslateIt
       configuration       = YAML.load_file(file)
       self.api_key        = configuration['api_key']
       self.files          = []
-      self.ignore_locales = configuration['ignore_locales'].to_a.map{ |l| l.to_s }
+      self.ignore_locales = configuration['ignore_locales'].to_a.map{ |locale| locale.to_s }
       configuration['files'].each do |file_id, file_path|
         self.files.push(TranslationFile.new(file_id, file_path, api_key))
       end
     end
     
     def locales
-      http              = Net::HTTP.new('webtranslateit.com', 443)
-      http.use_ssl      = true
-      http.verify_mode  = OpenSSL::SSL::VERIFY_NONE
-      http.read_timeout = 10
-      request           = Net::HTTP::Get.new("/api/projects/#{api_key}/locales")
-      response          = http.request(request)
-      response.body.split
+      WebTranslateIt::Util.http_connection do |http|
+        request = Net::HTTP::Get.new(api_url(locale))
+        request.add_field('If-Modified-Since', last_modification(file_path)) if File.exist?(file_path) and !force
+        response      = http.request(request)
+        response.body.split
+      end
     end
     
     def self.create_config_file
@@ -31,6 +30,10 @@ module WebTranslateIt
         puts "Created #{config_file}"
         FileUtils.copy File.join(File.dirname(__FILE__), '..', '..', 'examples', 'translation.yml'), config_file
       end
+    end
+    
+    def api_url
+      "/api/projects/#{api_key}/locales"
     end
   end
 end

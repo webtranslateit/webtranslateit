@@ -13,7 +13,7 @@ module WebTranslateIt
     end
     
     def fetch(locale, force = false)
-      http_connection do |http|
+      WebTranslateIt::Util.http_connection do |http|
         request = Net::HTTP::Get.new(api_url(locale))
         request.add_field('If-Modified-Since', last_modification(file_path)) if File.exist?(file_path) and !force
         response      = http.request(request)
@@ -24,7 +24,7 @@ module WebTranslateIt
     
     def upload(locale)
       File.open(file_path_for_locale(locale)) do |file|
-        http_connection do |http|
+        WebTranslateIt::Util.http_connection do |http|
           request  = Net::HTTP::Put::Multipart.new(api_url(locale), "file" => UploadIO.new(file, "text/plain", file.path))
           response = http.request(request)
           response.code.to_i
@@ -41,15 +41,7 @@ module WebTranslateIt
       def last_modification(file_path)
         File.mtime(File.new(file_path, 'r')).rfc2822
       end
-      
-      def http_connection
-        http = Net::HTTP.new('webtranslateit.com', 443)
-        http.use_ssl      = true
-        http.verify_mode  = OpenSSL::SSL::VERIFY_NONE
-        http.read_timeout = 10
-        yield http
-      end
-      
+            
       def api_url(locale)
         "/api/projects/#{api_key}/files/#{self.id}/locales/#{locale}"
       end
