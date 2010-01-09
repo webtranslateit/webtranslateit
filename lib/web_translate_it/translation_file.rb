@@ -16,7 +16,7 @@ module WebTranslateIt
       WebTranslateIt::Util.http_connection do |http|
         request = Net::HTTP::Get.new(api_url(locale))
         request.add_field('If-Modified-Since', last_modification(file_path)) if File.exist?(file_path) and !force
-        response      = http.request(request)
+        response = http.request(request)
         File.open(file_path_for_locale(locale), 'w'){ |file| file << response.body } if response.code.to_i == 200 and !response.body == ''
         response.code.to_i
       end
