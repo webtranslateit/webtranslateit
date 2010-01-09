@@ -1,6 +1,7 @@
 ## Edge
 
 * Remove colour outputs as it increases code complexity and doesn't add any value.
+* Rack middleware not write to the application’s log file instead of just puts-ing
 
 ## Version 1.4.2 / 2010-01-07
 
