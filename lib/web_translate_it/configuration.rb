@@ -20,7 +20,13 @@ module WebTranslateIt
       WebTranslateIt::Util.http_connection do |http|
         request  = Net::HTTP::Get.new(api_url)
         response = http.request(request)
-        response.body.split
+        if response.code.to_i >= 400 and response.code.to_i < 500
+          puts "----------------------------------------------------------------------"
+          puts "You API key seems to be misconfigured. It is currently “self.api_key”."
+          puts "Change it in RAILS_ROOT/configuration/translation.yml."
+        else
+          response.body.split
+        end
       end
     end
     
