@@ -17,9 +17,8 @@ module WebTranslateIt
     
     def locales
       WebTranslateIt::Util.http_connection do |http|
-        request = Net::HTTP::Get.new(api_url(locale))
-        request.add_field('If-Modified-Since', last_modification(file_path)) if File.exist?(file_path) and !force
-        response      = http.request(request)
+        request  = Net::HTTP::Get.new(api_url)
+        response = http.request(request)
         response.body.split
       end
     end
