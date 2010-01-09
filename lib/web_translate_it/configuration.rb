@@ -2,11 +2,12 @@ module WebTranslateIt
   class Configuration
     require 'yaml'
     require 'fileutils'
-    attr_accessor :api_key, :files, :ignore_locales
+    attr_accessor :api_key, :files, :ignore_locales, :logger
     
     def initialize
       file = File.join(RAILS_ROOT, 'config', 'translation.yml')
       configuration       = YAML.load_file(file)
+      self.logger         = logger
       self.api_key        = configuration['api_key']
       self.files          = []
       self.ignore_locales = configuration['ignore_locales'].to_a.map{ |locale| locale.to_s }
@@ -33,6 +34,14 @@ module WebTranslateIt
     
     def api_url
       "/api/projects/#{api_key}/locales"
+    end
+    
+    def logger
+      if defined?(Rails.logger)
+        Rails.logger
+      elsif defined?(RAILS_DEFAULT_LOGGER)
+        RAILS_DEFAULT_LOGGER
+      end
     end
   end
 end

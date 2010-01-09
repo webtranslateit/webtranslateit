@@ -8,7 +8,10 @@ module WebTranslateIt
     config = Configuration.new
     locale = I18n.locale.to_s
     return if config.ignore_locales.include?(locale)
-    puts "Looking for #{locale} translations…"
-    config.files.each {|file| puts "Done. Response: #{file.fetch(locale)}" }
+    config.logger.debug { "Fetching #{locale} translations to Web Translate It" } if config.logger
+    config.files.each do |file|
+      response = file.fetch(locale)
+      config.logger { "Web Translate It response: #{response}" } if config.logger
+    end
   end
 end
