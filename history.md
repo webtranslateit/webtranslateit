@@ -1,7 +1,7 @@
-## Edge
+## Version 1.4.3 / 2010-01-09
 
 * Remove colour outputs as it increases code complexity and doesn't add any value.
-* Rack middleware not write to the application’s log file instead of just puts-ing
+* Rack middleware now write to the application’s log file instead of just puts-ing
 * Better error messages for misconfigured projects
 
 ## Version 1.4.2 / 2010-01-07

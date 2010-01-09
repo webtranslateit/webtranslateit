@@ -16,7 +16,7 @@ Examples
 
 * For each environment you want to use the gem, add to your config/environment/development.rb:
 
-    `config.gem 'web_translate_it', :version => '~> 1.4.2', :source => 'http://gemcutter.org'`
+    `config.gem 'web_translate_it', :version => '~> 1.4.3', :source => 'http://gemcutter.org'`
     
 * Then, run:
 
