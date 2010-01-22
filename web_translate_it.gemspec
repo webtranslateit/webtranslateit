@@ -14,6 +14,7 @@ Gem::Specification.new do |s|
   s.test_files = ["spec/spec.opts", "spec/spec_helper.rb", "spec/web_translate_it/configuration_spec.rb", "spec/web_translate_it/translation_file_spec.rb", "spec/examples/en.yml", "spec/examples/config/translation.yml"]  
   
   s.add_dependency("multipart-post", ["~> 1.0"])
-  
+  s.add_development_dependency("rspec", [">= 1.2.0"])
+  s.add_development_dependency("mg", [">= 0.0.7"])
   s.has_rdoc = false
 end
