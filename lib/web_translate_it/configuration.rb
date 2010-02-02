@@ -2,6 +2,10 @@ module WebTranslateIt
   
   # Handles the configuration of your project, both via the the configuration file
   # and via the API.
+  # Implementation example, assuming you have a valid config/translation.yml file:
+  #
+  #   configuration = WebTranslateIt::Configuration.new
+  #
   class Configuration
     require 'yaml'
     require 'fileutils'

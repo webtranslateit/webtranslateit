@@ -19,7 +19,6 @@ module WebTranslateIt
     #     response = http.request(request)
     #   end
     #
-    
     def self.http_connection
       http = Net::HTTP.new('webtranslateit.com', 443)
       http.use_ssl      = true
