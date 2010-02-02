@@ -2,6 +2,7 @@ module WebTranslateIt
   
   # A TranslationFile is the representation of a master language file
   # on Web Translate It.
+  #
   # This class allows to manipulate TranslationFiles, more specifically upload and download them.
   # If you pass a Locale to the master language file you will be able to
   # manipulate a _target_ language file.
@@ -24,12 +25,12 @@ module WebTranslateIt
     #
     # Example of implementation:
     #
-    # configuration = WebTranslateIt::Configuration.new
-    # locale = configuration.locales.first
-    # file = configuration.files.first
-    # file.fetch(locale) # the first time, will return the content of the language file with a status 200 OK
-    # file.fetch(locale) # returns nothing, with a status 304 Not Modified
-    # file.fetch(locale, true) # force to re-download the file, will return the content of the file with a 200 OK
+    #   configuration = WebTranslateIt::Configuration.new
+    #   locale = configuration.locales.first
+    #   file = configuration.files.first
+    #   file.fetch(locale) # the first time, will return the content of the language file with a status 200 OK
+    #   file.fetch(locale) # returns nothing, with a status 304 Not Modified
+    #   file.fetch(locale, true) # force to re-download the file, will return the content of the file with a 200 OK
     #
     def fetch(locale, force = false)
       WebTranslateIt::Util.http_connection do |http|
@@ -46,10 +47,10 @@ module WebTranslateIt
     #
     # Example of implementation:
     #
-    # configuration = WebTranslateIt::Configuration.new
-    # locale = configuration.locales.first
-    # file = configuration.files.first
-    # file.upload(locale) # should respond the HTTP code 202 Accepted
+    #   configuration = WebTranslateIt::Configuration.new
+    #   locale = configuration.locales.first
+    #   file = configuration.files.first
+    #   file.upload(locale) # should respond the HTTP code 202 Accepted
     #
     # The meaning of the HTTP 202 code is: the request has been accepted for processing, but the processing has not
     # been completed. The request might or might not eventually be acted upon, as it might be disallowed when processing

@@ -14,10 +14,10 @@ module WebTranslateIt
     # This is used for the connections to the API throughout the library.
     # Use it like so:
     # 
-    # WebTranslateIt::Util.http_connection do |http|
-    #   request = Net::HTTP::Get.new(api_url)
-    #   response = http.request(request)
-    # end
+    #   WebTranslateIt::Util.http_connection do |http|
+    #     request = Net::HTTP::Get.new(api_url)
+    #     response = http.request(request)
+    #   end
     #
     
     def self.http_connection

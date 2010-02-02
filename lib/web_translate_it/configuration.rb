@@ -24,8 +24,8 @@ module WebTranslateIt
     # Makes an API request to fetch the list of the different locales for a project.
     # Implementation example:
     #
-    # configuration = WebTranslateIt::Configuration.new
-    # locales = configuration.locales # returns an array of locales: ['en', 'fr', 'es', ...]
+    #   configuration = WebTranslateIt::Configuration.new
+    #   locales = configuration.locales # returns an array of locales: ['en', 'fr', 'es', ...]
     #
     # TODO: Make this use the new endpoint serving YAML
     def locales

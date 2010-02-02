@@ -5,8 +5,8 @@ module WebTranslateIt
   # This can be used as a rack middleware.
   # Implementation example:
   #
-  # # in config/environment.rb:
-  # config.middleware.use "WebTranslateIt::AutoFetch"
+  #   # in config/environment.rb:
+  #   config.middleware.use "WebTranslateIt::AutoFetch"
   #
   class AutoFetch
     def initialize(app)
