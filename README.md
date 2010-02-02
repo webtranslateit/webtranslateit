@@ -26,12 +26,11 @@ This gem provides your app with:
 
     `script/generate webtranslateit --api-key your_key_here`
     
-  It will configure your project with the parameters you set in Web Translate It, using the API, and create a `config/translation.yml` file.
+  The generator does two things:
   
-* TODO: require this automatically. Add to your `Rakefile`:
+  * It adds a auto-configured `config/translation.yml` file using Web Translate It’s API.
+  * It adds `require 'web_translate_it/tasks' rescue LoadError` to your `Rakefile`
   
-    `require 'web_translate_it/tasks' rescue LoadError`
-
 ### Rake tasks provided
 
 The gem provides 3 rake tasks.

@@ -1,3 +1,5 @@
+require File.expand_path(File.dirname(__FILE__) + "/lib/insert_commands.rb")
+
 class WebtranslateitGenerator < Rails::Generator::Base
   def add_options!(opt)
     opt.on('-k', '--api-key=key', String, "Your Web Translate It API key") {|v| options[:api_key] = v}
@@ -13,6 +15,7 @@ class WebtranslateitGenerator < Rails::Generator::Base
         project_details = YAML.load fetch_project_information(options[:api_key])
         m.template 'translation.yml', 'config/translation.yml',
           :assigns => { :api_key => options[:api_key], :project => project_details["project"] }
+        m.append_to 'Rakefile', "require 'web_translate_it/tasks' rescue LoadError"
       end
     end
   end
