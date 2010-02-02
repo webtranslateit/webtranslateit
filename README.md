@@ -10,17 +10,15 @@ This gem provides your app with:
 * a handful of rake task to fetch your translations.
 * a rack middleware to automatically fetch new translations from Web Translate It.
 
-## First steps
+## Installation
 
-* Add to your `config/environments.rb`:
+* Add to your config/environments.rb:
 
     `config.gem 'web_translate_it'`
     
 * Then, run:
 
     `rake gems:install`
-    
-  Web Translate It doesn’t to be unpacked.
     
 * Copy/paste your api key from Web Translate It and run:
 
@@ -31,7 +29,7 @@ This gem provides your app with:
   * It adds a auto-configured `config/translation.yml` file using Web Translate It’s API.
   * It adds `require 'web_translate_it/tasks' rescue LoadError` to your `Rakefile`
   
-### Rake tasks provided
+## Rake tasks provided
 
 The gem provides 3 rake tasks.
 
@@ -47,23 +45,19 @@ Fetch the latest translations for all the languages defined in Web Translate It�
     
 Upload to Web Translate It your files in a specific locale defined in Web Translate It’s interface.
 
-### Automatically fetch new language files
+## Optional: automatically fetch new language files for each page request
 
-This is useful for translators on development and staging environment: you get the strings as soon as they are translated on Web Translate It, but you probably don’t want this on production for performance and reliability reasons.
+This should not be used on production. This allows to translate text on Web Translate It, reload a page on your site and see the translations appear.
 
-#### Rails 2.3 and newer
+### Rails 2.3 and newer
 
 Use the rack middleware!
 
-* Before starting up anything, you need to have a rack middleware setup to assign the value of the current locale to
-  `I18n.locale`.
-  This is very much specific to your app, this is left as an exercise to the reader. You can inspire yourself from 
-  Ryan Tomakyo’s [locale.rb](http://github.com/rack/rack-contrib/blob/master/lib/rack/contrib/locale.rb).
-  You can also find an example of a very simple middleware using the `locale` parameter in
-  [examples/locale.rb](http://github.com/AtelierConvivialite/webtranslateit/blob/master/examples/locale.rb).
+* Before starting up anything, you need to have a rack middleware setup to assign the value of the current locale to `I18n.locale`.
+  This is very much specific to your app, this is left as an exercise to the reader. You can inspire yourself from Ryan Tomakyo’s [locale.rb](http://github.com/rack/rack-contrib/blob/master/lib/rack/contrib/locale.rb).
+  You can also find an example of a very simple middleware using the `locale` parameter in [examples/locale.rb](http://github.com/AtelierConvivialite/webtranslateit/blob/master/examples/locale.rb).
 
-* The next step is to setup the `autofetch` middleware. Add in `config/environments/development.rb` and any other 
-  environments you want to autofetch this line:
+* The next step is to setup the `autofetch` middleware. Add in `config/environments/development.rb` and any other environments you want to autofetch this line:
 
       config.middleware.use "WebTranslateIt::AutoFetch"
     
@@ -74,7 +68,7 @@ Use the rack middleware!
     
 * That’s it!
 
-#### Rails older than 2.3 (works also for 2.3 and newer)
+### Rails older than 2.3 (works also for 2.3 and newer)
 
 * Add the following lines in your `ApplicationController`:
 
@@ -97,17 +91,17 @@ end</pre>
 
 ## Supported Rails Versions
 
-The gem currently has been tested against the following version of Rails:
+The gem currently has been tested against the following versions of Rails:
 
 * 2.3.4
 * 2.3.5
 
-Please open a discussion on [the support forum](https://webtranslateit.com/forum) if you're using a version of Rails that is not listed above and the gem is not working properly.
+Please open a discussion on [our support site](http://help.webtranslateit.com) if you're using a version of Rails that is not listed above and the gem is not working properly.
 
-## What is Web Translate It anyway?
+# What is Web Translate It anyway?
 
-Web Translate It is a web-based software for translating websites and applications. Its API it affords you to translate on Web Translate It’s web interface and test your translations on your development or staging environment. This is really useful for translations to translate on a stable environment, while being able to test their work directly.
+Web Translate It is an easy to use web-based translation hub to collaboratively translate software.
 
-Take a look at the [tour page](https://webtranslateit.com/tour) and at our [plans](https://webtranslateit.com/plans). We have a 10-day free trial, so you can give it a try for free.
+To learn more about it, please visit our [tour page](https://webtranslateit.com/tour).
 
-Released under the MIT License.
+This gem is released under the MIT License.
