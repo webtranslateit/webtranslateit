@@ -1,3 +1,7 @@
+## Edge
+
+* Improved documentation
+
 ## Version 1.4.4 / 2010-02-02
 
 * Add generator to automatically configure your project, given a Web Translate It API key.
