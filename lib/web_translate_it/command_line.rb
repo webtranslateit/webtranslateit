@@ -2,12 +2,12 @@ module WebTranslateIt
   class CommandLine
     
     OPTIONS = <<-OPTION
--f --fetch [locale]   Download all the language files for your project.
-                      If a locale is specified, only download language
-                      files for that locale.
--u --upload [locale]  Upload a file for a locale.
--v --version          Show version.
--h --help             This page.
+-f --fetch [locale]           Download all the files for your project.
+                              If a locale is specified, only download
+                              the file for that locale.
+-u --upload [locale]          Upload your files for a locale.
+-v --version                  Show version.
+-h --help                     This page.
 OPTION
     
     def self.run
@@ -27,11 +27,33 @@ OPTION
     end
     
     def self.fetch
-      
+      #TODO: Ability to pass a path as an argument
+      configuration = WebTranslateIt::Configuration.new('.')
+      if ARGV.size == 2
+        locales = [ARGV[1]]
+      elsif ARGV.size == 1
+        locales = configuration.locales
+      end
+      configuration.files.each do |file|
+        locales.each do |locale|
+          file.fetch(locale)
+        end
+      end
     end
     
     def self.upload
-      
+      #TODO: Ability to pass a path as an argument
+      configuration = WebTranslateIt::Configuration.new('.')
+      if ARGV.size == 2
+        locales = [ARGV[1]]
+      elsif ARGV.size == 1
+        locales = configuration.locales
+      end
+      configuration.files.each do |file|
+        locales.each do |locale|
+          file.upload(locale)
+        end
+      end
     end
     
     def self.show_options

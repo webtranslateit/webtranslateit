@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
 
-# require 'web_translate_it'
-require 'lib/web_translate_it'
+require 'web_translate_it'
+# require 'lib/web_translate_it' # for testing
 WebTranslateIt::CommandLine.run

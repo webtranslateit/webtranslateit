@@ -9,19 +9,18 @@ module WebTranslateIt
   class Configuration
     require 'yaml'
     require 'fileutils'
-    attr_accessor :api_key, :files, :ignore_locales, :logger
+    attr_accessor :path, :api_key, :files, :ignore_locales, :logger
     
-    # Load the configuration file from RAILS_ROOT/config/translation.yml
-    # and assigns values to different accessors.
-    def initialize
-      file = File.join(RAILS_ROOT, 'config', 'translation.yml')
-      configuration       = YAML.load_file(file)
+    # Load the configuration file from the path.
+    def initialize(root_path=RAILS_ROOT, path_to_config="config/translation.yml")
+      self.path           = root_path
+      configuration       = YAML.load_file(File.join(root_path, path_to_config))
       self.logger         = logger
       self.api_key        = configuration['api_key']
       self.files          = []
       self.ignore_locales = configuration['ignore_locales'].to_a.map{ |locale| locale.to_s }
       configuration['files'].each do |file_id, file_path|
-        self.files.push(TranslationFile.new(file_id, file_path, api_key))
+        self.files.push(TranslationFile.new(file_id, root_path + '/' + file_path, api_key))
       end
     end
     
