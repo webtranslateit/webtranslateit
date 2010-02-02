@@ -31,7 +31,7 @@ namespace :trans do
     end
   end
   
-  desc "Upload a translation file to Web Translate It"
+  desc "Upload the translation files for a locale to Web Translate It"
   task :upload, :locale do |task, args|
     welcome_message
     puts "Uploading file for locale #{args.locale}…"
