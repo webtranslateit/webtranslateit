@@ -31,7 +31,7 @@ That’s it! At this point you have the Web Translate It executable. Run `webtra
 
 ### Assumptions
 
-We assume you have a `config/translation.yml` file in your project containing the configuration to sync with Web Translate It.
+We assume you have a `config/translation.yml` file in your project containing the configuration to sync with Web Translate It. [Read about the configuration file in the wiki](http://wiki.github.com/AtelierConvivialite/webtranslateit/).
 
 ## Specific tools for Ruby on Rails
 
