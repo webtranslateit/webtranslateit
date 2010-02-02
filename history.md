@@ -1,6 +1,7 @@
 ## Edge
 
 * Improved documentation
+* Added executable: webtranslateit
 
 ## Version 1.4.4 / 2010-02-02
 

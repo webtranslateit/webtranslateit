@@ -6,14 +6,36 @@
 [Tests](http://runcoderun.com/AtelierConvivialite/webtranslateit/builds/74a78c2b382cb1856fa0964ed4ad372b50872844/1/ruby_186) | 
 [Example app](http://github.com/AtelierConvivialite/rails_example_app)
 
-This is a gem providing tools to integrate your Rails application with [Web Translate It](https://webtranslateit.com), a web-based translation hub.
+This is a gem providing tools to integrate your software to translate with [Web Translate It](https://webtranslateit.com), a web-based translation hub.
 
 This gem provides your app with:
 
-* a handful of rake task to fetch your translations.
+* an executable, `webtranslateit`, to upload and download language files from the command line (or in whatever else you want to execute it)
+* a handful of rake task to fetch and upload your translations.
 * a rack middleware to automatically fetch new translations from Web Translate It.
 
 ## Installation
+
+    gem install web_translate_it
+    
+That’s it! At this point you have the Web Translate It executable. Run `webtranslateit --help` to see the usage:
+
+    Web Translate It Help:
+    **********************
+    -f --fetch [locale]           Download all the files for your project.
+                                  If a locale is specified, only download
+                                  the file for that locale.
+    -u --upload [locale]          Upload your files for a locale.
+    -v --version                  Show version.
+    -h --help                     This page.
+
+### Assumptions
+
+We assume you have a `config/translation.yml` file in your project containing the configuration to sync with Web Translate It.
+
+## Specific tools for Ruby on Rails
+
+This gem includes some rake tasks and a rack middleware to integrate Web Translate It with Ruby on Rails.
 
 * Add to your config/environments.rb:
 
@@ -22,19 +44,19 @@ This gem provides your app with:
 * Then, run:
 
     `rake gems:install`
-    
+
 * Copy/paste your api key from Web Translate It and run:
 
     `script/generate webtranslateit --api-key your_key_here`
     
   The generator does two things:
   
-  * It adds a auto-configured `config/translation.yml` file using Web Translate It’s API.
-  * It adds `require 'web_translate_it/tasks' rescue LoadError` to your `Rakefile`
+  - It adds a auto-configured `config/translation.yml` file using Web Translate It’s API.
+  - It adds `require 'web_translate_it/tasks' rescue LoadError` to your `Rakefile`
   
-## Rake tasks provided
+### Rake tasks provided
 
-The gem provides 3 rake tasks.
+There are 3 rake tasks.
 
     rake trans:fetch:all
   
@@ -48,49 +70,8 @@ Fetch the latest translations for all the languages defined in Web Translate It�
     
 Upload to Web Translate It your files in a specific locale defined in Web Translate It’s interface.
 
-## Optional: automatically fetch new language files for each page request
+Read more about "Rails integration in the wiki":http://wiki.github.com/AtelierConvivialite/webtranslateit/.
 
-This should not be used on production. This allows to translate text on Web Translate It, reload a page on your site and see the translations appear.
-
-### Rails 2.3 and newer
-
-Use the rack middleware!
-
-* Before starting up anything, you need to have a rack middleware setup to assign the value of the current locale to `I18n.locale`.
-  This is very much specific to your app, this is left as an exercise to the reader. You can inspire yourself from Ryan Tomakyo’s [locale.rb](http://github.com/rack/rack-contrib/blob/master/lib/rack/contrib/locale.rb).
-  You can also find an example of a very simple middleware using the `locale` parameter in [examples/locale.rb](http://github.com/AtelierConvivialite/webtranslateit/blob/master/examples/locale.rb).
-
-* The next step is to setup the `autofetch` middleware. Add in `config/environments/development.rb` and any other environments you want to autofetch this line:
-
-      config.middleware.use "WebTranslateIt::AutoFetch"
-    
-* Restart your application, load a page. You should see this in the logs:
-
-      Looking for fr_FR translations...
-      Done. Response code: 200
-    
-* That’s it!
-
-### Rails older than 2.3 (works also for 2.3 and newer)
-
-* Add the following lines in your `ApplicationController`:
-
-<pre>before_filter :update_locale
-
-def update_locale
-  begin
-    WebTranslateIt.fetch_translations
-  rescue Exception => e
-    puts "** Web Translate It raised an exception: " + e.message
-  end
-end</pre>
-
-* Restart your application for the changes to take effect. You should see something like this in the logs:
-
-      Looking for fr translations...
-      Done. Response code: 304
-
-* That’s it!
 
 ## Supported Rails Versions
 
