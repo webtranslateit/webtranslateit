@@ -1,6 +1,6 @@
 # Web Translate It
 
-(RDocs)[http://yardoc.org/docs/AtelierConvivialite-webtranslateit] | (Metrics)[http://getcaliper.com/caliper/project?repo=git%3A%2F%2Fgithub.com%2FAtelierConvivialite%2Fwebtranslateit.git] | (Tests)[http://runcoderun.com/AtelierConvivialite/webtranslateit/builds/74a78c2b382cb1856fa0964ed4ad372b50872844/1/ruby_186] |
+[RDocs](http://yardoc.org/docs/AtelierConvivialite-webtranslateit) | [Metrics](http://getcaliper.com/caliper/project?repo=git%3A%2F%2Fgithub.com%2FAtelierConvivialite%2Fwebtranslateit.git) | [Tests](http://runcoderun.com/AtelierConvivialite/webtranslateit/builds/74a78c2b382cb1856fa0964ed4ad372b50872844/1/ruby_186) |
 [Example app](http://github.com/AtelierConvivialite/rails_example_app)
 
 This is a gem providing tools to integrate your app with [Web Translate It](https://webtranslateit.com).
