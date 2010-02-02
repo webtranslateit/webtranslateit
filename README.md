@@ -34,7 +34,7 @@ This gem provides your app with:
 
 ### Rake tasks provided
 
-The gem provides 4 rake tasks.
+The gem provides 3 rake tasks.
 
     rake trans:fetch:all
   
@@ -47,10 +47,6 @@ Fetch the latest translations for all the languages defined in Web Translate It�
     rake trans:upload[fr_FR]
     
 Upload to Web Translate It your files in a specific locale defined in Web Translate It’s interface.
-
-    rake trans:config
-    
-Copy a `translation.yml` file to `config/translation.yml` if the file doesn’t exist.
 
 ### Automatically fetch new language files
 

@@ -41,13 +41,7 @@ namespace :trans do
       handle_response(file.file_path_for_locale(args.locale), response_code)
     end
   end
-  
-  desc "Install Web Translate It for your application"
-  task :config do
-    welcome_message
-    WebTranslateIt::Configuration.create_config_file
-  end
-  
+    
   def handle_response(file_path, response_code)
     if response_code < 400
       puts "#{file_path}: #{response_code}, OK"

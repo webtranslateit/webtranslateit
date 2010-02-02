@@ -1,3 +1,8 @@
+## Edge
+
+* Add generator to automatically configure your project, given a Web Translate It API key.
+* Remove rake trans:config, as this is handled by the generator.
+
 ## Version 1.4.3 / 2010-01-09
 
 * Remove colour outputs as it increases code complexity and doesn't add any value.

@@ -30,14 +30,6 @@ module WebTranslateIt
       end
     end
     
-    def self.create_config_file
-      config_file = "config/translation.yml"
-      unless File.exists?(config_file)
-        puts "Created #{config_file}"
-        FileUtils.copy File.join(File.dirname(__FILE__), '..', '..', 'examples', 'translation.yml'), config_file
-      end
-    end
-    
     def api_url
       "/api/projects/#{api_key}/locales"
     end
