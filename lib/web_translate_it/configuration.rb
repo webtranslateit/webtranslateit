@@ -22,7 +22,7 @@ module WebTranslateIt
         response = http.request(request)
         if response.code.to_i >= 400 and response.code.to_i < 500
           puts "----------------------------------------------------------------------"
-          puts "You API key seems to be misconfigured. It is currently “self.api_key”."
+          puts "You API key seems to be misconfigured. It is currently #{self.api_key}."
           puts "Change it in RAILS_ROOT/configuration/translation.yml."
         else
           response.body.split

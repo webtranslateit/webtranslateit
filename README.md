@@ -1,9 +1,12 @@
 # Web Translate It
 
-[RDocs](http://yardoc.org/docs/AtelierConvivialite-webtranslateit) | [Metrics](http://getcaliper.com/caliper/project?repo=git%3A%2F%2Fgithub.com%2FAtelierConvivialite%2Fwebtranslateit.git) | [Tests](http://runcoderun.com/AtelierConvivialite/webtranslateit/builds/74a78c2b382cb1856fa0964ed4ad372b50872844/1/ruby_186) |
+[Homepage](https://webtranslateit.com) | 
+[RDocs](http://yardoc.org/docs/AtelierConvivialite-webtranslateit) | 
+[Metrics](http://getcaliper.com/caliper/project?repo=git%3A%2F%2Fgithub.com%2FAtelierConvivialite%2Fwebtranslateit.git) | 
+[Tests](http://runcoderun.com/AtelierConvivialite/webtranslateit/builds/74a78c2b382cb1856fa0964ed4ad372b50872844/1/ruby_186) | 
 [Example app](http://github.com/AtelierConvivialite/rails_example_app)
 
-This is a gem providing tools to integrate your app with [Web Translate It](https://webtranslateit.com).
+This is a gem providing tools to integrate your Rails application with [Web Translate It](https://webtranslateit.com), a web-based translation hub.
 
 This gem provides your app with:
 
@@ -100,7 +103,7 @@ Please open a discussion on [our support site](http://help.webtranslateit.com) i
 
 # What is Web Translate It anyway?
 
-Web Translate It is an easy to use web-based translation hub to collaboratively translate software.
+Web Translate It is a web-based translation hub to collaboratively translate software.
 
 To learn more about it, please visit our [tour page](https://webtranslateit.com/tour).
 
