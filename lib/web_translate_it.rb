@@ -2,6 +2,7 @@ require File.join(File.dirname(__FILE__), 'web_translate_it', 'util')
 require File.join(File.dirname(__FILE__), 'web_translate_it', 'configuration')
 require File.join(File.dirname(__FILE__), 'web_translate_it', 'translation_file')
 require File.join(File.dirname(__FILE__), 'web_translate_it', 'auto_fetch')
+require File.join(File.dirname(__FILE__), 'web_translate_it', 'command_line')
 
 module WebTranslateIt
   def self.fetch_translations
