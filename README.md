@@ -7,19 +7,14 @@ This is a gem providing tools to integrate your app with [Web Translate It](http
 
 This gem provides your app with:
 
-* a set of 4 handy rake task to fetch your translations.
+* a handful of rake task to fetch your translations.
 * a rack middleware to automatically fetch new translations from Web Translate It.
-
-Examples
-
-* See a [Rails 2.3 example app](http://github.com/AtelierConvivialite/rails_example_app) using it.
-* All the necessary changes have been made in [this commit](http://github.com/AtelierConvivialite/rails_example_app/commit/d88e4aa62b061f215d1784d76c94cd8613efc9bb)
 
 ## First steps
 
-* For each environment you want to use the gem, add to your config/environment/development.rb:
+* Add to your `config/environments.rb`:
 
-    `config.gem 'web_translate_it', :version => '~> 1.4.3', :source => 'http://gemcutter.org'`
+    `config.gem 'web_translate_it'`
     
 * Then, run:
 
@@ -27,30 +22,15 @@ Examples
     
   Web Translate It doesn’t to be unpacked.
     
-* Add in your `Rakefile` to add Web Translate It’s rake tasks:
+* Copy/paste your api key from Web Translate It and run:
 
-      `require 'web_translate_it/tasks' rescue LoadError`
-
-* Run:
-
-      `rake trans:config`
+    `script/generate webtranslateit --api-key your_key_here`
     
-  If it doesn’t exist already, it will create a `config/translation.yml` file that contains:
+  It will configure your project with the parameters you set in Web Translate It, using the API, and create a `config/translation.yml` file.
   
-      api_key: SECRET
-      ignore_locales: :en
-      wti_id1: config/locales/file1_[locale].yml
-      wti_id2: config/locales/file2_[locale].yml</pre>
-
-`api_key` is the API key (or token) provided per project by Web Translate It.
-
-`ignore_locales` is an array of symbols, an array of strings, a symbol or a string of locales not to sync with Web Translate It. You usually don’t want to sync your master language files.
-
-`wti_id1` is the id of your *master* language file on Web Translate It. If you only have one language file, then only put this one in the configuration file.
-
-`config/locales/file1_[locale].yml` is the name of your language file on your project. To keep things simple, the gem makes the reasonable assumption that you differentiate your language files using the locale name. For example, you will have `file1_en.yml` for English, and `file1_fr.yml` for French. Replace `en` or `fr` by `[locale]` and the gem will update the files `file1_en.yml` and `file1_fr.yml`.
-
-The gem also assume that you use the same locale name on your project and on Web Translate It. For example if you use the locale `fr_FR` on Web Translate It, then you should use `fr_FR` on your project.
+* TODO: require this automatically. Add to your `Rakefile`:
+  
+    `require 'web_translate_it/tasks' rescue LoadError`
 
 ### Rake tasks provided
 
