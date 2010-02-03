@@ -10,7 +10,7 @@ This is a gem providing tools to integrate your software to translate with [Web 
 
 This gem provides your app with:
 
-* an executable, `webtranslateit`, to upload and download language files from the command line (or in whatever else you want to execute it)
+* an executable, `wti`, to upload and download language files from the command line (or in whatever else you want to execute it)
 * a handful of rake task to fetch and upload your translations.
 * a rack middleware to automatically fetch new translations from Web Translate It.
 
@@ -18,7 +18,7 @@ This gem provides your app with:
 
     gem install web_translate_it
     
-That’s it! At this point you have the Web Translate It executable. Run `webtranslateit --help` to see the usage:
+That’s it! At this point you have the Web Translate It executable. Run `wti --help` to see the usage:
 
     Web Translate It Help:
     **********************

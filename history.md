@@ -1,7 +1,7 @@
 ## Edge
 
 * Improved documentation
-* Added executable: webtranslateit
+* Web Translate is now an executable: `wti`
 
 ## Version 1.4.4 / 2010-02-02
 
