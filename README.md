@@ -70,7 +70,7 @@ Fetch the latest translations for all the languages defined in Web Translate Itâ
     
 Upload to Web Translate It your files in a specific locale defined in Web Translate Itâ€™s interface.
 
-Read more about "Rails integration in the wiki":http://wiki.github.com/AtelierConvivialite/webtranslateit/.
+Read more about [Rails integration in the wiki](http://wiki.github.com/AtelierConvivialite/webtranslateit/).
 
 
 ## Supported Rails Versions
