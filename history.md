@@ -1,9 +1,14 @@
-## Edge
+## Version 1.4.6 /2010-02-04
+
+* Add feedback when using the `wti command`.
+* Fix bug where fetch requests were not using the conditional get requests feature.
+
+## Version 1.4.5 /2010-02-02
 
 * Improved documentation
 * Web Translate is now an executable: `wti`
 
-## Version 1.4.4 / 2010-02-02
+## Version 1.4.4 / 2010-02-01
 
 * Add generator to automatically configure your project, given a Web Translate It API key.
 * Remove rake trans:config, as configuration is now handled by the generator.

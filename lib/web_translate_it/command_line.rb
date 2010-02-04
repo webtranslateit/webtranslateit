@@ -36,6 +36,7 @@ OPTION
       end
       configuration.files.each do |file|
         locales.each do |locale|
+          puts "Fetching #{file.file_path_for_locale(locale)}…"
           file.fetch(locale)
         end
       end
@@ -51,6 +52,7 @@ OPTION
       end
       configuration.files.each do |file|
         locales.each do |locale|
+          puts "Uploading #{file.file_path} in #{locale}…"
           file.upload(locale)
         end
       end
