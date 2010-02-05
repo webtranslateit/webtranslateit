@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = "web_translate_it" 
-  s.version     = "1.4.6"
+  s.version     = "1.4.7"
   s.summary     = "Sync your translations between your Rails app and Web Translate It"
   s.email       = "edouard@atelierconvivialite.com"
   s.homepage    = "https://webtranslateit.com"

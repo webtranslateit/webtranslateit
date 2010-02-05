@@ -1,4 +1,4 @@
-## Edge
+## Version 1.4.7 /2010-02-05
 
 * Add deprecation warning for `wti --fetch`, `wti -f`. These commands will be deprecated in favour of `wti pull`.
 * Add deprecation warning for `wti --upload`, `wti -u`. These commands will be deprecated in favour of `wti push`.
