@@ -90,6 +90,11 @@ The gem currently has been tested against the following versions of Rails:
 
 Please open a discussion on [our support site](http://help.webtranslateit.com) if you're using a version of Rails that is not listed above and the gem is not working properly.
 
+# Acknowledgement
+
+* The executable is very much inspired from the awesome [Gemcutter](http://gemcutter.org/) commands,
+* The Rails generator has been pinched from [Hoptoad Notifier](http://github.com/thoughtbot/hoptoad_notifier/).
+
 # What is Web Translate It anyway?
 
 Web Translate It is a web-based translation hub to collaboratively translate software.
