@@ -18,12 +18,16 @@ This gem provides your app with:
 
     gem install web_translate_it
     
-That’s it! At this point you have the Web Translate It executable. Run `wti --help` to see the usage:
+That’s it! At this point you have the Web Translate It executable.
+If your project if already set up on Web Translate It, run `wti autoconf` to generate the configuration file.
+
+Run `wti --help` to see the usage:
 
     Web Translate It Help:
     **********************
     pull            Pull language file(s) from Web Translate It.
     push            Push language file(s) to Web Translate It.
+    autoconf        Configure your project to sync with Web Translate It.
 
     OPTIONAL PARAMETERS:
     --------------------
@@ -36,10 +40,6 @@ That’s it! At this point you have the Web Translate It executable. Run `wti --
     ------
     -v --version    Show version.
     -h --help       This page.
-
-### Assumptions
-
-We assume you have a `config/translation.yml` file in your project containing the configuration to sync with Web Translate It. [Read about the configuration file in the wiki](http://wiki.github.com/AtelierConvivialite/webtranslateit/).
 
 ## Specific tools for Ruby on Rails
 

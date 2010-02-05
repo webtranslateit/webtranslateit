@@ -6,6 +6,7 @@
 * Add -l parameter to specify a specific language file to pull or push (only works with `wti pull` and `wti push`).
 * Add --force parameter to force Web Translate It to send the language files again, regardless if the current 
   language file version is current (this makes `wti pull` very much slower).
+* Add `wti autoconf` command to automatically configure your project for Web Translate It.
 
 ## Version 1.4.6 /2010-02-04
 
