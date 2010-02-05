@@ -22,12 +22,20 @@ That’s it! At this point you have the Web Translate It executable. Run `wti --
 
     Web Translate It Help:
     **********************
-    -f --fetch [locale]           Download all the files for your project.
-                                  If a locale is specified, only download
-                                  the file for that locale.
-    -u --upload [locale]          Upload your files for a locale.
-    -v --version                  Show version.
-    -h --help                     This page.
+    pull            Pull language file(s) from Web Translate It.
+    push            Push language file(s) to Web Translate It.
+
+    OPTIONAL PARAMETERS:
+    --------------------
+    -l --locale     The ISO code of a specific locale to pull or push.
+    -c --config     Path to a translation.yml file. If this option
+                    is absent, looks for config/translation.yml.
+    --force         Force `wti pull` to re-download the language file,
+                    regardless if local version is current.
+    OTHER:
+    ------
+    -v --version    Show version.
+    -h --help       This page.
 
 ### Assumptions
 
