@@ -8,6 +8,8 @@
 
 This is a gem providing tools to integrate your software to translate with [Web Translate It](https://webtranslateit.com), a web-based translation hub.
 
+![Web Translate It](http://s3.amazonaws.com:80/edouard.baconfile.com/web_translate_it%2Fwti.png)
+
 This gem provides your app with:
 
 * an executable, `wti`, to upload and download language files from the command line (or in whatever else you want to execute it)
