@@ -2,8 +2,8 @@ module WebTranslateIt
   class CommandLine
     
     OPTIONS = <<-OPTION
-pull            Pull language file(s) from Web Translate It.
-push            Push language file(s) to Web Translate It.
+pull            Pull target language file(s) from Web Translate It.
+push            Push master language file(s) to Web Translate It.
 autoconf        Configure your project to sync with Web Translate It.
 
 OPTIONAL PARAMETERS:
@@ -11,6 +11,7 @@ OPTIONAL PARAMETERS:
 -l --locale     The ISO code of a specific locale to pull or push.
 -c --config     Path to a translation.yml file. If this option
                 is absent, looks for config/translation.yml.
+--all           Respectively download or upload all files.
 --force         Force wti pull to re-download the language file,
                 regardless if local version is current.
 OTHER:
@@ -31,11 +32,6 @@ OPTION
         show_version
       when '-h', '--help'
         show_options
-      # deprecated in 1.5.0
-      when '-f', '--fetch'
-        fetch
-      when '-u', '--upload'
-        upload        
       else
         puts "Command not found"
         show_options
@@ -44,7 +40,7 @@ OPTION
         
     def self.pull
       configuration = fetch_configuration
-      locales = fetch_locales(configuration)
+      locales = fetch_locales_to_pull(configuration)
       configuration.files.each do |file|
         locales.each do |locale|
           puts "Pulling #{file.file_path_for_locale(locale)}…"
@@ -55,7 +51,7 @@ OPTION
     
     def self.push
       configuration = fetch_configuration
-      locales = fetch_locales(configuration)
+      locales = fetch_locales_to_push(configuration)
       configuration.files.each do |file|
         locales.each do |locale|
           puts "Pushing #{file.file_path_for_locale(locale)}…"
@@ -93,42 +89,6 @@ OPTION
       puts "Web Translate It #{WebTranslateIt::Util.version}"
     end
     
-    # deprecated in 1.5.0
-    def self.fetch
-      puts "Warning: this command is deprecated and will stop working in 1.5.0."
-      puts "Use `wti pull` instead. See help: `wti --help`"
-      configuration = WebTranslateIt::Configuration.new('.')
-      if ARGV.size == 2
-        locales = [ARGV[1]]
-      elsif ARGV.size == 1
-        locales = configuration.locales
-      end
-      configuration.files.each do |file|
-        locales.each do |locale|
-          puts "Fetching #{file.file_path_for_locale(locale)}…"
-          file.fetch(locale)
-        end
-      end
-    end
-    
-    # deprecated in 1.5.0
-    def self.upload
-      puts "Warning: this command is deprecated and will stop working in 1.5.0."
-      puts "Use `wti push` instead. See help: `wti --help`"
-      configuration = WebTranslateIt::Configuration.new('.')
-      if ARGV.size == 2
-        locales = [ARGV[1]]
-      elsif ARGV.size == 1
-        locales = configuration.locales
-      end
-      configuration.files.each do |file|
-        locales.each do |locale|
-          puts "Uploading #{file.file_path} in #{locale}…"
-          file.upload(locale)
-        end
-      end
-    end
-    
     def self.fetch_configuration
       if (index = ARGV.index('-c') || ARGV.index('--config')).nil?
         configuration = WebTranslateIt::Configuration.new('.')
@@ -138,13 +98,24 @@ OPTION
       return configuration
     end
     
-    def self.fetch_locales(configuration)
+    def self.fetch_locales_to_pull(configuration)
       if (index = ARGV.index('-l') || ARGV.index('--locale')).nil?
-        locales = configuration.locales
+        locales = configuration.target_locales
       else
         locales = [ARGV[index+1]]
       end
-      return locales
+      locales.push(configuration.source_locale) if ARGV.index('--all')
+      return locales.uniq
+    end
+    
+    def self.fetch_locales_to_push(configuration)
+      if (index = ARGV.index('-l') || ARGV.index('--locale')).nil?
+        locales = [configuration.source_locale]
+      else
+        locales = [ARGV[index+1]]
+      end
+      locales.push(configuration.target_locales) if ARGV.index('--all')
+      return locales.uniq
     end
     
     def self.generate_configuration(api_key)

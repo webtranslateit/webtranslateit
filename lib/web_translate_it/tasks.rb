@@ -17,7 +17,7 @@ namespace :trans do
     task :all do
       welcome_message
       configuration = WebTranslateIt::Configuration.new
-      locales = configuration.locales
+      locales = configuration.target_locales
       configuration.ignore_locales.each do |ignore|
         locales.delete(ignore)
       end

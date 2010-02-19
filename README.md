@@ -25,10 +25,8 @@ If your project if already set up on Web Translate It, run `wti autoconf` to gen
 
 Run `wti --help` to see the usage:
 
-    Web Translate It Help:
-    **********************
-    pull            Pull language file(s) from Web Translate It.
-    push            Push language file(s) to Web Translate It.
+    pull            Pull target language file(s) from Web Translate It.
+    push            Push master language file(s) to Web Translate It.
     autoconf        Configure your project to sync with Web Translate It.
 
     OPTIONAL PARAMETERS:
@@ -36,7 +34,8 @@ Run `wti --help` to see the usage:
     -l --locale     The ISO code of a specific locale to pull or push.
     -c --config     Path to a translation.yml file. If this option
                     is absent, looks for config/translation.yml.
-    --force         Force `wti pull` to re-download the language file,
+    --all           Respectively download or upload all files.
+    --force         Force wti pull to re-download the language file,
                     regardless if local version is current.
     OTHER:
     ------
