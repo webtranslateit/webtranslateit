@@ -1,5 +1,6 @@
 module WebTranslateIt
   class CommandLine
+    require 'fileutils'
     
     OPTIONS = <<-OPTION
 pull            Pull target language file(s) from Web Translate It.
@@ -72,6 +73,7 @@ OPTION
       puts "Enter below another path if you want to change, or leave it blank if the defaut path is okay."
       path = STDIN.gets.strip
       path = "config/translation.yml" if path == ""
+      FileUtils.mkpath(path.split('/')[0..path.split('/').size-1])
       File.open(path, 'w'){ |file| file << generate_configuration(api_key) }
       puts "Done! You can now use `wti` to push and pull your language files."
       puts "Check `wti --help` for more information."

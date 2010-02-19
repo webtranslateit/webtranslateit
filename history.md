@@ -6,6 +6,7 @@ Warning, some deprecations in this version.
 * `wti push` now only pushes the master language file. Use `wti push --all` to push all or `wti push -l [locale]` to push a specific locale.
 * `wti pull` now only pulls the target language files. Use `wti pull --all` to pull all or `wti pull -l [locale]` to pull a specific locale.
 * Increase read timeout to 40s — Required for very large projects.
+* Bug fix: `wti autoconf` now create directory if it doesn't exist
 
 ## Version 1.4.7 /2010-02-05
 
