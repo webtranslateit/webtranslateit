@@ -69,12 +69,15 @@ OPTION
         puts "You must enter your project API key provided by Web Translate It"
         exit
       end
-      puts "We will now create a `config/translation.yml` file in the current directory."
-      puts "Enter below another path if you want to change, or leave it blank if the defaut path is okay."
+      puts "Where should we create the configuration file? (Default: `config/translation.yml`)"
       path = STDIN.gets.strip
       path = "config/translation.yml" if path == ""
       FileUtils.mkpath(path.split('/')[0..path.split('/').size-1])
-      File.open(path, 'w'){ |file| file << generate_configuration(api_key) }
+      puts "Where are you language files located? (Default: `config/locales/`)"
+      path_to_locale_files = STDIN.gets.strip
+      path_to_locale_files = "config/locales/" if path_to_locale_files == ""
+      FileUtils.mkpath(path.split('/')[0..path.split('/').size-1])
+      File.open(path, 'w'){ |file| file << generate_configuration(api_key, path_to_locale_files) }
       puts "Done! You can now use `wti` to push and pull your language files."
       puts "Check `wti --help` for more information."
     end
@@ -120,7 +123,7 @@ OPTION
       return locales.uniq
     end
     
-    def self.generate_configuration(api_key)
+    def self.generate_configuration(api_key, path_to_locale_files)
       project_info = YAML.load WebTranslateIt::Project.fetch_info(api_key)
       project = project_info['project']
       file = <<-FILE
@@ -141,7 +144,7 @@ files:
 FILE
       project["project_files"].each do |project_file|
         if project_file["master"]
-          file << "  #{project_file["id"]}: config/locales/" + project_file["name"].gsub(project["source_locale"]["code"], "[locale]") + "\n"
+          file << "  #{project_file["id"]}: #{path_to_locale_files}" + project_file["name"].gsub(project["source_locale"]["code"], "[locale]") + "\n"
         end
       end
       return file

@@ -2,11 +2,12 @@
 
 Warning, some deprecations in this version.
 
-* Remove `wti fetch` and `wti upload`
+* Remove `wti fetch` and `wti upload`.
 * `wti push` now only pushes the master language file. Use `wti push --all` to push all or `wti push -l [locale]` to push a specific locale.
 * `wti pull` now only pulls the target language files. Use `wti pull --all` to pull all or `wti pull -l [locale]` to pull a specific locale.
 * Increase read timeout to 40s — Required for very large projects.
-* Bug fix: `wti autoconf` now create directory if it doesn't exist
+* Bug fix: `wti autoconf` now create directory if it doesn't exist.
+* Bug fix: `wti autoconf` now ask the user where are the locale files.
 
 ## Version 1.4.7 /2010-02-05
 
