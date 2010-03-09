@@ -28,6 +28,7 @@ Run `wti --help` to see the usage:
     pull            Pull target language file(s) from Web Translate It.
     push            Push master language file(s) to Web Translate It.
     autoconf        Configure your project to sync with Web Translate It.
+    stats           Fetch and display your project statistics.
 
     OPTIONAL PARAMETERS:
     --------------------
