@@ -1,3 +1,7 @@
+## Version 1.5.1 /2010-03-09
+
+* Add `wti stats`, to fetch the project stats from the stats API endpoint.
+
 ## Version 1.5.0 /2010-02-19
 
 Warning, some deprecations in this version.

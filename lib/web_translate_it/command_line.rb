@@ -6,6 +6,7 @@ module WebTranslateIt
 pull            Pull target language file(s) from Web Translate It.
 push            Push master language file(s) to Web Translate It.
 autoconf        Configure your project to sync with Web Translate It.
+stats           Fetch and display your project statistics.
 
 OPTIONAL PARAMETERS:
 --------------------
@@ -29,6 +30,8 @@ OPTION
         push
       when 'autoconf'
         autoconf
+      when 'stats'
+        stats
       when '-v', '--version'
         show_version
       when '-h', '--help'
@@ -80,6 +83,16 @@ OPTION
       File.open(path, 'w'){ |file| file << generate_configuration(api_key, path_to_locale_files) }
       puts "Done! You can now use `wti` to push and pull your language files."
       puts "Check `wti --help` for more information."
+    end
+    
+    def self.stats
+      configuration = fetch_configuration
+      stats = YAML.load(Project.fetch_stats(configuration.api_key))
+      stats.each do |locale, values|
+        percent_translated = Util.calculate_percentage(values['count_strings_to_proofread'] + values['count_strings_done'] + values['count_strings_to_verify'], values['count_strings'])
+        percent_completed  = Util.calculate_percentage(values['count_strings_done'], values['count_strings'])
+        puts "#{locale}: #{percent_translated}% translated, #{percent_completed}% completed #{values['stale'] ? "Stale" : ""}"
+      end
     end
     
     def self.show_options

@@ -26,5 +26,10 @@ module WebTranslateIt
       http.read_timeout = 40
       yield http
     end
+    
+    def self.calculate_percentage(processed, total)
+      return 0 if total == 0
+      ((processed*10)/total).to_f.ceil*10
+    end
   end
 end
