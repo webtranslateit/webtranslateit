@@ -1,0 +1,90 @@
+.\" generated with Ronn/v0.4.1
+.\" http://github.com/rtomayko/ronn/
+.
+.TH "WTI" "1" "March 2010" "Atelier Convivialité" "Web Translate It"
+.
+.SH "NAME"
+\fBwti\fR \-\- WebTranslateIt.com from the command line
+.
+.SH "SYNOPSIS"
+\fBwti\fR \fICOMMAND\fR \fIOPTIONS\fR
+.
+.P
+\fBwti push\fR [\fB\-l\fR] \fIOPTIONS\fR
+.
+.P
+\fBwti pull\fR [\fB\-l\fR] \fIOPTIONS\fR
+.
+.SH "DESCRIPTION"
+\fBwti\fR is an utility to help you sync language files between the
+WebTranslateIt.com service and your computer/server.
+.
+.P
+\fBwti push\fR will push your master language file to Web Translate It. It means it will
+update the strings hosted at Web Translate It by the strings from the file you push.
+.
+.P
+\fBwti pull\fR will pull the target language files from Web Translate It. It will download
+and update your file with the latest translations from Web Translate It.
+.
+.P
+\fBwti stats\fR fetch and display translation statistics from Web Translate It.
+.
+.SH "OPTIONS"
+\fBwti\fR's default mode of operation is to push only the master language file and to only
+pull target language files.
+.
+.P
+These options can be used to change this behaviour:
+.
+.TP
+\fB\-\-all\fR
+Push or pull all. For example, \fBwti push \-\-all\fR will push master and target language files. \fBwti pull \-\-all\fR will pull master and target language files
+.
+.TP
+\fB\-l\fR, \fB\-\-locale\fR
+Set the locale to push or pull explicitly. For example \fBwti pull \-l fr\fR will only pull
+the French language file.
+.
+.TP
+\fB\-\-force\fR
+The Web Translate It API use HTTP caching to be efficient, and check if your file needs
+to be updated by checking its modification date against the project’s latest activity.
+Use this option to bypass this check.
+.
+.P
+You may additionally ask for help:
+.
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Print help.
+.
+.SH "CONFIGURATION"
+The first \fBwti\fR is used on a project, it must be configured.
+.
+.P
+\fBwti autoconf\fR will help you create a configuration file to sync with
+Web Translate It.
+.
+.SH "EXAMPLES"
+.
+.nf
+$ wti push
+Pushing ./config/locales/app/en.yml…
+Pushing ./config/locales/defaults/en.yml…
+$ wti pull \-l fr
+Pulling ./config/locales/app/fr.yml…
+Pulling ./config/locales/defaults/fr.yml…
+$ wti stats
+fr: 100% translated, 90% completed
+ru: 10% translated, 10% completed
+pt_BR: 0% translated, 0% completed
+en: 100% translated, 90% completed
+.
+.fi
+.
+.SH "BUGS"
+\fIhttp://github.com/atelierConvivialite/webtranslateit/issues\fR
+.
+.SH "AUTHOR"
+Édouard Brière :: edouard@atelierconvivialite.com

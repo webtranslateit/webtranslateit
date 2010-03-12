@@ -1,13 +1,13 @@
 Gem::Specification.new do |s|
   s.name        = "web_translate_it" 
-  s.version     = "1.5.1"
+  s.version     = "1.5.2"
   s.summary     = "Sync your translations between your Rails app and Web Translate It"
   s.email       = "edouard@atelierconvivialite.com"
   s.homepage    = "https://webtranslateit.com"
   s.description = "A rack middleware and a handful of rake tasks to sync your translations between webtranslateit.com and your rails applications."
   s.authors     = ["Édouard Brière"]
  
-  s.files       = Dir["history.md", "MIT-LICENSE", "README.md", "version.yml", "examples/**/*", "lib/**/*", "generators/**/*", "bin/**/*"]
+  s.files       = Dir["history.md", "MIT-LICENSE", "README.md", "version.yml", "examples/**/*", "lib/**/*", "generators/**/*", "bin/**/*", "man/**/*"]
   
   s.test_files  = Dir["spec/**/*"]  
   

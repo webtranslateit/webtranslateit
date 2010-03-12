@@ -1,0 +1,81 @@
+wti(1) -- WebTranslateIt.com from the command line
+==================================================
+ 
+## SYNOPSIS
+ 
+`wti` <COMMAND> <OPTIONS>
+
+`wti push` [`-l`] <OPTIONS>
+
+`wti pull` [`-l`] <OPTIONS>
+
+## DESCRIPTION
+ 
+`wti` is an utility to help you sync language files between the
+WebTranslateIt.com service and your computer/server.
+
+`wti push` will push your master language file to Web Translate It. It means it will
+update the strings hosted at Web Translate It by the strings from the file you push.
+
+`wti pull` will pull the target language files from Web Translate It. It will download
+and update your file with the latest translations from Web Translate It.
+
+`wti stats` fetch and display translation statistics from Web Translate It.
+
+## OPTIONS
+ 
+`wti`'s default mode of operation is to push only the master language file and to only
+pull target language files.
+
+These options can be used to change this behaviour:
+ 
+  * `--all`:
+    Push or pull all. For example, `wti push --all` will push master and target language files.
+    `wti pull --all` will pull master and target language files 
+ 
+  * `-l`, `--locale`:
+    Set the locale to push or pull explicitly. For example `wti pull -l fr` will only pull
+    the French language file.
+  
+  * `--force`:
+    The Web Translate It API use HTTP caching to be efficient, and check if your file needs
+    to be updated by checking its modification date against the project’s latest activity.
+    Use this option to bypass this check.
+    
+You may additionally ask for help:
+ 
+  * `-h`, `--help`:
+    Print help.
+ 
+## CONFIGURATION
+ 
+The first `wti` is used on a project, it must be configured.
+
+`wti autoconf` will help you create a configuration file to sync with
+Web Translate It.
+ 
+## EXAMPLES
+ 
+    $ wti push
+    Pushing ./config/locales/app/en.yml…
+    Pushing ./config/locales/defaults/en.yml…
+    
+    
+    $ wti pull -l fr
+    Pulling ./config/locales/app/fr.yml…
+    Pulling ./config/locales/defaults/fr.yml…
+    
+    
+    $ wti stats
+    fr: 100% translated, 90% completed 
+    ru: 10% translated, 10% completed 
+    pt_BR: 0% translated, 0% completed 
+    en: 100% translated, 90% completed
+ 
+## BUGS
+ 
+<http://github.com/atelierConvivialite/webtranslateit/issues>
+ 
+## AUTHOR
+ 
+Édouard Brière :: edouard@atelierconvivialite.com

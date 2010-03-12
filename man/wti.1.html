@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv='content-type' value='text/html;charset=utf8'>
+  <meta name='generator' value='Ronn/v0.4.1'>
+  <title>wti(1) -- WebTranslateIt.com from the command line</title>
+  <style type='text/css'>
+    body {margin:0}
+    #man, #man code, #man pre, #man tt, #man kbd, #man samp {
+      font-family:consolas,monospace;
+      font-size:16px;
+      line-height:1.3;
+      color:#343331;
+      background:#fff; }
+    #man { max-width:89ex; text-align:justify; margin:0 25px 25px 25px }
+    #man h1, #man h2, #man h3 { color:#232221;clear:left }
+    #man h1 { font-size:28px; margin:15px 0 30px 0; text-align:center }
+    #man h2 { font-size:18px; margin-bottom:0; margin-top:10px; line-height:1.3; }
+    #man h3 { font-size:16px; margin:0 0 0 4ex; }
+    #man p, #man ul, #man ol, #man dl, #man pre { margin:0 0 18px 0; }
+    #man pre {
+      color:#333231;
+      background:#edeceb;
+      padding:5px 7px;
+      margin:0px 0 20px 0;
+      border-left:2ex solid #ddd}
+    #man pre + h2, #man pre + h3 {
+      margin-top:22px;
+    }
+    #man h2 + pre, #man h3 + pre {
+      margin-top:5px;
+    }
+    #man > p, #man > ul, #man > ol, #man > dl, #man > pre { margin-left:8ex; }
+    #man dt { margin:0; clear:left }
+    #man dt.flush { float:left; width:8ex }
+    #man dd { margin:0 0 0 9ex }
+    #man code, #man strong, #man b { font-weight:bold; color:#131211; }
+    #man pre code { font-weight:normal; color:#232221; background:inherit }
+    #man em, var, u {
+      font-style:normal; color:#333231; border-bottom:1px solid #999; }
+    #man h1.man-title { display:none; }
+    #man ol.man, #man ol.man li { margin:2px 0 10px 0; padding:0;
+      float:left; width:33%; list-style-type:none;
+      text-transform:uppercase; font-size:18px; color:#999;
+      letter-spacing:1px;}
+    #man ol.man { width:100%; }
+    #man ol.man li.tl { text-align:left }
+    #man ol.man li.tc { text-align:center;letter-spacing:4px }
+    #man ol.man li.tr { text-align:right }
+    #man ol.man a { color:#999 }
+    #man ol.man a:hover { color:#333231 }
+  </style>
+</head>
+<body>
+<div id='man'>
+
+<h1 class='man-title'>wti(1)</h1>
+
+<ol class='head man'>
+  <li class='tl'>wti(1)</li>
+  <li class='tc'>Web Translate It</li>
+  <li class='tr'>wti(1)</li>
+</ol>
+
+<h2 id='NAME'>NAME</h2>
+<p><code>wti</code> -- WebTranslateIt.com from the command line</p>
+
+<h2>SYNOPSIS</h2>
+
+<p><code>wti</code> <var>COMMAND</var> <var>OPTIONS</var></p>
+
+<p><code>wti push</code> [<code>-l</code>] <var>OPTIONS</var></p>
+
+<p><code>wti pull</code> [<code>-l</code>] <var>OPTIONS</var></p>
+
+<h2>DESCRIPTION</h2>
+
+<p><code>wti</code> is an utility to help you sync language files between the
+WebTranslateIt.com service and your computer/server.</p>
+
+<p><code>wti push</code> will push your master language file to Web Translate It. It means it will
+update the strings hosted at Web Translate It by the strings from the file you push.</p>
+
+<p><code>wti pull</code> will pull the target language files from Web Translate It. It will download
+and update your file with the latest translations from Web Translate It.</p>
+
+<p><code>wti stats</code> fetch and display translation statistics from Web Translate It.</p>
+
+<h2>OPTIONS</h2>
+
+<p><code>wti</code>'s default mode of operation is to push only the master language file and to only
+pull target language files.</p>
+
+<p>These options can be used to change this behaviour:</p>
+
+<dl>
+<dt class="flush"><code>--all</code></dt><dd><p>Push or pull all. For example, <code>wti push --all</code> will push master and target language files.
+<code>wti pull --all</code> will pull master and target language files</p></dd>
+<dt><code>-l</code>, <code>--locale</code></dt><dd><p>Set the locale to push or pull explicitly. For example <code>wti pull -l fr</code> will only pull
+the French language file.</p></dd>
+<dt class="flush"><code>--force</code></dt><dd><p>The Web Translate It API use HTTP caching to be efficient, and check if your file needs
+to be updated by checking its modification date against the project’s latest activity.
+Use this option to bypass this check.</p></dd>
+</dl>
+
+
+<p>You may additionally ask for help:</p>
+
+<dl>
+<dt><code>-h</code>, <code>--help</code></dt><dd>Print help.</dd>
+</dl>
+
+
+<h2>CONFIGURATION</h2>
+
+<p>The first <code>wti</code> is used on a project, it must be configured.</p>
+
+<p><code>wti autoconf</code> will help you create a configuration file to sync with
+Web Translate It.</p>
+
+<h2>EXAMPLES</h2>
+
+<pre><code>$ wti push
+Pushing ./config/locales/app/en.yml…
+Pushing ./config/locales/defaults/en.yml…
+
+
+$ wti pull -l fr
+Pulling ./config/locales/app/fr.yml…
+Pulling ./config/locales/defaults/fr.yml…
+
+
+$ wti stats
+fr: 100% translated, 90% completed 
+ru: 10% translated, 10% completed 
+pt_BR: 0% translated, 0% completed 
+en: 100% translated, 90% completed
+</code></pre>
+
+<h2>BUGS</h2>
+
+<p><a href="http://github.com/atelierConvivialite/webtranslateit/issues">http://github.com/atelierConvivialite/webtranslateit/issues</a></p>
+
+<h2>AUTHOR</h2>
+
+<p>Édouard Brière :: edouard@atelierconvivialite.com</p>
+
+
+<ol class='foot man'>
+  <li class='tl'>Atelier Convivialité</li>
+  <li class='tc'>March 2010</li>
+  <li class='tr'>wti(1)</li>
+</ol>
+
+</div>
+</body>
+</html>
