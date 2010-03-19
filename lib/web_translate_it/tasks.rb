@@ -1,3 +1,4 @@
+# encoding: utf-8
 require File.join(File.dirname(__FILE__), '..', 'web_translate_it')
 
 namespace :trans do  
@@ -24,6 +25,9 @@ namespace :trans do
       puts "Fetching all files for all locales…"
       locales.each do |locale|
         configuration.files.each do |file|
+          unless File.exist?(file.file_path_for_directory(locale))
+            Dir.mkdir(file.file_path_for_directory(locale))
+          end
           response_code = file.fetch(locale) 
           handle_response(file.file_path_for_locale(locale), response_code)
         end
