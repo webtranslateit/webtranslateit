@@ -1,3 +1,8 @@
+## Edge
+
+* Bug fix: Encoding problem with Ruby 1.9 (Romain Sempé)
+* Bug fix: Make rake task create locale directory if it doesn’t exist yet.
+
 ## Version 1.5.2 /2010-03-13
 
 * Only added a man page.
