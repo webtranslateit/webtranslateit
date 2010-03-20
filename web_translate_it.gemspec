@@ -22,4 +22,16 @@ Gem::Specification.new do |s|
   s.bindir             = 'bin'
   s.executables        = ["wti"]
   s.default_executable = "wti"
+  
+  s.post_install_message = <<-POST_INSTALL_MESSAGE
+  ************************************************************
+
+    Thank you for installing web_translate_it
+
+    If you are upgrading from 1.5.2 please be sure to read
+    history.md for useful information about this release.
+
+  ************************************************************
+  POST_INSTALL_MESSAGE
+  
 end
