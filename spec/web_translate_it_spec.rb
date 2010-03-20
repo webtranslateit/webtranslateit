@@ -9,7 +9,7 @@ describe WebTranslateIt do
   
   before(:each) do
     WebTranslateIt::I18n.stub(:locale => 'en')
-    WebTranslateIt::Configuration.const_set("RAILS_ROOT", File.dirname(__FILE__) + '/examples')
+    Rails = OpenStruct.new(:root => Pathname.new(File.dirname(__FILE__) + "/examples"))
     @configuration = WebTranslateIt::Configuration.new
     @file = mock(WebTranslateIt::TranslationFile)
     @file.stub(:fetch => true)

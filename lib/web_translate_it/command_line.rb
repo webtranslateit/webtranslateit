@@ -45,22 +45,21 @@ OPTION
         
     def self.pull
       configuration = fetch_configuration
-      locales = fetch_locales_to_pull(configuration)
-      configuration.files.each do |file|
-        locales.each do |locale|
-          puts "Pulling #{file.file_path_for_locale(locale)}…"
-          file.fetch(locale, ARGV.index('--force'))
+      fetch_locales_to_pull(configuration).each do |locale|
+        puts configuration.files.inspect
+        configuration.files.find_all{ |file| file.locale == locale }.each do |file|
+          puts "Pulling #{file.file_path}…"
+          file.fetch(ARGV.index('--force'))
         end
       end
     end
     
     def self.push
       configuration = fetch_configuration
-      locales = fetch_locales_to_push(configuration)
-      configuration.files.each do |file|
-        locales.each do |locale|
-          puts "Pushing #{file.file_path_for_locale(locale)}…"
-          file.upload(locale)
+      fetch_locales_to_push(configuration).each do |locale|
+        configuration.files.find_all{ |file| file.locale == locale }.each do |file|
+          puts "Pushing #{file.file_path}…"
+          file.upload
         end
       end
     end
@@ -77,11 +76,7 @@ OPTION
       path = STDIN.gets.strip
       path = "config/translation.yml" if path == ""
       FileUtils.mkpath(path.split('/')[0..path.split('/').size-1])
-      puts "Where are you language files located? (Default: `config/locales/`)"
-      path_to_locale_files = STDIN.gets.strip
-      path_to_locale_files = "config/locales/" if path_to_locale_files == ""
-      FileUtils.mkpath(path.split('/')[0..path.split('/').size-1])
-      File.open(path, 'w'){ |file| file << generate_configuration(api_key, path_to_locale_files) }
+      File.open(path, 'w'){ |file| file << generate_configuration(api_key) }
       puts "Done! You can now use `wti` to push and pull your language files."
       puts "Check `wti --help` for more information."
     end
@@ -147,20 +142,7 @@ api_key: #{api_key}
 # Pass an array of string, or an array of symbols, a string or a symbol.
 # eg. [:en, :fr] or just 'en'
 ignore_locales: '#{project["source_locale"]["code"]}'
-
-# A list of files to translate
-# You can name your language files as you want, as long as the locale name match the
-# locale name you set in Web Translate It, and that the different language files names are
-# differenciated by their locale name.
-# For example, if you set to translate a project in en_US in WTI, you should use the locale en_US in your app
-#
-files:
 FILE
-      project["project_files"].each do |project_file|
-        if project_file["master"]
-          file << "  #{project_file["id"]}: #{path_to_locale_files}" + project_file["name"].gsub(project["source_locale"]["code"], "[locale]") + "\n"
-        end
-      end
       return file
     end
   end

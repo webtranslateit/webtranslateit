@@ -6,6 +6,7 @@ require File.join(File.dirname(__FILE__), 'web_translate_it', 'command_line')
 require File.join(File.dirname(__FILE__), 'web_translate_it', 'project')
 
 module WebTranslateIt
+  
   def self.fetch_translations
     config = Configuration.new
     locale = I18n.locale.to_s

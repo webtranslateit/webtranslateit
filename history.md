@@ -1,7 +1,10 @@
 ## Edge
 
 * Bug fix: Encoding problem with Ruby 1.9 (Romain Sempé)
-* Bug fix: Make rake task create locale directory if it doesn’t exist yet.
+* Bug fix: Make rake task create locale directory if it doesn’t exist yet. (Romain Sempé)
+* Breaking update: Configuration file has changed and doesn’t include a list of master language files any longer.
+  This makes configuration much simpler. However you must configure the exact file path of your files in
+  the File Manager. This allows much more flexibility for the choice of your language file names. Ref #22.
 
 ## Version 1.5.2 /2010-03-13
 

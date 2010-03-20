@@ -7,9 +7,9 @@ namespace :trans do
     welcome_message
     puts "Fetching file for locale #{args.locale}…"
     configuration = WebTranslateIt::Configuration.new
-    configuration.files.each do |file|
-      response_code = file.fetch(args.locale)
-      handle_response(file.file_path_for_locale(args.locale), response_code)
+    configuration.files.find_all{ |file| file.locale == locale }.each do |file|
+      response_code = file.fetch
+      handle_response(file.file_path, response_code)
     end
   end
   
@@ -19,17 +19,13 @@ namespace :trans do
       welcome_message
       configuration = WebTranslateIt::Configuration.new
       locales = configuration.target_locales
-      configuration.ignore_locales.each do |ignore|
-        locales.delete(ignore)
-      end
+      configuration.ignore_locales.each{ |locale_to_ignore| locales.delete(locale_to_ignore) }
       puts "Fetching all files for all locales…"
       locales.each do |locale|
-        configuration.files.each do |file|
-          unless File.exist?(file.file_path_for_directory(locale))
-            Dir.mkdir(file.file_path_for_directory(locale))
-          end
+        configuration.files.find_all{ |file| file.locale == locale }.each do |file|
+          Dir.mkdir(file.file_path) unless File.exist?(file.file_path)
           response_code = file.fetch(locale) 
-          handle_response(file.file_path_for_locale(locale), response_code)
+          handle_response(file.file_path, response_code)
         end
       end
     end
@@ -40,9 +36,9 @@ namespace :trans do
     welcome_message
     puts "Uploading file for locale #{args.locale}…"
     configuration = WebTranslateIt::Configuration.new
-    configuration.files.each do |file|
+    configuration.files.find_all{ |file| file.locale == args.locale }.each do |file|
       response_code = file.upload(args.locale)
-      handle_response(file.file_path_for_locale(args.locale), response_code)
+      handle_response(file.file_path, response_code)
     end
   end
     

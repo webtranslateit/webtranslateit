@@ -1,15 +1,6 @@
 # The Project API Token from Web Translate It
-api_key: abcd
+api_key: 4af21ce1fb3a4f7127a60b31ebc41c1446b38bb2
 
 # The Master locale is the locale you translate your project from. Web Translate It shouldn’t 
 # attempt to edit these files.
 ignore_locales: en_GB
-
-# A list of files to translate
-# You can name your language files as you want, as long as the locale name match the
-# locale name you set in Web Translate It, and that the different language files names are
-# differenciated by their locale name.
-# For example, if you set to translate a project in en_US in WTI, you should use the locale en_US in your app
-files:
-  - config/locales/file1_[locale].yml
-  - config/locales/file2_[locale].yml

@@ -12,29 +12,37 @@ module WebTranslateIt
     attr_accessor :path, :api_key, :source_locale, :target_locales, :files, :ignore_locales, :logger
     
     # Load configuration file from the path.
-    def initialize(root_path=RAILS_ROOT, path_to_config="config/translation.yml")
+    def initialize(root_path = Rails.root, path_to_config = "config/translation.yml")
       self.path           = root_path
       configuration       = YAML.load_file(File.join(root_path, path_to_config))
       self.logger         = logger
       self.api_key        = configuration['api_key']
-      self.files          = []
-      self.ignore_locales = configuration['ignore_locales'].to_a.map{ |locale| locale.to_s }
-      configuration['files'].each do |file_id, file_path|
-        self.files.push(TranslationFile.new(file_id, root_path + '/' + file_path, api_key))
-      end
-      set_locales
+      self.ignore_locales = Array(configuration['ignore_locales']).map{ |locale| locale.to_s }
+      project_info = YAML.load WebTranslateIt::Project.fetch_info(api_key)
+      set_files(project_info['project'])
+      set_locales(project_info['project'])
     end
     
-    # Makes an API request to fetch the list of the different locales for a project.
+    # Set the project locales from the Project API.
     # Implementation example:
     #
     #   configuration = WebTranslateIt::Configuration.new
     #   locales = configuration.locales # returns an array of locales: ['en', 'fr', 'es', ...]
-    def set_locales
-      project_info = YAML.load WebTranslateIt::Project.fetch_info(api_key)
-      project = project_info['project']
+    def set_locales(project)
       self.source_locale  = project['source_locale']['code']
       self.target_locales = project['target_locales'].map{|locale| locale['code']}
+    end
+    
+    # Set the project files from the Project API.
+    # Implementation example:
+    #
+    #   configuration = WebTranslateIt::Configuration.new
+    #   files = configuration.files # returns an array of TranslationFile
+    def set_files(project)
+      self.files = []
+      project['project_files'].each do |project_file|
+        self.files.push TranslationFile.new(project_file['id'], project_file['name'], project_file['locale_code'], self.api_key)
+      end
     end
     
     # Convenience method which returns the endpoint for fetching a list of locales for a project.
