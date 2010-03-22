@@ -11,10 +11,9 @@ module WebTranslateIt
     config = Configuration.new
     locale = I18n.locale.to_s
     return if config.ignore_locales.include?(locale)
-    config.logger.debug { "Fetching #{locale} translations to Web Translate It" } if config.logger
-    config.files.each do |file|
-      response = file.fetch(locale)
-      config.logger { "Web Translate It response: #{response}" } if config.logger
+    config.logger.debug { "➔  Fetching #{locale.upcase} language file(s) from Web Translate It…" } if config.logger
+    config.files.find_all{ |file| file.locale == locale }.each do |file|
+      config.logger.debug { "➔  Web Translate It response: #{file.fetch}" } if config.logger
     end
   end
 end
