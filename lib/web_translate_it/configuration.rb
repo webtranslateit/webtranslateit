@@ -12,13 +12,13 @@ module WebTranslateIt
     attr_accessor :path, :api_key, :source_locale, :target_locales, :files, :ignore_locales, :logger
     
     # Load configuration file from the path.
-    def initialize(root_path = Rails.root, path_to_config = "config/translation.yml")
+    def initialize(root_path = Rails.root, path_to_config_file = "config/translation.yml")
       self.path           = root_path
-      configuration       = YAML.load_file(File.join(root_path, path_to_config))
       self.logger         = logger
+      configuration       = YAML.load_file(File.join(self.path, path_to_config_file))
       self.api_key        = configuration['api_key']
-      self.ignore_locales = Array(configuration['ignore_locales']).map{ |locale| locale.to_s }
-      project_info = YAML.load WebTranslateIt::Project.fetch_info(api_key)
+      project_info        = YAML.load WebTranslateIt::Project.fetch_info(api_key)
+      set_locales_to_ignore(path_to_config_file)
       set_files(project_info['project'])
       set_locales(project_info['project'])
     end
@@ -43,6 +43,11 @@ module WebTranslateIt
       project['project_files'].each do |project_file|
         self.files.push TranslationFile.new(project_file['id'], project_file['name'], project_file['locale_code'], self.api_key)
       end
+    end
+    
+    # Set locales to ignore from the configuration file, if set.
+    def set_locales_to_ignore(configuration)
+      self.ignore_locales = Array(configuration['ignore_locales']).map{ |locale| locale.to_s }
     end
     
     # Convenience method which returns the endpoint for fetching a list of locales for a project.
