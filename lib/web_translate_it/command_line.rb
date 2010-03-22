@@ -46,7 +46,6 @@ OPTION
     def self.pull
       configuration = fetch_configuration
       fetch_locales_to_pull(configuration).each do |locale|
-        puts configuration.files.inspect
         configuration.files.find_all{ |file| file.locale == locale }.each do |file|
           puts "Pulling #{file.file_path}…"
           file.fetch(ARGV.index('--force'))
@@ -76,7 +75,18 @@ OPTION
       path = STDIN.gets.strip
       path = "config/translation.yml" if path == ""
       FileUtils.mkpath(path.split('/')[0..path.split('/').size-1])
-      File.open(path, 'w'){ |file| file << generate_configuration(api_key) }
+      project = YAML.load WebTranslateIt::Project.fetch_info(api_key)
+      project_info = project['project']
+      File.open(path, 'w'){ |file| file << generate_configuration(api_key, project_info) }
+      project_info['project_files'].each do |file|
+        if !File.exists?(file['name'])
+          puts "Could not find file `#{file['name']}`."
+          puts "Please check the correct full path is specified in the File Manager"
+          puts "https://webtranslateit.com/projects/#{project_info['id']}/files"
+        else
+          puts "Found #{file['name']}."
+        end
+      end
       puts "Done! You can now use `wti` to push and pull your language files."
       puts "Check `wti --help` for more information."
     end
@@ -115,6 +125,7 @@ OPTION
     def self.fetch_locales_to_pull(configuration)
       if (index = ARGV.index('-l') || ARGV.index('--locale')).nil?
         locales = configuration.target_locales
+        configuration.ignore_locales.each{ |locale_to_delete| locales.delete(locale_to_delete) }
       else
         locales = [ARGV[index+1]]
       end
@@ -132,16 +143,14 @@ OPTION
       return locales.uniq
     end
     
-    def self.generate_configuration(api_key, path_to_locale_files)
-      project_info = YAML.load WebTranslateIt::Project.fetch_info(api_key)
-      project = project_info['project']
+    def self.generate_configuration(api_key, project_info)
       file = <<-FILE
 api_key: #{api_key}
 
 # The locales not to sync with Web Translate It.
-# Pass an array of string, or an array of symbols, a string or a symbol.
+# An array of string, or an array of symbols, a string or a symbol.
 # eg. [:en, :fr] or just 'en'
-ignore_locales: '#{project["source_locale"]["code"]}'
+ignore_locales: '#{project_info["source_locale"]["code"]}'
 FILE
       return file
     end
