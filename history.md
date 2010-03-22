@@ -1,10 +1,10 @@
-## Edge
+## Version 1.6.0 /2010-03-22
 
 * Bug fix: Encoding problem with Ruby 1.9 (Romain Sempé)
 * Bug fix: Make rake task create locale directory if it doesn’t exist yet. (Romain Sempé)
 * Bug fix: Make the list of ignore locales work for wti pull (it won’t pull the locales you ignore)
 
-* Breaking update: Configuration file has changed and doesn’t include a list of master language files any longer.
+* **Breaking update**: The project configuration changed and doesn’t include a list of master language files any longer.
   This makes configuration much simpler. However you must configure the exact file path of your files in
   the File Manager. This allows much more flexibility for the choice of your language file names. Ref #22.
 

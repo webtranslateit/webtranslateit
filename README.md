@@ -3,9 +3,10 @@
 [Homepage](https://webtranslateit.com) | 
 [RDocs](http://yardoc.org/docs/AtelierConvivialite-webtranslateit) | 
 [Metrics](http://getcaliper.com/caliper/project?repo=git%3A%2F%2Fgithub.com%2FAtelierConvivialite%2Fwebtranslateit.git) | 
+[Bugs](http://github.com/AtelierConvivialite/webtranslateit/issues) | 
 [Example app](http://github.com/AtelierConvivialite/rails_example_app)
 
-This is a gem providing tools to integrate your software to translate with [Web Translate It](https://webtranslateit.com), a web-based translation hub.
+This is a gem providing tools to sync your software’s language files with [Web Translate It](https://webtranslateit.com), a web-based computer-aided translation tool.
 
 ![Web Translate It](http://s3.amazonaws.com:80/edouard.baconfile.com/web_translate_it%2Fwti.png)
 
@@ -19,8 +20,8 @@ This gem provides your app with:
 
     gem install web_translate_it
     
-That’s it! At this point you have the Web Translate It executable.
-If your project if already set up on Web Translate It, run `wti autoconf` to generate the configuration file.
+At this point you should have the `wti` executable working.
+If your project if already set up on Web Translate It, open a terminal and type `wti autoconf` to generate the configuration file.
 
 Run `wti --help` to see the usage:
 
@@ -54,7 +55,7 @@ This gem includes some rake tasks and a rack middleware to integrate Web Transla
 
     `rake gems:install`
 
-* Copy/paste your api key from Web Translate It and run:
+* Copy/paste your API key from Web Translate It and run:
 
     `script/generate webtranslateit --api-key your_key_here`
     
@@ -93,12 +94,12 @@ Please open a discussion on [our support site](http://help.webtranslateit.com) i
 
 # Acknowledgement
 
-* The executable is very much inspired from the awesome [Gemcutter](http://gemcutter.org/) commands,
-* The Rails generator has been pinched from [Hoptoad Notifier](http://github.com/thoughtbot/hoptoad_notifier/).
+* The executable’s commands are very much inspired from [Gemcutter](http://gemcutter.org/),
+* The Rails generator was pinched from [Hoptoad Notifier](http://github.com/thoughtbot/hoptoad_notifier/).
 
 # What is Web Translate It anyway?
 
-Web Translate It is a web-based translation hub to collaboratively translate software.
+Web Translate It is a web-based translation tool to collaboratively translate software.
 
 To learn more about it, please visit our [tour page](https://webtranslateit.com/tour).
 
