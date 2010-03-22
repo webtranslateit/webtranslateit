@@ -147,10 +147,9 @@ OPTION
       file = <<-FILE
 api_key: #{api_key}
 
-# The locales not to sync with Web Translate It.
-# An array of string, or an array of symbols, a string or a symbol.
+# Optional: locales not to sync with Web Translate It.
 # eg. [:en, :fr] or just 'en'
-ignore_locales: '#{project_info["source_locale"]["code"]}'
+# ignore_locales: '#{project_info["source_locale"]["code"]}'
 FILE
       return file
     end
