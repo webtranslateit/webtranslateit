@@ -18,7 +18,6 @@ namespace :trans do
       WebTranslateIt::Util.welcome_message
       configuration = WebTranslateIt::Configuration.new
       locales = configuration.target_locales
-      puts configuration.ignore_locales.inspect
       configuration.ignore_locales.each{ |locale_to_ignore| locales.delete(locale_to_ignore) }
       puts "Fetching all files for all locales…"
       locales.each do |locale|
