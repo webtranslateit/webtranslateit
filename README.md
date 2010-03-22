@@ -3,8 +3,9 @@
 [Homepage](https://webtranslateit.com) | 
 [RDocs](http://yardoc.org/docs/AtelierConvivialite-webtranslateit) | 
 [Metrics](http://getcaliper.com/caliper/project?repo=git%3A%2F%2Fgithub.com%2FAtelierConvivialite%2Fwebtranslateit.git) | 
-[Bugs](http://github.com/AtelierConvivialite/webtranslateit/issues) | 
-[Example app](http://github.com/AtelierConvivialite/rails_example_app)
+[Example app](http://github.com/AtelierConvivialite/rails_example_app) | 
+[Report a bug](http://github.com/AtelierConvivialite/webtranslateit/issues) | 
+[Support](http://help.webtranslateit.com) | 
 
 This is a gem providing tools to sync your software’s language files with [Web Translate It](https://webtranslateit.com), a web-based computer-aided translation tool.
 
