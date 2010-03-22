@@ -37,8 +37,9 @@ module WebTranslateIt
         request = Net::HTTP::Get.new(api_url)
         request.add_field('If-Modified-Since', last_modification) if File.exist?(self.file_path) and !force
         response = http.request(request)
+        FileUtils.mkpath(self.file_path.split('/')[0..-2].join('/')) unless File.exist?(self.file_path)
         File.open(self.file_path, 'w'){ |file| file << response.body } if response.code.to_i == 200 and response.body != ''
-        response.code.to_i
+        Util.handle_response(response)
       end
     end
     
@@ -60,8 +61,7 @@ module WebTranslateIt
       File.open(self.file_path) do |file|
         WebTranslateIt::Util.http_connection do |http|
           request  = Net::HTTP::Put::Multipart.new(api_url, "file" => UploadIO.new(file, "text/plain", file.path))
-          response = http.request(request)
-          response.code.to_i
+          Util.handle_response(http.request(request))
         end
       end
     end

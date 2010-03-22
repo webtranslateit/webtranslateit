@@ -30,5 +30,23 @@ module WebTranslateIt
       return 0 if total == 0
       ((processed*10)/total).to_f.ceil*10
     end
+    
+    def self.welcome_message
+      puts "Web Translate It v#{WebTranslateIt::Util.version}"
+    end
+    
+    def self.handle_response(response, return_response = false)
+      if response.code.to_i >= 400 and response.code.to_i < 500
+        "We had a problem connecting to Web Translate It with this API key. Make sure it is correct."
+      elsif response.code.to_i >= 500
+        "Web Translate It is temporarily unavailable. Please try again shortly."
+      else
+        if return_response
+          response.body
+        else
+          "#{response.code.to_i} OK"
+        end
+      end
+    end
   end
 end

@@ -48,7 +48,7 @@ OPTION
       fetch_locales_to_pull(configuration).each do |locale|
         configuration.files.find_all{ |file| file.locale == locale }.each do |file|
           puts "Pulling #{file.file_path}…"
-          file.fetch(ARGV.index('--force'))
+          puts file.fetch(ARGV.index('--force'))
         end
       end
     end
@@ -58,7 +58,7 @@ OPTION
       fetch_locales_to_push(configuration).each do |locale|
         configuration.files.find_all{ |file| file.locale == locale }.each do |file|
           puts "Pushing #{file.file_path}…"
-          file.upload
+          puts file.upload
         end
       end
     end
@@ -87,6 +87,7 @@ OPTION
           puts "Found #{file['name']}."
         end
       end
+      puts ""
       puts "Done! You can now use `wti` to push and pull your language files."
       puts "Check `wti --help` for more information."
     end

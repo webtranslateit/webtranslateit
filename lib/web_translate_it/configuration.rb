@@ -18,7 +18,7 @@ module WebTranslateIt
       configuration       = YAML.load_file(File.join(self.path, path_to_config_file))
       self.api_key        = configuration['api_key']
       project_info        = YAML.load WebTranslateIt::Project.fetch_info(api_key)
-      set_locales_to_ignore(path_to_config_file)
+      set_locales_to_ignore(configuration)
       set_files(project_info['project'])
       set_locales(project_info['project'])
     end
