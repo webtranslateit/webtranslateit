@@ -5,7 +5,7 @@ class Locale
 
   def call(env)
     req = Rack::Request.new(env)
-    I18n.locale = req.params['locale']
+    I18n.locale = req.params['locale'] || :en
     status, headers, response = @app.call(env)
     [status, headers, response.body]
   end
