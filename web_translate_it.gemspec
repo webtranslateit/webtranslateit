@@ -28,8 +28,10 @@ Gem::Specification.new do |s|
 
     Thank you for installing web_translate_it
 
-    If you are upgrading from 1.5.2 please be sure to read
-    history.md for useful information about this release.
+    The version 1.6.0 you are upgrading to has some
+    important breaking changes. Please be sure to read
+    this blog post http://bit.ly/aEox3b
+    for useful information about this release.
 
   ************************************************************
   POST_INSTALL_MESSAGE
