@@ -140,7 +140,7 @@ OPTION
       else
         locales = [ARGV[index+1]]
       end
-      locales.push(configuration.target_locales) if ARGV.index('--all')
+      locales += configuration.target_locales if ARGV.index('--all')
       return locales.uniq
     end
     

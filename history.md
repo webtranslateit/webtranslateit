@@ -1,3 +1,7 @@
+## Edge
+
+* Bug fix: `wti push --all` was using an incorrect list of locales, thus not pushing all files.
+
 ## Version 1.6.0 /2010-03-22
 
 * Bug fix: Encoding problem with Ruby 1.9 (Romain Sempé)
