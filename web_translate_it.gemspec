@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = "web_translate_it" 
-  s.version     = "1.6.0"
+  s.version     = "1.6.1"
   s.summary     = "Sync your translations between your Rails app and Web Translate It"
   s.email       = "edouard@atelierconvivialite.com"
   s.homepage    = "https://webtranslateit.com"
@@ -28,10 +28,10 @@ Gem::Specification.new do |s|
 
     Thank you for installing web_translate_it
 
-    The version 1.6.0 you are upgrading to has some
-    important breaking changes. Please be sure to read
-    this blog post http://bit.ly/aEox3b
+    If you upgrade from a version <= 1.5.2
+    be sure to read this blog post: http://bit.ly/aEox3b
     for useful information about this release.
+    1.6.0 bring some important breaking changes.
 
   ************************************************************
   POST_INSTALL_MESSAGE
