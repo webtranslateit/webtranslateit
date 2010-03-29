@@ -1,3 +1,7 @@
+## Edge
+
+* Bug fix: ability to run `rake` tasks if Web Translate It is installed as a plugin.
+
 ## Version 1.6.1 /2010-03-26
 
 * Bug fix: `wti push --all` was using an incorrect list of locales, thus not pushing all files.

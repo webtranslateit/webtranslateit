@@ -1,5 +1,4 @@
 # encoding: utf-8
-require File.join(File.dirname(__FILE__), '..', 'web_translate_it')
 
 namespace :trans do  
   desc "Fetch translation files from Web Translate It"
