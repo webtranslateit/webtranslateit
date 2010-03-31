@@ -44,6 +44,10 @@ Run `wti --help` to see the usage:
     -v --version    Show version.
     -h --help       This page.
 
+You should also configure your language file paths in your project’s File Manager so the `web_translate_it` gems knows about your file structure, like so.
+
+![Web Translate It File Manager](http://s3.amazonaws.com:80/edouard.baconfile.com/web_translate_it%2Ffile_manager.png)
+
 ## Specific tools for Ruby on Rails
 
 This gem includes some rake tasks and a rack middleware to integrate Web Translate It with Ruby on Rails.
