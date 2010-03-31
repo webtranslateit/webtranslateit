@@ -1,6 +1,7 @@
 ## Edge
 
 * Bug fix: ability to run `rake` tasks if Web Translate It is installed as a plugin.
+* Fix tests and 1 encoding bug for Ruby 1.9
 
 ## Version 1.6.1 /2010-03-26
 

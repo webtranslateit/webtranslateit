@@ -3,7 +3,7 @@ require File.join(File.dirname(__FILE__), '..', 'spec_helper')
 describe WebTranslateIt::Configuration do
   describe "#initialize" do
     it "should fetch and not blow up" do
-      Rails = OpenStruct.new(:root => Pathname.new(File.dirname(__FILE__) + "/../examples"))
+      WebTranslateIt::Configuration::Rails = OpenStruct.new(:root => Pathname.new(File.dirname(__FILE__) + "/../examples"))
       lambda{ WebTranslateIt::Configuration.new }.should_not raise_error
     end
         
@@ -17,7 +17,7 @@ describe WebTranslateIt::Configuration do
     end
     
     it "should assign the API key, files" do
-      Rails = OpenStruct.new(:root => Pathname.new(File.dirname(__FILE__) + "/../examples"))
+      WebTranslateIt::Configuration::Rails = OpenStruct.new(:root => Pathname.new(File.dirname(__FILE__) + "/../examples"))
       configuration = WebTranslateIt::Configuration.new
       configuration.api_key.should == '4af21ce1fb3a4f7127a60b31ebc41c1446b38bb2'
       configuration.files.first.should be_a(WebTranslateIt::TranslationFile)
@@ -26,7 +26,7 @@ describe WebTranslateIt::Configuration do
   
   describe "#set_locales_to_ignore" do
     before(:each) do
-      Rails = OpenStruct.new(:root => Pathname.new(File.dirname(__FILE__) + "/../examples"))
+      WebTranslateIt::Configuration::Rails = OpenStruct.new(:root => Pathname.new(File.dirname(__FILE__) + "/../examples"))
       @configuration = WebTranslateIt::Configuration.new
     end
       

@@ -1,3 +1,4 @@
+# encoding: utf-8
 require File.join(File.dirname(__FILE__), 'web_translate_it', 'util')
 require File.join(File.dirname(__FILE__), 'web_translate_it', 'configuration')
 require File.join(File.dirname(__FILE__), 'web_translate_it', 'translation_file')
