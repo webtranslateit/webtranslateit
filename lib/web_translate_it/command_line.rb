@@ -78,18 +78,26 @@ OPTION
       project = YAML.load WebTranslateIt::Project.fetch_info(api_key)
       project_info = project['project']
       File.open(path, 'w'){ |file| file << generate_configuration(api_key, project_info) }
+      error = false
       project_info['project_files'].each do |file|
-        if !File.exists?(file['name'])
+        if file['name'].blank?
+          puts "Project File #{file['id']} doesn’t seem to be set up."
+          error = true
+        elsif !File.exists?(file['name'])
           puts "Could not find file `#{file['name']}`."
-          puts "Please check the correct full path is specified in the File Manager"
-          puts "https://webtranslateit.com/projects/#{project_info['id']}/files"
+          error = true
         else
           puts "Found #{file['name']}."
         end
       end
-      puts ""
-      puts "Done! You can now use `wti` to push and pull your language files."
-      puts "Check `wti --help` for more information."
+      if error
+        puts "Please check the correct full path is specified in the File Manager"
+        puts "https://webtranslateit.com/projects/#{project_info['id']}/files"
+      else
+        puts ""
+        puts "Done! You can now use `wti` to push and pull your language files."
+        puts "Check `wti --help` for more information."
+      end
     end
     
     def self.stats

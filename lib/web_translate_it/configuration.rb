@@ -41,7 +41,11 @@ module WebTranslateIt
     def set_files(project)
       self.files = []
       project['project_files'].each do |project_file|
-        self.files.push TranslationFile.new(project_file['id'], project_file['name'], project_file['locale_code'], self.api_key)
+        if project_file['name'].blank?
+          puts "File #{project_file['id']} not set up"
+        else
+          self.files.push TranslationFile.new(project_file['id'], project_file['name'], project_file['locale_code'], self.api_key)
+        end
       end
     end
     
