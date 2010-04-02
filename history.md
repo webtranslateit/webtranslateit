@@ -1,3 +1,7 @@
+## Version 1.6.4 /2010-04-02
+
+* Bug fix: Rake tasks not working
+
 ## Version 1.6.3 /2010-04-02
 
 * Bug fix: Don’t rely on active_support only for .blank? Fix issue #23

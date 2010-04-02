@@ -1,5 +1,6 @@
 # encoding: utf-8
 require 'rake'
+require 'web_translate_it'
 namespace :trans do  
   desc "Fetch translation files from Web Translate It"
   task :fetch, :locale do |task, args|

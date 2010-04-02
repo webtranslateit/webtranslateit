@@ -15,7 +15,7 @@ class WebtranslateitGenerator < Rails::Generator::Base
         project_details = YAML.load WebTranslateIt::Project.fetch_info(options[:api_key])
         m.template 'translation.yml', 'config/translation.yml',
           :assigns => { :api_key => options[:api_key], :project => project_details["project"] }
-        m.append_to 'Rakefile', "require 'web_translate_it/tasks' rescue LoadError"
+        m.append_to 'Rakefile', "require 'web_translate_it' rescue LoadError"
       end
     end
   end
