@@ -1,3 +1,7 @@
+## Version 1.6.3 /2010-04-02
+
+* Bug fix: Don’t rely on active_support only for .blank? Fix issue #23
+
 ## Version 1.6.2 /2010-04-01
 
 * Bug fix: ability to run `rake` tasks if Web Translate It is installed as a plugin.

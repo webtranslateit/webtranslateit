@@ -80,7 +80,7 @@ OPTION
       File.open(path, 'w'){ |file| file << generate_configuration(api_key, project_info) }
       error = false
       project_info['project_files'].each do |file|
-        if file['name'].blank?
+        if file['name'].nil? or file['name'].strip == ''
           puts "Project File #{file['id']} doesn’t seem to be set up."
           error = true
         elsif !File.exists?(file['name'])
