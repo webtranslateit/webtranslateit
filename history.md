@@ -1,6 +1,7 @@
 ## Edge
 
-* Enhancement: Remove new line on push/pull result. It now displays `Pulling config/locales/app/fr.yml… 200 OK`
+* Enhancement: Remove new line on push/pull result. It now displays `Pulling config/locales/app/fr.yml… 200 OK`.
+* Enhancement: `wti stats` now propose to refresh the stats if the stats displayed are stale.
 
 ## Version 1.6.4 /2010-04-02
 

@@ -70,6 +70,7 @@ module WebTranslateIt
         when /^[Nn].*/
           false
         when /^$/
+        when nil
           default
         else
           nil

@@ -98,10 +98,15 @@ OPTION
     def self.stats
       configuration = fetch_configuration
       stats = YAML.load(Project.fetch_stats(configuration.api_key))
+      stale = false
       stats.each do |locale, values|
         percent_translated = Util.calculate_percentage(values['count_strings_to_proofread'] + values['count_strings_done'] + values['count_strings_to_verify'], values['count_strings'])
         percent_completed  = Util.calculate_percentage(values['count_strings_done'], values['count_strings'])
         puts "#{locale}: #{percent_translated}% translated, #{percent_completed}% completed #{values['stale'] ? "Stale" : ""}"
+        stale = true if values['stale']
+      end
+      if stale
+        CommandLine.stats if Util.ask_yes_no("Some statistics displayed above are stale. Would you like to refresh?", true)
       end
     end
     
