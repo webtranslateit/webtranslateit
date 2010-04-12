@@ -39,13 +39,11 @@ module WebTranslateIt
       if response.code.to_i >= 400 and response.code.to_i < 500
         "We had a problem connecting to Web Translate It with this API key. Make sure it is correct."
       elsif response.code.to_i >= 500
-        "Web Translate It is temporarily unavailable. Please try again shortly."
+        "Web Translate It is temporarily unavailable and has been notified of this issue. Please try again shortly."
       else
-        if return_response
-          response.body
-        else
-          "#{response.code.to_i} OK"
-        end
+        return response.body if return_response
+        return "200 OK" if response.code.to_i == 200
+        return "304 Not Modified" if response.code.to_i == 304
       end
     end
   end

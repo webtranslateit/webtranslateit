@@ -44,20 +44,22 @@ OPTION
     end
         
     def self.pull
+      STDOUT.sync = true
       configuration = fetch_configuration
       fetch_locales_to_pull(configuration).each do |locale|
         configuration.files.find_all{ |file| file.locale == locale }.each do |file|
-          puts "Pulling #{file.file_path}…"
+          print "Pulling #{file.file_path}… "
           puts file.fetch(ARGV.index('--force'))
         end
       end
     end
     
     def self.push
+      STDOUT.sync = true
       configuration = fetch_configuration
       fetch_locales_to_push(configuration).each do |locale|
         configuration.files.find_all{ |file| file.locale == locale }.each do |file|
-          puts "Pushing #{file.file_path}…"
+          print "Pushing #{file.file_path}… "
           puts file.upload
         end
       end
