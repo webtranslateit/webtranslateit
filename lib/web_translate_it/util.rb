@@ -46,5 +46,75 @@ module WebTranslateIt
         return "304 Not Modified" if response.code.to_i == 304
       end
     end
+    
+    ##
+    # Ask a question. Returns a true for yes, false for no, default for nil.
+    
+    def self.ask_yes_no(question, default=nil)
+      qstr = case default
+             when nil
+               'yn'
+             when true
+               'Yn'
+             else
+               'yN'
+             end
+
+      result = nil
+
+      while result.nil?
+        result = ask("#{question} [#{qstr}]")
+        result = case result
+        when /^[Yy].*/
+          true
+        when /^[Nn].*/
+          false
+        when /^$/
+          default
+        else
+          nil
+        end
+      end
+
+      return result
+    end
+    
+    ##
+    # Ask a question. Returns an answer.
+
+    def self.ask(question, default=nil)
+      question = question + " (Default: #{default})" unless default.nil?
+      print(question + "  ")
+      STDOUT.flush
+
+      result = STDIN.gets
+      result.chomp! if result
+      result = default if result.nil? or result == ''
+      result
+    end
+    
+    ##
+    # Choose from a list of options.  +question+ is a prompt displayed above
+    # the list.  +list+ is a list of option strings.  Returns the pair
+    # [option_name, option_index].
+
+    def self.choose_from_list(question, list)
+      STDOUT.puts question
+
+      list.each_with_index do |item, index|
+        STDOUT.puts " #{index+1}. #{item}"
+      end
+
+      STDOUT.print "> "
+      STDOUT.flush
+
+      result = STDIN.gets
+
+      return nil, nil unless result
+
+      result = result.strip.to_i - 1
+      return list[result], result
+    end
+    
   end
 end

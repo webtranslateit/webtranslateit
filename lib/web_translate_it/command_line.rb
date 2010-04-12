@@ -67,15 +67,8 @@ OPTION
     
     def self.autoconf
       puts "We will attempt to configure your project automagically"
-      puts "Please enter your project API Key:"
-      api_key = STDIN.gets.strip
-      if api_key == ""
-        puts "You must enter your project API key provided by Web Translate It"
-        exit
-      end
-      puts "Where should we create the configuration file? (Default: `config/translation.yml`)"
-      path = STDIN.gets.strip
-      path = "config/translation.yml" if path == ""
+      api_key = Util.ask("Please enter your project API Key")
+      path = Util.ask("Where should we create the configuration file?", 'config/translation.yml')
       FileUtils.mkpath(path.split('/')[0..path.split('/').size-1])
       project = YAML.load WebTranslateIt::Project.fetch_info(api_key)
       project_info = project['project']
