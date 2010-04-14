@@ -15,7 +15,6 @@ describe WebTranslateIt do
     @file.stub(:fetch => true, :locale => true)
     @configuration.stub(:files => [@file])
     WebTranslateIt::Configuration.stub(:new => @configuration)
-    
   end
   
   describe "WebTranslateIt.fetch_translations" do
