@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.test_files  = Dir["spec/**/*"]  
   
   s.add_dependency("multipart-post", ["~> 1.0"])
-  s.add_development_dependency("rspec", [">= 1.2.0"])
+  s.add_development_dependency("rspec", [">= 1.2.9"])
   
   s.has_rdoc         = true
   s.rdoc_options     = ["--main", "README.md"]
