@@ -57,11 +57,15 @@ module WebTranslateIt
     # actually takes place.
     # This is due to the fact that language file imports are handled by background processing.
     def upload
-      File.open(self.file_path) do |file|
-        WebTranslateIt::Util.http_connection do |http|
-          request  = Net::HTTP::Put::Multipart.new(api_url, "file" => UploadIO.new(file, "text/plain", file.path))
-          Util.handle_response(http.request(request))
+      if File.exists?(self.file_path)
+        File.open(self.file_path) do |file|
+          WebTranslateIt::Util.http_connection do |http|
+            request  = Net::HTTP::Put::Multipart.new(api_url, "file" => UploadIO.new(file, "text/plain", file.path))
+            Util.handle_response(http.request(request))
+          end
         end
+      else
+        puts "\nFile #{self.file_path} doesn't exist!"
       end
     end
             
