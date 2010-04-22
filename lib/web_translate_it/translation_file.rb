@@ -56,11 +56,11 @@ module WebTranslateIt
     # been completed. The request might or might not eventually be acted upon, as it might be disallowed when processing
     # actually takes place.
     # This is due to the fact that language file imports are handled by background processing.
-    def upload
+    def upload(merge=false, ignore_missing=false)
       if File.exists?(self.file_path)
         File.open(self.file_path) do |file|
           WebTranslateIt::Util.http_connection do |http|
-            request  = Net::HTTP::Put::Multipart.new(api_url, "file" => UploadIO.new(file, "text/plain", file.path))
+            request  = Net::HTTP::Put::Multipart.new(api_url, {"file" => UploadIO.new(file, "text/plain", file.path), "merge" => merge, "ignore_missing" => ignore_missing})
             Util.handle_response(http.request(request))
           end
         end

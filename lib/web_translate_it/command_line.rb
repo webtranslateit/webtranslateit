@@ -4,23 +4,26 @@ module WebTranslateIt
     require 'fileutils'
     
     OPTIONS = <<-OPTION
-pull            Pull target language file(s) from Web Translate It.
-push            Push master language file(s) to Web Translate It.
-autoconf        Configure your project to sync with Web Translate It.
-stats           Fetch and display your project statistics.
+pull             Pull target language file(s) from Web Translate It.
+push             Push master language file(s) to Web Translate It.
+autoconf         Configure your project to sync with Web Translate It.
+stats            Fetch and display your project statistics.
 
 OPTIONAL PARAMETERS:
 --------------------
--l --locale     The ISO code of a specific locale to pull or push.
--c --config     Path to a translation.yml file. If this option
-                is absent, looks for config/translation.yml.
---all           Respectively download or upload all files.
---force         Force wti pull to re-download the language file,
-                regardless if local version is current.
+-l --locale      The ISO code of a specific locale to pull or push.
+-c --config      Path to a translation.yml file. If this option
+                 is absent, looks for config/translation.yml.
+--all            Respectively download or upload all files.
+--force          Force wti pull to re-download the language file,
+                 regardless if local version is current.
+--merge          Force WTI to perform a merge of this file with its database.
+--ignore_missing Force WTI to not obsolete missing strings.
+
 OTHER:
 ------
--v --version    Show version.
--h --help       This page.
+-v --version     Show version.
+-h --help        This page.
 OPTION
     
     def self.run
@@ -58,9 +61,11 @@ OPTION
       STDOUT.sync = true
       configuration = fetch_configuration
       fetch_locales_to_push(configuration).each do |locale|
+      merge = !(ARGV.index('--merge')).nil?
+      ignore_missing = !(ARGV.index('--ignore_missing')).nil?
         configuration.files.find_all{ |file| file.locale == locale }.each do |file|
           print "Pushing #{file.file_path}… "
-          puts file.upload
+          puts file.upload(merge, ignore_missing)
         end
       end
     end

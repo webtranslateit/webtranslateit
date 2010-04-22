@@ -1,3 +1,8 @@
+## Edge
+
+* New: `--merge` option to force WTI to perform a merge of this file with its database.
+* New: `--ignore_missing` option to force WTI to not obsolete missing strings.
+
 ## Version 1.6.5 /2010-04-19
 
 * Enhancement: Remove new line on push/pull result. It now displays `Pulling config/locales/app/fr.yml… 200 OK`.
