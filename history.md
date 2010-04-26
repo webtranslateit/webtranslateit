@@ -1,4 +1,4 @@
-## Edge
+## Version 1.6.6 /2010-04-26
 
 * New: `--merge` option to force WTI to perform a merge of this file with its database.
 * New: `--ignore_missing` option to force WTI to not obsolete missing strings.
