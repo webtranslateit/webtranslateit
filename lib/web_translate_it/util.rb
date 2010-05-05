@@ -43,6 +43,8 @@ module WebTranslateIt
       else
         return response.body if return_response
         return "200 OK" if response.code.to_i == 200
+        return "201 Created" if response.code.to_i == 201
+        return "202 Accepted" if response.code.to_i == 202
         return "304 Not Modified" if response.code.to_i == 304
       end
     end

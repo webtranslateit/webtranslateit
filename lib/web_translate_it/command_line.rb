@@ -6,6 +6,7 @@ module WebTranslateIt
     OPTIONS = <<-OPTION
 pull             Pull target language file(s) from Web Translate It.
 push             Push master language file(s) to Web Translate It.
+add              Create a new master language file to Web Translate It.
 autoconf         Configure your project to sync with Web Translate It.
 stats            Fetch and display your project statistics.
 
@@ -32,6 +33,8 @@ OPTION
         pull
       when 'push'
         push
+      when 'add'
+        add
       when 'autoconf'
         autoconf
       when 'stats'
@@ -61,13 +64,22 @@ OPTION
       STDOUT.sync = true
       configuration = fetch_configuration
       fetch_locales_to_push(configuration).each do |locale|
-      merge = !(ARGV.index('--merge')).nil?
-      ignore_missing = !(ARGV.index('--ignore_missing')).nil?
+        merge = !(ARGV.index('--merge')).nil?
+        ignore_missing = !(ARGV.index('--ignore_missing')).nil?
         configuration.files.find_all{ |file| file.locale == locale }.each do |file|
           print "Pushing #{file.file_path}… "
           puts file.upload(merge, ignore_missing)
         end
       end
+    end
+    
+    def self.add
+      STDOUT.sync = true
+      configuration = fetch_configuration
+      file_path = fetch_file_to_add(configuration)
+      file = TranslationFile.new(nil, file_path, nil, configuration.api_key)
+      print "Creating #{file.file_path}… "
+      puts file.create
     end
     
     def self.autoconf
@@ -145,6 +157,12 @@ OPTION
       end
       locales.push(configuration.source_locale) if ARGV.index('--all')
       return locales.uniq
+    end
+    
+    def self.fetch_file_to_add(configuration)
+      index = ARGV.index('add')
+      file_path = ARGV[index+1].strip
+      return file_path
     end
     
     def self.fetch_locales_to_push(configuration)

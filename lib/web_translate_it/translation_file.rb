@@ -43,7 +43,6 @@ module WebTranslateIt
     end
     
     # Update a language file to Web Translate It by performing a PUT Request.
-    # Note that it is currently not possible to POST a new language file at the moment.
     #
     # Example of implementation:
     #
@@ -52,15 +51,37 @@ module WebTranslateIt
     #   file = configuration.files.first
     #   file.upload # should respond the HTTP code 202 Accepted
     #
-    # The meaning of the HTTP 202 code is: the request has been accepted for processing, but the processing has not
-    # been completed. The request might or might not eventually be acted upon, as it might be disallowed when processing
-    # actually takes place.
-    # This is due to the fact that language file imports are handled by background processing.
+    # Note that the request might or might not eventually be acted upon, as it might be disallowed when processing
+    # actually takes place. This is due to the fact that language file imports are handled by background processing.
     def upload(merge=false, ignore_missing=false)
       if File.exists?(self.file_path)
         File.open(self.file_path) do |file|
           WebTranslateIt::Util.http_connection do |http|
             request  = Net::HTTP::Put::Multipart.new(api_url, {"file" => UploadIO.new(file, "text/plain", file.path), "merge" => merge, "ignore_missing" => ignore_missing})
+            Util.handle_response(http.request(request))
+          end
+        end
+      else
+        puts "\nFile #{self.file_path} doesn't exist!"
+      end
+    end
+    
+    # Create a language file to Web Translate It by performing a POST Request.
+    #
+    # Example of implementation:
+    #
+    #   configuration = WebTranslateIt::Configuration.new
+    #   file = TranslationFile.new(nil, file_path, nil, configuration.api_key)
+    #   file.create # should respond the HTTP code 201 Created
+    #
+    # Note that the request might or might not eventually be acted upon, as it might be disallowed when processing
+    # actually takes place. This is due to the fact that language file imports are handled by background processing.
+    #
+    def create
+      if File.exists?(self.file_path)
+        File.open(self.file_path) do |file|
+          WebTranslateIt::Util.http_connection do |http|
+            request  = Net::HTTP::Post::Multipart.new(api_url_for_create, { "name" => self.file_path, "file" => UploadIO.new(file, "text/plain", file.path) })
             Util.handle_response(http.request(request))
           end
         end
@@ -79,6 +100,10 @@ module WebTranslateIt
       # Convenience method which returns the URL of the API endpoint for a locale.
       def api_url
         "/api/projects/#{self.api_key}/files/#{self.id}/locales/#{self.locale}"
+      end
+      
+      def api_url_for_create
+        "/api/projects/#{self.api_key}/files"
       end
   end
 end
