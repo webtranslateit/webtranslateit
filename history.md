@@ -1,4 +1,4 @@
-## Edge
+## Version 1.6.7 /2010-05-05
 
 * New: `wti add file_path` to create a new master language file on Web Translate It.
   This is only for master language files. Target language files are created server-side,
