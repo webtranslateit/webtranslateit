@@ -2,7 +2,6 @@
 
 [Homepage](https://webtranslateit.com) | 
 [RDocs](http://yardoc.org/docs/AtelierConvivialite-webtranslateit) | 
-[Metrics](http://getcaliper.com/caliper/project?repo=git%3A%2F%2Fgithub.com%2FAtelierConvivialite%2Fwebtranslateit.git) | 
 [Example app](http://github.com/AtelierConvivialite/rails_example_app) | 
 [Report a bug](http://github.com/AtelierConvivialite/webtranslateit/issues) | 
 [Support](http://help.webtranslateit.com)
