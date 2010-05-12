@@ -23,7 +23,7 @@ module WebTranslateIt
         return if value.nil?
         print_value = value == true ? "Yes" : "No"
         value == expected ? "<em>#{print_value}</em>" : "<em class=\"information\">#{print_value}</em>"
-      end      
+      end
     end
     
     get '/' do
@@ -31,10 +31,12 @@ module WebTranslateIt
     end
     
     post '/pull' do
+      `#{config.before_pull}` if config.before_pull
       WebTranslateIt::CommandLine.pull
+      `#{config.after_pull}` if config.after_pull
       redirect "/"
     end
-
+        
     def initialize(*args)
       super
       @config = WebTranslateIt::Configuration.new('.')
