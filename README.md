@@ -105,6 +105,13 @@ By default, it starts an application on localhost on the port 4000. You will fin
 
 Should you need to use another host or port, you can use the -h and -p options. For example: `wti server -p 1234`.
 
+You may want to run some commands before or after synching translations. To do so, add in the `translation.yml` file the following:
+
+    before_pull: "echo 'some unix command'"
+    after_pull:  "touch public/restart.txt"
+    
+`before_pull` and `after_pull` will respectively be executed before and after pulling your language files.
+
 ## Rake tasks
 
 This gem includes some rake tasks and a rack middleware you could use to integrate Web Translate It with Ruby on Rails. The rake tasks are significantly slower than the executable, since it has to load the whole rails stack.
