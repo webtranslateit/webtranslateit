@@ -1,3 +1,8 @@
+## Edge
+
+* New: `wti server` launch a sinatra app allowing to sync files from a web interface.
+  Pinched from Tom Lea’s awesome rack-webtranslate-it, but made less specific.
+
 ## Version 1.6.7 /2010-05-05
 
 * New: `wti add file_path` to create a new master language file on Web Translate It.

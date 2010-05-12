@@ -9,6 +9,7 @@ push             Push master language file(s) to Web Translate It.
 add              Create a new master language file to Web Translate It.
 autoconf         Configure your project to sync with Web Translate It.
 stats            Fetch and display your project statistics.
+server           Launch web-based synchronisation console.
 
 OPTIONAL PARAMETERS:
 --------------------
@@ -39,6 +40,8 @@ OPTION
         autoconf
       when 'stats'
         stats
+      when 'server'
+        server
       when '-v', '--version'
         show_version
       when '-h', '--help'
@@ -125,6 +128,12 @@ OPTION
       if stale
         CommandLine.stats if Util.ask_yes_no("Some statistics displayed above are stale. Would you like to refresh?", true)
       end
+    end
+    
+    def self.server
+      configuration = fetch_configuration
+      # WebTranslateIt::Server.new(configuration)
+      WebTranslateIt::Server.start('0.0.0.0', '4000')
     end
     
     def self.show_options

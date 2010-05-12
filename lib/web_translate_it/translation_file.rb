@@ -89,7 +89,22 @@ module WebTranslateIt
         puts "\nFile #{self.file_path} doesn't exist!"
       end
     end
-            
+    
+    def committed?
+      Dir.chdir(File.dirname(file_path)) do
+        system "git status | grep 'modified:   #{File.basename(file_path)}' > /dev/null"
+      end
+      ! $?.success?
+    end
+    
+    def exists?
+      File.exists?(file_path)
+    end
+    
+    def modified_remotely?
+      fetch == "200 OK"
+    end
+         
     protected
       
       # Convenience method which returns the date of last modification of a language file.

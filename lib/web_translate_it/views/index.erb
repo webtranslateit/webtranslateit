@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href="<%= wti_root %>/screen.css" media="screen" rel="stylesheet" type="text/css" />
+    <link rel="shortcut icon" href="<%= wti_root %>/favicon.ico" type="image/x-icon" />
+    <title>WTI Synchronisation Console</title>
+  </head>
+  <body>
+    <div class="site">
+      <div class="title">
+        <a href="<%= wti_root %>/">WTI Synchronisation Console</a>
+        <span class="extra">because knowing is half the battle</span>
+      </div>
+
+      <div id="home">
+        <h1>Language File Status</h1>
+          <table>
+            <thead>
+              <tr>
+                <th>File Name</th>
+                <th>Locale</th>
+                <th>Exists</th>
+                <th>Committed</th>
+                <th>New Version Available</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% config.files.each do |file| %>
+                <tr>
+                  <td><%= file.file_path %></td>
+                  <td><%= file.locale.upcase %></td>
+                  <td><%= highlight(file.exists?, true) %></td>
+                  <td><%= highlight(file.committed?, true) %></td>
+                  <td><%= highlight(file.modified_remotely?, false) %></td>
+                </tr>
+              <% end %>
+          </tbody>
+        </table>
+        
+        <form method="post" action="<%= wti_root %>/pull">
+          <input type="submit" value="Get new translations" />
+        </form>        
+      </div>
+
+      <div class="footer">
+        <div class="contact">
+          <p>
+            <a href="http://docs.webtranslateit.com">Documentation</a><br/>
+            <a href="http://github.com/AtelierConvivialite/web_translate_it">Source</a><br/>
+            <a href="http://github.com/AtelierConvivialite/web_translate_it/issues">Issues</a><br/>
+            <a href="http://twitter.com/webtranslateit">Twitter</a>
+          </p>
+        </div>
+        <div class="contact">
+          <p>
+            <code>wti</code> v.<%= WebTranslateIt::Util.version %><br/>
+            Built with <a href="http://sinatrarb.com/">Sinatra</a>
+          </p>
+        </div>        
+      </div>
+    </div>
+  </body>
+</html>
