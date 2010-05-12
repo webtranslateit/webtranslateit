@@ -41,8 +41,6 @@ module WebTranslateIt
     end
 
     def self.start(host, port)
-      # set :project_path, project_path
-      # set :config, WebTranslateIt::Configuration.new('.')
       WebTranslateIt::Server.run! :host => host, :port => port
     end
     

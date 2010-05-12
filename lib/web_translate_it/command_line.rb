@@ -16,6 +16,8 @@ OPTIONAL PARAMETERS:
 -l --locale      The ISO code of a specific locale to pull or push.
 -c --config      Path to a translation.yml file. If this option
                  is absent, looks for config/translation.yml.
+-h --host        Set server host when using `wti server` (default 0.0.0.0).
+-p --port        Set server port when using `wti server` (default 4000).
 --all            Respectively download or upload all files.
 --force          Force wti pull to re-download the language file,
                  regardless if local version is current.
@@ -131,9 +133,8 @@ OPTION
     end
     
     def self.server
-      configuration = fetch_configuration
-      # WebTranslateIt::Server.new(configuration)
-      WebTranslateIt::Server.start('0.0.0.0', '4000')
+      host_port = fetch_server_host_and_port
+      WebTranslateIt::Server.start(host_port[0], host_port[1])
     end
     
     def self.show_options
@@ -155,6 +156,20 @@ OPTION
         configuration = WebTranslateIt::Configuration.new('.', ARGV[index+1])
       end
       return configuration
+    end
+    
+    def self.fetch_server_host_and_port
+      if (index = ARGV.index('-h') || ARGV.index('--host')).nil?
+        host = "0.0.0.0"
+      else
+        host = ARGV[index+1]
+      end
+      if (index = ARGV.index('-p') || ARGV.index('--port')).nil?
+        port = "4000"
+      else
+        port = ARGV[index+1]
+      end
+      return [host,port]
     end
     
     def self.fetch_locales_to_pull(configuration)
