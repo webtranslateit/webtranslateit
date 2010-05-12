@@ -2,32 +2,8 @@
 module WebTranslateIt
   class CommandLine
     require 'fileutils'
-    
-    OPTIONS = <<-OPTION
-pull             Pull target language file(s) from Web Translate It.
-push             Push master language file(s) to Web Translate It.
-add              Create a new master language file to Web Translate It.
-autoconf         Configure your project to sync with Web Translate It.
-stats            Fetch and display your project statistics.
-
-OPTIONAL PARAMETERS:
---------------------
--l --locale      The ISO code of a specific locale to pull or push.
--c --config      Path to a translation.yml file. If this option
-                 is absent, looks for config/translation.yml.
---all            Respectively download or upload all files.
---force          Force wti pull to re-download the language file,
-                 regardless if local version is current.
---merge          Force WTI to perform a merge of this file with its database.
---ignore_missing Force WTI to not obsolete missing strings.
-
-OTHER:
-------
--v --version     Show version.
--h --help        This page.
-OPTION
-    
-    def self.run
+        
+    def self.run(options, path)
       case ARGV[0]
       when 'pull'
         pull
@@ -39,10 +15,6 @@ OPTION
         autoconf
       when 'stats'
         stats
-      when '-v', '--version'
-        show_version
-      when '-h', '--help'
-        show_options
       else
         puts "Command not found"
         show_options
@@ -73,10 +45,10 @@ OPTION
       end
     end
     
-    def self.add
+    def self.add(file_path)
       STDOUT.sync = true
       configuration = fetch_configuration
-      file_path = fetch_file_to_add(configuration)
+      # file_path = fetch_file_to_add(configuration)
       file = TranslationFile.new(nil, file_path, nil, configuration.api_key)
       print "Creating #{file.file_path}… "
       puts file.create
