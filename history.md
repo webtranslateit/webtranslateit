@@ -2,6 +2,7 @@
 
 * New: `wti server` launch a sinatra app allowing to sync files from a web interface.
   Pinched from Tom Lea’s awesome rack-webtranslate-it, but made less specific.
+* Bug fix: `wti autoconf` now create directories correctly if they don’t already exist. #27
 
 ## Version 1.6.7 /2010-05-05
 

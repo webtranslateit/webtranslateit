@@ -91,7 +91,7 @@ OPTION
       puts "We will attempt to configure your project automagically"
       api_key = Util.ask("Please enter your project API Key")
       path = Util.ask("Where should we create the configuration file?", 'config/translation.yml')
-      FileUtils.mkpath(path.split('/')[0..path.split('/').size-1])
+      FileUtils.mkpath(path.split('/')[0..path.split('/').size-2].join('/'))
       project = YAML.load WebTranslateIt::Project.fetch_info(api_key)
       project_info = project['project']
       File.open(path, 'w'){ |file| file << generate_configuration(api_key, project_info) }
