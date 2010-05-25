@@ -32,13 +32,19 @@ module WebTranslateIt
     #   file.fetch(true) # force to re-download the file, will return the content of the file with a 200 OK
     #
     def fetch(force = false)
-      WebTranslateIt::Util.http_connection do |http|
-        request = Net::HTTP::Get.new(api_url)
-        request.add_field('If-Modified-Since', last_modification) if File.exist?(self.file_path) and !force
-        response = http.request(request)
-        FileUtils.mkpath(self.file_path.split('/')[0..-2].join('/')) unless File.exist?(self.file_path)
-        File.open(self.file_path, 'w'){ |file| file << response.body } if response.code.to_i == 200 and response.body != ''
-        Util.handle_response(response)
+      begin
+        WebTranslateIt::Util.http_connection do |http|
+          request = Net::HTTP::Get.new(api_url)
+          request.add_field('If-Modified-Since', last_modification) if File.exist?(self.file_path) and !force
+          response = http.request(request)
+          FileUtils.mkpath(self.file_path.split('/')[0..-2].join('/')) unless File.exist?(self.file_path)
+          File.open(self.file_path, 'w'){ |file| file << response.body } if response.code.to_i == 200 and response.body != ''
+          Util.handle_response(response)
+        end
+      rescue Timeout::Error
+        puts "The request timed out. The service may be overloaded. We will retry in 5 seconds."
+        sleep(5)
+        fetch(force)
       end
     end
     
@@ -56,9 +62,15 @@ module WebTranslateIt
     def upload(merge=false, ignore_missing=false)
       if File.exists?(self.file_path)
         File.open(self.file_path) do |file|
-          WebTranslateIt::Util.http_connection do |http|
-            request  = Net::HTTP::Put::Multipart.new(api_url, {"file" => UploadIO.new(file, "text/plain", file.path), "merge" => merge, "ignore_missing" => ignore_missing})
-            Util.handle_response(http.request(request))
+          begin
+            WebTranslateIt::Util.http_connection do |http|
+              request  = Net::HTTP::Put::Multipart.new(api_url, {"file" => UploadIO.new(file, "text/plain", file.path), "merge" => merge, "ignore_missing" => ignore_missing})
+              Util.handle_response(http.request(request))
+            end
+          rescue Timeout::Error
+            puts "The request timed out. The service may be overloaded. We will retry in 5 seconds."
+            sleep(5)
+            upload(merge, ignore_missing)
           end
         end
       else
@@ -80,9 +92,15 @@ module WebTranslateIt
     def create
       if File.exists?(self.file_path)
         File.open(self.file_path) do |file|
-          WebTranslateIt::Util.http_connection do |http|
-            request  = Net::HTTP::Post::Multipart.new(api_url_for_create, { "name" => self.file_path, "file" => UploadIO.new(file, "text/plain", file.path) })
-            Util.handle_response(http.request(request))
+          begin
+            WebTranslateIt::Util.http_connection do |http|
+              request  = Net::HTTP::Post::Multipart.new(api_url_for_create, { "name" => self.file_path, "file" => UploadIO.new(file, "text/plain", file.path) })
+              Util.handle_response(http.request(request))
+            end
+          rescue Timeout::Error
+            puts "The request timed out. The service may be overloaded. We will retry in 5 seconds."
+            sleep(5)
+            create
           end
         end
       else

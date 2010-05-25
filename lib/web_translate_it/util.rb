@@ -22,7 +22,7 @@ module WebTranslateIt
       http = Net::HTTP.new('webtranslateit.com', 443)
       http.use_ssl      = true
       http.verify_mode  = OpenSSL::SSL::VERIFY_NONE
-      http.read_timeout = 40
+      http.read_timeout = 20
       yield http
     end
     

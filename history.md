@@ -1,5 +1,9 @@
 ## Edge
 
+* Handle server timeouts more graceful, and retry request. Set timeout down to 20 secs.
+
+## Version 1.7.0 /2010-05-12
+
 * New: `wti server` launch a sinatra app allowing to sync files from a web interface.
   Pinched from Tom Lea’s awesome rack-webtranslate-it, but made less specific.
 * Bug fix: `wti autoconf` now create directories correctly if they don’t already exist. #27
