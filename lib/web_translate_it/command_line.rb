@@ -88,7 +88,7 @@ module WebTranslateIt
     end
     
     def server
-      WebTranslateIt::Server.start(options.port, options.host)
+      WebTranslateIt::Server.start(options.host, options.port)
     end
         
     def fetch_locales_to_pull
