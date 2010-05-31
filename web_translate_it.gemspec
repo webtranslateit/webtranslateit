@@ -1,6 +1,8 @@
+require File.expand_path('../lib/web_translate_it/util', __FILE__)
+
 Gem::Specification.new do |s|
   s.name        = "web_translate_it" 
-  s.version     = "1.7.0"
+  s.version     = WebTranslateIt::Util.version
   s.summary     = "Sync your translations between your app and Web Translate It"
   s.email       = "edouard@atelierconvivialite.com"
   s.homepage    = "https://webtranslateit.com"
