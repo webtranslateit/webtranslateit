@@ -1,4 +1,120 @@
 #!/usr/bin/env ruby
 
+require 'choice'
 require 'web_translate_it'
-WebTranslateIt::CommandLine.run
+
+Choice.options do
+
+  option :pull do
+    long 'pull'
+    desc "Pull target language file(s)."
+  end
+
+  option :push do
+    long 'push'
+    desc "Push master language file(s)."
+  end
+
+  option :add do
+    long 'add'
+    desc "Create and push a new master language file."
+  end
+  
+  option :server do
+    long 'server'
+    desc "Start a synchronisation server"
+  end
+
+  option :stats do
+    long 'stats'
+    desc "Fetch and display project statistics."
+  end
+
+  option :autoconf do
+    long 'autoconf'
+    desc "Configure your project to sync."
+  end
+
+  separator ''
+  separator 'Synchronization options: '
+  
+  option :locale do
+    short '-l'
+    long  '--locale'
+    desc  "ISO code of a locale to pull or push."
+  end
+  
+  option :config do
+    short '-c'
+    long  '--config'
+    desc  "Path to a translation.yml file."
+    desc  "(default: config/translation.yml)."
+    default "config/translation.yml"
+  end
+  
+  option :all do
+    long  '--all'
+    desc  "Download or upload all files."
+  end
+  
+  option :force do
+    long  '--force'
+    desc  "Force wti pull to download files."
+  end
+  
+  option :merge do
+    long  '--merge'
+    desc  "Force WTI to merge this file."
+  end
+  
+  option :ignore_missing do
+    long  '--ignore_missing'
+    desc  "Force WTI to not obsolete missing strings."
+  end
+  
+  separator ''
+  separator 'Server options: '
+  
+  option :port do
+    short '-p'
+    long  '--port'
+    desc  "Run server on a specific port"
+    desc  "(default: 4000)."
+    cast  Integer
+    default '4000'
+  end
+  
+  option :host do
+    short '-h'
+    long  '--host'
+    desc  "Run server on a specific host"
+    desc  "(default: localhost)."
+    default '0.0.0.0'
+  end
+  
+  separator ''
+  separator 'Other options: '
+  
+  option :help do
+    short '-h'
+    long  '--help'
+    desc  'Show this message'
+  end
+
+  option :version do
+    short '-v'
+    long '--version'
+    desc 'Show version'
+    action do
+      puts ""
+      puts "Web Translate It #{WebTranslateIt::Util.version}"
+      exit
+    end
+  end
+end
+
+options = Choice.choices
+$project_path = File.expand_path(".")
+$command = Choice.rest[0]
+Choice.help if $command.nil?
+WebTranslateIt::CommandLine.new($command, options, $project_path)

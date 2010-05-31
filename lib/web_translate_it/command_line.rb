@@ -2,62 +2,21 @@
 module WebTranslateIt
   class CommandLine
     require 'fileutils'
-    
-    OPTIONS = <<-OPTION
-pull             Pull target language file(s) from Web Translate It.
-push             Push master language file(s) to Web Translate It.
-add              Create a new master language file to Web Translate It.
-autoconf         Configure your project to sync with Web Translate It.
-stats            Fetch and display your project statistics.
-server           Launch web-based synchronisation console.
-
-OPTIONAL PARAMETERS:
---------------------
--l --locale      The ISO code of a specific locale to pull or push.
--c --config      Path to a translation.yml file. If this option
-                 is absent, looks for config/translation.yml.
--h --host        Set server host when using `wti server` (default 0.0.0.0).
--p --port        Set server port when using `wti server` (default 4000).
---all            Respectively download or upload all files.
---force          Force wti pull to re-download the language file,
-                 regardless if local version is current.
---merge          Force WTI to perform a merge of this file with its database.
---ignore_missing Force WTI to not obsolete missing strings.
-
-OTHER:
-------
--v --version     Show version.
--h --help        This page.
-OPTION
-    
-    def self.run
-      case ARGV[0]
-      when 'pull'
-        pull
-      when 'push'
-        push
-      when 'add'
-        add
-      when 'autoconf'
+    attr_accessor :configuration, :options
+        
+    def initialize(command, options, path)
+      self.options = options
+      if command == 'autoconf'
         autoconf
-      when 'stats'
-        stats
-      when 'server'
-        server
-      when '-v', '--version'
-        show_version
-      when '-h', '--help'
-        show_options
-      else
-        puts "Command not found"
-        show_options
+        exit
       end
+      self.configuration = WebTranslateIt::Configuration.new(path, options.config)
+      self.send(command)
     end
         
-    def self.pull
+    def pull
       STDOUT.sync = true
-      configuration = fetch_configuration
-      fetch_locales_to_pull(configuration).each do |locale|
+      fetch_locales_to_pull.each do |locale|
         configuration.files.find_all{ |file| file.locale == locale }.each do |file|
           print "Pulling #{file.file_path}… "
           puts file.fetch(ARGV.index('--force'))
@@ -65,9 +24,8 @@ OPTION
       end
     end
     
-    def self.push
+    def push
       STDOUT.sync = true
-      configuration = fetch_configuration
       fetch_locales_to_push(configuration).each do |locale|
         merge = !(ARGV.index('--merge')).nil?
         ignore_missing = !(ARGV.index('--ignore_missing')).nil?
@@ -78,16 +36,14 @@ OPTION
       end
     end
     
-    def self.add
+    def add(file_path)
       STDOUT.sync = true
-      configuration = fetch_configuration
-      file_path = fetch_file_to_add(configuration)
-      file = TranslationFile.new(nil, file_path, nil, configuration.api_key)
+      file = TranslationFile.new(nil, options.add, nil, configuration.api_key)
       print "Creating #{file.file_path}… "
       puts file.create
     end
     
-    def self.autoconf
+    def autoconf
       puts "We will attempt to configure your project automagically"
       api_key = Util.ask("Please enter your project API Key")
       path = Util.ask("Where should we create the configuration file?", 'config/translation.yml')
@@ -117,8 +73,7 @@ OPTION
       end
     end
     
-    def self.stats
-      configuration = fetch_configuration
+    def stats
       stats = YAML.load(Project.fetch_stats(configuration.api_key))
       stale = false
       stats.each do |locale, values|
@@ -128,78 +83,36 @@ OPTION
         stale = true if values['stale']
       end
       if stale
-        CommandLine.stats if Util.ask_yes_no("Some statistics displayed above are stale. Would you like to refresh?", true)
+        self.stats if Util.ask_yes_no("Some statistics displayed above are stale. Would you like to refresh?", true)
       end
     end
     
-    def self.server
-      host_port = fetch_server_host_and_port
-      WebTranslateIt::Server.start(host_port[0], host_port[1])
+    def server
+      WebTranslateIt::Server.start(options.host, options.port)
     end
-    
-    def self.show_options
-      puts ""
-      puts "Web Translate It Help:"
-      puts "**********************"
-      $stdout.puts OPTIONS
-    end
-    
-    def self.show_version
-      puts ""
-      puts "Web Translate It #{WebTranslateIt::Util.version}"
-    end
-    
-    def self.fetch_configuration
-      if (index = ARGV.index('-c') || ARGV.index('--config')).nil?
-        configuration = WebTranslateIt::Configuration.new('.')
+        
+    def fetch_locales_to_pull
+      if options.locale
+        locales = [options.locale]
       else
-        configuration = WebTranslateIt::Configuration.new('.', ARGV[index+1])
-      end
-      return configuration
-    end
-    
-    def self.fetch_server_host_and_port
-      if (index = ARGV.index('-h') || ARGV.index('--host')).nil?
-        host = "0.0.0.0"
-      else
-        host = ARGV[index+1]
-      end
-      if (index = ARGV.index('-p') || ARGV.index('--port')).nil?
-        port = "4000"
-      else
-        port = ARGV[index+1]
-      end
-      return [host,port]
-    end
-    
-    def self.fetch_locales_to_pull(configuration)
-      if (index = ARGV.index('-l') || ARGV.index('--locale')).nil?
         locales = configuration.target_locales
         configuration.ignore_locales.each{ |locale_to_delete| locales.delete(locale_to_delete) }
-      else
-        locales = [ARGV[index+1]]
       end
-      locales.push(configuration.source_locale) if ARGV.index('--all')
+      locales.push(configuration.source_locale) if options.all
       return locales.uniq
     end
-    
-    def self.fetch_file_to_add(configuration)
-      index = ARGV.index('add')
-      file_path = ARGV[index+1].strip
-      return file_path
-    end
-    
-    def self.fetch_locales_to_push(configuration)
-      if (index = ARGV.index('-l') || ARGV.index('--locale')).nil?
+        
+    def fetch_locales_to_push(configuration)
+      if options.locale
+        locales = [options.locale]
+      else
         locales = [configuration.source_locale]
-      else
-        locales = [ARGV[index+1]]
       end
-      locales += configuration.target_locales if ARGV.index('--all')
+      locales += configuration.target_locales if options.all
       return locales.uniq
     end
     
-    def self.generate_configuration(api_key, project_info)
+    def generate_configuration(api_key, project_info)
       file = <<-FILE
 api_key: #{api_key}
 

@@ -32,7 +32,7 @@ module WebTranslateIt
     
     post '/pull' do
       `#{config.before_pull}` if config.before_pull
-      WebTranslateIt::CommandLine.pull
+      `wti pull`
       `#{config.after_pull}` if config.after_pull
       redirect "/"
     end
