@@ -1,6 +1,7 @@
 ## Edge
 
 * Handle server timeouts more graceful, and retry request. Set timeout down to 20 secs.
+* New: display warning if file is not writable
 
 ## Version 1.7.0 /2010-05-12
 

@@ -9,6 +9,7 @@ module WebTranslateIt
     require 'net/https'
     require 'net/http/post/multipart'
     require 'time'
+    require 'ftools'
     
     attr_accessor :id, :file_path, :locale, :api_key
     
@@ -38,8 +39,12 @@ module WebTranslateIt
           request.add_field('If-Modified-Since', last_modification) if File.exist?(self.file_path) and !force
           response = http.request(request)
           FileUtils.mkpath(self.file_path.split('/')[0..-2].join('/')) unless File.exist?(self.file_path)
-          File.open(self.file_path, 'w'){ |file| file << response.body } if response.code.to_i == 200 and response.body != ''
-          Util.handle_response(response)
+          if File.writable?(self.file_path)
+            File.open(self.file_path, 'w'){ |file| file << response.body } if response.code.to_i == 200 and response.body != ''
+            Util.handle_response(response)
+          else
+            "\n/!\\ Error: File not writable"
+          end
         end
       rescue Timeout::Error
         puts "The request timed out. The service may be overloaded. We will retry in 5 seconds."
