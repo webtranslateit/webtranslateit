@@ -83,7 +83,7 @@ module WebTranslateIt
         stale = true if values['stale']
       end
       if stale
-        CommandLine.stats if Util.ask_yes_no("Some statistics displayed above are stale. Would you like to refresh?", true)
+        self.stats if Util.ask_yes_no("Some statistics displayed above are stale. Would you like to refresh?", true)
       end
     end
     
