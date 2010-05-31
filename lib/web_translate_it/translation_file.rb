@@ -38,12 +38,12 @@ module WebTranslateIt
           request = Net::HTTP::Get.new(api_url)
           request.add_field('If-Modified-Since', last_modification) if File.exist?(self.file_path) and !force
           response = http.request(request)
-          FileUtils.mkpath(self.file_path.split('/')[0..-2].join('/')) unless File.exist?(self.file_path)
-          if File.writable?(self.file_path)
-            File.open(self.file_path, 'w'){ |file| file << response.body } if response.code.to_i == 200 and response.body != ''
+          FileUtils.mkpath(self.file_path.split('/')[0..-2].join('/')) unless File.exist?(self.file_path) or self.file_path.split('/')[0..-2].join('/') == ""
+          begin
+            File.open(self.file_path, 'wb'){ |file| file << response.body } if response.code.to_i == 200 and response.body != ''
             Util.handle_response(response)
-          else
-            "\n/!\\ Error: File not writable"
+          rescue
+            "\n/!\\ An error occured: #{$!}"
           end
         end
       rescue Timeout::Error
