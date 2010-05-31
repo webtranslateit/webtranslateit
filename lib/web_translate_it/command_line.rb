@@ -6,7 +6,6 @@ module WebTranslateIt
         
     def initialize(command, options, path)
       self.options = options
-      puts options.inspect
       if command == 'autoconf'
         autoconf
         exit
