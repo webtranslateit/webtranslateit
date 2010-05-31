@@ -9,7 +9,7 @@ module WebTranslateIt
   class Configuration
     require 'yaml'
     require 'fileutils'
-    attr_accessor :path, :api_key, :source_locale, :target_locales, :files, :ignore_locales, :logger
+    attr_accessor :path, :api_key, :source_locale, :target_locales, :files, :ignore_locales, :logger, :before_pull, :after_pull
     
     # Load configuration file from the path.
     def initialize(root_path = Rails.root, path_to_config_file = "config/translation.yml")
@@ -17,6 +17,8 @@ module WebTranslateIt
       self.logger         = logger
       configuration       = YAML.load_file(File.join(self.path, path_to_config_file))
       self.api_key        = configuration['api_key']
+      self.before_pull    = configuration['before_pull']
+      self.after_pull     = configuration['after_pull']
       project_info        = YAML.load WebTranslateIt::Project.fetch_info(api_key)
       set_locales_to_ignore(configuration)
       set_files(project_info['project'])
@@ -58,7 +60,7 @@ module WebTranslateIt
     def api_url
       "/api/projects/#{api_key}.yaml"
     end
-    
+        
     # Returns a logger. If RAILS_DEFAULT_LOGGER is defined, use it, else, define a new logger.
     def logger
       if defined?(Rails.logger)

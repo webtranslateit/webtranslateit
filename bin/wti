@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 
-require 'web_translate_it'
 require 'choice'
 
 Choice.options do

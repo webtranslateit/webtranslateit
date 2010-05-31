@@ -1,3 +1,14 @@
+## Version 1.7.0.1 / 2010-05-31
+
+* Handle server timeouts more gracefully, and retry request. Set timeout down to 20 secs.
+* New: display warning if file is not writable
+
+## Version 1.7.0 /2010-05-12
+
+* New: `wti server` launch a sinatra app allowing to sync files from a web interface.
+  Pinched from Tom Lea’s awesome rack-webtranslate-it, but made less specific.
+* Bug fix: `wti autoconf` now create directories correctly if they don’t already exist. #27
+
 ## Version 1.6.7 /2010-05-05
 
 * New: `wti add file_path` to create a new master language file on Web Translate It.

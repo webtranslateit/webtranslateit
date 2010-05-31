@@ -3,10 +3,10 @@ module WebTranslateIt
   class Util
     
     # Return a string representing the gem version
-    # For example "1.4.4"
+    # For example "1.4.4.1"
     def self.version
       hash = YAML.load_file File.join(File.dirname(__FILE__), '..', '..' '/version.yml')
-      [hash[:major], hash[:minor], hash[:patch]].join('.')
+      [hash[:major], hash[:minor], hash[:tiny], hash[:patch]].join('.')
     end
     
     # Yields a HTTP connection over SSL to Web Translate It.
@@ -22,7 +22,7 @@ module WebTranslateIt
       http = Net::HTTP.new('webtranslateit.com', 443)
       http.use_ssl      = true
       http.verify_mode  = OpenSSL::SSL::VERIFY_NONE
-      http.read_timeout = 40
+      http.read_timeout = 20
       yield http
     end
     

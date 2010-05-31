@@ -15,6 +15,12 @@ module WebTranslateIt
         autoconf
       when 'stats'
         stats
+      when 'server'
+        server
+      when '-v', '--version'
+        show_version
+      when '-h', '--help'
+        show_options
       else
         puts "Command not found"
         show_options
@@ -58,7 +64,7 @@ module WebTranslateIt
       puts "We will attempt to configure your project automagically"
       api_key = Util.ask("Please enter your project API Key")
       path = Util.ask("Where should we create the configuration file?", 'config/translation.yml')
-      FileUtils.mkpath(path.split('/')[0..path.split('/').size-1])
+      FileUtils.mkpath(path.split('/')[0..path.split('/').size-2].join('/'))
       project = YAML.load WebTranslateIt::Project.fetch_info(api_key)
       project_info = project['project']
       File.open(path, 'w'){ |file| file << generate_configuration(api_key, project_info) }
@@ -99,6 +105,11 @@ module WebTranslateIt
       end
     end
     
+    def self.server
+      host_port = fetch_server_host_and_port
+      WebTranslateIt::Server.start(host_port[0], host_port[1])
+    end
+    
     def self.show_options
       puts ""
       puts "Web Translate It Help:"
@@ -118,6 +129,20 @@ module WebTranslateIt
         configuration = WebTranslateIt::Configuration.new('.', ARGV[index+1])
       end
       return configuration
+    end
+    
+    def self.fetch_server_host_and_port
+      if (index = ARGV.index('-h') || ARGV.index('--host')).nil?
+        host = "0.0.0.0"
+      else
+        host = ARGV[index+1]
+      end
+      if (index = ARGV.index('-p') || ARGV.index('--port')).nil?
+        port = "4000"
+      else
+        port = ARGV[index+1]
+      end
+      return [host,port]
     end
     
     def self.fetch_locales_to_pull(configuration)
