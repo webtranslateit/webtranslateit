@@ -1,7 +1,11 @@
+## Version 1.7.0.2 / 2010-05-31
+
+* Fix bug with file permissions.
+
 ## Version 1.7.0.1 / 2010-05-31
 
 * Handle server timeouts more gracefully, and retry request. Set timeout down to 20 secs.
-* New: display warning if file is not writable
+* New: display warning if file is not writable.
 
 ## Version 1.7.0 /2010-05-12
 
