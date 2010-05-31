@@ -96,8 +96,9 @@ Choice.options do
   separator 'Other options: '
   
   option :help do
-    long '--help'
-    desc 'Show this message'
+    short '-h'
+    long  '--help'
+    desc  'Show this message'
   end
 
   option :version do
