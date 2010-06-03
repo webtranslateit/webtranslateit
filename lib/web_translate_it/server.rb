@@ -45,6 +45,5 @@ module WebTranslateIt
     def self.start(host, port)
       WebTranslateIt::Server.run! :host => host, :port => port
     end
-    
   end
 end

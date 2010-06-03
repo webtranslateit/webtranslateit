@@ -7,15 +7,15 @@
 [Support](http://help.webtranslateit.com)
 [Documentation](http://docs.webtranslateit.com/web_translate_it_client/)
 
-This is a gem providing tools to sync your software’s language files with [Web Translate It](https://webtranslateit.com), a web-based computer-aided translation tool.
+`web_translate_it` is a rubygem providing tools to sync your language files with [Web Translate It](https://webtranslateit.com), a web-based computer-aided translation tool.
 
 ![Web Translate It](http://s3.amazonaws.com:80/edouard.baconfile.com/web_translate_it%2Fwti.png)
 
-This gem provides your app with:
+This gem provides 4 tools:
 
-* an executable, `wti`, that will help you to upload and download language files from the command line (or in whatever else you want to execute it),
-* a handful of rake task to fetch and upload your translations,
-* a Sinatra app to help you download your translations from a web-based interface,
+* an executable, `wti`, that will help you to upload and download language files from the command line,
+* a synchronisation server to help your translation team update your language files from a web-based interface,
+* a handful of rake task you can use with your Ruby on Rails application,
 * a rack middleware to automatically fetch new translations from Web Translate It.
 
 ## Installation
@@ -25,33 +25,44 @@ This gem provides your app with:
 At this point you should have the `wti` executable working.
 If your project if already set up on Web Translate It, open a terminal and type `wti autoconf` to generate the configuration file.
 
-Run `wti --help` to see the usage:
+Execute `wti --help` to see the usage:
 
-    pull            Pull target language file(s) from Web Translate It.
-    push            Push master language file(s) to Web Translate It.
-    autoconf        Configure your project to sync with Web Translate It.
-    stats           Fetch and display your project statistics.
+    Usage: wti [-lcphv]
+            pull                         Pull target language file(s).
+            push                         Push master language file(s).
+            add                          Create and push a new master language file.
+            server                       Start a synchronisation server
+            stats                        Fetch and display project statistics.
+            autoconf                     Configure your project to sync.
 
-    OPTIONAL PARAMETERS:
-    --------------------
-    -l --locale     The ISO code of a specific locale to pull or push.
-    -c --config     Path to a translation.yml file. If this option
-                    is absent, looks for config/translation.yml.
-    --all           Respectively download or upload all files.
-    --force         Force wti pull to re-download the language file,
-                    regardless if local version is current.
-    OTHER:
-    ------
-    -v --version    Show version.
-    -h --help       This page.
+    Synchronization options: 
+        -l, --locale                     ISO code of a locale to pull or push.
+        -c, --config                     Path to a translation.yml file.
+                                         (default: config/translation.yml).
+            --all                        Download or upload all files.
+            --force                      Force wti pull to download files.
+            --merge                      Force WTI to merge this file.
+            --ignore_missing             Force WTI to not obsolete missing strings.
 
-## Generalities
+    Server options: 
+        -p, --port                       Run server on a specific port
+                                         (default: 4000).
+        -h, --host                       Run server on a specific host
+                                         (default: localhost).
 
-The first time, you’ll have to configure your project:
+    Other options: 
+            --help                       Show this message
+        -v, --version                    Show version
+
+## Configuration
+
+Now that the tool is installed, you’ll have to configure your project:
 
     wti autoconf
-    
+
 It will ask for your Web Translate It API key, and where to save its configuration file. Letting it put in `config/translations.yml` makes everything easier.
+
+## Usage
 
 ### Uploading your first language file
 
@@ -69,7 +80,7 @@ That’s it! Web Translate It will automatically create the corresponding target
 
     wti push -l fr
    
-where fr should be replaced by the locale code of your file.
+where `fr` should be replaced by the locale code of your file.
 
 ### Download target language files
 
@@ -167,7 +178,7 @@ Please open a discussion on [our support site](http://help.webtranslateit.com) i
 
 # What is Web Translate It anyway?
 
-Web Translate It is a web-based translation tool to collaboratively translate software.
+[Web Translate It](https://webtranslateit.com) is a web-based computer-aided translation tool to collaboratively translate software.
 
 To learn more about it, please visit our [tour page](https://webtranslateit.com/tour).
 
