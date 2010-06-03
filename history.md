@@ -1,3 +1,9 @@
+## Edge
+
+* New: ability to add several master files at once
+  `wti add file1 file2 file3 …`
+  `wti add *.yml`.
+
 ## Version 1.7.0.2 / 2010-05-31
 
 * Fix bug with file permissions.

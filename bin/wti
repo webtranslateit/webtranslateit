@@ -71,7 +71,7 @@ Choice.options do
     long  '--ignore_missing'
     desc  "Force WTI to not obsolete missing strings."
   end
-  
+    
   separator ''
   separator 'Server options: '
   
@@ -116,5 +116,6 @@ end
 options = Choice.choices
 $project_path = File.expand_path(".")
 $command = Choice.rest[0]
+$parameters = Choice.rest[1..-1]
 Choice.help if $command.nil?
-WebTranslateIt::CommandLine.new($command, options, $project_path)
+WebTranslateIt::CommandLine.new($command, options, $project_path, $parameters)

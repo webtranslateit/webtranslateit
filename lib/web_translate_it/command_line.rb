@@ -2,10 +2,11 @@
 module WebTranslateIt
   class CommandLine
     require 'fileutils'
-    attr_accessor :configuration, :options
+    attr_accessor :configuration, :options, :parameters
         
-    def initialize(command, options, path)
+    def initialize(command, options, path, parameters)
       self.options = options
+      self.parameters = parameters
       if command == 'autoconf'
         autoconf
         exit
@@ -36,11 +37,18 @@ module WebTranslateIt
       end
     end
     
-    def add(file_path)
+    def add
       STDOUT.sync = true
-      file = TranslationFile.new(nil, options.add, nil, configuration.api_key)
-      print "Creating #{file.file_path}… "
-      puts file.create
+      if parameters.nil?
+        puts "Usage: wti add file1 file2"
+        exit
+      end
+      parameters.each do |param|
+        file = TranslationFile.new(nil, param, nil, configuration.api_key)
+        print "Creating #{file.file_path}… "
+        puts file.create
+      end
+      puts "Master file added! Use `wti push` to send your existing translations."
     end
     
     def autoconf
