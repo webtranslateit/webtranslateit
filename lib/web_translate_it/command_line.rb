@@ -119,6 +119,11 @@ api_key: #{api_key}
 # Optional: locales not to sync with Web Translate It.
 # eg. [:en, :fr] or just 'en'
 # ignore_locales: '#{project_info["source_locale"]["code"]}'
+
+# Optional, only used by wti server
+# before_pull: "echo 'some unix command'"   # Command executed before pulling files
+# after_pull:  "touch tmp/restart.txt"      # Command executed after pulling files
+
 FILE
       return file
     end

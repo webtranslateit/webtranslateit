@@ -108,7 +108,7 @@ Should you need to use another host or port, you can use the -h and -p options. 
 You may want to run some commands before or after synching translations. To do so, add in the `translation.yml` file the following:
 
     before_pull: "echo 'some unix command'"
-    after_pull:  "touch public/restart.txt"
+    after_pull:  "touch tmp/restart.txt"
     
 `before_pull` and `after_pull` will respectively be executed before and after pulling your language files.
 
