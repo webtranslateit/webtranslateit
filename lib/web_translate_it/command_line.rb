@@ -48,7 +48,7 @@ module WebTranslateIt
         print "Creating #{file.file_path}… "
         puts file.create
       end
-      puts "Master file added! Use `wti push` to send your existing translations."
+      puts "Master file added! Use `wti push --all` to send your existing translations."
     end
     
     def autoconf

@@ -70,7 +70,15 @@ If you have no file on Web Translate It yet, you need to send us your master lan
 
     wti add path/to/master/file.po
 
-That’s it! Web Translate It will automatically create the corresponding target files.
+You can also add several files at once:
+
+    wti add file1.po file2.po file3.xml
+
+Or
+
+    wti add *.po
+
+After receiving your master language files, Web Translate It will automatically create the corresponding, empty target files. If you have already some translations for these files, use `wti push --all` to synchronise them to Web Translate It.
 
 ### Updating a master language file
 
@@ -81,6 +89,10 @@ That’s it! Web Translate It will automatically create the corresponding target
     wti push -l fr
    
 where `fr` should be replaced by the locale code of your file.
+
+### Updating all language files
+
+    wti push --all
 
 ### Download target language files
 
