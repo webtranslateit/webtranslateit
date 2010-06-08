@@ -1,4 +1,4 @@
-## Edge
+## Version 1.7.0.3 / 2010-06-08
 
 * New: ability to add several master files at once
   `wti add file1 file2 file3 …`
