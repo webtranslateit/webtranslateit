@@ -79,7 +79,7 @@ module WebTranslateIt
           end
         end
       else
-        puts "\nFile #{self.file_path} doesn't exist!"
+        puts "\nFile #{self.file_path} doesn't exist."
       end
     end
     
