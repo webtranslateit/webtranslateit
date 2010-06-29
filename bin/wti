@@ -71,7 +71,12 @@ Choice.options do
     long  '--ignore_missing'
     desc  "Force WTI to not obsolete missing strings."
   end
-    
+  
+  option :label do
+    long  '--label'
+    desc  "Apply a label to the changes."
+  end
+  
   separator ''
   separator 'Server options: '
   

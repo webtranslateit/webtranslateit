@@ -1,3 +1,8 @@
+## Edge
+
+* New: Added support for labels. Only works for `wti push` for now.
+  `wti push --label release_week_4` will tag new and changed strings as `release_week_4`.
+
 ## Version 1.7.0.3 / 2010-06-08
 
 * New: ability to add several master files at once
