@@ -1,3 +1,7 @@
+## Version 1.7.0.5 / 2010-09-04
+
+* Fixes to make wti compatible with Ruby 1.9.2.
+
 ## Version 1.7.0.4 / 2010-06-29
 
 * New: Added support for labels. Only works for `wti push` for now.
