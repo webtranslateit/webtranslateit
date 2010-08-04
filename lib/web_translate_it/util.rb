@@ -1,3 +1,4 @@
+# encoding: utf-8
 module WebTranslateIt
   # A few useful functions
   class Util

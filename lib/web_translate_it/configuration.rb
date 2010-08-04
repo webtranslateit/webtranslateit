@@ -1,3 +1,4 @@
+# encoding: utf-8
 module WebTranslateIt
   
   # Handles the configuration of your project, both via the the configuration file

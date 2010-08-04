@@ -1,3 +1,4 @@
+# encoding: utf-8
 module WebTranslateIt
   # A TranslationFile is the representation of a master language file
   # on Web Translate It.
@@ -9,7 +10,7 @@ module WebTranslateIt
     require 'net/https'
     require 'net/http/post/multipart'
     require 'time'
-    require 'ftools'
+    require 'fileutils'
     
     attr_accessor :id, :file_path, :locale, :api_key
     
