@@ -15,9 +15,7 @@ module WebTranslateIt
     
     helpers do
       def wti_root
-        root = request.path
-        root = "" if root == "/"
-        root
+        ""
       end
       
       def highlight(value, expected)
@@ -28,14 +26,25 @@ module WebTranslateIt
     end
     
     get '/' do
-      erb :index, :locals => { :config => config }
+      erb :index, :locals => { :config => config, :locale => "" }
     end
     
-    post '/pull' do
+    get '/:locale' do
+      erb :index, :locals => { :config => config, :locale => params[:locale] }
+    end
+    
+    post '/pull/' do
       `#{config.before_pull}` if config.before_pull
       `wti pull`
       `#{config.after_pull}` if config.after_pull
       redirect "/"
+    end
+    
+    post '/pull/:locale' do
+      `#{config.before_pull}` if config.before_pull
+      `wti pull -l #{params[:locale]}`
+      `#{config.after_pull}` if config.after_pull
+      redirect "/#{params[:locale]}"
     end
         
     def initialize(*args)

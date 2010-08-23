@@ -51,6 +51,19 @@ p {
   margin: 1em 0;
 }
 
+.update {
+	background-color: #DFF2BF;
+	border: 2px solid #4F8A10;
+	padding: 5px;
+	width: 300px;
+	line-height: 30px;
+	text-align: center;
+}
+
+select, input {
+	font-size: 16px;
+}
+
 a {
   color: #00a;
 }

@@ -12,33 +12,34 @@
       </div>
 
       <div id="home">
-        <h1>Language File Status</h1>
-          <table>
-            <thead>
-              <tr>
-                <th>File Name</th>
-                <th>Locale</th>
-                <th>Exists</th>
-                <th>Committed</th>
-                <th>New Version Available</th>
-              </tr>
-            </thead>
-            <tbody>
-              <% config.files.each do |file| %>
-                <tr>
-                  <td><%= file.file_path %></td>
-                  <td><%= file.locale.upcase %></td>
-                  <td><%= highlight(file.exists?, true) %></td>
-                  <td><%= highlight(file.committed?, true) %></td>
-                  <td><%= highlight(file.modified_remotely?, false) %></td>
-                </tr>
-              <% end %>
-          </tbody>
-        </table>
+        <h1>Update</h1>
         
-        <form method="post" action="<%= wti_root %>/pull">
-          <input type="submit" value="Get new translations" />
-        </form>        
+        <div class="update">
+          Download file update for 
+          <select name="locale" onchange="window.location=this.value;">
+            <option value="/" <%= "selected='true'" if locale == "" %>>All locales</option>
+            <% config.target_locales.each do |l| %>
+              <option value="/<%= l %>" <%= "selected='true'" if locale == l %>><%= l.upcase %></option>
+            <% end %>
+          </select>
+          <form method="post" action="<%= wti_root %>/pull/<%= locale %>">
+            <input type="submit" value="Update" onclick="if (window.hiddenCommit) { window.hiddenCommit.setAttribute('value', this.value); }else { hiddenCommit = document.createElement('input');hiddenCommit.type = 'hidden';hiddenCommit.value = this.value;hiddenCommit.name = this.name;this.form.appendChild(hiddenCommit); }this.setAttribute('originalValue', this.value);this.disabled = true;this.value='Please wait…';result = (this.form.onsubmit ? (this.form.onsubmit() ? this.form.submit() : false) : this.form.submit());if (result == false) { this.value = this.getAttribute('originalValue');this.disabled = false; }return result;" />
+          </form>
+          <div class="clear"></div>
+        </div>
+                
+        <% if config.before_pull %>
+        <p>
+          This command will be executed before pulling files:
+          <code><%= config.before_pull %></code>
+        </p>
+        <% end %>
+        <% if config.after_pull %>
+          <p>
+            This command will be executed after pulling files:
+            <code><%= config.after_pull %></code>
+          </p>
+        <% end %>
       </div>
 
       <div class="footer">
