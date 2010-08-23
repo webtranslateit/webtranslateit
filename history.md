@@ -1,3 +1,9 @@
+## Version 1.7.0.6 / 2010-09-23
+
+* Makes `wti server` load much faster for projects having a lot of files.
+* The web interface now displays before_pull and after_pull hooks to facilitate debugging.
+* Ability to do `wti pull -l` from the web interface to update server faster.
+
 ## Version 1.7.0.5 / 2010-09-04
 
 * Fixes to make wti compatible with Ruby 1.9.2.
