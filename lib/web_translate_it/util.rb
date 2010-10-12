@@ -1,5 +1,9 @@
 # encoding: utf-8
 module WebTranslateIt
+  require 'net/http'
+  require 'net/https'
+  require 'uri'
+  
   # A few useful functions
   class Util
     
@@ -19,12 +23,24 @@ module WebTranslateIt
     #     response = http.request(request)
     #   end
     #
+    # This method will try to connect through a proxy if `http_proxy` is set.
+    #
     def self.http_connection
-      http = Net::HTTP.new('webtranslateit.com', 443)
+      proxy = Util.get_proxy
+      if proxy
+        http = Net::HTTP::Proxy(proxy.host, proxy.port).new('webtranslateit.com', 443)
+      else
+        http = Net::HTTP.new('webtranslateit.com', 443)
+      end
       http.use_ssl      = true
       http.verify_mode  = OpenSSL::SSL::VERIFY_NONE
-      http.read_timeout = 20
+      http.open_timeout = http.read_timeout = 20
       yield http
+    end
+    
+    def self.get_proxy
+      http_proxy = ENV["http_proxy"]
+      URI.parse(http_proxy) rescue nil
     end
     
     def self.calculate_percentage(processed, total)
