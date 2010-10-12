@@ -1,3 +1,7 @@
+## Version 1.7.0.7.pre / 2010-10-12
+
+* Fix so wti can connect through a proxy.
+
 ## Version 1.7.0.6 / 2010-09-23
 
 * Makes `wti server` load much faster for projects having a lot of files.
