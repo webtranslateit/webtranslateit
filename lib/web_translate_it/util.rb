@@ -28,7 +28,8 @@ module WebTranslateIt
     def self.http_connection
       proxy = Util.get_proxy
       if proxy
-        http = Net::HTTP::Proxy(proxy.host, proxy.port).new('webtranslateit.com', 443)
+        proxy_user, proxy_pass = proxy.userinfo.split(/:/) if proxy.userinfo
+        http = Net::HTTP::Proxy(proxy.host, proxy.port, proxy_user, proxy_pass).new('webtranslateit.com', 443)
       else
         http = Net::HTTP.new('webtranslateit.com', 443)
       end
