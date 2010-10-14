@@ -3,6 +3,7 @@ module WebTranslateIt
   require 'net/http'
   require 'net/https'
   require 'uri'
+  require 'ostruct'
   
   # A few useful functions
   class Util
@@ -26,24 +27,14 @@ module WebTranslateIt
     # This method will try to connect through a proxy if `http_proxy` is set.
     #
     def self.http_connection
-      proxy = Util.get_proxy
-      if proxy
-        proxy_user, proxy_pass = proxy.userinfo.split(/:/) if proxy.userinfo
-        http = Net::HTTP::Proxy(proxy.host, proxy.port, proxy_user, proxy_pass).new('webtranslateit.com', 443)
-      else
-        http = Net::HTTP.new('webtranslateit.com', 443)
-      end
+      proxy = ENV['http_proxy'] ? URI.parse(ENV['http_proxy']) : OpenStruct.new
+      http = Net::HTTP::Proxy(proxy.host, proxy.port, proxy.user, proxy.password).new('webtranslateit.com', 443)
       http.use_ssl      = true
       http.verify_mode  = OpenSSL::SSL::VERIFY_NONE
       http.open_timeout = http.read_timeout = 20
       yield http
     end
-    
-    def self.get_proxy
-      http_proxy = ENV["http_proxy"]
-      URI.parse(http_proxy) rescue nil
-    end
-    
+        
     def self.calculate_percentage(processed, total)
       return 0 if total == 0
       ((processed*10)/total).to_f.ceil*10
