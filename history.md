@@ -1,6 +1,7 @@
-## Version 1.7.0.7.pre / 2010-10-12
+## Version 1.7.0.7.pre (pre-release)
 
-* Fix so wti can connect through a proxy.
+* Fix connection problems through a proxy (1.7.0.7.pre)
+* Fix eventual problems connecting through an authenticated proxy (1.7.0.7.pre2)
 
 ## Version 1.7.0.6 / 2010-09-23
 
