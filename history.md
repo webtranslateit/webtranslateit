@@ -1,4 +1,4 @@
-## Version 1.7.0.7.pre (pre-release)
+## Version 1.7.0.7 / 2010-11-15
 
 * Fix connection problems through a proxy (1.7.0.7.pre)
 * Fix eventual problems connecting through an authenticated proxy (1.7.0.7.pre2)
