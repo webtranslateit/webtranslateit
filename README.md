@@ -4,7 +4,7 @@
 [RDocs](http://yardoc.org/docs/AtelierConvivialite-webtranslateit) | 
 [Example app](http://github.com/AtelierConvivialite/rails_example_app) | 
 [Report a bug](http://github.com/AtelierConvivialite/webtranslateit/issues) | 
-[Support](http://help.webtranslateit.com)
+[Support](http://help.webtranslateit.com) | 
 [Documentation](http://docs.webtranslateit.com/web_translate_it_client/)
 
 `web_translate_it` is a rubygem providing tools to sync your language files with [Web Translate It](https://webtranslateit.com), a web-based computer-aided translation tool.
