@@ -178,6 +178,7 @@ The gem currently has been tested against the following versions of Rails:
 
 * 2.3.4
 * 2.3.5
+* 2.3.10
 
 Please open a discussion on [our support site](http://help.webtranslateit.com) if you're using a version of Rails that is not listed above and the gem is not working properly.
 
