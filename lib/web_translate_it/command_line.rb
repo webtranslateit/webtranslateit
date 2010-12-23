@@ -101,7 +101,7 @@ module WebTranslateIt
         
     def fetch_locales_to_pull
       if options.locale
-        locales = [options.locale]
+        locales = [Util.sanitize_locale(options.locale)]
       else
         locales = configuration.target_locales
         configuration.ignore_locales.each{ |locale_to_delete| locales.delete(locale_to_delete) }
@@ -112,7 +112,7 @@ module WebTranslateIt
         
     def fetch_locales_to_push(configuration)
       if options.locale
-        locales = [options.locale]
+        locales = [Util.sanitize_locale(options.locale)]
       else
         locales = [configuration.source_locale]
       end

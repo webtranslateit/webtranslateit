@@ -128,5 +128,13 @@ module WebTranslateIt
       return list[result], result
     end
     
+    ##
+    # Cleans up a locale name
+    # For instance: passing `fr_FR` will return `fr-FR`
+
+    def self.sanitize_locale(locale)
+      locale.gsub('_', '-')
+    end
+    
   end
 end
