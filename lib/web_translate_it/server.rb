@@ -26,14 +26,17 @@ module WebTranslateIt
     end
     
     get '/' do
+      @config = WebTranslateIt::Configuration.new('.')
       erb :index, :locals => { :config => config, :locale => "" }
     end
     
     get '/:locale' do
+      @config = WebTranslateIt::Configuration.new('.')
       erb :index, :locals => { :config => config, :locale => params[:locale] }
     end
     
     post '/pull/' do
+      @config = WebTranslateIt::Configuration.new('.')
       `#{config.before_pull}` if config.before_pull
       `wti pull`
       `#{config.after_pull}` if config.after_pull
@@ -41,17 +44,13 @@ module WebTranslateIt
     end
     
     post '/pull/:locale' do
+      @config = WebTranslateIt::Configuration.new('.')
       `#{config.before_pull}` if config.before_pull
       `wti pull -l #{params[:locale]}`
       `#{config.after_pull}` if config.after_pull
       redirect "/#{params[:locale]}"
     end
-        
-    def initialize(*args)
-      super
-      @config = WebTranslateIt::Configuration.new('.')
-    end
-
+    
     def self.start(host, port)
       WebTranslateIt::Server.run! :host => host, :port => port
     end
