@@ -1,7 +1,10 @@
 ## Edge
 
-* TranslationFile#fetch now use file timestamps served by the Project API.
+* New: TranslationFile#fetch now use file timestamps served by the Project API.
   This makes `wti pull` much faster, especially for projects having a lot of files
+* Fix: `wti server` now notice new languages.
+  Each page request to `wti server` now reloads the project information from Web Translate It.
+  
 
 ## Version 1.7.0.7 / 2010-11-15
 
