@@ -12,13 +12,14 @@ module WebTranslateIt
     require 'time'
     require 'fileutils'
     
-    attr_accessor :id, :file_path, :locale, :api_key
+    attr_accessor :id, :file_path, :locale, :api_key, :updated_at
     
-    def initialize(id, file_path, locale, api_key)
-      self.id        = id
-      self.file_path = file_path
-      self.locale    = locale
-      self.api_key   = api_key
+    def initialize(id, file_path, locale, api_key, updated_at)
+      self.id         = id
+      self.file_path  = file_path
+      self.locale     = locale
+      self.api_key    = api_key
+      self.updated_at = updated_at
     end
     
     # Fetch a language file.
@@ -34,23 +35,25 @@ module WebTranslateIt
     #   file.fetch(true) # force to re-download the file, will return the content of the file with a 200 OK
     #
     def fetch(force = false)
-      begin
-        WebTranslateIt::Util.http_connection do |http|
-          request = Net::HTTP::Get.new(api_url)
-          request.add_field('If-Modified-Since', last_modification) if File.exist?(self.file_path) and !force
-          response = http.request(request)
-          FileUtils.mkpath(self.file_path.split('/')[0..-2].join('/')) unless File.exist?(self.file_path) or self.file_path.split('/')[0..-2].join('/') == ""
-          begin
-            File.open(self.file_path, 'wb'){ |file| file << response.body } if response.code.to_i == 200 and response.body != ''
-            Util.handle_response(response)
-          rescue
-            "\n/!\\ An error occured: #{$!}"
+      if force or self.updated_at >= Time.now.utc
+        begin
+          WebTranslateIt::Util.http_connection do |http|
+            request = Net::HTTP::Get.new(api_url)
+            request.add_field('If-Modified-Since', last_modification.rfc2822) if File.exist?(self.file_path) and !force
+            response = http.request(request)
+            FileUtils.mkpath(self.file_path.split('/')[0..-2].join('/')) unless File.exist?(self.file_path) or self.file_path.split('/')[0..-2].join('/') == ""
+            begin
+              File.open(self.file_path, 'wb'){ |file| file << response.body } if response.code.to_i == 200 and response.body != ''
+              Util.handle_response(response)
+            rescue
+              "\n/!\\ An error occured: #{$!}"
+            end
           end
+        rescue Timeout::Error
+          puts "The request timed out. The service may be overloaded. We will retry in 5 seconds."
+          sleep(5)
+          fetch(force)
         end
-      rescue Timeout::Error
-        puts "The request timed out. The service may be overloaded. We will retry in 5 seconds."
-        sleep(5)
-        fetch(force)
       end
     end
     
@@ -126,7 +129,7 @@ module WebTranslateIt
       
       # Convenience method which returns the date of last modification of a language file.
       def last_modification
-        File.mtime(File.new(self.file_path, 'r')).rfc2822
+        File.mtime(File.new(self.file_path, 'r'))
       end
       
       # Convenience method which returns the URL of the API endpoint for a locale.

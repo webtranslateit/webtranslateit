@@ -1,3 +1,8 @@
+## Edge
+
+* TranslationFile#fetch now use file timestamps served by the Project API.
+  This makes `wti pull` much faster, especially for projects having a lot of files
+
 ## Version 1.7.0.7 / 2010-11-15
 
 * Fix connection problems through a proxy (1.7.0.7.pre)
