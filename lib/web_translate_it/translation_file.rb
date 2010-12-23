@@ -54,6 +54,8 @@ module WebTranslateIt
           sleep(5)
           fetch(force)
         end
+      else
+        return "Not needed"
       end
     end
     
