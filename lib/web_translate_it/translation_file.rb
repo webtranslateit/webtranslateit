@@ -35,7 +35,7 @@ module WebTranslateIt
     #   file.fetch(true) # force to re-download the file, will return the content of the file with a 200 OK
     #
     def fetch(force = false)
-      if force or self.updated_at >= Time.now.utc
+      if !File.exist?(self.file_path) or force or self.updated_at >= last_modification.utc
         begin
           WebTranslateIt::Util.http_connection do |http|
             request = Net::HTTP::Get.new(api_url)
