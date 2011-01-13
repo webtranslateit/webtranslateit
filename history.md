@@ -1,3 +1,7 @@
+## Version 1.7.1.2 / 2011-01-13
+
+* Fix: server timeout handling on `wti addlocale`
+
 ## Version 1.7.1.1 / 2011-01-13
 
 * New: `wti addlocale locale1 locale2 ...` to create new locales for a project.
