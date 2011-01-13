@@ -51,6 +51,19 @@ module WebTranslateIt
       puts "Master file added. Use `wti push --all` to send your existing translations."
     end
     
+    def addlocale
+      STDOUT.sync = true
+      if parameters.nil?
+        puts "Usage: wti addlocale locale1 locale2 ..."
+        exit
+      end
+      parameters.each do |param|
+        print "Adding locale #{param}… "
+        puts WebTranslateIt::Project.create_locale(configuration.api_key, param)
+      end
+      puts "Done!"
+    end
+    
     def autoconf
       puts "We will attempt to configure your project automagically"
       api_key = Util.ask("Please enter your project API Key")

@@ -20,6 +20,11 @@ Choice.options do
     desc "Create and push a new master language file."
   end
   
+  option :addlocale do
+    long 'addlocale'
+    desc "Add a new locale to the project"
+  end
+  
   option :server do
     long 'server'
     desc "Start a synchronisation server"

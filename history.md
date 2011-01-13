@@ -1,3 +1,7 @@
+## Edge
+
+* New: `wti addlocale locale1 locale2 ...` to create new locales for a project.
+
 ## Version 1.7.1.0 / 2010-12-27
 
 * New: TranslationFile#fetch now use file timestamps served by the Project API.

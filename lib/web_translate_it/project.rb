@@ -6,7 +6,7 @@ module WebTranslateIt
       puts "Gathering project's information…"
       begin
         WebTranslateIt::Util.http_connection do |http|
-          request  = Net::HTTP::Get.new("/api/projects/#{api_key}.yaml")
+          request = Net::HTTP::Get.new("/api/projects/#{api_key}.yaml")
           Util.handle_response(http.request(request), true)
         end
       rescue Timeout::Error
@@ -19,7 +19,21 @@ module WebTranslateIt
     def self.fetch_stats(api_key)
       begin
         WebTranslateIt::Util.http_connection do |http|
-          request  = Net::HTTP::Get.new("/api/projects/#{api_key}/stats.yaml")
+          request = Net::HTTP::Get.new("/api/projects/#{api_key}/stats.yaml")
+          Util.handle_response(http.request(request), true)
+        end
+      rescue Timeout::Error
+        puts "The request timed out. The service may be overloaded. We will retry in 5 seconds."
+        sleep(5)
+        self.fetch_stats(api_key)
+      end
+    end
+    
+    def self.create_locale(api_key, locale_code)
+      begin
+        WebTranslateIt::Util.http_connection do |http|
+          request = Net::HTTP::Post.new("/api/projects/#{api_key}/locales")
+          request.set_form_data({ 'id' => locale_code }, ';')
           Util.handle_response(http.request(request), true)
         end
       rescue Timeout::Error
