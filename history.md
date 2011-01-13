@@ -1,4 +1,4 @@
-## Edge
+## Version 1.7.1.1 / 2011-01-13
 
 * New: `wti addlocale locale1 locale2 ...` to create new locales for a project.
 
