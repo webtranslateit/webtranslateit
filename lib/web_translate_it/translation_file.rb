@@ -14,7 +14,7 @@ module WebTranslateIt
     
     attr_accessor :id, :file_path, :locale, :api_key, :updated_at
     
-    def initialize(id, file_path, locale, api_key, updated_at)
+    def initialize(id, file_path, locale, api_key, updated_at = nil)
       self.id         = id
       self.file_path  = file_path
       self.locale     = locale
