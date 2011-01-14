@@ -77,6 +77,11 @@ Choice.options do
     desc  "Force WTI to not obsolete missing strings."
   end
   
+  option :low_priority do
+    long '--low_priority'
+    desc "Tells WTI to process this command with a low priority."
+  end
+  
   option :label do
     long  '--label'
     desc  "Apply a label to the changes."

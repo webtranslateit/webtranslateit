@@ -32,7 +32,8 @@ module WebTranslateIt
         ignore_missing = !(ARGV.index('--ignore_missing')).nil?
         configuration.files.find_all{ |file| file.locale == locale }.each do |file|
           print "Pushing #{file.file_path}… "
-          puts file.upload(merge, ignore_missing, options.label)
+          puts options.low_priority
+          puts file.upload(merge, ignore_missing, options.label, options.low_priority)
         end
       end
     end

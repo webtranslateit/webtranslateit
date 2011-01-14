@@ -1,3 +1,7 @@
+## Edge
+
+* New: Add `--low_priority` option.
+
 ## Version 1.7.1.3 / 2011-01-13
 
 * Fix: Bug in `wti add`
