@@ -71,7 +71,6 @@ module WebTranslateIt
     # Note that the request might or might not eventually be acted upon, as it might be disallowed when processing
     # actually takes place. This is due to the fact that language file imports are handled by background processing.
     def upload(merge=false, ignore_missing=false, label=nil, low_priority=false)
-      puts "low: #{low_priority}"
       if File.exists?(self.file_path)
         File.open(self.file_path) do |file|
           begin
