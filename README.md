@@ -20,6 +20,8 @@ This gem provides 4 tools:
 
 ## Installation
 
+(Using [Microsoft Windows](http://help.webtranslateit.com/kb/tips/how-to-install-wti-on-windows)?)
+
     gem install web_translate_it
     
 At this point you should have the `wti` executable working.
@@ -27,31 +29,34 @@ If your project if already set up on Web Translate It, open a terminal and type 
 
 Execute `wti --help` to see the usage:
 
-    Usage: wti [-lcphv]
-            pull                         Pull target language file(s).
-            push                         Push master language file(s).
-            add                          Create and push a new master language file.
+    Usage: wti [-lcphhv]
+            pull                         Pull target language file(s)
+            push                         Push master language file(s)
+            add                          Create and push a new master language file
+            addlocale                    Add a new locale to the project
             server                       Start a synchronisation server
-            stats                        Fetch and display project statistics.
-            autoconf                     Configure your project to sync.
+            stats                        Fetch and display project statistics
+            autoconf                     Configure your project to sync
 
     Synchronization options: 
-        -l, --locale                     ISO code of a locale to pull or push.
-        -c, --config                     Path to a translation.yml file.
-                                         (default: config/translation.yml).
-            --all                        Download or upload all files.
-            --force                      Force wti pull to download files.
-            --merge                      Force WTI to merge this file.
-            --ignore_missing             Force WTI to not obsolete missing strings.
+        -l, --locale                     ISO code of a locale to pull or push
+        -c, --config                     Path to a translation.yml file
+                                         (default: config/translation.yml)
+            --all                        Download or upload all files
+            --force                      Force wti pull to download files
+            --merge                      Force WTI to merge this file
+            --ignore_missing             Force WTI to not obsolete missing strings
+            --low_priority               Tells WTI to process this command with a low priority
+            --label                      Apply a label to the changes
 
     Server options: 
         -p, --port                       Run server on a specific port
-                                         (default: 4000).
+                                         (default: 4000)
         -h, --host                       Run server on a specific host
-                                         (default: localhost).
+                                         (default: localhost)
 
     Other options: 
-            --help                       Show this message
+        -h, --help                       Show this message
         -v, --version                    Show version
 
 ## Configuration
@@ -106,7 +111,7 @@ where `fr` should be replaced by the locale code of your file.
 
     wti pull --all
     
-### Force pull (bypasses Web Translate It’s HTTP caching)
+### Force pull (bypass Web Translate It’s HTTP caching)
 
     wti pull --force
 
@@ -182,17 +187,6 @@ The gem currently has been tested against the following versions of Rails:
 
 Please open a discussion on [our support site](http://help.webtranslateit.com) if you're using a version of Rails that is not listed above and the gem is not working properly.
 
-# Acknowledgement
+# License
 
-* The executable’s commands are very much inspired from [Gemcutter](http://gemcutter.org),
-* The Rails generator was pinched from [Hoptoad Notifier](http://github.com/thoughtbot/hoptoad_notifier),
-* The idea of a web-app to sync translations with Web Translate It come from Tom Lea’s awesome [rack-webtranslateit](http://github.com/cwninja/rack-webtranslateit),
-* The Sinatra app is much inspired from Chris Wanstrath’s [CI Joe](http://github.com/defunkt/cijoe).
-
-# What is Web Translate It anyway?
-
-[Web Translate It](https://webtranslateit.com) is a web-based computer-aided translation tool to collaboratively translate software.
-
-To learn more about it, please visit our [tour page](https://webtranslateit.com/tour).
-
-This gem is released under the MIT License.
+Copyright (c) 2009-2011 Atelier Convivialité, and released under the MIT License.

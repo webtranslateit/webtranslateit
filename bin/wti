@@ -7,17 +7,17 @@ Choice.options do
 
   option :pull do
     long 'pull'
-    desc "Pull target language file(s)."
+    desc "Pull target language file(s)"
   end
 
   option :push do
     long 'push'
-    desc "Push master language file(s)."
+    desc "Push master language file(s)"
   end
 
   option :add do
     long 'add'
-    desc "Create and push a new master language file."
+    desc "Create and push a new master language file"
   end
   
   option :addlocale do
@@ -32,12 +32,12 @@ Choice.options do
 
   option :stats do
     long 'stats'
-    desc "Fetch and display project statistics."
+    desc "Fetch and display project statistics"
   end
 
   option :autoconf do
     long 'autoconf'
-    desc "Configure your project to sync."
+    desc "Configure your project to sync"
   end
 
   separator ''
@@ -46,45 +46,45 @@ Choice.options do
   option :locale do
     short '-l'
     long  '--locale'
-    desc  "ISO code of a locale to pull or push."
+    desc  "ISO code of a locale to pull or push"
   end
   
   option :config do
     short '-c'
     long  '--config'
-    desc  "Path to a translation.yml file."
-    desc  "(default: config/translation.yml)."
+    desc  "Path to a translation.yml file"
+    desc  "(default: config/translation.yml)"
     default "config/translation.yml"
   end
   
   option :all do
     long  '--all'
-    desc  "Download or upload all files."
+    desc  "Download or upload all files"
   end
   
   option :force do
     long  '--force'
-    desc  "Force wti pull to download files."
+    desc  "Force wti pull to download files"
   end
   
   option :merge do
     long  '--merge'
-    desc  "Force WTI to merge this file."
+    desc  "Force WTI to merge this file"
   end
   
   option :ignore_missing do
     long  '--ignore_missing'
-    desc  "Force WTI to not obsolete missing strings."
+    desc  "Force WTI to not obsolete missing strings"
   end
   
   option :low_priority do
     long '--low_priority'
-    desc "Tells WTI to process this command with a low priority."
+    desc "Tells WTI to process this command with a low priority"
   end
   
   option :label do
     long  '--label'
-    desc  "Apply a label to the changes."
+    desc  "Apply a label to the changes"
   end
   
   separator ''
@@ -94,7 +94,7 @@ Choice.options do
     short '-p'
     long  '--port'
     desc  "Run server on a specific port"
-    desc  "(default: 4000)."
+    desc  "(default: 4000)"
     cast  Integer
     default '4000'
   end
@@ -103,7 +103,7 @@ Choice.options do
     short '-h'
     long  '--host'
     desc  "Run server on a specific host"
-    desc  "(default: localhost)."
+    desc  "(default: localhost)"
     default '0.0.0.0'
   end
   
