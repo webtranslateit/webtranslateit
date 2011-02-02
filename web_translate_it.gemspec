@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.description = "An ruby executable, a sinatra app and a handful of rake tasks to sync your translations between your app and webtranslateit.com."
   s.authors     = ["Édouard Brière"]
  
-  s.files       = Dir["history.md", "MIT-LICENSE", "README.md", "version.yml", "examples/**/*", "lib/**/*", "generators/**/*", "bin/**/*", "man/**/*"]
+  s.files       = Dir["history.md", "licence", "readme.md", "version.yml", "examples/**/*", "lib/**/*", "generators/**/*", "bin/**/*", "man/**/*"]
   
   s.test_files  = Dir["spec/**/*"]  
   
