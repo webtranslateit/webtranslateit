@@ -19,7 +19,7 @@ module WebTranslateIt
       STDOUT.sync = true
       fetch_locales_to_pull.each do |locale|
         configuration.files.find_all{ |file| file.locale == locale }.each do |file|
-          print "Pulling #{file.file_path}… "
+          print "Pulling #{file.file_path}... "
           puts file.fetch(ARGV.index('--force'))
         end
       end
@@ -31,7 +31,7 @@ module WebTranslateIt
         merge = !(ARGV.index('--merge')).nil?
         ignore_missing = !(ARGV.index('--ignore_missing')).nil?
         configuration.files.find_all{ |file| file.locale == locale }.each do |file|
-          print "Pushing #{file.file_path}… "
+          print "Pushing #{file.file_path}... "
           puts file.upload(merge, ignore_missing, options.label, options.low_priority)
         end
       end
@@ -45,7 +45,7 @@ module WebTranslateIt
       end
       parameters.each do |param|
         file = TranslationFile.new(nil, param, nil, configuration.api_key)
-        print "Creating #{file.file_path}… "
+        print "Creating #{file.file_path}... "
         puts file.create
       end
       puts "Master file added. Use `wti push --all` to send your existing translations."
@@ -58,7 +58,7 @@ module WebTranslateIt
         exit
       end
       parameters.each do |param|
-        print "Adding locale #{param}… "
+        print "Adding locale #{param}... "
         puts WebTranslateIt::Project.create_locale(configuration.api_key, param)
       end
       puts "Done!"
