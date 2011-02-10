@@ -41,20 +41,20 @@ module WebTranslateIt
     end
     
     def self.welcome_message
-      puts "Web Translate It v#{WebTranslateIt::Util.version}"
+      puts "Web Translate It v#{version}"
     end
     
     def self.handle_response(response, return_response = false)
       if response.code.to_i >= 400 and response.code.to_i < 500
-        "We had a problem connecting to Web Translate It with this API key. Make sure it is correct."
+        "Can't fetch project with this API key. Make sure it is correct.".failure
       elsif response.code.to_i >= 500
-        "Web Translate It is temporarily unavailable and has been notified of this issue. Please try again shortly."
+        "Web Translate It is temporarily unavailable. We've been notified of this issue. Please try again shortly.".failure
       else
         return response.body if return_response
-        return "200 OK" if response.code.to_i == 200
-        return "201 Created" if response.code.to_i == 201
-        return "202 Accepted" if response.code.to_i == 202
-        return "304 Not Modified" if response.code.to_i == 304
+        return "200 OK".success if response.code.to_i == 200
+        return "201 Created".success if response.code.to_i == 201
+        return "202 Accepted".success if response.code.to_i == 202
+        return "304 Not Modified".success if response.code.to_i == 304
       end
     end
     
@@ -134,7 +134,24 @@ module WebTranslateIt
 
     def self.sanitize_locale(locale)
       locale.gsub('_', '-')
-    end
-    
+    end    
+  end
+end
+
+class String
+  require 'rainbow'
+  
+  ##
+  # Green foreground for success
+  
+  def success
+    self.foreground(:green)
+  end
+  
+  ##
+  # Red foreground for failure
+  
+  def failure
+    self.background(:red).foreground(:white)
   end
 end

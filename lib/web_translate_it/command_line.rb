@@ -75,13 +75,13 @@ module WebTranslateIt
       error = false
       project_info['project_files'].each do |file|
         if file['name'].nil? or file['name'].strip == ''
-          puts "Project File #{file['id']} doesn’t seem to be set up."
+          puts "Project File #{file['id']} doesn’t seem to be set up.".failure
           error = true
         elsif !File.exists?(file['name'])
-          puts "Could not find file `#{file['name']}`."
+          puts "Could not find file `#{file['name']}`.".failure
           error = true
         else
-          puts "Found #{file['name']}."
+          puts "Found #{file['name']}.".success
         end
       end
       if error
