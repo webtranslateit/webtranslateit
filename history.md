@@ -2,6 +2,7 @@
 
 * New: Add `--low_priority` option.
 * Update Sinatra and multipart-post dependancies.
+* New: Enable logging of `wti server`. Logs will be saved in `log/webtranslateit.log` in your project directory.
 
 ## Version 1.7.1.3 / 2011-01-13
 

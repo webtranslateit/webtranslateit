@@ -13,6 +13,10 @@ module WebTranslateIt
     set :static, true
     set :lock, true
     
+    logger = ::File.open("log/webtranslateit.log", "a+")
+    STDOUT.reopen(logger)
+    STDERR.reopen(logger)
+    
     helpers do
       def wti_root
         ""
