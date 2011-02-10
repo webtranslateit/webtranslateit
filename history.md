@@ -1,4 +1,4 @@
-## Edge
+## Version 1.7.1.4 / 2011-02-10
 
 * New: Add `--low_priority` option.
 * Update Sinatra and multipart-post dependancies.
