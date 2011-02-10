@@ -1,14 +1,15 @@
 ## Edge
 
 * New: Add `--low_priority` option.
+* Update Sinatra and multipart-post dependancies.
 
 ## Version 1.7.1.3 / 2011-01-13
 
-* Fix: Bug in `wti add`
+* Fix: Bug in `wti add`.
 
 ## Version 1.7.1.2 / 2011-01-13
 
-* Fix: server timeout handling on `wti addlocale`
+* Fix: server timeout handling on `wti addlocale`.
 
 ## Version 1.7.1.1 / 2011-01-13
 
