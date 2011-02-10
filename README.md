@@ -20,7 +20,7 @@ This gem provides 4 tools:
 
 ## Installation
 
-(Using [Microsoft Windows](http://help.webtranslateit.com/kb/tips/how-to-install-wti-on-windows)?)
+These instructions are for Linux and Mac OS X system. Follow [these instructions](http://help.webtranslateit.com/kb/tips/how-to-install-wti-on-windows) if you’re using Microsoft Windows.
 
     gem install web_translate_it
     
@@ -131,7 +131,7 @@ To get started, go to the directory of the application you want to sync and do:
     
 By default, it starts an application on localhost on the port 4000. You will find the tool on `http://localhost:4000`.
 
-Should you need to use another host or port, you can use the -h and -p options. For example: `wti server -p 1234`.
+Should you need to use another host or port, you can use the `-h` and `-p` options. For example: `wti server -p 1234`.
 
 You may want to run some commands before or after synching translations. To do so, add in the `translation.yml` file the following:
 
