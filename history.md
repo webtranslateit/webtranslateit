@@ -1,4 +1,4 @@
-## Edge
+## Version 1.7.1.5 / 2011-02-10
 
 * Fix an issue with `wti server` swallowing all `wti` outputs.
 
