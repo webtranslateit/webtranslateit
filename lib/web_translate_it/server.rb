@@ -12,11 +12,7 @@ module WebTranslateIt
     set :public, "#{dir}/public"
     set :static, true
     set :lock, true
-    
-    logger = ::File.open("log/webtranslateit.log", "a+")
-    STDOUT.reopen(logger)
-    STDERR.reopen(logger)
-    
+        
     helpers do
       def wti_root
         ""
@@ -56,6 +52,9 @@ module WebTranslateIt
     end
     
     def self.start(host, port)
+      logger = ::File.open("log/webtranslateit.log", "a+")
+      STDOUT.reopen(logger)
+      STDERR.reopen(logger)
       WebTranslateIt::Server.run! :host => host, :port => port
     end
   end

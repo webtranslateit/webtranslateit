@@ -1,3 +1,7 @@
+## Edge
+
+* Fix an issue with `wti server` swallowing all `wti` outputs.
+
 ## Version 1.7.1.4 / 2011-02-10
 
 * New: Add `--low_priority` option.
