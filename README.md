@@ -121,7 +121,7 @@ where `fr` should be replaced by the locale code of your file.
     
 ## Web Translate It Synchronisation Console
 
-![Web Translate It](http://s3.amazonaws.com:80/edouard.baconfile.com/web_translate_it%2Fadmin_console.png)
+![Web Translate It](http://s3.amazonaws.com:80/edouard.baconfile.com/web_translate_it%2Fadmin_console2.png)
 
 The `wti` gem integrates since its version 1.7.0 a sinatra back-end that allow you to sync your translations directly from a friendly web interface. It allows a translation team to refresh the language files on a staging server without having to ask the developers to manually `wti pull`.
 
