@@ -1,12 +1,13 @@
 # encoding: utf-8
-require File.join(File.dirname(__FILE__), 'web_translate_it', 'util')
-require File.join(File.dirname(__FILE__), 'web_translate_it', 'configuration')
-require File.join(File.dirname(__FILE__), 'web_translate_it', 'translation_file')
-require File.join(File.dirname(__FILE__), 'web_translate_it', 'auto_fetch')
-require File.join(File.dirname(__FILE__), 'web_translate_it', 'command_line')
-require File.join(File.dirname(__FILE__), 'web_translate_it', 'project')
-require File.join(File.dirname(__FILE__), 'web_translate_it', 'tasks')
-require File.join(File.dirname(__FILE__), 'web_translate_it', 'server')
+require 'rubygems'
+require 'web_translate_it/util'
+require 'web_translate_it/configuration'
+require 'web_translate_it/translation_file'
+require 'web_translate_it/auto_fetch'
+require 'web_translate_it/command_line'
+require 'web_translate_it/project'
+require 'web_translate_it/tasks'
+require 'web_translate_it/server'
 
 module WebTranslateIt
   
