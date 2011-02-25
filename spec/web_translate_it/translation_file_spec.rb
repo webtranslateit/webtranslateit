@@ -12,7 +12,7 @@ describe WebTranslateIt::TranslationFile do
   end
   
   describe "#fetch" do
-    let(:translation_file) { WebTranslateIt::TranslationFile.new(2267, "examples/en.yml", 'fr', "4af21ce1fb3a4f7127a60b31ebc41c1446b38bb2") }
+    let(:translation_file) { WebTranslateIt::TranslationFile.new(2267, "examples/en.yml", 'fr', "4af21ce1fb3a4f7127a60b31ebc41c1446b38bb2", Time.now) }
     
     it "should prepare a HTTP request and get a 200 OK if the language file is stale" do
       file = mock(File)
