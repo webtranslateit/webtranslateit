@@ -1,6 +1,7 @@
 ## Edge
 
 * Fix: Make sure `log` directory exists on `wti server` start up.
+* New: Upgrade Sinatra to 1.1.3
 
 ## Version 1.7.1.5 / 2011-02-10
 

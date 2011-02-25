@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   
   s.add_dependency("multipart-post", ["~> 1.1.0"])
   s.add_dependency("choice", ["~> 0.1.4"])
-  s.add_dependency("sinatra", ["~> 1.1.2"])
+  s.add_dependency("sinatra", ["~> 1.1.3"])
   s.add_development_dependency("rspec", [">= 1.2.9"])
   
   s.has_rdoc         = true
