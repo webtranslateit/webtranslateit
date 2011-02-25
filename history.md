@@ -1,3 +1,7 @@
+## Edge
+
+* Fix: Make sure `log` directory exists on `wti server` start up.
+
 ## Version 1.7.1.5 / 2011-02-10
 
 * Fix an issue with `wti server` swallowing all `wti` outputs.
