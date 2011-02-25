@@ -52,6 +52,7 @@ module WebTranslateIt
     end
     
     def self.start(host, port)
+      puts "Starting wti server..."
       Dir::mkdir('log') unless FileTest::directory?('log')
       logger = ::File.open("log/webtranslateit.log", "a+")
       STDOUT.reopen(logger)
