@@ -2,11 +2,12 @@
 
 * New: `wti unknow_command` explains how to get help.
 * `wti st` is an alias for `wti stats`.
+* Upgrade Sinatra to 1.2.0.
 
 ## Version 1.7.1.6 / 2011-02-25
 
 * Fix: Make sure `log` directory exists on `wti server` start up.
-* New: Upgrade Sinatra to 1.1.3
+* New: Upgrade Sinatra to 1.1.3.
 
 ## Version 1.7.1.5 / 2011-02-10
 
