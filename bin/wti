@@ -32,6 +32,7 @@ Choice.options do
 
   option :stats do
     long 'stats'
+    short 'st'
     desc "Fetch and display project statistics"
   end
 

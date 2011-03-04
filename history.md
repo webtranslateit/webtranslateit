@@ -1,3 +1,8 @@
+## Edge
+
+* New: `wti unknow_command` explains how to get help.
+* `wti st` is an alias for `wti stats`.
+
 ## Version 1.7.1.6 / 2011-02-25
 
 * Fix: Make sure `log` directory exists on `wti server` start up.

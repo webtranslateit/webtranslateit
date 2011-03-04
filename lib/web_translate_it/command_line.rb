@@ -111,6 +111,10 @@ module WebTranslateIt
     def server
       WebTranslateIt::Server.start(options.host, options.port)
     end
+    
+    def method_missing(m, *args, &block)
+      puts "wti: '#{m}' is not a wti command. See 'wti --help'."
+    end
         
     def fetch_locales_to_pull
       if options.locale
