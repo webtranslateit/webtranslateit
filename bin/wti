@@ -32,7 +32,6 @@ Choice.options do
 
   option :stats do
     long 'stats'
-    short 'st'
     desc "Fetch and display project statistics"
   end
 
@@ -133,5 +132,6 @@ options = Choice.choices
 $project_path = File.expand_path(".")
 $command = Choice.rest[0]
 $parameters = Choice.rest[1..-1]
+puts $command
 Choice.help if $command.nil?
 WebTranslateIt::CommandLine.new($command, options, $project_path, $parameters)
