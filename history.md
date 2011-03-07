@@ -1,4 +1,4 @@
-## Edge
+## Version 1.7.1.7 / 2011-03-07
 
 * New: `wti unknow_command` explains how to get help.
 * Upgrade Sinatra to 1.2.0.
