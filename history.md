@@ -2,6 +2,7 @@
 
 * New: `wti unknow_command` explains how to get help.
 * Upgrade Sinatra to 1.2.0.
+* New: Increase timeout to 30 seconds to accommodate large projects.
 
 ## Version 1.7.1.6 / 2011-02-25
 
