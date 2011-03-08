@@ -30,7 +30,10 @@ Now that the tool is installed, you’ll have to configure your project:
 
     wti init
 
-The tool will prompt for your Web Translate It API key, and where to save the configuration file. Letting it put in `config/translations.yml` makes everything easier.
+The tool will prompt for:
+
+* your Web Translate It API key (you can find it in your project settings),
+* where to save the configuration file (by default in `config/translations.yml`).
 
 ## Usage
 
@@ -61,18 +64,21 @@ Here’s more explanation about the commands.
 
 You can get more information by appending `--help` after each command. For instance:
 
-    wti pull --help
+    $ wti push --help
     Options:
-      --locale, -l <s>:   ISO code of locale(s) to pull
-             --all, -a:   Pull all files
-           --force, -f:   Force pull (bypass conditional requests to WTI)
-            --help, -h:   Show this message
+          --locale, -l <s>:   ISO code of a locale to push
+                 --all, -a:   Upload all files
+        --low-priority, -o:   WTI will process this file with a low priority
+               --merge, -m:   Force WTI to merge this file
+      --ignore-missing, -i:   Force WTI to not obsolete missing strings
+           --label, -b <s>:   Apply a label to the changes
+                --help, -h:   Show this message
 
 ## Web Translate It Synchronisation Console
 
 ![Web Translate It](http://s3.amazonaws.com:80/edouard.baconfile.com/web_translate_it%2Fadmin_console2.png)
 
-The `wti` gem integrates since its version 1.7.0 a sinatra back-end that allow you to sync your translations directly from a friendly web interface. It allows a translation team to refresh the language files on a staging server without having to ask the developers to manually `wti pull`.
+The `wti` gem integrates since its version 1.7.0 a sinatra app that provides you with a friendly web interface to sync your translations. It allows a translation team to refresh the language files on a staging server without asking the developers to manually `wti pull`.
 
 To get started, go to the directory of the application you want to sync and do:
 
@@ -82,14 +88,16 @@ By default, it starts an application on localhost on the port 4000. You will fin
 
 Should you need to use another host or port, you can use the `-h` and `-p` options. For example: `wti server -p 1234`.
 
-You may want to run some commands before or after synching translations. To do so, add in the `translation.yml` file the following:
+You may want to run some commands before or after syncing translations. To do so, add in the `translation.yml` file the following:
 
     before_pull: "echo 'some unix command'"
     after_pull:  "touch tmp/restart.txt"
 
-`before_pull` and `after_pull` will respectively be executed before and after pulling your language files.
+`before_pull` and `after_pull` are respectively executed before and after pulling language files.
 
 ## Use Cases
+
+Here are some example commands for the most common scenarios.
 
 ### Upload a new master language file
 
@@ -153,4 +161,4 @@ Or add several locales at once:
 
 # License
 
-Copyright (c) 2009-2011 Atelier Convivialité, and released under the MIT License.
+Copyright (c) 2009-2011 Atelier Convivialité, released under the MIT License.
