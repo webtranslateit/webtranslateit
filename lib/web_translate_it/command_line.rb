@@ -65,9 +65,19 @@ module WebTranslateIt
     end
     
     def autoconf
-      puts "We will attempt to configure your project automagically"
-      api_key = Util.ask("Please enter your project API Key")
-      path = Util.ask("Where should we create the configuration file?", 'config/translation.yml')
+      puts ""
+      puts "==========================================="
+      puts " Warning: this command will be deprecated."
+      puts " Please use `wti init` instead."
+      puts "==========================================="
+      puts ""
+      init
+    end
+    
+    def init
+      puts "Let's configure your project."
+      api_key = Util.ask("Enter your project API Key")
+      path = Util.ask("Where should we put the configuration file?", 'config/translation.yml')
       FileUtils.mkpath(path.split('/')[0..path.split('/').size-2].join('/'))
       project = YAML.load WebTranslateIt::Project.fetch_info(api_key)
       project_info = project['project']

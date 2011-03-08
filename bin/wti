@@ -37,6 +37,11 @@ Choice.options do
 
   option :autoconf do
     long 'autoconf'
+    desc "(Deprecated) Configure your project to sync"
+  end
+  
+  option :init do
+    long 'init'
     desc "Configure your project to sync"
   end
 

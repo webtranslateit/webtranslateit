@@ -1,3 +1,7 @@
+## Edge
+
+* New: Deprecate `wti autoconf` in favour of `wti init`.
+
 ## Version 1.7.1.7 / 2011-03-07
 
 * New: `wti unknow_command` explains how to get help.
