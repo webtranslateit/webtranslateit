@@ -55,12 +55,11 @@ Here’s more explanation on the commands.
 
 You can get more information by appending `--help` after each command. For instance:
 
-    $ wti pull --help
-
+    wti pull --help
     Options:
-      --locale, -l <s>:   ISO code of a locale to pull or push
-             --all, -a:   Download or upload all files
-           --force, -f:   Force wti pull to download files
+      --locale, -l <s>:   ISO code of locale(s) to pull
+             --all, -a:   Pull all files
+           --force, -f:   Force pull (bypass conditional requests to WTI)
             --help, -h:   Show this message
 
 ## Configuration
