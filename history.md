@@ -1,6 +1,7 @@
 ## Edge
 
 * New: Deprecate `wti autoconf` in favour of `wti init`.
+* Replaced option parser from Choice to Trollop.
 
 ## Version 1.7.1.7 / 2011-03-07
 
