@@ -1,141 +1,54 @@
 #!/usr/bin/env ruby
 
-require 'choice'
+require 'trollop'
 require 'web_translate_it'
 
-Choice.options do
+SUB_COMMANDS = %w(pull push add addlocale server stats autoconf init)
+global_options = Trollop::options do
+  banner <<-EOS
+  wti is a command line tool to sync your local translation files
+  with the WebTranslateIt.com service.
 
-  option :pull do
-    long 'pull'
-    desc "Pull target language file(s)"
-  end
-
-  option :push do
-    long 'push'
-    desc "Push master language file(s)"
-  end
-
-  option :add do
-    long 'add'
-    desc "Create and push a new master language file"
-  end
+  Usage:
+         wti <command> [options]+
   
-  option :addlocale do
-    long 'addlocale'
-    desc "Add a new locale to the project"
-  end
-  
-  option :server do
-    long 'server'
-    desc "Start a synchronisation server"
-  end
-
-  option :stats do
-    long 'stats'
-    desc "Fetch and display project statistics"
-  end
-
-  option :autoconf do
-    long 'autoconf'
-    desc "(Deprecated) Configure your project to sync"
-  end
-  
-  option :init do
-    long 'init'
-    desc "Configure your project to sync"
-  end
-
-  separator ''
-  separator 'Synchronization options: '
-  
-  option :locale do
-    short '-l'
-    long  '--locale'
-    desc  "ISO code of a locale to pull or push"
-  end
-  
-  option :config do
-    short '-c'
-    long  '--config'
-    desc  "Path to a translation.yml file"
-    desc  "(default: config/translation.yml)"
-    default "config/translation.yml"
-  end
-  
-  option :all do
-    long  '--all'
-    desc  "Download or upload all files"
-  end
-  
-  option :force do
-    long  '--force'
-    desc  "Force wti pull to download files"
-  end
-  
-  option :merge do
-    long  '--merge'
-    desc  "Force WTI to merge this file"
-  end
-  
-  option :ignore_missing do
-    long  '--ignore_missing'
-    desc  "Force WTI to not obsolete missing strings"
-  end
-  
-  option :low_priority do
-    long '--low_priority'
-    desc "Tells WTI to process this command with a low priority"
-  end
-  
-  option :label do
-    long  '--label'
-    desc  "Apply a label to the changes"
-  end
-  
-  separator ''
-  separator 'Server options: '
-  
-  option :port do
-    short '-p'
-    long  '--port'
-    desc  "Run server on a specific port"
-    desc  "(default: 4000)"
-    cast  Integer
-    default '4000'
-  end
-  
-  option :host do
-    short '-h'
-    long  '--host'
-    desc  "Run server on a specific host"
-    desc  "(default: localhost)"
-    default '0.0.0.0'
-  end
-  
-  separator ''
-  separator 'Other options: '
-  
-  option :help do
-    short '-h'
-    long  '--help'
-    desc  'Show this message'
-  end
-
-  option :version do
-    short '-v'
-    long '--version'
-    desc 'Show version'
-    action do
-      puts ""
-      puts "Web Translate It #{WebTranslateIt::Util.version}"
-      exit
-    end
-  end
+  <command> is one of: #{SUB_COMMANDS.join(" ")}
+  [options] are:
+  EOS
+  version "Web Translate It v#{WebTranslateIt::Util.version}"
+  opt :config, "Path to a translation.yml file", :short => "-c", :default => "config/translation.yml"
+  stop_on SUB_COMMANDS
 end
 
-options = Choice.choices
-$project_path = File.expand_path(".")
-$command = Choice.rest[0]
-$parameters = Choice.rest[1..-1]
-Choice.help if $command.nil?
-WebTranslateIt::CommandLine.new($command, options, $project_path, $parameters)
+command = ARGV.shift # get the subcommand
+command_options = case command
+  when "pull"
+    Trollop::options do
+      opt :locale, "ISO code of a locale to pull or push", :type => :string
+      opt :all,    "Download or upload all files", :short => "-a"
+      opt :force,  "Force wti pull to download files", :short => "-f"
+    end
+  when "push"
+    Trollop::options do
+      opt :locale, "ISO code of a locale to pull or push", :type => :string
+      opt :all,    "Download or upload all files"
+      opt :low_priority, "Tells WTI to process this command with a low priority"
+      opt :merge, "Force WTI to merge this file"
+      opt :ignore_missing, "Force WTI to not obsolete missing strings"
+      opt :label, "Apply a label to the changes", :type => :string
+    end
+  when "add"
+  when "addlocale"
+  when "server"
+    Trollop::options do
+      opt :port, "Run server on a specific port", :default => 4000, :short => "-p"
+      opt :host, "Run server on a specific host", :default => "0.0.0.0", :short => "-h"
+    end
+  when "stats"
+  when "autoconf"
+  when "init"
+  else
+    Trollop::die "unknown subcommand #{command.inspect}"
+  end
+
+WebTranslateIt::CommandLine.new(command, command_options, global_options, ARGV, File.expand_path("."))
