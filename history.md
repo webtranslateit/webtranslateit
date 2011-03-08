@@ -1,7 +1,8 @@
 ## Edge
 
-* New: Deprecate `wti autoconf` in favour of `wti init`.
-* Replaced option parser from Choice to Trollop.
+* Deprecate `wti autoconf` in favour of `wti init`.
+* Deprecate `wti stats` in favour of `wti status` and its alias `wti st`.
+* Better help and options. Replaced option parser from Choice to Trollop.
 
 ## Version 1.7.1.7 / 2011-03-07
 

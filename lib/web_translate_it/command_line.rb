@@ -3,7 +3,7 @@ module WebTranslateIt
   class CommandLine
     require 'fileutils'
     attr_accessor :configuration, :global_options, :command_options, :parameters
-        
+    
     def initialize(command, command_options, global_options, parameters, project_path)
       self.command_options = command_options
       self.parameters = parameters
@@ -62,10 +62,10 @@ module WebTranslateIt
     
     def autoconf
       puts ""
-      puts "==========================================="
-      puts " Warning: this command will be deprecated."
+      puts "============================================"
+      puts " Warning: `wti autoconf` will be deprecated."
       puts " Please use `wti init` instead."
-      puts "==========================================="
+      puts "============================================"
       puts ""
       init
     end
@@ -101,6 +101,16 @@ module WebTranslateIt
     end
     
     def stats
+      puts ""
+      puts "============================================="
+      puts " Warning: `wti stats` will be deprecated."
+      puts " Please use `wti status` or `wti st` instead."
+      puts "============================================="
+      puts ""
+      status
+    end
+    
+    def status
       stats = YAML.load(Project.fetch_stats(configuration.api_key))
       stale = false
       stats.each do |locale, values|
@@ -110,9 +120,11 @@ module WebTranslateIt
         stale = true if values['stale']
       end
       if stale
-        self.stats if Util.ask_yes_no("Some statistics displayed above are stale. Would you like to refresh?", true)
+        self.status if Util.ask_yes_no("Some of these stats are stale. Would you like to refresh?", true)
       end
     end
+    
+    alias :st :status
     
     def server
       WebTranslateIt::Server.start(command_options.host, command_options.port)
@@ -157,6 +169,6 @@ api_key: #{api_key}
 
 FILE
       return file
-    end
+    end    
   end
 end
