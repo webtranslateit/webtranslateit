@@ -25,7 +25,7 @@ These instructions are for Linux and Mac OS X system. Follow [these instructions
     gem install web_translate_it
     
 At this point you should have the `wti` executable working.
-If your project if already set up on Web Translate It, open a terminal and type `wti autoconf` to generate the configuration file.
+If your project if already set up on Web Translate It, open a terminal and type `wti init` to generate the configuration file.
 
 Execute `wti --help` to see the usage:
 
@@ -36,7 +36,7 @@ Execute `wti --help` to see the usage:
             addlocale                    Add a new locale to the project
             server                       Start a synchronisation server
             stats                        Fetch and display project statistics
-            autoconf                     Configure your project to sync
+            init                         Configure your project to sync
 
     Synchronization options: 
         -l, --locale                     ISO code of a locale to pull or push
@@ -63,7 +63,7 @@ Execute `wti --help` to see the usage:
 
 Now that the tool is installed, you’ll have to configure your project:
 
-    wti autoconf
+    wti init
 
 It will ask for your Web Translate It API key, and where to save its configuration file. Letting it put in `config/translations.yml` makes everything easier.
 
@@ -152,7 +152,7 @@ This gem includes some rake tasks and a rack middleware you could use to integra
 
     `rake gems:install`
 
-* If you did not already did `wti autoconf`, copy your API key from Web Translate It and run:
+* If you did not already did `wti init`, copy your API key from Web Translate It and run:
 
     `script/generate webtranslateit --api-key your_key_here`
     
