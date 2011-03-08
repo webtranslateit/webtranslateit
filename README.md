@@ -25,39 +25,43 @@ These instructions are for Linux and Mac OS X system. Follow [these instructions
     gem install web_translate_it
     
 At this point you should have the `wti` executable working.
-If your project if already set up on Web Translate It, open a terminal and type `wti init` to generate the configuration file.
+Create a new project on Web Translate It, open a terminal and type `wti init` to generate a configuration file for your project.
 
 Execute `wti --help` to see the usage:
 
-    Usage: wti [-lcphhv]
-            pull                         Pull target language file(s)
-            push                         Push master language file(s)
-            add                          Create and push a new master language file
-            addlocale                    Add a new locale to the project
-            server                       Start a synchronisation server
-            stats                        Fetch and display project statistics
-            init                         Configure your project to sync
+    wti is a command line tool to sync your local translation files
+    with the WebTranslateIt.com service.
 
-    Synchronization options: 
-        -l, --locale                     ISO code of a locale to pull or push
-        -c, --config                     Path to a translation.yml file
-                                         (default: config/translation.yml)
-            --all                        Download or upload all files
-            --force                      Force wti pull to download files
-            --merge                      Force WTI to merge this file
-            --ignore_missing             Force WTI to not obsolete missing strings
-            --low_priority               Tells WTI to process this command with a low priority
-            --label                      Apply a label to the changes
+    Usage:
+           wti <command> [options]+
+  
+    <command> is one of: pull push add addlocale server stats status st autoconf init
+    [options] are:
+    --config, -c <s>:   Path to a translation.yml file (default:
+                        config/translation.yml)
+       --version, -v:   Print version and exit
+          --help, -h:   Show this message
 
-    Server options: 
-        -p, --port                       Run server on a specific port
-                                         (default: 4000)
-        -h, --host                       Run server on a specific host
-                                         (default: localhost)
 
-    Other options: 
-        -h, --help                       Show this message
-        -v, --version                    Show version
+Here’s more explanation on the commands.
+
+    pull                         Pull target language file(s)
+    push                         Push master language file(s)
+    add                          Create and push a new master language file
+    addlocale                    Add a new locale to the project
+    server                       Start a synchronisation server
+    statu                        Fetch and display project statistics
+    init                         Configure your project to sync
+
+You can get more information by appending `--help` after each command. For instance:
+
+    $ wti pull --help
+
+    Options:
+      --locale, -l <s>:   ISO code of a locale to pull or push
+             --all, -a:   Download or upload all files
+           --force, -f:   Force wti pull to download files
+            --help, -h:   Show this message
 
 ## Configuration
 
@@ -117,7 +121,7 @@ where `fr` should be replaced by the locale code of your file.
 
 ### View project stats
 
-    wti stats
+    wti status
     
 ## Web Translate It Synchronisation Console
 

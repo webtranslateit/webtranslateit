@@ -24,18 +24,18 @@ command = ARGV.shift # get the subcommand
 command_options = case command
   when "pull"
     Trollop::options do
-      opt :locale, "ISO code of a locale to pull or push", :type => :string
-      opt :all,    "Download or upload all files", :short => "-a"
-      opt :force,  "Force wti pull to download files", :short => "-f"
+      opt :locale, "ISO code of a locale to pull", :type => :string
+      opt :all,    "Pull all files"
+      opt :force,  "Force pull (bypass conditional requests to WTI)"
     end
   when "push"
     Trollop::options do
-      opt :locale, "ISO code of a locale to pull or push", :type => :string
-      opt :all,    "Download or upload all files"
-      opt :low_priority, "Tells WTI to process this command with a low priority"
-      opt :merge, "Force WTI to merge this file"
+      opt :locale, "ISO code of a locale to push", :type => :string
+      opt :all,    "Upload all files"
+      opt :low_priority, "WTI will process this file with a low priority"
+      opt :merge,  "Force WTI to merge this file"
       opt :ignore_missing, "Force WTI to not obsolete missing strings"
-      opt :label, "Apply a label to the changes", :type => :string
+      opt :label,  "Apply a label to the changes", :type => :string
     end
   when "add"
   when "addlocale"

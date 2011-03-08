@@ -3,6 +3,10 @@
 * Deprecate `wti autoconf` in favour of `wti init`.
 * Deprecate `wti stats` in favour of `wti status` and its alias `wti st`.
 * Better help and options. Replaced option parser from Choice to Trollop.
+* `wti pull -l` can now take several locales separated by spaces.
+  For instance: `wti pull -l "en fr ja"`
+* `wti push -l` can now take several locales separated by spaces.
+  For instance: `wti push -l "en fr"`
 
 ## Version 1.7.1.7 / 2011-03-07
 
