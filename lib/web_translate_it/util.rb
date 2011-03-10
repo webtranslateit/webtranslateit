@@ -31,7 +31,7 @@ module WebTranslateIt
       http = Net::HTTP::Proxy(proxy.host, proxy.port, proxy.user, proxy.password).new('webtranslateit.com', 443)
       http.use_ssl      = true
       http.verify_mode  = OpenSSL::SSL::VERIFY_NONE
-      http.open_timeout = http.read_timeout = 20
+      http.open_timeout = http.read_timeout = 30
       yield http
     end
         

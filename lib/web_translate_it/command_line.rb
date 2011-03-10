@@ -2,16 +2,12 @@
 module WebTranslateIt
   class CommandLine
     require 'fileutils'
-    attr_accessor :configuration, :options, :parameters
-        
-    def initialize(command, options, path, parameters)
-      self.options = options
+    attr_accessor :configuration, :global_options, :command_options, :parameters
+    
+    def initialize(command, command_options, global_options, parameters, project_path)
+      self.command_options = command_options
       self.parameters = parameters
-      if command == 'autoconf'
-        autoconf
-        exit
-      end
-      self.configuration = WebTranslateIt::Configuration.new(path, options.config)
+      self.configuration = WebTranslateIt::Configuration.new(project_path, global_options.config)
       self.send(command)
     end
         
@@ -20,7 +16,7 @@ module WebTranslateIt
       fetch_locales_to_pull.each do |locale|
         configuration.files.find_all{ |file| file.locale == locale }.each do |file|
           print "Pulling #{file.file_path}... "
-          puts file.fetch(ARGV.index('--force'))
+          puts file.fetch(command_options.force)
         end
       end
     end
@@ -28,19 +24,18 @@ module WebTranslateIt
     def push
       STDOUT.sync = true
       fetch_locales_to_push(configuration).each do |locale|
-        merge = !(ARGV.index('--merge')).nil?
-        ignore_missing = !(ARGV.index('--ignore_missing')).nil?
         configuration.files.find_all{ |file| file.locale == locale }.each do |file|
           print "Pushing #{file.file_path}... "
-          puts file.upload(merge, ignore_missing, options.label, options.low_priority)
+          puts file.upload(command_options[:merge], command_options.ignore_missing, command_options.label, command_options.low_priority)
         end
       end
     end
     
     def add
       STDOUT.sync = true
-      if parameters.nil?
-        puts "Usage: wti add file1 file2"
+      if parameters == []
+        puts "No master file given."
+        puts "Usage: wti add master_file1 master_file2 ..."
         exit
       end
       parameters.each do |param|
@@ -48,12 +43,13 @@ module WebTranslateIt
         print "Creating #{file.file_path}... "
         puts file.create
       end
-      puts "Master file added. Use `wti push --all` to send your existing translations."
+      puts "Master file added."
     end
     
     def addlocale
       STDOUT.sync = true
-      if parameters.nil?
+      if parameters == []
+        puts "No locale code given."
         puts "Usage: wti addlocale locale1 locale2 ..."
         exit
       end
@@ -65,9 +61,19 @@ module WebTranslateIt
     end
     
     def autoconf
-      puts "We will attempt to configure your project automagically"
-      api_key = Util.ask("Please enter your project API Key")
-      path = Util.ask("Where should we create the configuration file?", 'config/translation.yml')
+      puts ""
+      puts "============================================"
+      puts " Warning: `wti autoconf` will be deprecated."
+      puts " Please use `wti init` instead."
+      puts "============================================"
+      puts ""
+      init
+    end
+    
+    def init
+      puts "This command configures your project."
+      api_key = Util.ask("Enter your project API Key:")
+      path = Util.ask("Where should we put the configuration file?", 'config/translation.yml')
       FileUtils.mkpath(path.split('/')[0..path.split('/').size-2].join('/'))
       project = YAML.load WebTranslateIt::Project.fetch_info(api_key)
       project_info = project['project']
@@ -95,6 +101,16 @@ module WebTranslateIt
     end
     
     def stats
+      puts ""
+      puts "============================================="
+      puts " Warning: `wti stats` will be deprecated."
+      puts " Please use `wti status` or `wti st` instead."
+      puts "============================================="
+      puts ""
+      status
+    end
+    
+    def status
       stats = YAML.load(Project.fetch_stats(configuration.api_key))
       stale = false
       stats.each do |locale, values|
@@ -104,32 +120,38 @@ module WebTranslateIt
         stale = true if values['stale']
       end
       if stale
-        self.stats if Util.ask_yes_no("Some statistics displayed above are stale. Would you like to refresh?", true)
+        self.status if Util.ask_yes_no("Some of these stats are stale. Would you like to refresh?", true)
       end
     end
     
+    alias :st :status
+    
     def server
-      WebTranslateIt::Server.start(options.host, options.port)
+      WebTranslateIt::Server.start(command_options.host, command_options.port)
+    end
+    
+    def method_missing(m, *args, &block)
+      puts "wti: '#{m}' is not a wti command. See 'wti --help'."
     end
         
     def fetch_locales_to_pull
-      if options.locale
-        locales = [Util.sanitize_locale(options.locale)]
+      if command_options.locale
+        locales = command_options.locale.split.map{ |locale| Util.sanitize_locale(locale) }
       else
         locales = configuration.target_locales
         configuration.ignore_locales.each{ |locale_to_delete| locales.delete(locale_to_delete) }
       end
-      locales.push(configuration.source_locale) if options.all
+      locales.push(configuration.source_locale) if command_options.all
       return locales.uniq
     end
         
     def fetch_locales_to_push(configuration)
-      if options.locale
-        locales = [Util.sanitize_locale(options.locale)]
+      if command_options.locale
+        locales = command_options.locale.split.map{ |locale| Util.sanitize_locale(locale) }
       else
         locales = [configuration.source_locale]
       end
-      locales += configuration.target_locales if options.all
+      locales += configuration.target_locales if command_options.all
       return locales.uniq
     end
     
@@ -147,6 +169,6 @@ api_key: #{api_key}
 
 FILE
       return file
-    end
+    end    
   end
 end

@@ -14,8 +14,8 @@ Gem::Specification.new do |s|
   s.test_files  = Dir["spec/**/*"]  
   
   s.add_dependency("multipart-post", ["~> 1.1.0"])
-  s.add_dependency("choice", ["~> 0.1.4"])
-  s.add_dependency("sinatra", ["~> 1.1.2"])
+  s.add_dependency("trollop", ["~> 1.16.2"])
+  s.add_dependency("sinatra", ["~> 1.2.0"])
   s.add_dependency("rainbow", ["~> 1.1.1"])
   s.add_development_dependency("rspec", [">= 1.2.9"])
   

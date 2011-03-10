@@ -1,5 +1,26 @@
 ## Edge
 
+* Deprecate `wti autoconf` in favour of `wti init`.
+* Deprecate `wti stats` in favour of `wti status` and its alias `wti st`.
+* Better help and options. Replaced option parser from Choice to Trollop.
+* `wti pull -l` can now take several locales separated by spaces.
+  For instance: `wti pull -l "en fr ja"`
+* `wti push -l` can now take several locales separated by spaces.
+  For instance: `wti push -l "en fr"`
+
+## Version 1.7.1.7 / 2011-03-07
+
+* New: `wti unknow_command` explains how to get help.
+* Upgrade Sinatra to 1.2.0.
+* New: Increase timeout to 30 seconds to accommodate large projects.
+
+## Version 1.7.1.6 / 2011-02-25
+
+* Fix: Make sure `log` directory exists on `wti server` start up.
+* New: Upgrade Sinatra to 1.1.3.
+
+## Version 1.7.1.5 / 2011-02-10
+
 * Fix an issue with `wti server` swallowing all `wti` outputs.
 
 ## Version 1.7.1.4 / 2011-02-10

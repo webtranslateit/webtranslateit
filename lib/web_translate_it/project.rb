@@ -3,7 +3,7 @@ module WebTranslateIt
   class Project
     
     def self.fetch_info(api_key)
-      puts "Gathering project's information..."
+      puts "Gathering project's information..." unless Object.const_defined?(:Spec)
       begin
         WebTranslateIt::Util.http_connection do |http|
           request = Net::HTTP::Get.new("/api/projects/#{api_key}.yaml")
