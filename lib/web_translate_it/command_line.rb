@@ -13,22 +13,26 @@ module WebTranslateIt
         
     def pull
       STDOUT.sync = true
+      `#{configuration.before_pull}` if configuration.before_pull
       fetch_locales_to_pull.each do |locale|
         configuration.files.find_all{ |file| file.locale == locale }.each do |file|
           print "Pulling #{file.file_path}... "
           puts file.fetch(command_options.force)
         end
       end
+      `#{configuration.after_pull}` if configuration.after_pull
     end
     
     def push
       STDOUT.sync = true
+      `#{configuration.before_push}` if configuration.before_push
       fetch_locales_to_push(configuration).each do |locale|
         configuration.files.find_all{ |file| file.locale == locale }.each do |file|
           print "Pushing #{file.file_path}... "
           puts file.upload(command_options[:merge], command_options.ignore_missing, command_options.label, command_options.low_priority)
         end
       end
+      `#{configuration.after_push}` if configuration.after_push
     end
     
     def add
@@ -163,9 +167,12 @@ api_key: #{api_key}
 # eg. [:en, :fr] or just 'en'
 # ignore_locales: '#{project_info["source_locale"]["code"]}'
 
-# Optional, only used by wti server
+# Optional
 # before_pull: "echo 'some unix command'"   # Command executed before pulling files
 # after_pull:  "touch tmp/restart.txt"      # Command executed after pulling files
+#
+# before_push: "echo 'some unix command'"   # Command executed before pushing files
+# after_push:  "touch tmp/restart.txt"      # Command executed after pushing files
 
 FILE
       return file

@@ -10,7 +10,7 @@ module WebTranslateIt
   class Configuration
     require 'yaml'
     require 'fileutils'
-    attr_accessor :path, :api_key, :source_locale, :target_locales, :files, :ignore_locales, :logger, :before_pull, :after_pull
+    attr_accessor :path, :api_key, :source_locale, :target_locales, :files, :ignore_locales, :logger, :before_pull, :after_pull, :before_push, :after_push
     
     # Load configuration file from the path.
     def initialize(root_path = Rails.root, path_to_config_file = "config/translation.yml")
@@ -20,6 +20,8 @@ module WebTranslateIt
       self.api_key        = configuration['api_key']
       self.before_pull    = configuration['before_pull']
       self.after_pull     = configuration['after_pull']
+      self.before_push    = configuration['before_push']
+      self.after_push     = configuration['after_push']
       project_info        = YAML.load WebTranslateIt::Project.fetch_info(api_key)
       set_locales_to_ignore(configuration)
       set_files(project_info['project'])

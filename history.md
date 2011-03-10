@@ -8,6 +8,8 @@
 * `wti push -l` can now take several locales separated by spaces.
   For instance: `wti push -l "en fr"`
 * New: Coloured terminal output.
+* New: `before_pull` and `after_pull` hooks now work for all kind of `wti pull` (not only within `wti server`).
+* New: Added 2 new hooks: `before_push` and `after_push`.
 
 ## Version 1.7.1.7 / 2011-03-07
 

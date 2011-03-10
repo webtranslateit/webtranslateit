@@ -4,3 +4,10 @@ api_key: SECRET
 # Optional: locales not to sync with Web Translate It.
 # eg. [:en, :fr] or just 'en'
 # ignore_locales: :en
+
+# Optional
+# before_pull: "echo 'some unix command'"   # Command executed before pulling files
+# after_pull:  "touch tmp/restart.txt"      # Command executed after pulling files
+#
+# before_push: "echo 'some unix command'"   # Command executed before pushing files
+# after_push:  "touch tmp/restart.txt"      # Command executed after pushing files

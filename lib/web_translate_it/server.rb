@@ -36,18 +36,12 @@ module WebTranslateIt
     end
     
     post '/pull/' do
-      @config = WebTranslateIt::Configuration.new('.')
-      `#{config.before_pull}` if config.before_pull
       `wti pull`
-      `#{config.after_pull}` if config.after_pull
       redirect "/"
     end
     
     post '/pull/:locale' do
-      @config = WebTranslateIt::Configuration.new('.')
-      `#{config.before_pull}` if config.before_pull
       `wti pull -l #{params[:locale]}`
-      `#{config.after_pull}` if config.after_pull
       redirect "/#{params[:locale]}"
     end
     
