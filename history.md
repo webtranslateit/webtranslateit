@@ -1,4 +1,4 @@
-## Edge
+## Version 1.7.2.0 / 2011-03-10
 
 * Deprecate `wti autoconf` in favour of `wti init`.
 * Deprecate `wti stats` in favour of `wti status` and its alias `wti st`.
