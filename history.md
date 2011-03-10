@@ -7,6 +7,7 @@
   For instance: `wti pull -l "en fr ja"`
 * `wti push -l` can now take several locales separated by spaces.
   For instance: `wti push -l "en fr"`
+* New: Coloured terminal output.
 
 ## Version 1.7.1.7 / 2011-03-07
 
