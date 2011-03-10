@@ -18,13 +18,7 @@ Gem::Specification.new do |s|
   s.add_dependency("sinatra", ["~> 1.2.0"])
   s.add_dependency("rainbow", ["~> 1.1.1"])
   s.add_development_dependency("rspec", [">= 1.2.9"])
-  
-  # Windows Rubies (RubyInstaller)
-  platforms :mswin, :mingw do
-    s.add_dependency("windows-pr")
-    s.add_dependency("win32console")
-  end
-  
+    
   s.has_rdoc         = true
   s.rdoc_options     = ["--main", "README.md"]
   s.extra_rdoc_files = ["history.md", "README.md"]

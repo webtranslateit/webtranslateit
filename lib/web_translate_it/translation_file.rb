@@ -55,7 +55,7 @@ module WebTranslateIt
           fetch(force)
         end
       else
-        return "Not needed"
+        return "Not needed".success
       end
     end
     
