@@ -1,4 +1,4 @@
-## Edge
+## Version 1.7.2.1 / 2011-03-31
 
 * Bug fix: `wti init` fails when configuration file doesn’t exist.
 * Add Gemfile for using `web_translate_it` with Bundler.
