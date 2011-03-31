@@ -1,3 +1,7 @@
+## Edge
+
+* Bug fix: `wti init` fails when configuration file doesn’t exist.
+
 ## Version 1.7.2.0 / 2011-03-10
 
 * Deprecate `wti autoconf` in favour of `wti init`.

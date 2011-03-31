@@ -7,7 +7,7 @@ module WebTranslateIt
     def initialize(command, command_options, global_options, parameters, project_path)
       self.command_options = command_options
       self.parameters = parameters
-      self.configuration = WebTranslateIt::Configuration.new(project_path, global_options.config)
+      self.configuration = WebTranslateIt::Configuration.new(project_path, global_options.config) unless command == 'init'
       self.send(command)
     end
         
