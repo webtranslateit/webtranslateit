@@ -1,3 +1,8 @@
+## Edge
+
+* Remove `wti autoconf` and `wti stats`.
+  These commands were deprecated in favour of `wti init` and `wti status` (and its alias `wti st`).
+
 ## Version 1.7.2.1 / 2011-03-31
 
 * Bug fix: `wti init` fails when configuration file doesn’t exist.

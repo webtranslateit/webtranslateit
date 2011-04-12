@@ -63,17 +63,7 @@ module WebTranslateIt
       end
       puts "Done!"
     end
-    
-    def autoconf
-      puts ""
-      puts "============================================"
-      puts " Warning: `wti autoconf` will be deprecated."
-      puts " Please use `wti init` instead."
-      puts "============================================"
-      puts ""
-      init
-    end
-    
+        
     def init
       puts "This command configures your project."
       api_key = Util.ask("Enter your project API Key:")
@@ -103,17 +93,7 @@ module WebTranslateIt
         puts "Check `wti --help` for more information."
       end
     end
-    
-    def stats
-      puts ""
-      puts "============================================="
-      puts " Warning: `wti stats` will be deprecated."
-      puts " Please use `wti status` or `wti st` instead."
-      puts "============================================="
-      puts ""
-      status
-    end
-    
+        
     def status
       stats = YAML.load(Project.fetch_stats(configuration.api_key))
       stale = false
