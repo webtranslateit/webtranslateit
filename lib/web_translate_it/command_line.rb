@@ -16,7 +16,7 @@ module WebTranslateIt
       `#{configuration.before_pull}` if configuration.before_pull
       fetch_locales_to_pull.each do |locale|
         configuration.files.find_all{ |file| file.locale == locale }.each do |file|
-          print "Pulling #{file.file_path}... "
+          print "Pulling #{file.file_path}: "
           puts file.fetch(command_options.force)
         end
       end

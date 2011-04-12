@@ -154,4 +154,11 @@ class String
   def failure
     self.background(:red).foreground(:white)
   end
+  
+  ##
+  # trucated, gray foreground for checksums
+  
+  def checksumify
+    self[0..6].foreground(:yellow)
+  end
 end

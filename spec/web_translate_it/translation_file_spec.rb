@@ -28,13 +28,6 @@ describe WebTranslateIt::TranslationFile do
       translation_file.fetch(true).should include "200 OK"
     end
     
-    it "should prepare a HTTP request and get a 304 OK if the language file is fresh" do
-      file = mock(File)
-      file.stub(:puts => true, :close => true)
-      File.stub(:exist? => true, :mtime => Time.now, :new => file)
-      translation_file.fetch.should include "304 Not Modified"
-    end
-    
     it "should prepare a HTTP request and get a 200 OK if the language file is fresh using the force download parameter" do
       file = mock(File)
       file.stub(:puts => true, :close => true)

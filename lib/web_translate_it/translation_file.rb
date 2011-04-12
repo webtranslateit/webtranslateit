@@ -12,14 +12,15 @@ module WebTranslateIt
     require 'time'
     require 'fileutils'
     
-    attr_accessor :id, :file_path, :locale, :api_key, :updated_at
+    attr_accessor :id, :file_path, :locale, :api_key, :updated_at, :remote_checksum
     
-    def initialize(id, file_path, locale, api_key, updated_at = nil)
+    def initialize(id, file_path, locale, api_key, updated_at = nil, remote_checksum = "")
       self.id         = id
       self.file_path  = file_path
       self.locale     = locale
       self.api_key    = api_key
       self.updated_at = updated_at
+      self.remote_checksum = remote_checksum
     end
     
     # Fetch a language file.
@@ -35,11 +36,11 @@ module WebTranslateIt
     #   file.fetch(true) # force to re-download the file, will return the content of the file with a 200 OK
     #
     def fetch(force = false)
-      if !File.exist?(self.file_path) or force or self.updated_at >= last_modification.utc
+      print "#{self.local_checksum.checksumify}...#{self.remote_checksum.checksumify}  "
+      if !File.exist?(self.file_path) or force or self.remote_checksum != self.local_checksum
         begin
           WebTranslateIt::Util.http_connection do |http|
             request = Net::HTTP::Get.new(api_url)
-            request.add_field('If-Modified-Since', last_modification.rfc2822) if File.exist?(self.file_path) and !force
             response = http.request(request)
             FileUtils.mkpath(self.file_path.split('/')[0..-2].join('/')) unless File.exist?(self.file_path) or self.file_path.split('/')[0..-2].join('/') == ""
             begin
@@ -141,6 +142,15 @@ module WebTranslateIt
       
       def api_url_for_create
         "/api/projects/#{self.api_key}/files"
+      end
+      
+      def local_checksum
+        require 'digest/sha1'
+        begin
+          Digest::SHA1.hexdigest(File.open(file_path) { |f| f.read })
+        rescue
+          ""
+        end
       end
   end
 end

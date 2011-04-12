@@ -2,6 +2,8 @@
 
 * Remove `wti autoconf` and `wti stats`.
   These commands were deprecated in favour of `wti init` and `wti status` (and its alias `wti st`).
+* New: Compare local file checksum with file checksum from WTI API to determine if file needs downloading.
+  We were previously using the date of last modification which can be a little bit unreliable.
 
 ## Version 1.7.2.1 / 2011-03-31
 
