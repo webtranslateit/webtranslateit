@@ -1,4 +1,5 @@
-# Web Translate It
+Web Translate It
+================
 
 [Homepage](https://webtranslateit.com) | 
 [RDoc](http://yardoc.org/docs/AtelierConvivialite-webtranslateit) | 
@@ -16,7 +17,8 @@ This gem provides:
 * a synchronisation server to help your translation team update your language files from a web interface,
 * a rack middleware you can use within your Rails app to automatically fetch new translations from Web Translate It.
 
-## Installation
+Installation
+------------
 
 These instructions are for Linux and Mac OS X system. Follow [these instructions](http://help.webtranslateit.com/kb/tips/how-to-install-wti-on-windows) if you’re using Microsoft Windows.
 
@@ -24,7 +26,8 @@ These instructions are for Linux and Mac OS X system. Follow [these instructions
     
 At this point you should have the `wti` executable working.
 
-## Configuration
+Configuration
+-------------
 
 Now that the tool is installed, you’ll have to configure your project:
 
@@ -35,7 +38,8 @@ The tool will prompt for:
 * your Web Translate It API key (you can find it in your project settings),
 * where to save the configuration file (by default in `config/translations.yml`).
 
-## Usage
+Usage
+-----
 
 Execute `wti --help` to see the usage:
 
@@ -74,28 +78,8 @@ You can get more information by appending `--help` after each command. For insta
            --label, -b <s>:   Apply a label to the changes
                 --help, -h:   Show this message
 
-## Web Translate It Synchronisation Console
-
-![Web Translate It](http://s3.amazonaws.com:80/edouard.baconfile.com/web_translate_it%2Fadmin_console2.png)
-
-The `wti` gem integrates since its version 1.7.0 a sinatra app that provides you with a friendly web interface to sync your translations. It allows a translation team to refresh the language files on a staging server without asking the developers to manually `wti pull`.
-
-To get started, go to the directory of the application you want to sync and do:
-
-    wti server
-
-By default, it starts an application on localhost on the port 4000. You will find the tool on `http://localhost:4000`.
-
-Should you need to use another host or port, you can use the `-h` and `-p` options. For example: `wti server -p 1234`.
-
-You may want to run some commands before or after syncing translations. To do so, add in the `translation.yml` file the following:
-
-    before_pull: "echo 'some unix command'"
-    after_pull:  "touch tmp/restart.txt"
-
-`before_pull` and `after_pull` are respectively executed before and after pulling language files.
-
-## Use Cases
+Sample Commands
+---------------
 
 <table>
   <tr>
@@ -160,7 +144,8 @@ You may want to run some commands before or after syncing translations. To do so
   </tr>
 </table>
 
-## Hooks
+Hooks
+-----
 
 It is sometimes useful to hook a command or a script before or after a push or a pull. One use-case would be to launch a build after pulling language files. You can do that by implementing hooks in your `translation.yml` file.
 
@@ -172,6 +157,28 @@ There are 4 hooks:
 * `after_push`
 
 Check the [sample `translation.yml`](https://github.com/AtelierConvivialite/webtranslateit/blob/master/examples/translation.yml#L9..L13) file for implementation.
+
+Web Translate It Synchronisation Console
+----------------------------------------
+
+![Web Translate It](http://s3.amazonaws.com:80/edouard.baconfile.com/web_translate_it%2Fadmin_console2.png)
+
+`wti` contains a server you can use to run a friendly web interface to sync your translations. It allows a translation team to refresh the language files on a staging server without asking the developers to manually `wti pull`.
+
+To get started, go to the directory of the application you want to sync and do:
+
+    wti server
+
+By default, it starts an application on localhost on the port 4000. You will find the tool on `http://localhost:4000`.
+
+Should you need to use another host or port, you can use the `-h` and `-p` options. For example: `wti server -p 1234`.
+
+You may want to run some commands before or after syncing translations. You can use the hooks to do so. For instance, you could add the following in your `translation.yml` file:
+
+    before_pull: "echo 'some unix command'"
+    after_pull:  "touch tmp/restart.txt"
+
+`before_pull` and `after_pull` are respectively executed before and after pulling language files.
 
 # License
 
