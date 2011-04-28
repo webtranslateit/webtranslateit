@@ -103,59 +103,59 @@ You may want to run some commands before or after syncing translations. To do so
     <th>Action</th>
   </tr>
   <tr>
-    <td>`wti add path/to/master/file.po`</td>
+    <td>wti add path/to/master/file.po</td>
     <td>Upload a new master language file</td>
   </tr>
   <tr>
-    <td>`wti add file1.po file2.po file3.xml`</td>
+    <td>wti add file1.po file2.po file3.xml</td>
     <td>Create several master language files at once, by specifying each file</td>
   </tr>
   <tr>
-    <td>`wti add *.po`</td>
+    <td>wti add *.po</td>
     <td>Create several master language files at once, by specifying an extension</td>
   </tr>
   <tr>
-    <td>`wti push`</td>
+    <td>wti push</td>
     <td>Update a master language file</td>
   </tr>
   <tr>
-    <td>`wti push -l fr`</td>
+    <td>wti push -l fr</td>
     <td>Update a target (French) language file</td>
   </tr>
   <tr>
-    <td>`wti push -l "fr en da sv"`</td>
+    <td>wti push -l "fr en da sv"</td>
     <td>Update several target language files at once (French, English, Danish, Swedish)</td>
   </tr>
   <tr>
-    <td>`wti push --all`</td>
+    <td>wti push --all</td>
     <td>Update all language files at once</td>
   </tr>
   <tr>
-    <td>`wti pull`</td>
+    <td>wti pull</td>
     <td>Download target language files</td>
   </tr>
   <tr>
-    <td>`wti pull -l fr`</td>
+    <td>wti pull -l fr</td>
     <td>Download a specific language file (French)</td>
   </tr>
   <tr>
-    <td>`wti pull --all`</td>
+    <td>wti pull --all</td>
     <td>Download all language files, including source</td>
   </tr>
   <tr>
-    <td>`wti pull --force`</td>
+    <td>wti pull --force</td>
     <td>Force pull (to bypass Web Translate It’s HTTP caching)</td>
   </tr>
   <tr>
-    <td>`wti addlocale fr`</td>
+    <td>wti addlocale fr</td>
     <td>Add a new locale to the project</td>
   </tr>
   <tr>
-    <td>`wti addlocale fr da sv`</td>
+    <td>wti addlocale fr da sv</td>
     <td>Add several locales at once</td>
   </tr>
   <tr>
-    <td>`wti status`</td>
+    <td>wti status</td>
     <td>View project statistics</td>
   </tr>
 </table>
