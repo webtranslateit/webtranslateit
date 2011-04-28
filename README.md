@@ -97,9 +97,6 @@ You may want to run some commands before or after syncing translations. To do so
 
 ## Use Cases
 
-Here are some example commands for the most common scenarios.
-
-
 <table>
   <tr>
     <th>Command</th>
@@ -161,6 +158,7 @@ Here are some example commands for the most common scenarios.
     <td>`wti status`</td>
     <td>View project statistics</td>
   </tr>
+</table>
 
 ## Hooks
 
