@@ -1,7 +1,7 @@
 # Web Translate It
 
 [Homepage](https://webtranslateit.com) | 
-[RDocs](http://yardoc.org/docs/AtelierConvivialite-webtranslateit) | 
+[RDoc](http://yardoc.org/docs/AtelierConvivialite-webtranslateit) | 
 [Example app](http://github.com/AtelierConvivialite/rails_example_app) | 
 [Report a bug](http://github.com/AtelierConvivialite/webtranslateit/issues) | 
 [Support](http://help.webtranslateit.com)
@@ -99,65 +99,81 @@ You may want to run some commands before or after syncing translations. To do so
 
 Here are some example commands for the most common scenarios.
 
-### Upload a new master language file
 
-    wti add path/to/master/file.po
+<table>
+  <tr>
+    <th>Command</th>
+    <th>Action</th>
+  </tr>
+  <tr>
+    <td>`wti add path/to/master/file.po`</td>
+    <td>Upload a new master language file</td>
+  </tr>
+  <tr>
+    <td>`wti add file1.po file2.po file3.xml`</td>
+    <td>Create several master language files at once, by specifying each file</td>
+  </tr>
+  <tr>
+    <td>`wti add *.po`</td>
+    <td>Create several master language files at once, by specifying an extension</td>
+  </tr>
+  <tr>
+    <td>`wti push`</td>
+    <td>Update a master language file</td>
+  </tr>
+  <tr>
+    <td>`wti push -l fr`</td>
+    <td>Update a target (French) language file</td>
+  </tr>
+  <tr>
+    <td>`wti push -l "fr en da sv"`</td>
+    <td>Update several target language files at once (French, English, Danish, Swedish)</td>
+  </tr>
+  <tr>
+    <td>`wti push --all`</td>
+    <td>Update all language files at once</td>
+  </tr>
+  <tr>
+    <td>`wti pull`</td>
+    <td>Download target language files</td>
+  </tr>
+  <tr>
+    <td>`wti pull -l fr`</td>
+    <td>Download a specific language file (French)</td>
+  </tr>
+  <tr>
+    <td>`wti pull --all`</td>
+    <td>Download all language files, including source</td>
+  </tr>
+  <tr>
+    <td>`wti pull --force`</td>
+    <td>Force pull (to bypass Web Translate It’s HTTP caching)</td>
+  </tr>
+  <tr>
+    <td>`wti addlocale fr`</td>
+    <td>Add a new locale to the project</td>
+  </tr>
+  <tr>
+    <td>`wti addlocale fr da sv`</td>
+    <td>Add several locales at once</td>
+  </tr>
+  <tr>
+    <td>`wti status`</td>
+    <td>View project statistics</td>
+  </tr>
 
-Create several master language files at once:
+## Hooks
 
-    wti add file1.po file2.po file3.xml
+It is sometimes useful to hook a command or a script before or after a push or a pull. One use-case would be to launch a build after pulling language files. You can do that by implementing hooks in your `translation.yml` file.
 
-Or:
+There are 4 hooks:
 
-    wti add *.po
+* `before_pull`
+* `after_pull`
+* `before_push`
+* `after_push`
 
-After receiving your master language files, Web Translate It will automatically create the corresponding target files. If you have already some translations for these files, use `wti push --all` to synchronise them to Web Translate It.
-
-### Update a master language file
-
-    wti push
-
-### Update a target language file
-
-Update the french language file:
-
-    wti push -l fr
-    
-Or several languages at once:
-
-    wti push -l "fr en da sv"
-   
-### Update all language files at once
-
-    wti push --all
-
-### Download target language files
-
-    wti pull
-    
-### Download a specific language file
-
-    wti pull -l fr
-    
-### Download all language files, including source
-
-    wti pull --all
-    
-### Force pull (to bypass Web Translate It’s HTTP caching)
-
-    wti pull --force
-
-### Add a new locale to the project
-
-    wti addlocale fr
-    
-Or add several locales at once:
-
-    wti addlocale fr da sv
-
-### View project stats
-
-    wti status
+Check the [sample `translation.yml`](https://github.com/AtelierConvivialite/webtranslateit/blob/master/examples/translation.yml#L9..L13) file for implementation.
 
 # License
 
