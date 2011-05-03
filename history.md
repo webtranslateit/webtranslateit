@@ -1,3 +1,7 @@
+## Edge
+
+* Bug fix: Broken links on `wti server`.
+
 ## Version 1.7.3.0 / 2011-04-12
 
 * New: Compare local file checksum with file checksum from WTI API to determine if file needs downloading.
