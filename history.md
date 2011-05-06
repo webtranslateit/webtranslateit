@@ -3,6 +3,7 @@
 * Fix: Broken links on `wti server`.
 * Fix: Avoid crashes on blank checksums. Ticket #53
   This bug could happen when the file checksum is not yet calculated by WTI server, typically by doing a wti push, then wti pull too quickly.
+* Update Sinatra to 1.2.6.
 
 ## Version 1.7.3.0 / 2011-04-12
 

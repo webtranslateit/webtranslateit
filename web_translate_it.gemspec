@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   
   s.add_dependency("multipart-post", ["~> 1.1.0"])
   s.add_dependency("trollop", ["~> 1.16.2"])
-  s.add_dependency("sinatra", ["~> 1.2.0"])
+  s.add_dependency("sinatra", ["~> 1.2.6"])
   s.add_dependency("rainbow", ["~> 1.1.1"])
   s.add_development_dependency("rspec", [">= 1.2.9"])
     
