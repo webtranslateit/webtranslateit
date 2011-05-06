@@ -14,9 +14,12 @@ module WebTranslateIt
     def pull
       STDOUT.sync = true
       `#{configuration.before_pull}` if configuration.before_pull
+      puts ""
+      puts " Pulling files ".bright
+      puts ""
       fetch_locales_to_pull.each do |locale|
         configuration.files.find_all{ |file| file.locale == locale }.each do |file|
-          print "Pulling #{file.file_path}: "
+          print " * #{file.file_path}: "
           puts file.fetch(command_options.force)
         end
       end
@@ -26,9 +29,12 @@ module WebTranslateIt
     def push
       STDOUT.sync = true
       `#{configuration.before_push}` if configuration.before_push
+      puts ""
+      puts " Pushing files ".bright
+      puts ""
       fetch_locales_to_push(configuration).each do |locale|
         configuration.files.find_all{ |file| file.locale == locale }.each do |file|
-          print "Pushing #{file.file_path}... "
+          print " * #{file.file_path}... "
           puts file.upload(command_options[:merge], command_options.ignore_missing, command_options.label, command_options.low_priority)
         end
       end
@@ -38,7 +44,7 @@ module WebTranslateIt
     def add
       STDOUT.sync = true
       if parameters == []
-        puts "No master file given."
+        puts "No master file given.".failure
         puts "Usage: wti add master_file1 master_file2 ..."
         exit
       end
@@ -47,27 +53,26 @@ module WebTranslateIt
         print "Creating #{file.file_path}... "
         puts file.create
       end
-      puts "Master file added."
+      puts "Master file added.".success
     end
     
     def addlocale
       STDOUT.sync = true
       if parameters == []
-        puts "No locale code given."
+        puts "No locale code given.".failure
         puts "Usage: wti addlocale locale1 locale2 ..."
         exit
       end
       parameters.each do |param|
-        print "Adding locale #{param}... "
+        print "Adding locale #{param}... ".success
         puts WebTranslateIt::Project.create_locale(configuration.api_key, param)
       end
       puts "Done!"
     end
         
     def init
-      puts "This command configures your project."
-      api_key = Util.ask("Enter your project API Key:")
-      path = Util.ask("Where should we put the configuration file?", 'config/translation.yml')
+      api_key = Util.ask("Project API Key:")
+      path = Util.ask("Configuration file path:", 'config/translation.yml')
       FileUtils.mkpath(path.split('/')[0..path.split('/').size-2].join('/'))
       project = YAML.load WebTranslateIt::Project.fetch_info(api_key)
       project_info = project['project']
@@ -78,7 +83,7 @@ module WebTranslateIt
           puts "Project File #{file['id']} doesn’t seem to be set up.".failure
           error = true
         elsif !File.exists?(file['name'])
-          puts "Could not find file `#{file['name']}`.".failure
+          puts "Could not find file `#{file['name']}` locally."
           error = true
         else
           puts "Found #{file['name']}.".success
@@ -90,7 +95,7 @@ module WebTranslateIt
       else
         puts ""
         puts "Done! You can now use `wti` to push and pull your language files."
-        puts "Check `wti --help` for more information."
+        puts "Check `wti --help` for help."
       end
     end
         

@@ -48,7 +48,7 @@ command_options = case command
   when "st"
   when "init"
   else
-    Trollop::die "unknown subcommand #{command.inspect}"
+    Trollop::die "Unknown subcommand #{command.inspect}"
   end
 
 WebTranslateIt::CommandLine.new(command, command_options, global_options, ARGV, File.expand_path("."))

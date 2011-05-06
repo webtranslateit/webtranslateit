@@ -47,16 +47,16 @@ module WebTranslateIt
               File.open(self.file_path, 'wb'){ |file| file << response.body } if response.code.to_i == 200 and response.body != ''
               Util.handle_response(response)
             rescue
-              "\n/!\\ An error occured: #{$!}".failure
+              "/!\\ An error occured: #{$!}".failure
             end
           end
         rescue Timeout::Error
-          puts "The request timed out. The service may be overloaded. We will retry in 5 seconds.".failure
+          puts "Request timeout. Will retry in 5 seconds.".failure
           sleep(5)
           fetch(force)
         end
       else
-        return "Not needed".success
+        return "Skipped (up to date)".success
       end
     end
     
@@ -80,13 +80,13 @@ module WebTranslateIt
               Util.handle_response(http.request(request))
             end
           rescue Timeout::Error
-            puts "The request timed out. The service may be overloaded. We will retry in 5 seconds.".failure
+            puts "Request timeout. Will retry in 5 seconds.".failure
             sleep(5)
             upload(merge, ignore_missing)
           end
         end
       else
-        puts "\nFile #{self.file_path} doesn't exist.".failure
+        puts "Can't push #{self.file_path}. File doesn't exist.".failure
       end
     end
     
@@ -110,7 +110,7 @@ module WebTranslateIt
               Util.handle_response(http.request(request))
             end
           rescue Timeout::Error
-            puts "The request timed out. The service may be overloaded. We will retry in 5 seconds.".failure
+            puts "Request timeout. Will retry in 5 seconds.".failure
             sleep(5)
             create
           end

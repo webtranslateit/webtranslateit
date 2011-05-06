@@ -46,16 +46,16 @@ module WebTranslateIt
     
     def self.handle_response(response, return_response = false)
       if response.code.to_i >= 400 and response.code.to_i < 500
-        "Can't fetch project with this API key. Make sure it is correct.".failure
+        "Error: Can't find project for this API key.".failure
       elsif response.code.to_i >= 500
-        "Web Translate It is temporarily unavailable. We've been notified of this issue. Please try again shortly.".failure
+        "Error: Server temporarily unavailable. Please try again shortly.".failure
       else
         return response.body if return_response
-        return "102 Processing. Could not fetch this file, please retry later.".failure if response.code.to_i == 102
-        return "200 OK".success if response.code.to_i == 200
-        return "201 Created".success if response.code.to_i == 201
-        return "202 Accepted".success if response.code.to_i == 202
-        return "304 Not Modified".success if response.code.to_i == 304
+        return "Server currently processing file. Please retry later.".failure if response.code.to_i == 102
+        return "OK".success if response.code.to_i == 200
+        return "Created".success if response.code.to_i == 201
+        return "Accepted".success if response.code.to_i == 202
+        return "Not Modified".success if response.code.to_i == 304
       end
     end
     
