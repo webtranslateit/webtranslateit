@@ -36,7 +36,7 @@ module WebTranslateIt
     #   file.fetch(true) # force to re-download the file, will return the content of the file with a 200 OK
     #
     def fetch(force = false)
-      print "#{self.local_checksum.checksumify}...#{self.remote_checksum.checksumify}  "
+      print "#{self.local_checksum.to_s.checksumify}...#{self.remote_checksum.to_s.checksumify}  "
       if !File.exist?(self.file_path) or force or self.remote_checksum != self.local_checksum
         begin
           WebTranslateIt::Util.http_connection do |http|

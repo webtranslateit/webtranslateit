@@ -51,6 +51,7 @@ module WebTranslateIt
         "Web Translate It is temporarily unavailable. We've been notified of this issue. Please try again shortly.".failure
       else
         return response.body if return_response
+        return "102 Processing. Could not fetch this file, please retry later.".failure if response.code.to_i == 102
         return "200 OK".success if response.code.to_i == 200
         return "201 Created".success if response.code.to_i == 201
         return "202 Accepted".success if response.code.to_i == 202
