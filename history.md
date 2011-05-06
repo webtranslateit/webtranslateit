@@ -1,4 +1,4 @@
-## Edge
+## Version 1.7.3.1 / 2011-05-06
 
 * Fix: Broken links on `wti server`.
 * Fix: Avoid crashes on blank checksums. Ticket #53
