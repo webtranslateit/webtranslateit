@@ -1,4 +1,4 @@
-## Edge
+## Version 1.8.0.0 / 2011-05-31
 
 * New: Faster file transfers using KeepAlive’d connection.
 * New: Verify SSL certificate on connection.
