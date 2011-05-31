@@ -1,3 +1,7 @@
+## Edge
+
+* Fix: Display more detailed error messages on unconfigured projects. Ticket #56
+
 ## Version 1.7.3.1 / 2011-05-06
 
 * Fix: Broken links on `wti server`.
