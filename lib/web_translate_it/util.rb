@@ -30,7 +30,8 @@ module WebTranslateIt
       proxy = ENV['http_proxy'] ? URI.parse(ENV['http_proxy']) : OpenStruct.new
       http = Net::HTTP::Proxy(proxy.host, proxy.port, proxy.user, proxy.password).new('webtranslateit.com', 443)
       http.use_ssl      = true
-      http.verify_mode  = OpenSSL::SSL::VERIFY_NONE
+      http.verify_mode  = OpenSSL::SSL::VERIFY_PEER
+      http.ca_file      = File.expand_path('cacert.pem', __FILE__)
       http.open_timeout = http.read_timeout = 30
       yield http.start
     end
