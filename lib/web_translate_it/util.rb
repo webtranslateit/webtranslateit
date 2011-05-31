@@ -11,7 +11,7 @@ module WebTranslateIt
     # Return a string representing the gem version
     # For example "1.4.4.1"
     def self.version
-      hash = YAML.load_file File.join(File.dirname(__FILE__), '..', '..' '/version.yml')
+      hash = YAML.load_file File.expand_path('../../../version.yml', __FILE__)
       [hash[:major], hash[:minor], hash[:tiny], hash[:patch]].join('.')
     end
     
