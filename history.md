@@ -1,6 +1,9 @@
 ## Edge
 
 * Fix: Display more detailed error messages on unconfigured projects. Ticket #56
+* Remove rake tasks. Rake tasks are much slower than the `wti executable` and were removed.
+  Should you want the rake tasks back, see how to add them in your project
+  [on the wiki](https://github.com/AtelierConvivialite/webtranslateit/wiki/Rake-tasks).
 
 ## Version 1.7.3.1 / 2011-05-06
 

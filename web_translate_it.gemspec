@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.summary     = "Sync your translations between your app and Web Translate It"
   s.email       = "edouard@atelierconvivialite.com"
   s.homepage    = "https://webtranslateit.com"
-  s.description = "An ruby executable, a sinatra app and a handful of rake tasks to sync your translations between your app and webtranslateit.com."
+  s.description = "An ruby executable and a handful of tools to sync your translations between your app and webtranslateit.com."
   s.authors     = ["Édouard Brière"]
  
   s.files       = Dir["history.md", "licence", "readme.md", "version.yml", "examples/**/*", "lib/**/*", "generators/**/*", "bin/**/*", "man/**/*"]

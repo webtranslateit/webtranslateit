@@ -6,7 +6,6 @@ require 'web_translate_it/translation_file'
 require 'web_translate_it/auto_fetch'
 require 'web_translate_it/command_line'
 require 'web_translate_it/project'
-require 'web_translate_it/tasks'
 require 'web_translate_it/server'
 
 module WebTranslateIt
