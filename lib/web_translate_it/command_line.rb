@@ -17,10 +17,12 @@ module WebTranslateIt
       puts ""
       puts " Pulling files ".bright
       puts ""
-      fetch_locales_to_pull.each do |locale|
-        configuration.files.find_all{ |file| file.locale == locale }.each do |file|
-          print " * #{file.file_path}: "
-          puts file.fetch(command_options.force)
+      WebTranslateIt::Util.http_connection do |http|
+        fetch_locales_to_pull.each do |locale|
+          configuration.files.find_all{ |file| file.locale == locale }.each do |file|
+            print " * #{file.file_path}: "
+            puts file.fetch(http, command_options.force)
+          end
         end
       end
       `#{configuration.after_pull}` if configuration.after_pull
@@ -32,10 +34,12 @@ module WebTranslateIt
       puts ""
       puts " Pushing files ".bright
       puts ""
-      fetch_locales_to_push(configuration).each do |locale|
-        configuration.files.find_all{ |file| file.locale == locale }.each do |file|
-          print " * #{file.file_path}... "
-          puts file.upload(command_options[:merge], command_options.ignore_missing, command_options.label, command_options.low_priority)
+      WebTranslateIt::Util.http_connection do |http|
+        fetch_locales_to_push(configuration).each do |locale|
+          configuration.files.find_all{ |file| file.locale == locale }.each do |file|
+            print " * #{file.file_path}... "
+            puts file.upload(http, command_options[:merge], command_options.ignore_missing, command_options.label, command_options.low_priority)
+          end
         end
       end
       `#{configuration.after_push}` if configuration.after_push
@@ -48,10 +52,12 @@ module WebTranslateIt
         puts "Usage: wti add master_file1 master_file2 ..."
         exit
       end
-      parameters.each do |param|
-        file = TranslationFile.new(nil, param, nil, configuration.api_key)
-        print "Creating #{file.file_path}... "
-        puts file.create
+      WebTranslateIt::Util.http_connection do |http|
+        parameters.each do |param|
+          file = TranslationFile.new(nil, param, nil, configuration.api_key)
+          print "Creating #{file.file_path}... "
+          puts file.create(http)
+        end
       end
       puts "Master file added.".success
     end

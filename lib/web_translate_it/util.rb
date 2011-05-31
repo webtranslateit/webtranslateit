@@ -32,7 +32,7 @@ module WebTranslateIt
       http.use_ssl      = true
       http.verify_mode  = OpenSSL::SSL::VERIFY_NONE
       http.open_timeout = http.read_timeout = 30
-      yield http
+      yield http.start
     end
         
     def self.calculate_percentage(processed, total)

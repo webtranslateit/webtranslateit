@@ -1,5 +1,6 @@
 ## Edge
 
+* New: Faster file transfers using KeepAlive’d connection.
 * Fix: Display more detailed error messages on unconfigured projects. Ticket #56
 * Remove rake tasks. Rake tasks are much slower than the `wti executable` and were removed.
   Should you want the rake tasks back, see how to add them in your project
