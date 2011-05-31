@@ -3,6 +3,7 @@
 * New: Faster file transfers using KeepAlive’d connection.
 * New: Verify SSL certificate on connection.
 * Fix: Display more detailed error messages on unconfigured projects. Ticket #56
+* Fix: `wti init` now checks if configuration file is writable. Ticket #35
 * Remove rake tasks. Rake tasks are much slower than the `wti executable` and were removed.
   Should you want the rake tasks back, see how to add them in your project
   [on the wiki](https://github.com/AtelierConvivialite/webtranslateit/wiki/Rake-tasks).
