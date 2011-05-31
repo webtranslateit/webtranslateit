@@ -6,7 +6,14 @@ module WebTranslateIt
       begin
         WebTranslateIt::Util.http_connection do |http|
           request = Net::HTTP::Get.new("/api/projects/#{api_key}.yaml")
-          Util.handle_response(http.request(request), true)
+          response = http.request(request)
+          if response.is_a?(Net::HTTPSuccess)
+            return response.body
+          else
+            puts "An error occured while fetching the project information:"
+            puts response.body.failure
+            exit
+          end
         end
       rescue Timeout::Error
         puts "The request timed out. The service may be overloaded. We will retry in 5 seconds."
