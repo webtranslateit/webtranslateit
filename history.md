@@ -1,3 +1,7 @@
+## Edge
+
+* Fix: SSL certificate verification wasn’t working on some systems (at least Ubuntu).
+
 ## Version 1.8.0.0 / 2011-05-31
 
 * New: Faster file transfers using KeepAlive’d connection.
