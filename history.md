@@ -1,3 +1,7 @@
+## Edge
+
+* Upgrade `multipart-post` dependency.
+
 ## Version 1.8.0.1 / 2011-06-01
 
 * Fix: SSL certificate verification wasn’t working on some systems (at least Ubuntu).
