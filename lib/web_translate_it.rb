@@ -1,5 +1,5 @@
 # encoding: utf-8
-require 'rubygems'
+
 require 'web_translate_it/util'
 require 'web_translate_it/configuration'
 require 'web_translate_it/translation_file'
