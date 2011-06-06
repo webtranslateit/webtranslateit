@@ -45,10 +45,6 @@ module WebTranslateIt
       ((processed*10)/total).to_f.ceil*10
     end
     
-    def self.welcome_message
-      puts "Web Translate It v#{version}"
-    end
-    
     def self.handle_response(response, return_response = false)
       if response.code.to_i >= 400 and response.code.to_i < 500
         "Error: Can't find project for this API key.".failure
@@ -112,29 +108,6 @@ module WebTranslateIt
     end
     
     ##
-    # Choose from a list of options.  +question+ is a prompt displayed above
-    # the list.  +list+ is a list of option strings.  Returns the pair
-    # [option_name, option_index].
-
-    def self.choose_from_list(question, list)
-      STDOUT.puts question
-
-      list.each_with_index do |item, index|
-        STDOUT.puts " #{index+1}. #{item}"
-      end
-
-      STDOUT.print "> "
-      STDOUT.flush
-
-      result = STDIN.gets
-
-      return nil, nil unless result
-
-      result = result.strip.to_i - 1
-      return list[result], result
-    end
-    
-    ##
     # Cleans up a locale name
     # For instance: passing `fr_FR` will return `fr-FR`
 
@@ -162,7 +135,7 @@ class String
   end
   
   ##
-  # trucated, gray foreground for checksums
+  # Truncates checksums
   
   def checksumify
     self[0..6].foreground(:yellow)
