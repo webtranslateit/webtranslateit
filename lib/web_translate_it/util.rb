@@ -121,7 +121,7 @@ class Array
   require 'ansi/columns'
   
   def to_columns
-    columns = ANSI::Columns.new(self, :padding=>2)
+    columns = ANSI::Columns.new(self, :padding => 2)
     columns.to_s(self.size)
   end
 end
@@ -135,7 +135,7 @@ class String
   end
   
   def failure
-    self.red_on_white
+    self.red.bold
   end
   
   def checksumify

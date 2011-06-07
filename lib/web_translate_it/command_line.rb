@@ -83,13 +83,13 @@ module WebTranslateIt
       error = false
       project_info['project_files'].each do |file|
         if file['name'].nil? or file['name'].strip == ''
-          puts "Project File #{file['id']} doesn’t seem to be set up.".failure
+          puts ["(no name)", file['id'].to_s, "Not set up?"].to_columns
           error = true
         elsif !File.exists?(file['name'])
-          puts "Could not find file `#{file['name']}` locally."
+          puts [file['name'].strip, file['id'].to_s, "Not found locally."].to_columns
           error = true
         else
-          puts "Found #{file['name']}.".success
+          puts [file['name'].strip, file['id'].to_s, "Found."].to_columns
         end
       end
       if error
