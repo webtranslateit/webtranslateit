@@ -75,7 +75,7 @@ module WebTranslateIt
       FileUtils.mkpath(path.split('/')[0..path.split('/').size-2].join('/'))
       project = YAML.load WebTranslateIt::Project.fetch_info(api_key)
       project_info = project['project']
-      if !File.writable?(path)
+      if File.exists?(path) && !File.writable?(path)
         puts "Error: #{path} is not writable.".failure
         exit
       end
