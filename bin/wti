@@ -51,4 +51,10 @@ command_options = case command
     Trollop::die "Unknown subcommand #{command.inspect}"
   end
 
-WebTranslateIt::CommandLine.new(command, command_options, global_options, ARGV, File.expand_path("."))
+begin
+  WebTranslateIt::CommandLine.new(command, command_options, global_options, ARGV, File.expand_path("."))
+rescue Interrupt => e
+  puts "\nQuitting...".failure
+  exit 1
+end
+  
