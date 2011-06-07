@@ -14,14 +14,11 @@ module WebTranslateIt
     def pull
       STDOUT.sync = true
       `#{configuration.before_pull}` if configuration.before_pull
-      puts ""
-      puts " Pulling files ".bright
-      puts ""
+      puts "Pulling files ".bold.underline
       WebTranslateIt::Util.http_connection do |http|
         fetch_locales_to_pull.each do |locale|
           configuration.files.find_all{ |file| file.locale == locale }.each do |file|
-            print " * #{file.file_path}: "
-            puts file.fetch(http, command_options.force)
+            file.fetch(http, command_options.force)
           end
         end
       end
@@ -31,14 +28,11 @@ module WebTranslateIt
     def push
       STDOUT.sync = true
       `#{configuration.before_push}` if configuration.before_push
-      puts ""
-      puts " Pushing files ".bright
-      puts ""
+      puts "Pushing files ".bold.underline
       WebTranslateIt::Util.http_connection do |http|
         fetch_locales_to_push(configuration).each do |locale|
           configuration.files.find_all{ |file| file.locale == locale }.each do |file|
-            print " * #{file.file_path}... "
-            puts file.upload(http, command_options[:merge], command_options.ignore_missing, command_options.label, command_options.low_priority)
+            file.upload(http, command_options[:merge], command_options.ignore_missing, command_options.label, command_options.low_priority)
           end
         end
       end
@@ -55,8 +49,7 @@ module WebTranslateIt
       WebTranslateIt::Util.http_connection do |http|
         parameters.each do |param|
           file = TranslationFile.new(nil, param, nil, configuration.api_key)
-          print "Creating #{file.file_path}... "
-          puts file.create(http)
+          file.create(http)
         end
       end
       puts "Master file added.".success

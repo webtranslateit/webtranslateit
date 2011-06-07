@@ -117,27 +117,28 @@ module WebTranslateIt
   end
 end
 
-class String
-  require 'rainbow'
+class Array
+  require 'ansi/columns'
   
-  ##
-  # Green foreground for success
+  def to_columns
+    columns = ANSI::Columns.new(self, :padding=>2)
+    columns.to_s(self.size)
+  end
+end
+
+class String
+  require 'ansi/mixin'
+  include ANSI::Mixin
   
   def success
-    self.foreground(:green)
+    self.green
   end
-  
-  ##
-  # Red foreground for failure
   
   def failure
-    self.background(:red).foreground(:white)
+    self.red_on_white
   end
   
-  ##
-  # Truncates checksums
-  
   def checksumify
-    self[0..6].foreground(:yellow)
+    self[0..6].yellow
   end
 end

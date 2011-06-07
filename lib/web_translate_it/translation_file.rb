@@ -36,16 +36,18 @@ module WebTranslateIt
     #   file.fetch(true) # force to re-download the file, will return the content of the file with a 200 OK
     #
     def fetch(http_connection, force = false)
-      print "#{self.local_checksum.to_s.checksumify}...#{self.remote_checksum.to_s.checksumify}  "
+      display = []
+      display.push(self.file_path)
+      display.push "#{self.local_checksum.to_s.checksumify}..#{self.remote_checksum.to_s.checksumify}"
       if !File.exist?(self.file_path) or force or self.remote_checksum != self.local_checksum
         begin
           response = http_connection.get(api_url)
           FileUtils.mkpath(self.file_path.split('/')[0..-2].join('/')) unless File.exist?(self.file_path) or self.file_path.split('/')[0..-2].join('/') == ""
           begin
             File.open(self.file_path, 'wb'){ |file| file << response.body } if response.code.to_i == 200 and response.body != ''
-            Util.handle_response(response)
+            display.push Util.handle_response(response)
           rescue
-            "/!\\ An error occured: #{$!}".failure
+            display.push "An error occured: #{$!}".failure
           end
         rescue Timeout::Error
           puts "Request timeout. Will retry in 5 seconds.".failure
@@ -53,8 +55,9 @@ module WebTranslateIt
           fetch(http_connection, force)
         end
       else
-        return "Skipped (up to date)".success
+        display.push "Skipped".success
       end
+      puts display.to_columns
     end
     
     # Update a language file to Web Translate It by performing a PUT Request.
@@ -69,15 +72,19 @@ module WebTranslateIt
     # Note that the request might or might not eventually be acted upon, as it might be disallowed when processing
     # actually takes place. This is due to the fact that language file imports are handled by background processing.
     def upload(http_connection, merge=false, ignore_missing=false, label=nil, low_priority=false)
+      display = []
+      display.push(self.file_path)
+      display.push "#{self.local_checksum.to_s.checksumify}..#{self.remote_checksum.to_s.checksumify}"
       if File.exists?(self.file_path)
         File.open(self.file_path) do |file|
           begin
             request = Net::HTTP::Put::Multipart.new(api_url, {"file" => UploadIO.new(file, "text/plain", file.path), "merge" => merge, "ignore_missing" => ignore_missing, "label" => label, "low_priority" => low_priority })
-            Util.handle_response(http_connection.request(request))
+            display.push Util.handle_response(http_connection.request(request))
+            puts display.to_columns
           rescue Timeout::Error
             puts "Request timeout. Will retry in 5 seconds.".failure
             sleep(5)
-            upload(merge, ignore_missing)
+            upload(merge, ignore_missing, label, low_priority)
           end
         end
       else
@@ -97,11 +104,15 @@ module WebTranslateIt
     # actually takes place. This is due to the fact that language file imports are handled by background processing.
     #
     def create(http_connection)
+      display = []
+      display.push file_path
+      display.push "#{self.local_checksum.to_s.checksumify}..[     ]"
       if File.exists?(self.file_path)
         File.open(self.file_path) do |file|
           begin
             request  = Net::HTTP::Post::Multipart.new(api_url_for_create, { "name" => self.file_path, "file" => UploadIO.new(file, "text/plain", file.path) })
-            Util.handle_response(http_connection.request(request))
+            display.push Util.handle_response(http_connection.request(request))
+            puts display.to_columns
           rescue Timeout::Error
             puts "Request timeout. Will retry in 5 seconds.".failure
             sleep(5)
