@@ -17,11 +17,11 @@ Gem::Specification.new do |s|
   s.add_dependency("trollop", ["~> 1.16.2"])
   s.add_dependency("sinatra", ["~> 1.2.6"])
   s.add_dependency("ansi", ["~> 1.2.5"])
-  s.add_development_dependency("rspec", [">= 1.2.9"])
+  s.add_development_dependency("rspec", [">= 2.6.0"])
     
   s.has_rdoc         = true
-  s.rdoc_options     = ["--main", "README.md"]
-  s.extra_rdoc_files = ["history.md", "README.md"]
+  s.rdoc_options     = ["--main", "readme.md"]
+  s.extra_rdoc_files = ["history.md", "readme.md"]
   
   s.require_path       = 'lib'
   s.bindir             = 'bin'

@@ -1,2 +1,2 @@
-require File.dirname(__FILE__) + '/../lib/web_translate_it'
-require 'spec'
+require File.expand_path('../../lib/web_translate_it', __FILE__)
+require 'rspec'
