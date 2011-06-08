@@ -7,7 +7,7 @@ Web Translate It
 [Report a bug](http://github.com/AtelierConvivialite/webtranslateit/issues) | 
 [Support](http://help.webtranslateit.com)
 
-`web_translate_it` is a rubygem providing tools to sync your language files with [Web Translate It](https://webtranslateit.com), a web-based computer-aided translation tool.
+`web_translate_it` is a rubygem providing tools to sync your language files with [Web Translate It](https://webtranslateit.com), a web-based translation software.
 
 ![Web Translate It](http://s3.amazonaws.com:80/edouard.baconfile.com/web_translate_it%2Fwti2.png)
 
