@@ -35,7 +35,7 @@ Now that the tool is installed, you’ll have to configure your project:
 
 The tool will prompt for:
 
-* your Web Translate It API key (you can find it in your project settings),
+* your Web Translate It API key. You can find it in your project settings ([troubles finding the project settings?](http://help.webtranslateit.com/kb/troubleshooting/where-are-my-project-settings)),
 * where to save the configuration file (by default in `config/translations.yml`).
 
 Usage
