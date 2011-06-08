@@ -1,4 +1,4 @@
-## Edge
+## Version 1.8.1.0 / 2011-06-08
 
 * Upgrade `multipart-post` dependency.
 * Replace `rainbow` dependency by `ansi`, which can also format columns. #55
