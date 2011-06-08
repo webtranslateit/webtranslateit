@@ -49,7 +49,7 @@ module WebTranslateIt
         if project_file['name'].nil? or project_file['name'].strip == ''
           puts "File #{project_file['id']} not set up"
         else
-          self.files.push TranslationFile.new(project_file['id'], project_file['name'], project_file['locale_code'], self.api_key, project_file['updated_at'], project_file['hash_file'])
+          self.files.push TranslationFile.new(project_file['id'], project_file['name'], project_file['locale_code'], self.api_key, project_file['updated_at'], project_file['hash_file'], project_file['master_project_file_id'])
         end
       end
     end

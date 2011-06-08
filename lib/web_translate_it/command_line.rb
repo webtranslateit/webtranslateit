@@ -80,25 +80,27 @@ module WebTranslateIt
         exit
       end
       File.open(path, 'w'){ |file| file << generate_configuration(api_key, project_info) }
-      error = false
-      project_info['project_files'].each do |file|
-        if file['name'].nil? or file['name'].strip == ''
-          puts ["(no name)", file['id'].to_s, "Not set up?"].to_columns
-          error = true
-        elsif !File.exists?(file['name'])
-          puts [file['name'].strip, file['id'].to_s, "Not found locally."].to_columns
-          error = true
+      puts ""
+      puts "Done! You can now use `wti` to push and pull your language files."
+      puts "Check `wti --help` for help."
+    end
+    
+    def match
+      puts "Matching local files with File Manager".bold.underline
+      puts ""
+      configuration.files.find_all{ |mf| mf.locale == configuration.source_locale }.each do |master_file|
+        if !File.exists?(master_file.file_path)
+          puts master_file.file_path.failure + " (#{master_file.locale})"
         else
-          puts [file['name'].strip, file['id'].to_s, "Found."].to_columns
+          puts master_file.file_path.bold + " (#{master_file.locale})"
         end
-      end
-      if error
-        puts "Please check the correct full path is specified in the File Manager"
-        puts "https://webtranslateit.com/projects/#{project_info['id']}/files"
-      else
-        puts ""
-        puts "Done! You can now use `wti` to push and pull your language files."
-        puts "Check `wti --help` for help."
+        configuration.files.find_all{ |f| f.master_id == master_file.id }.each do |file|
+          if !File.exists?(file.file_path)
+            puts "- #{file.file_path}".failure + " (#{file.locale})"
+          else
+            puts "- #{file.file_path}" + " (#{file.locale})"
+          end
+        end
       end
     end
         

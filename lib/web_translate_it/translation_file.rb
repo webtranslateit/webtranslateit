@@ -12,15 +12,16 @@ module WebTranslateIt
     require 'time'
     require 'fileutils'
     
-    attr_accessor :id, :file_path, :locale, :api_key, :updated_at, :remote_checksum
+    attr_accessor :id, :file_path, :locale, :api_key, :updated_at, :remote_checksum, :master_id
     
-    def initialize(id, file_path, locale, api_key, updated_at = nil, remote_checksum = "")
+    def initialize(id, file_path, locale, api_key, updated_at = nil, remote_checksum = "", master_id = nil)
       self.id         = id
       self.file_path  = file_path
       self.locale     = locale
       self.api_key    = api_key
       self.updated_at = updated_at
       self.remote_checksum = remote_checksum
+      self.master_id  = master_id
     end
     
     # Fetch a language file.

@@ -49,7 +49,7 @@ Execute `wti --help` to see the usage:
     Usage:
            wti <command> [options]+
   
-    <command> is one of: pull push add addlocale server stats status st autoconf init
+    <command> is one of: pull push match add addlocale server stats status st autoconf init
     [options] are:
     --config, -c <s>:   Path to a translation.yml file (default:
                         config/translation.yml)
@@ -60,6 +60,7 @@ Here’s more explanation about the commands.
 
     pull          Pull target language file(s)
     push          Push master language file(s)
+    match         Display matching of local files with File Manager
     add           Create and push a new master language file
     addlocale     Add a new locale to the project
     server        Start a synchronisation server

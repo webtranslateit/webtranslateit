@@ -3,7 +3,7 @@
 require 'trollop'
 require 'web_translate_it'
 
-SUB_COMMANDS = %w(pull push add addlocale server status st init)
+SUB_COMMANDS = %w(pull push match add addlocale server status st init)
 global_options = Trollop::options do
   banner <<-EOS
   wti is a command line tool to sync your local translation files
@@ -47,6 +47,7 @@ command_options = case command
   when "status"
   when "st"
   when "init"
+  when "match"
   else
     Trollop::die "Unknown subcommand #{command.inspect}"
   end

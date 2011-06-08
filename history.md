@@ -4,6 +4,7 @@
 * Replace `rainbow` dependency by `ansi`, which can also format columns. #55
 * Bug fix: `translation.yml` file wasn’t created on new projects.
 * New: Gracefully quit on interrupt.
+* New command: `wti match`. Displays files matching with the File Manager.
 
 ## Version 1.8.0.1 / 2011-06-01
 
