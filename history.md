@@ -5,6 +5,7 @@
 * Bug fix: `translation.yml` file wasn’t created on new projects.
 * New: Gracefully quit on interrupt.
 * New command: `wti match`. Displays files matching with the File Manager.
+* Improved help commands.
 
 ## Version 1.8.0.1 / 2011-06-01
 

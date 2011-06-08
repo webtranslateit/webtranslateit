@@ -5,31 +5,48 @@ require 'web_translate_it'
 
 SUB_COMMANDS = %w(pull push match add addlocale server status st init)
 global_options = Trollop::options do
+  stop_on SUB_COMMANDS
   banner <<-EOS
-  wti is a command line tool to sync your local translation files
-  with the WebTranslateIt.com service.
 
-  Usage:
-         wti <command> [options]+
+Usage: wti <command> [options]+
   
-  <command> is one of: #{SUB_COMMANDS.join(" ")}
-  [options] are:
-  EOS
+The most commonly used wti commands are:
+  
+  pull        Pull target language file(s)
+  push        Push master language file(s)
+  match       Display matching of local files with File Manager
+  add         Create and push a new master language file
+  addlocale   Add a new locale to the project
+  server      Start a synchronisation server
+  status      Fetch and display project statistics
+  init        Configure your project to sync      
+
+See `wti <command> --help` for more information on a specific command.
+  
+[options] are:
+EOS
   version "Web Translate It v#{WebTranslateIt::Util.version}"
   opt :config, "Path to a translation.yml file", :short => "-c", :default => "config/translation.yml"
-  stop_on SUB_COMMANDS
 end
 
 command = ARGV.shift # get the subcommand
 command_options = case command
   when "pull"
     Trollop::options do
+      banner <<-EOS
+Pull target language file(s)
+[options] are:
+EOS
       opt :locale, "ISO code of locale(s) to pull", :type => :string
       opt :all,    "Pull all files"
       opt :force,  "Force pull (bypass conditional requests to WTI)"
     end
   when "push"
     Trollop::options do
+      banner <<-EOS
+Push master language file(s)
+[options] are:
+EOS
       opt :locale, "ISO code of locale(s) to push", :type => :string
       opt :all,    "Upload all files"
       opt :low_priority, "WTI will process this file with a low priority"
@@ -38,16 +55,25 @@ command_options = case command
       opt :label,  "Apply a label to the changes", :type => :string
     end
   when "add"
+    Trollop::options { banner "Create and push a new master language file" }
   when "addlocale"
+    Trollop::options { banner "Add a new locale to the project" }
   when "server"
     Trollop::options do
+      banner <<-EOS
+Start a synchronisation server
+[options] are:
+EOS
       opt :port, "Run server on a specific port", :default => 4000, :short => "-p"
       opt :host, "Run server on a specific host", :default => "0.0.0.0", :short => "-h"
     end
   when "status"
+    Trollop::options { banner "Fetch and display project statistics" }
   when "st"
   when "init"
+    Trollop::options { banner "Configure your project to sync" }
   when "match"
+    Trollop::options { banner "Display matching of local files with File Manager" }
   else
     Trollop::die "Unknown subcommand #{command.inspect}"
   end

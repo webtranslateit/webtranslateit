@@ -43,35 +43,33 @@ Usage
 
 Execute `wti --help` to see the usage:
 
-    wti is a command line tool to sync your local translation files
-    with the WebTranslateIt.com service.
-
-    Usage:
-           wti <command> [options]+
+    Usage: wti <command> [options]+
   
-    <command> is one of: pull push match add addlocale server stats status st autoconf init
+    The most commonly used wti commands are:
+  
+      pull        Pull target language file(s)
+      push        Push master language file(s)
+      match       Display matching of local files with File Manager
+      add         Create and push a new master language file
+      addlocale   Add a new locale to the project
+      server      Start a synchronisation server
+      status      Fetch and display project statistics
+      init        Configure your project to sync      
+
+    See `wti <command> --help` for more information on a specific command.
+  
     [options] are:
-    --config, -c <s>:   Path to a translation.yml file (default:
-                        config/translation.yml)
-       --version, -v:   Print version and exit
-          --help, -h:   Show this message
+      --config, -c <s>:   Path to a translation.yml file (default:
+                          config/translation.yml)
+         --version, -v:   Print version and exit
+            --help, -h:   Show this message
 
-Here’s more explanation about the commands.
-
-    pull          Pull target language file(s)
-    push          Push master language file(s)
-    match         Display matching of local files with File Manager
-    add           Create and push a new master language file
-    addlocale     Add a new locale to the project
-    server        Start a synchronisation server
-    status        Fetch and display project statistics
-    init          Configure your project to sync
-
-You can get more information by appending `--help` after each command. For instance:
+Append `--help` for each command for more information. For instance:
 
     $ wti push --help
-    Options:
-          --locale, -l <s>:   ISO code of a locale to push
+    Push master language file(s)
+    [options] are:
+          --locale, -l <s>:   ISO code of locale(s) to push
                  --all, -a:   Upload all files
         --low-priority, -o:   WTI will process this file with a low priority
                --merge, -m:   Force WTI to merge this file
