@@ -135,14 +135,27 @@ class String
   include ANSI::Mixin
   
   def success
+    return self if RUBY_PLATFORM.downcase.include?("mingw32")
     self.green
   end
   
   def failure
+    return self if RUBY_PLATFORM.downcase.include?("mingw32")
     self.red.bold
   end
   
   def checksumify
+    return self[0..6] if RUBY_PLATFORM.downcase.include?("mingw32")
     self[0..6].yellow
+  end
+  
+  def titleize
+    return self if RUBY_PLATFORM.downcase.include?("mingw32")
+    self.bold.underline
+  end
+  
+  def important
+    return self if RUBY_PLATFORM.downcase.include?("mingw32")
+    self.bold
   end
 end
