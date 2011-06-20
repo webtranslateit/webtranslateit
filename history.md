@@ -1,9 +1,6 @@
-## Edge
+## Version 1.8.1.2 / 2011-06-20
 
 * Bug fix: Disable colors when running under MS Windows. #58
-
-## Version 1.8.1.1 / 2011-06-20
-
 * Bug fix: Don’t verify SSL certificate when running under MS Windows. #57
 
 ## Version 1.8.1.0 / 2011-06-08
