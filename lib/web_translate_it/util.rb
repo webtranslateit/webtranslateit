@@ -30,18 +30,20 @@ module WebTranslateIt
       proxy = ENV['http_proxy'] ? URI.parse(ENV['http_proxy']) : OpenStruct.new
       http = Net::HTTP::Proxy(proxy.host, proxy.port, proxy.user, proxy.password).new('webtranslateit.com', 443)
       http.use_ssl      = true
-      if RUBY_PLATFORM.downcase.include?("mingw32") # Don’t verify SSL cert for Windows
-        http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-      else
+      http.open_timeout = http.read_timeout = 30
+      begin
         http.verify_mode  = OpenSSL::SSL::VERIFY_PEER
         if File.exists?('/etc/ssl/certs') # Ubuntu
           http.ca_path = '/etc/ssl/certs'
         else
           http.ca_file = File.expand_path('cacert.pem', __FILE__)
         end
+        yield http.start
+      rescue OpenSSL::SSL::SSLError
+        puts "Unable to verify SSL certificate."
+        http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+        yield http.start
       end
-      http.open_timeout = http.read_timeout = 30
-      yield http.start
     end
         
     def self.calculate_percentage(processed, total)

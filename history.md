@@ -1,3 +1,7 @@
+## Version 1.8.1.3 / 2011-06-24
+
+* `wti` now falls back to non-verified SSL connections if SSL verification cannot be done.
+
 ## Version 1.8.1.2 / 2011-06-20
 
 * Bug fix: Disable colors when running under MS Windows. #58
