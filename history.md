@@ -1,3 +1,7 @@
+## Version 1.8.1.4 / 2011-06-29
+
+* Bug fix: don’t try to modify a frozen object during fall back to non-verified SSL. #60
+
 ## Version 1.8.1.3 / 2011-06-24
 
 * `wti` now falls back to non-verified SSL connections if SSL verification cannot be done.

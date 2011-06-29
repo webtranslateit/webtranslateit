@@ -41,6 +41,7 @@ module WebTranslateIt
         yield http.start
       rescue OpenSSL::SSL::SSLError
         puts "Unable to verify SSL certificate."
+        http = http.dup
         http.verify_mode = OpenSSL::SSL::VERIFY_NONE
         yield http.start
       end
