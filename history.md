@@ -1,3 +1,7 @@
+## Edge
+
+* Update ansi dependancy.
+
 ## Version 1.8.1.4 / 2011-06-29
 
 * Bug fix: don’t try to modify a frozen object during fall back to non-verified SSL. #60
