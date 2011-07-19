@@ -1,4 +1,4 @@
-## Edge
+## Version 1.8.1.5 / 2011-07-19
 
 * Update ansi dependancy.
 * Bug fix: re-recreate http connection from scratch after SSL certificate verification failure.
