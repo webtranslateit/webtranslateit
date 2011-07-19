@@ -41,8 +41,10 @@ module WebTranslateIt
         yield http.start
       rescue OpenSSL::SSL::SSLError
         puts "Unable to verify SSL certificate."
-        http = http.dup
-        http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+        http = Net::HTTP::Proxy(proxy.host, proxy.port, proxy.user, proxy.password).new('webtranslateit.com', 443)
+        http.use_ssl      = true
+        http.open_timeout = http.read_timeout = 30
+        http.verify_mode  = OpenSSL::SSL::VERIFY_NONE
         yield http.start
       end
     end
