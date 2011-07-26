@@ -1,6 +1,7 @@
 ## Edge
 
 * Update multipart-post dependancy.
+* Only include CA cert of WTI’s SSL certificate issuer. #61.
 
 ## Version 1.8.1.5 / 2011-07-19
 
