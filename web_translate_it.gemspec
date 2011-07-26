@@ -3,10 +3,9 @@ require File.expand_path('../lib/web_translate_it/util', __FILE__)
 Gem::Specification.new do |s|
   s.name        = "web_translate_it" 
   s.version     = WebTranslateIt::Util.version
-  s.summary     = "Sync your translations between your app and Web Translate It"
+  s.summary     = "A CLI to sync locale files with webtranslateit.com."
   s.email       = "edouard@atelierconvivialite.com"
   s.homepage    = "https://webtranslateit.com"
-  s.description = "An ruby executable and a handful of tools to sync your translations between your app and webtranslateit.com."
   s.authors     = ["Édouard Brière"]
  
   s.files       = Dir["history.md", "licence", "readme.md", "version.yml", "examples/**/*", "lib/**/*", "generators/**/*", "bin/**/*", "man/**/*"]
