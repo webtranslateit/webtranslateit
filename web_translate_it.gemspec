@@ -16,7 +16,6 @@ Gem::Specification.new do |s|
   s.add_dependency "trollop", "~> 1.16.2"
   s.add_dependency "sinatra", "~> 1.2.6"
   s.add_dependency "ansi", "~> 1.3"
-  s.add_dependency "win32console" if s.platform.to_s =~ /mswin|mingw/
   s.add_development_dependency "rspec", ">= 2.6.0"
   
   s.has_rdoc         = true

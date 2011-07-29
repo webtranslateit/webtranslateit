@@ -1,3 +1,8 @@
+## Edge
+
+* Revert previous commit, which didn’t work. Added an extra step to the Windows installation
+  instructions: http://help.webtranslateit.com/kb/tips/how-to-install-wti-on-windows
+
 ## Version 1.8.1.7 / 2011-07-29
 
 * Add dependancy on `win32console` for Microsoft Windows users.
