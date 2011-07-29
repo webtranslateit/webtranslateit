@@ -1,5 +1,9 @@
 ## Edge
 
+* Add dependancy on `win32console` for Microsoft Windows users.
+
+## Version 1.8.1.6 / 2011-07-25
+
 * Update multipart-post dependancy.
 * Only include CA cert of WTI’s SSL certificate issuer. #61.
 
