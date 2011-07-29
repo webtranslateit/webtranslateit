@@ -2,6 +2,7 @@
 
 * Revert previous commit, which didn’t work. Added an extra step to the Windows installation
   instructions: http://help.webtranslateit.com/kb/tips/how-to-install-wti-on-windows
+* Fix broken `WebTranslateIt.fetch_translations`, #63.
 
 ## Version 1.8.1.7 / 2011-07-29
 
