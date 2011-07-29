@@ -1,4 +1,4 @@
-## Edge
+## Version 1.8.1.7 / 2011-07-29
 
 * Add dependancy on `win32console` for Microsoft Windows users.
 
