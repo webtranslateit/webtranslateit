@@ -1,4 +1,4 @@
-## Edge
+## Version 1.8.1.8 / 2011-07-29
 
 * Revert previous commit, which didn’t work. Added an extra step to the Windows installation
   instructions: http://help.webtranslateit.com/kb/tips/how-to-install-wti-on-windows
