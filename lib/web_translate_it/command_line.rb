@@ -15,13 +15,29 @@ module WebTranslateIt
       STDOUT.sync = true
       `#{configuration.before_pull}` if configuration.before_pull
       puts "Pulling files ".titleize
-      WebTranslateIt::Util.http_connection do |http|
-        fetch_locales_to_pull.each do |locale|
-          configuration.files.find_all{ |file| file.locale == locale }.each do |file|
-            file.fetch(http, command_options.force)
+
+      # Selecting files to pull
+      files = []
+      fetch_locales_to_pull.each do |locale|
+        files.concat configuration.files.find_all{ |file| file.locale == locale }
+      end
+      # Now actually pulling files
+      time = Time.now
+      threads = []
+      files.chunk(10).each do |file_array|
+        unless file_array.empty?
+          threads << Thread.new(file_array) do |file_array|
+            WebTranslateIt::Util.http_connection do |http|
+              file_array.each do |file|
+                file.fetch(http, command_options.force)
+              end
+            end
           end
         end
       end
+      threads.each { |thread| thread.join }
+      time = Time.now - time
+      puts "Downloaded #{files.count} files in #{time} seconds at #{files.count/time} files/sec."
       `#{configuration.after_pull}` if configuration.after_pull
     end
     
