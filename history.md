@@ -1,6 +1,6 @@
 ## Edge
 
-* `wti pull` downloads files in parallel, using up to 10 threads.
+* `wti pull` downloads files in parallel, using up to 20 threads.
   This makes for much faster syncs for projects containing many files (up to 65 files/sec).
 
 ## Version 1.8.1.8 / 2011-07-29

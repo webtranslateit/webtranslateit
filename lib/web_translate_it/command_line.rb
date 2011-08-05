@@ -24,7 +24,9 @@ module WebTranslateIt
       # Now actually pulling files
       time = Time.now
       threads = []
-      files.chunk(10).each do |file_array|
+      n_threads = (files.count.to_f/3).ceil >= 20 ? 20 : (files.count.to_f/3).ceil
+      puts "Using up to #{n_threads} threads"
+      files.chunk(n_threads).each do |file_array|
         unless file_array.empty?
           threads << Thread.new(file_array) do |file_array|
             WebTranslateIt::Util.http_connection do |http|
@@ -37,7 +39,7 @@ module WebTranslateIt
       end
       threads.each { |thread| thread.join }
       time = Time.now - time
-      puts "Downloaded #{files.count} files in #{time} seconds at #{files.count/time} files/sec."
+      puts "Pulled #{files.count} files in #{time} seconds at #{files.count/time} files/sec."
       `#{configuration.after_pull}` if configuration.after_pull
     end
     
