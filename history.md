@@ -1,3 +1,7 @@
+## Edge
+
+* Possible fix for encoding issue in .gemspec file, #66
+
 ## Version 1.8.1.8 / 2011-07-29
 
 * Revert previous commit, which didn’t work. Added an extra step to the Windows installation
