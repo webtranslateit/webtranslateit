@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require File.expand_path('../lib/web_translate_it/util', __FILE__)
 
 Gem::Specification.new do |s|
