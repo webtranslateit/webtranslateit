@@ -1,4 +1,4 @@
-## Edge
+## Version 1.8.1.9 / 2011-07-29
 
 * Possible fix for encoding issue in .gemspec file, #66
 * Removed dependancy on ansi gem, so wti can now install smoothly on Windows machines.
