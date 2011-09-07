@@ -14,7 +14,7 @@ module WebTranslateIt
     def pull
       STDOUT.sync = true
       `#{configuration.before_pull}` if configuration.before_pull
-      puts "Pulling files ".titleize
+      puts "Pulling files".titleize
 
       # Selecting files to pull
       files = []
@@ -46,7 +46,7 @@ module WebTranslateIt
     def push
       STDOUT.sync = true
       `#{configuration.before_push}` if configuration.before_push
-      puts "Pushing files ".titleize
+      puts "Pushing files".titleize
       WebTranslateIt::Util.http_connection do |http|
         fetch_locales_to_push(configuration).each do |locale|
           configuration.files.find_all{ |file| file.locale == locale }.each do |file|
@@ -105,7 +105,6 @@ module WebTranslateIt
     
     def match
       puts "Matching local files with File Manager".titleize
-      puts ""
       configuration.files.find_all{ |mf| mf.locale == configuration.source_locale }.each do |master_file|
         if !File.exists?(master_file.file_path)
           puts master_file.file_path.failure + " (#{master_file.locale})"
