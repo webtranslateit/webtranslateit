@@ -1,8 +1,8 @@
 ## Version 1.8.1.9 / 2011-09-07
 
 * Possible fix for encoding issue in .gemspec file, #66
-* Removed dependancy on ansi gem, so wti can now install smoothly on Windows machines.
-  Windows users had to manually install an extra `win32console` gem. #62.
+* Removed dependency on `ansi` gem, so wti now installs smoothly on Windows machines.
+  Windows users had to manually install the `win32console` gem. #62.
 
 ## Version 1.8.1.8 / 2011-07-29
 
@@ -12,16 +12,16 @@
 
 ## Version 1.8.1.7 / 2011-07-29
 
-* Add dependancy on `win32console` for Microsoft Windows users.
+* Add dependency on `win32console` for Microsoft Windows users.
 
 ## Version 1.8.1.6 / 2011-07-25
 
-* Update multipart-post dependancy.
+* Update multipart-post dependency.
 * Only include CA cert of WTI’s SSL certificate issuer. #61.
 
 ## Version 1.8.1.5 / 2011-07-19
 
-* Update ansi dependancy.
+* Update ansi dependency.
 * Bug fix: re-recreate http connection from scratch after SSL certificate verification failure.
 
 ## Version 1.8.1.4 / 2011-06-29
