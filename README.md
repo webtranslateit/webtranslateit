@@ -141,6 +141,10 @@ Sample Commands
     <td>wti status</td>
     <td>View project statistics</td>
   </tr>
+  <tr>
+    <td>wti match</td>
+    <td>Show matching between files on local computer and the ones in Web Translate It’s File Manager</td>
+  </tr>
 </table>
 
 Hooks
