@@ -3,6 +3,12 @@
 * `wti pull` downloads files in parallel, using up to 20 threads.
   This makes for much faster syncs for projects containing many files (up to 65 files/sec).
 
+## Version 1.8.1.9 / 2011-09-07
+
+* Possible fix for encoding issue in .gemspec file, #66
+* Removed dependancy on ansi gem, so wti can now install smoothly on Windows machines.
+  Windows users had to manually install an extra `win32console` gem. #62.
+
 ## Version 1.8.1.8 / 2011-07-29
 
 * Revert previous commit, which didn’t work. Added an extra step to the Windows installation

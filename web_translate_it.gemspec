@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require File.expand_path('../lib/web_translate_it/util', __FILE__)
 
 Gem::Specification.new do |s|
@@ -15,7 +17,6 @@ Gem::Specification.new do |s|
   s.add_dependency "multipart-post", "~> 1.1.3"
   s.add_dependency "trollop", "~> 1.16.2"
   s.add_dependency "sinatra", "~> 1.2.6"
-  s.add_dependency "ansi", "~> 1.3"
   s.add_development_dependency "rspec", ">= 2.6.0"
   
   s.has_rdoc         = true
