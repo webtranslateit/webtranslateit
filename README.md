@@ -9,7 +9,7 @@ Web Translate It
 
 `web_translate_it` is a rubygem providing tools to sync your language files with [Web Translate It](https://webtranslateit.com), a web-based translation software.
 
-![Web Translate It](http://s3.amazonaws.com:80/edouard.baconfile.com/web_translate_it%2Fwti3.png)
+![Web Translate It](http://f.cl.ly/items/2X3m0h0g0I1O1U07163o/wti_example.jpg)
 
 This gem provides:
 
@@ -160,7 +160,7 @@ Check the [sample `translation.yml`](https://github.com/AtelierConvivialite/webt
 Web Translate It Synchronisation Console
 ----------------------------------------
 
-![Web Translate It](http://s3.amazonaws.com:80/edouard.baconfile.com/web_translate_it%2Fadmin_console2.png)
+![Web Translate It](http://f.cl.ly/items/2Z413Q3A2b331c0O2m04/wti_server.png)
 
 `wti` contains a server you can use to run a friendly web interface to sync your translations. It allows a translation team to refresh the language files on a staging server without asking the developers to manually `wti pull`.
 
