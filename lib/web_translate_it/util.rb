@@ -122,45 +122,52 @@ module WebTranslateIt
 
     def self.sanitize_locale(locale)
       locale.gsub('_', '-')
-    end    
+    end
+    
+    ##
+    # Returns whether a terminal can display ansi colors
+    
+    def self.can_display_colors?
+      !RUBY_PLATFORM.downcase.include?("mingw32")
+    end
   end
 end
 
 class Array
-  require 'ansi/columns'
-  
   def to_columns
-    columns = ANSI::Columns.new(self, :padding => 2)
-    columns.to_s(self.size)
+    " #{self[0].backward_truncate} | #{self[1]}  #{self[2]}"
   end
 end
 
 class String
-  require 'ansi/mixin'
-  include ANSI::Mixin
+  
+  def backward_truncate
+    if length <= 50
+      spaces = ""
+      (50-length).times{ spaces << " " }
+      return self << spaces
+    else
+      return "..." << self[self.length-50+3..self.length]
+    end
+  end
   
   def success
-    return self if RUBY_PLATFORM.downcase.include?("mingw32")
-    self.green
+    WebTranslateIt::Util.can_display_colors? ? "\e[32m#{self}\e[0m" : self
   end
   
   def failure
-    return self if RUBY_PLATFORM.downcase.include?("mingw32")
-    self.red.bold
+    WebTranslateIt::Util.can_display_colors? ? "\e[31m#{self}\e[0m" : self
   end
   
   def checksumify
-    return self[0..6] if RUBY_PLATFORM.downcase.include?("mingw32")
-    self[0..6].yellow
+    WebTranslateIt::Util.can_display_colors? ? "\e[33m#{self[0..6]}\e[0m" : self[0..6]
   end
   
   def titleize
-    return self if RUBY_PLATFORM.downcase.include?("mingw32")
-    self.bold.underline
+    WebTranslateIt::Util.can_display_colors? ? "\e[1m#{self}\e[0m\n\n" : self
   end
   
   def important
-    return self if RUBY_PLATFORM.downcase.include?("mingw32")
-    self.bold
+    WebTranslateIt::Util.can_display_colors? ? "\e[1m#{self}\e[0m" : self
   end
 end

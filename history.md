@@ -1,6 +1,8 @@
 ## Edge
 
 * Possible fix for encoding issue in .gemspec file, #66
+* Removed dependancy on ansi gem, so wti can now install smoothly on Windows machines.
+  Windows users had to manually install an extra `win32console` gem. #62.
 
 ## Version 1.8.1.8 / 2011-07-29
 
