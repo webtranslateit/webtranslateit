@@ -14,7 +14,7 @@ describe WebTranslateIt::Configuration do
         "ignore_locales" => "en_GB"
       }
       YAML.should_receive(:load_file).and_return(config_hash)
-      WebTranslateIt::Configuration.new(File.dirname(__FILE__) + '/../..', 'examples/translation.yml')
+      WebTranslateIt::Configuration.new(File.dirname(__FILE__) + '/../..', '.wti')
     end
         
     it "should assign the API key, files" do

@@ -7,7 +7,9 @@ module WebTranslateIt
     def initialize(command, command_options, global_options, parameters, project_path)
       self.command_options = command_options
       self.parameters = parameters
-      self.configuration = WebTranslateIt::Configuration.new(project_path, global_options.config) unless command == 'init'
+      unless command == 'init'
+        self.configuration = WebTranslateIt::Configuration.new(project_path, configuration_file_path)
+      end
       self.send(command)
     end
         
@@ -89,15 +91,13 @@ module WebTranslateIt
         
     def init
       api_key = Util.ask("Project API Key:")
-      path = Util.ask("Configuration file path:", 'config/translation.yml')
-      FileUtils.mkpath(path.split('/')[0..path.split('/').size-2].join('/'))
       project = YAML.load WebTranslateIt::Project.fetch_info(api_key)
       project_info = project['project']
-      if File.exists?(path) && !File.writable?(path)
-        puts "Error: #{path} is not writable.".failure
+      if File.exists?('.wti') && !File.writable?('.wti')
+        puts "Error: `.wti` file is not writable.".failure
         exit
       end
-      File.open(path, 'w'){ |file| file << generate_configuration(api_key, project_info) }
+      File.open('.wti', 'w'){ |file| file << generate_configuration(api_key, project_info) }
       puts ""
       puts "Done! You can now use `wti` to push and pull your language files."
       puts "Check `wti --help` for help."
@@ -164,6 +164,24 @@ module WebTranslateIt
       end
       locales += configuration.target_locales if command_options.all
       return locales.uniq
+    end
+    
+    def configuration_file_path
+      if File.exists?('config/translation.yml')
+        puts "Warning: `config/translation.yml` is deprecated in favour of a `.wti` file."
+        if Util.ask_yes_no("Would you like to migrate your configuration now?", 'y')
+          if `mv config/translation.yml .wti`
+            return '.wti'
+          else
+            puts "Couldn’t move `config/translation.yml`."
+            return false
+          end
+        else
+          return 'config/translation.yml'
+        end
+      else
+        return '.wti'
+      end
     end
     
     def generate_configuration(api_key, project_info)

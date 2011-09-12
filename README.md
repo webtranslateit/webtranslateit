@@ -59,8 +59,6 @@ Execute `wti --help` to see the usage:
     See `wti <command> --help` for more information on a specific command.
   
     [options] are:
-      --config, -c <s>:   Path to a translation.yml file (default:
-                          config/translation.yml)
          --version, -v:   Print version and exit
             --help, -h:   Show this message
 
@@ -150,7 +148,7 @@ Sample Commands
 Hooks
 -----
 
-It is sometimes useful to hook a command or a script before or after a push or a pull. One use-case would be to launch a build after pulling language files. You can do that by implementing hooks in your `translation.yml` file.
+It is sometimes useful to hook a command or a script before or after a push or a pull. One use-case would be to launch a build after pulling language files. You can do that by implementing hooks in your `.wti` file.
 
 There are 4 hooks:
 
@@ -159,7 +157,7 @@ There are 4 hooks:
 * `before_push`
 * `after_push`
 
-Check the [sample `translation.yml`](https://github.com/AtelierConvivialite/webtranslateit/blob/master/examples/translation.yml#L9..L13) file for implementation.
+Check the [sample `.wti`](https://github.com/AtelierConvivialite/webtranslateit/blob/master/examples/.wti#L9..L13) file for implementation.
 
 Web Translate It Synchronisation Console
 ----------------------------------------
@@ -176,7 +174,7 @@ By default, it starts an application on localhost on the port 4000. You will fin
 
 Should you need to use another host or port, you can use the `-h` and `-p` options. For example: `wti server -p 1234`.
 
-You may want to run some commands before or after syncing translations. You can use the hooks to do so. For instance, you could add the following in your `translation.yml` file:
+You may want to run some commands before or after syncing translations. You can use the hooks to do so. For instance, you could add the following in your `.wti` file:
 
     before_pull: "echo 'some unix command'"
     after_pull:  "touch tmp/restart.txt"

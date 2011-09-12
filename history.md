@@ -1,7 +1,9 @@
 ## Edge
 
 * `wti pull` downloads files in parallel, using up to 20 threads.
-  This makes syncing much faster for projects containing many files (up to 65 files/sec).
+  This makes syncing much faster for projects containing many files (up to 65 files/sec). 
+* Default configuration file was renamed `.wti`. #67.
+  The upgrade process should be seamless. Config file will be renamed if a `config/translation.yml` file is detected.
 
 ## Version 1.8.1.9 / 2011-09-07
 

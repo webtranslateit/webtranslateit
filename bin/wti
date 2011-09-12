@@ -26,7 +26,6 @@ See `wti <command> --help` for more information on a specific command.
 [options] are:
 EOS
   version "Web Translate It v#{WebTranslateIt::Util.version}"
-  opt :config, "Path to a translation.yml file", :short => "-c", :default => "config/translation.yml"
 end
 
 command = ARGV.shift # get the subcommand
