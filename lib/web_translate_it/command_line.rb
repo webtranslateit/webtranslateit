@@ -170,7 +170,8 @@ module WebTranslateIt
       if File.exists?('config/translation.yml')
         puts "Warning: `config/translation.yml` is deprecated in favour of a `.wti` file."
         if Util.ask_yes_no("Would you like to migrate your configuration now?", 'y')
-          if `mv config/translation.yml .wti`
+          require 'fileutils'
+          if FileUtils.mv('config/translation.yml', '.wti')
             return '.wti'
           else
             puts "Couldn’t move `config/translation.yml`."
