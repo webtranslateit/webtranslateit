@@ -39,7 +39,7 @@ module WebTranslateIt
     def fetch(http_connection, force = false)
       display = []
       display.push(self.file_path)
-      display.push "#{self.local_checksum.to_s.checksumify}..#{self.remote_checksum.to_s.checksumify}"
+      display.push "#{StringUtil.checksumify(self.local_checksum.to_s)}..#{self.remote_checksum.to_s.checksumify}"
       if !File.exist?(self.file_path) or force or self.remote_checksum != self.local_checksum
         begin
           response = http_connection.get(api_url)
@@ -48,17 +48,17 @@ module WebTranslateIt
             File.open(self.file_path, 'wb'){ |file| file << response.body } if response.code.to_i == 200 and response.body != ''
             display.push Util.handle_response(response)
           rescue
-            display.push "An error occured: #{$!}".failure
+            display.push StringUtil.failure("An error occured: #{$!}")
           end
         rescue Timeout::Error
-          puts "Request timeout. Will retry in 5 seconds.".failure
+          puts StringUtil.("Request timeout. Will retry in 5 seconds.")
           sleep(5)
           fetch(http_connection, force)
         end
       else
-        display.push "Skipped".success
+        display.push StringUtil.success("Skipped")
       end
-      puts display.to_columns
+      puts ArrayUtil.to_columns(display)
     end
     
     # Update a language file to Web Translate It by performing a PUT Request.
@@ -75,21 +75,21 @@ module WebTranslateIt
     def upload(http_connection, merge=false, ignore_missing=false, label=nil, low_priority=false)
       display = []
       display.push(self.file_path)
-      display.push "#{self.local_checksum.to_s.checksumify}..#{self.remote_checksum.to_s.checksumify}"
+      display.push "#{StringUtil.checksumify(self.local_checksum.to_s)}..#{self.remote_checksum.to_s.checksumify}"
       if File.exists?(self.file_path)
         File.open(self.file_path) do |file|
           begin
             request = Net::HTTP::Put::Multipart.new(api_url, {"file" => UploadIO.new(file, "text/plain", file.path), "merge" => merge, "ignore_missing" => ignore_missing, "label" => label, "low_priority" => low_priority })
             display.push Util.handle_response(http_connection.request(request))
-            puts display.to_columns
+            puts ArrayUtuil.to_columns(display)
           rescue Timeout::Error
-            puts "Request timeout. Will retry in 5 seconds.".failure
+            puts StringUtil.("Request timeout. Will retry in 5 seconds.")
             sleep(5)
             upload(merge, ignore_missing, label, low_priority)
           end
         end
       else
-        puts "Can't push #{self.file_path}. File doesn't exist.".failure
+        puts StringUtil.failure("Can't push #{self.file_path}. File doesn't exist.")
       end
     end
     
@@ -107,21 +107,21 @@ module WebTranslateIt
     def create(http_connection)
       display = []
       display.push file_path
-      display.push "#{self.local_checksum.to_s.checksumify}..[     ]"
+      display.push "#{StringUtil.checksumify(self.local_checksum.to_s)}..[     ]"
       if File.exists?(self.file_path)
         File.open(self.file_path) do |file|
           begin
             request  = Net::HTTP::Post::Multipart.new(api_url_for_create, { "name" => self.file_path, "file" => UploadIO.new(file, "text/plain", file.path) })
             display.push Util.handle_response(http_connection.request(request))
-            puts display.to_columns
+            puts ArrayUtil.to_columns(display)
           rescue Timeout::Error
-            puts "Request timeout. Will retry in 5 seconds.".failure
+            puts StringUtil.failure("Request timeout. Will retry in 5 seconds.")
             sleep(5)
             create
           end
         end
       else
-        puts "\nFile #{self.file_path} doesn't exist!".failure
+        puts StringUtil.("\nFile #{self.file_path} doesn't exist!")
       end
     end
         
