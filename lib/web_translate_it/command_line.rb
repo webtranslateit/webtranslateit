@@ -190,7 +190,8 @@ module WebTranslateIt
 api_key: #{api_key}
 
 # Optional: locales not to sync with Web Translate It.
-# eg. [:en, :fr] or just 'en'
+# Takes a string, a symbol, or an array of string or symbol.
+# More information here: https://github.com/AtelierConvivialite/webtranslateit/wiki
 # ignore_locales: '#{project_info["source_locale"]["code"]}'
 
 # Optional
