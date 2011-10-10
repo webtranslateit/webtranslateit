@@ -1,3 +1,7 @@
+## Edge
+
+* Fix frozen string bug on ruby 1.9.3 (thanks @mikian for the patch).
+
 ## Version 1.8.2.0 / 2011-09-12
 
 * `wti pull` downloads files in parallel, using up to 20 threads.
