@@ -80,7 +80,7 @@ EOS
 begin
   WebTranslateIt::CommandLine.new(command, command_options, global_options, ARGV, File.expand_path("."))
 rescue Interrupt => e
-  puts "\nQuitting...".failure
+  puts StringUtil.failure("\nQuitting...")
   exit 1
 end
   
