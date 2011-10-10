@@ -56,16 +56,16 @@ module WebTranslateIt
     
     def self.handle_response(response, return_response = false)
       if response.code.to_i >= 400 and response.code.to_i < 500
-        "Error: Can't find project for this API key.".failure
+        StringUtil.failure("Error: Can't find project for this API key.")
       elsif response.code.to_i >= 500
-        "Error: Server temporarily unavailable. Please try again shortly.".failure
+        StringUtil.failure("Error: Server temporarily unavailable. Please try again shortly.")
       else
         return response.body if return_response
-        return "Server currently processing file. Please retry later.".failure if response.code.to_i == 102
-        return "OK".success if response.code.to_i == 200
-        return "Created".success if response.code.to_i == 201
-        return "Accepted".success if response.code.to_i == 202
-        return "Not Modified".success if response.code.to_i == 304
+        return StringUtil.failure("Server currently processing file. Please retry later.") if response.code.to_i == 102
+        return StringUtil.success("OK") if response.code.to_i == 200
+        return StringUtil.success("Created") if response.code.to_i == 201
+        return StringUtil.success("Accepted") if response.code.to_i == 202
+        return StringUtil.success("Not Modified") if response.code.to_i == 304
       end
     end
     
@@ -131,58 +131,58 @@ module WebTranslateIt
       !RUBY_PLATFORM.downcase.include?("mingw32")
     end
   end
-end
 
-class Array
-  def to_columns
-    " #{self[0].backward_truncate} | #{self[1]}  #{self[2]}"
-  end
-  
-  def chunk(pieces=2)
-    len = self.length;
-    mid = (len/pieces)
-    chunks = []
-    start = 0
-    1.upto(pieces) do |i|
-      last = start+mid
-      last = last-1 unless len%pieces >= i
-      chunks << self[start..last] || []
-      start = last+1
+  class ArrayUtil
+    def self.to_columns(arr)
+      " #{StringUtil.backward_truncate(arr[0])} | #{arr[1]}  #{arr[2]}"
     end
-    chunks
-  end
   
-end
+    def self.chunk(arr, pieces=2)
+      len = arr.length;
+      mid = (len/pieces)
+      chunks = []
+      start = 0
+      1.upto(pieces) do |i|
+        last = start+mid
+        last = last-1 unless len%pieces >= i
+        chunks << arr[start..last] || []
+        start = last+1
+      end
+      chunks
+    end
+  
+  end
 
-class String
+  class StringUtil
   
-  def backward_truncate
-    if length <= 50
-      spaces = ""
-      (50-length).times{ spaces << " " }
-      return self << spaces
-    else
-      return "..." << self[self.length-50+3..self.length]
+    def self.backward_truncate(str)
+      if str.length <= 50
+        spaces = ""
+        (50-str.length).times{ spaces << " " }
+        return str.dup << spaces
+      else
+        return "..." << str[str.length-50+3..str.length]
+      end
     end
-  end
   
-  def success
-    WebTranslateIt::Util.can_display_colors? ? "\e[32m#{self}\e[0m" : self
-  end
+    def self.success(str)
+      WebTranslateIt::Util.can_display_colors? ? "\e[32m#{str}\e[0m" : str
+    end
   
-  def failure
-    WebTranslateIt::Util.can_display_colors? ? "\e[31m#{self}\e[0m" : self
-  end
+    def self.failure(str)
+      WebTranslateIt::Util.can_display_colors? ? "\e[31m#{str}\e[0m" : str
+    end
   
-  def checksumify
-    WebTranslateIt::Util.can_display_colors? ? "\e[33m#{self[0..6]}\e[0m" : self[0..6]
-  end
+    def self.checksumify(str)
+      WebTranslateIt::Util.can_display_colors? ? "\e[33m#{str[0..6]}\e[0m" : str[0..6]
+    end
   
-  def titleize
-    WebTranslateIt::Util.can_display_colors? ? "\e[1m#{self}\e[0m\n\n" : self
-  end
+    def self.titleize(str)
+      WebTranslateIt::Util.can_display_colors? ? "\e[1m#{str}\e[0m\n\n" : str
+    end
   
-  def important
-    WebTranslateIt::Util.can_display_colors? ? "\e[1m#{self}\e[0m" : self
+    def self.important(str)
+      WebTranslateIt::Util.can_display_colors? ? "\e[1m#{str}\e[0m" : str
+    end
   end
 end

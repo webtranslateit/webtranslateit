@@ -16,7 +16,7 @@ module WebTranslateIt
     def pull
       STDOUT.sync = true
       `#{configuration.before_pull}` if configuration.before_pull
-      puts "Pulling files".titleize
+      puts StringUtil.titleize("Pulling files")
 
       # Selecting files to pull
       files = []
@@ -28,7 +28,7 @@ module WebTranslateIt
       threads = []
       n_threads = (files.count.to_f/3).ceil >= 20 ? 20 : (files.count.to_f/3).ceil
       puts "Using up to #{n_threads} threads"
-      files.chunk(n_threads).each do |file_array|
+      ArrayUtil.chunk(files, n_threads).each do |file_array|
         unless file_array.empty?
           threads << Thread.new(file_array) do |file_array|
             WebTranslateIt::Util.http_connection do |http|
@@ -48,7 +48,7 @@ module WebTranslateIt
     def push
       STDOUT.sync = true
       `#{configuration.before_push}` if configuration.before_push
-      puts "Pushing files".titleize
+      puts StringUtil.titleize("Pushing files")
       WebTranslateIt::Util.http_connection do |http|
         fetch_locales_to_push(configuration).each do |locale|
           configuration.files.find_all{ |file| file.locale == locale }.each do |file|
@@ -62,7 +62,7 @@ module WebTranslateIt
     def add
       STDOUT.sync = true
       if parameters == []
-        puts "No master file given.".failure
+        puts StringUtil.failure("No master file given.")
         puts "Usage: wti add master_file1 master_file2 ..."
         exit
       end
@@ -72,18 +72,18 @@ module WebTranslateIt
           file.create(http)
         end
       end
-      puts "Master file added.".success
+      puts StringUtil.success("Master file added.")
     end
     
     def addlocale
       STDOUT.sync = true
       if parameters == []
-        puts "No locale code given.".failure
+        puts StringUtil.failure("No locale code given.")
         puts "Usage: wti addlocale locale1 locale2 ..."
         exit
       end
       parameters.each do |param|
-        print "Adding locale #{param}... ".success
+        print StringUtil.success("Adding locale #{param}... ")
         puts WebTranslateIt::Project.create_locale(configuration.api_key, param)
       end
       puts "Done!"
@@ -94,7 +94,7 @@ module WebTranslateIt
       project = YAML.load WebTranslateIt::Project.fetch_info(api_key)
       project_info = project['project']
       if File.exists?('.wti') && !File.writable?('.wti')
-        puts "Error: `.wti` file is not writable.".failure
+        puts StringUtil.failure("Error: `.wti` file is not writable.")
         exit
       end
       File.open('.wti', 'w'){ |file| file << generate_configuration(api_key, project_info) }
@@ -104,16 +104,16 @@ module WebTranslateIt
     end
     
     def match
-      puts "Matching local files with File Manager".titleize
+      puts StringUtil.titleize("Matching local files with File Manager")
       configuration.files.find_all{ |mf| mf.locale == configuration.source_locale }.each do |master_file|
         if !File.exists?(master_file.file_path)
-          puts master_file.file_path.failure + " (#{master_file.locale})"
+          puts StringUtil.failure(master_file.file_path) + " (#{master_file.locale})"
         else
-          puts master_file.file_path.important + " (#{master_file.locale})"
+          puts StringUtil.important(master_file.file_path) + " (#{master_file.locale})"
         end
         configuration.files.find_all{ |f| f.master_id == master_file.id }.each do |file|
           if !File.exists?(file.file_path)
-            puts "- #{file.file_path}".failure + " (#{file.locale})"
+            puts StringUtil.failure("- #{file.file_path}") + " (#{file.locale})"
           else
             puts "- #{file.file_path}" + " (#{file.locale})"
           end
