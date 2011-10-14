@@ -1,4 +1,4 @@
-## Edge
+## Version 1.8.2.1 / 2011-10-14
 
 * Fix frozen string bug on ruby 1.9.3 (thanks @mikian for the patch).
 * Fix: arrays of symbols `ignore_locales: [:en, :fr]` are not being parsed by Psych.
