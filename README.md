@@ -20,7 +20,7 @@ This gem provides:
 Installation
 ------------
 
-These instructions are for Linux and Mac OS X system. Follow [these instructions](http://help.webtranslateit.com/kb/tips/how-to-install-wti-on-windows) if you’re using Microsoft Windows.
+You will need ruby to run wti. On Linux or a Mac, it’s already installed. Install [RubyInstaller](http://rubyinstaller.org/) if you’re using Windows.
 
     gem install web_translate_it
     
