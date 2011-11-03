@@ -69,7 +69,7 @@ module WebTranslateIt
       WebTranslateIt::Util.http_connection do |http|
         parameters.each do |param|
           file = TranslationFile.new(nil, param, nil, configuration.api_key)
-          file.create(http)
+          file.create(http, command_options.low_priority)
         end
       end
       puts StringUtil.success("Master file added.")

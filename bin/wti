@@ -54,7 +54,10 @@ EOS
       opt :label,  "Apply a label to the changes", :type => :string
     end
   when "add"
-    Trollop::options { banner "Create and push a new master language file" }
+    Trollop::options do
+      banner "Create and push a new master language file"
+      opt :low_priority, "WTI will process this file with a low priority"
+    end
   when "addlocale"
     Trollop::options { banner "Add a new locale to the project" }
   when "server"

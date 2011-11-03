@@ -1,3 +1,7 @@
+## Edge
+
+* Add `--low-priority` option to `wti add` command.
+
 ## Version 1.8.2.1 / 2011-10-14
 
 * Fix frozen string bug on ruby 1.9.3 (thanks @mikian for the patch).
