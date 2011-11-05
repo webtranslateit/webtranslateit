@@ -1,4 +1,4 @@
-## Edge
+## Version 1.8.2.2 / 2011-11-05
 
 * Add `--low-priority` option to `wti add` command.
 
