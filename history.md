@@ -1,4 +1,4 @@
-## Edge
+## Version 1.8.2.3 / 2011-11-09
 
 * Remove `sanitize_locale`. This method was replacing locale codes like `en_US` by `en-US`.
   It is now up to the user to make sure they use the correct locale format.
