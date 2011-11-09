@@ -2,6 +2,7 @@
 
 * Remove `sanitize_locale`. This method was replacing locale codes like `en_US` by `en-US`.
   It is now up to the user to make sure they use the correct locale format.
+* Fix minor display bug during wti pull. See #70.
 
 ## Version 1.8.2.2 / 2011-11-05
 

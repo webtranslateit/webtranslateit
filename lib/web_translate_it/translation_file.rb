@@ -58,7 +58,7 @@ module WebTranslateIt
       else
         display.push StringUtil.success("Skipped")
       end
-      puts ArrayUtil.to_columns(display)
+      print ArrayUtil.to_columns(display)
     end
     
     # Update a language file to Web Translate It by performing a PUT Request.

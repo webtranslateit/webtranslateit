@@ -1,6 +1,6 @@
 class ArrayUtil
   def self.to_columns(arr)
-    " #{StringUtil.backward_truncate(arr[0])} | #{arr[1]}  #{arr[2]}"
+    " #{StringUtil.backward_truncate(arr[0])} | #{arr[1]}  #{arr[2]}\n"
   end
 
   def self.chunk(arr, pieces=2)
