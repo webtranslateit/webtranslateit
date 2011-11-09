@@ -117,14 +117,6 @@ module WebTranslateIt
     end
     
     ##
-    # Cleans up a locale name
-    # For instance: passing `fr_FR` will return `fr-FR`
-
-    def self.sanitize_locale(locale)
-      locale.gsub('_', '-')
-    end
-    
-    ##
     # Returns whether a terminal can display ansi colors
     
     def self.can_display_colors?

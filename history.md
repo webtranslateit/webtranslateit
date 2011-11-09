@@ -1,5 +1,10 @@
 ## Edge
 
+* Remove `sanitize_locale`. This method was replacing locale codes like `en_US` by `en-US`.
+  It is now up to the user to make sure they use the correct locale format.
+
+## Version 1.8.2.2 / 2011-11-05
+
 * Add `--low-priority` option to `wti add` command.
 
 ## Version 1.8.2.1 / 2011-10-14
