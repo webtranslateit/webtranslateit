@@ -1,3 +1,7 @@
+## Edge
+
+* Add new command `wti rmlocale locale_code_1 locale_code_2 ...` to delete a locale from a project.
+
 ## Version 1.8.3 / 2011-11-14
 
 * Bring back `-c` option to specify a configuration file with a specific name. `wti pull -c config/translations.yml` for instance. See #67 and #71.

@@ -66,6 +66,11 @@ EOS
       banner "Add a new locale to the project"
       opt :config, "Path to a translation.yml file", :short => "-c", :default => ".wti"
     end
+  when "rmlocale"
+    Trollop::options do
+      banner "Delete a locale from the project"
+      opt :config, "Path to a translation.yml file", :short => "-c", :default => ".wti"
+    end
   when "server"
     Trollop::options do
       banner <<-EOS

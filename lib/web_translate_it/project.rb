@@ -48,5 +48,18 @@ module WebTranslateIt
         self.create_locale(api_key, locale_code)
       end
     end
+    
+    def self.delete_locale(api_key, locale_code)
+      begin
+        WebTranslateIt::Util.http_connection do |http|
+          request = Net::HTTP::Delete.new("/api/projects/#{api_key}/locales/#{locale_code}")
+          Util.handle_response(http.request(request), true)
+        end
+      rescue Timeout::Error
+        puts "The request timed out. The service may be overloaded. We will retry in 5 seconds."
+        sleep(5)
+        self.create_locale(api_key, locale_code)
+      end
+    end
   end
 end

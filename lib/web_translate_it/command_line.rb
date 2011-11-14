@@ -79,7 +79,7 @@ module WebTranslateIt
       STDOUT.sync = true
       if parameters == []
         puts StringUtil.failure("No locale code given.")
-        puts "Usage: wti addlocale locale1 locale2 ..."
+        puts "Usage: wti addlocale locale_code_1 locale_code_2 ..."
         exit
       end
       parameters.each do |param|
@@ -88,11 +88,26 @@ module WebTranslateIt
       end
       puts "Done!"
     end
+    
+    def rmlocale
+      STDOUT.sync = true
+      if parameters == []
+        puts StringUtil.failure("No locale code given.")
+        puts "Usage: wti rmlocale locale_code_1 locale_code_2 ..."
+        exit
+      end
+      parameters.each do |param|
+        if Util.ask_yes_no("Are you certain you want to delete the locale #{param} and its attached target file and translations?", false)
+          print StringUtil.success("Deleting locale #{param}... ")
+          puts WebTranslateIt::Project.delete_locale(configuration.api_key, param)
+        end
+      end
+      puts "Done!"
+    end
         
     def init
       api_key = Util.ask("Project API Key:")
       path = Util.ask("Configuration file path:", '.wti')
-      puts path.split('/')[0..path.split('/').size-2].join('/')
       FileUtils.mkpath(path.split('/')[0..path.split('/').size-2].join('/')) unless path.split('/').count == 1
       project = YAML.load WebTranslateIt::Project.fetch_info(api_key)
       project_info = project['project']
@@ -171,7 +186,6 @@ module WebTranslateIt
     
     def configuration_file_path
       if self.command_options.config
-        puts self.command_options.config
         return self.command_options.config
       else
         if File.exists?('config/translation.yml')
