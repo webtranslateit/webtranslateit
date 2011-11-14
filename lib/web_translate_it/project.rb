@@ -58,7 +58,7 @@ module WebTranslateIt
       rescue Timeout::Error
         puts "The request timed out. The service may be overloaded. We will retry in 5 seconds."
         sleep(5)
-        self.create_locale(api_key, locale_code)
+        self.delete_locale(api_key, locale_code)
       end
     end
   end

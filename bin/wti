@@ -61,6 +61,11 @@ EOS
       opt :low_priority, "WTI will process this file with a low priority"
       opt :config, "Path to a translation.yml file", :short => "-c", :default => ".wti"
     end
+  when "rm"
+    Trollop::options do
+      banner "Delete a master language file"
+      opt :config, "Path to a translation.yml file", :short => "-c", :default => ".wti"
+    end
   when "addlocale"
     Trollop::options do
       banner "Add a new locale to the project"

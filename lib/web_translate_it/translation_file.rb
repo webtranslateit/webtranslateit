@@ -93,7 +93,7 @@ module WebTranslateIt
       end
     end
     
-    # Create a language file to Web Translate It by performing a POST Request.
+    # Create a master language file to Web Translate It by performing a POST Request.
     #
     # Example of implementation:
     #
@@ -105,14 +105,13 @@ module WebTranslateIt
     # actually takes place. This is due to the fact that language file imports are handled by background processing.
     #
     def create(http_connection, low_priority=false)
-      puts low_priority
       display = []
       display.push file_path
       display.push "#{StringUtil.checksumify(self.local_checksum.to_s)}..[     ]"
       if File.exists?(self.file_path)
         File.open(self.file_path) do |file|
           begin
-            request  = Net::HTTP::Post::Multipart.new(api_url_for_create, { "name" => self.file_path, "file" => UploadIO.new(file, "text/plain", file.path), "low_priority" => low_priority })
+            request = Net::HTTP::Post::Multipart.new(api_url_for_create, { "name" => self.file_path, "file" => UploadIO.new(file, "text/plain", file.path), "low_priority" => low_priority })
             display.push Util.handle_response(http_connection.request(request))
             puts ArrayUtil.to_columns(display)
           rescue Timeout::Error
@@ -125,7 +124,30 @@ module WebTranslateIt
         puts StringUtil.failure("\nFile #{self.file_path} doesn't exist!")
       end
     end
-        
+    
+    # Delete a master language file from Web Translate It by performing a DELETE Request.
+    #
+    def delete(http_connection)
+      display = []
+      display.push file_path
+      # display.push "#{StringUtil.checksumify(self.local_checksum.to_s)}..[     ]"
+      if File.exists?(self.file_path)
+        File.open(self.file_path) do |file|
+          begin
+            request = Net::HTTP::Delete.new(api_url_for_delete)
+            display.push Util.handle_response(http_connection.request(request))
+            puts ArrayUtil.to_columns(display)
+          rescue Timeout::Error
+            puts StringUtil.failure("Request timeout. Will retry in 5 seconds.")
+            sleep(5)
+            delete
+          end
+        end
+      else
+        puts StringUtil.failure("\nFile #{self.file_path} doesn't exist!")
+      end
+    end
+
     def exists?
       File.exists?(file_path)
     end
@@ -148,6 +170,10 @@ module WebTranslateIt
       
       def api_url_for_create
         "/api/projects/#{self.api_key}/files"
+      end
+      
+      def api_url_for_delete
+        "/api/projects/#{self.api_key}/files/#{self.id}"
       end
       
       def local_checksum

@@ -63,7 +63,7 @@ module WebTranslateIt
       STDOUT.sync = true
       if parameters == []
         puts StringUtil.failure("No master file given.")
-        puts "Usage: wti add master_file1 master_file2 ..."
+        puts "Usage: wti add master_file_1 master_file_2 ..."
         exit
       end
       WebTranslateIt::Util.http_connection do |http|
@@ -73,6 +73,30 @@ module WebTranslateIt
         end
       end
       puts StringUtil.success("Master file added.")
+    end
+
+    def rm
+      STDOUT.sync = true
+      if parameters == []
+        puts StringUtil.failure("No master file given.")
+        puts "Usage: wti rm master_file_1 master_file_2 ..."
+        exit
+      end
+      WebTranslateIt::Util.http_connection do |http|
+        parameters.each do |param|
+          if Util.ask_yes_no("Are you certain you want to delete the master file #{param} and its attached target files and translations?", false)
+            configuration.files.find_all{ |file| file.file_path == param }.each do |master_file|
+              master_file.delete(http)
+              # delete files
+              File.delete(master_file.file_path) if File.exists?(master_file.file_path)
+              configuration.files.find_all{ |file| file.master_id == master_file.id }.each do |target_file|
+                File.delete(target_file.file_path) if File.exists?(target_file.file_path)
+              end
+            end
+          end
+        end
+      end
+      puts StringUtil.success("Master file deleted.")
     end
     
     def addlocale
@@ -97,7 +121,7 @@ module WebTranslateIt
         exit
       end
       parameters.each do |param|
-        if Util.ask_yes_no("Are you certain you want to delete the locale #{param} and its attached target file and translations?", false)
+        if Util.ask_yes_no("Are you certain you want to delete the locale #{param} and its attached target files and translations?", false)
           print StringUtil.success("Deleting locale #{param}... ")
           puts WebTranslateIt::Project.delete_locale(configuration.api_key, param)
         end
