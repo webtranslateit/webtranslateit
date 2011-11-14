@@ -1,3 +1,7 @@
+## Edge
+
+* Bring back `-c` option to specify a configuration file with a specific name. `wti pull -c config/translations.yml` for instance.
+
 ## Version 1.8.2.3 / 2011-11-09
 
 * Remove `sanitize_locale`. This method was replacing locale codes like `en_US` by `en-US`.

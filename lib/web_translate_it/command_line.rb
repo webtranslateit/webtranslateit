@@ -91,13 +91,16 @@ module WebTranslateIt
         
     def init
       api_key = Util.ask("Project API Key:")
+      path = Util.ask("Configuration file path:", '.wti')
+      puts path.split('/')[0..path.split('/').size-2].join('/')
+      FileUtils.mkpath(path.split('/')[0..path.split('/').size-2].join('/')) unless path.split('/').count == 1
       project = YAML.load WebTranslateIt::Project.fetch_info(api_key)
       project_info = project['project']
-      if File.exists?('.wti') && !File.writable?('.wti')
-        puts StringUtil.failure("Error: `.wti` file is not writable.")
+      if File.exists?(path) && !File.writable?(path)
+        puts StringUtil.failure("Error: `#{path}` file is not writable.")
         exit
       end
-      File.open('.wti', 'w'){ |file| file << generate_configuration(api_key, project_info) }
+      File.open(path, 'w'){ |file| file << generate_configuration(api_key, project_info) }
       puts ""
       puts "Done! You can now use `wti` to push and pull your language files."
       puts "Check `wti --help` for help."
@@ -167,21 +170,26 @@ module WebTranslateIt
     end
     
     def configuration_file_path
-      if File.exists?('config/translation.yml')
-        puts "Warning: `config/translation.yml` is deprecated in favour of a `.wti` file."
-        if Util.ask_yes_no("Would you like to migrate your configuration now?", true)
-          require 'fileutils'
-          if FileUtils.mv('config/translation.yml', '.wti')
-            return '.wti'
+      if self.command_options.config
+        puts self.command_options.config
+        return self.command_options.config
+      else
+        if File.exists?('config/translation.yml')
+          puts "Warning: `config/translation.yml` is deprecated in favour of a `.wti` file."
+          if Util.ask_yes_no("Would you like to migrate your configuration now?", true)
+            require 'fileutils'
+            if FileUtils.mv('config/translation.yml', '.wti')
+              return '.wti'
+            else
+              puts "Couldn’t move `config/translation.yml`."
+              return false
+            end
           else
-            puts "Couldn’t move `config/translation.yml`."
-            return false
+            return 'config/translation.yml'
           end
         else
-          return 'config/translation.yml'
+          return '.wti'
         end
-      else
-        return '.wti'
       end
     end
     

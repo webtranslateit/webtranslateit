@@ -39,6 +39,7 @@ EOS
       opt :locale, "ISO code of locale(s) to pull", :type => :string
       opt :all,    "Pull all files"
       opt :force,  "Force pull (bypass conditional requests to WTI)"
+      opt :config, "Path to a translation.yml file", :short => "-c", :default => ".wti"
     end
   when "push"
     Trollop::options do
@@ -52,14 +53,19 @@ EOS
       opt :merge,  "Force WTI to merge this file"
       opt :ignore_missing, "Force WTI to not obsolete missing strings"
       opt :label,  "Apply a label to the changes", :type => :string
+      opt :config, "Path to a translation.yml file", :short => "-c", :default => ".wti"
     end
   when "add"
     Trollop::options do
       banner "Create and push a new master language file"
       opt :low_priority, "WTI will process this file with a low priority"
+      opt :config, "Path to a translation.yml file", :short => "-c", :default => ".wti"
     end
   when "addlocale"
-    Trollop::options { banner "Add a new locale to the project" }
+    Trollop::options do
+      banner "Add a new locale to the project"
+      opt :config, "Path to a translation.yml file", :short => "-c", :default => ".wti"
+    end
   when "server"
     Trollop::options do
       banner <<-EOS
@@ -68,14 +74,24 @@ Start a synchronisation server
 EOS
       opt :port, "Run server on a specific port", :default => 4000, :short => "-p"
       opt :host, "Run server on a specific host", :default => "0.0.0.0", :short => "-h"
+      opt :config, "Path to a translation.yml file", :short => "-c", :default => ".wti"
     end
   when "status"
-    Trollop::options { banner "Fetch and display project statistics" }
   when "st"
+    Trollop::options do
+      banner "Fetch and display project statistics"
+      opt :config, "Path to a translation.yml file", :short => "-c", :default => ".wti"
+    end
   when "init"
-    Trollop::options { banner "Configure your project to sync" }
+    Trollop::options do
+      banner "Configure your project to sync"
+      opt :config, "Path to a translation.yml file", :short => "-c", :default => ".wti"
+    end
   when "match"
-    Trollop::options { banner "Display matching of local files with File Manager" }
+    Trollop::options do
+      banner "Display matching of local files with File Manager"
+      opt :config, "Path to a translation.yml file", :short => "-c", :default => ".wti"
+    end
   else
     Trollop::die "Unknown subcommand #{command.inspect}"
   end

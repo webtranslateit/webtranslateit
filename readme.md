@@ -59,6 +59,7 @@ Execute `wti --help` to see the usage:
     See `wti <command> --help` for more information on a specific command.
   
     [options] are:
+      --config, -c <s>:   Path to a translation.yml file (default: .wti)
          --version, -v:   Print version and exit
             --help, -h:   Show this message
 
