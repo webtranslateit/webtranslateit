@@ -1,6 +1,7 @@
-## Edge
+## Version 1.8.3 / 2011-11-14
 
-* Bring back `-c` option to specify a configuration file with a specific name. `wti pull -c config/translations.yml` for instance.
+* Bring back `-c` option to specify a configuration file with a specific name. `wti pull -c config/translations.yml` for instance. See #67 and #71.
+* `web_translate_it` rubygem now respects [semantic versioning](http://semver.org/). #72.
 
 ## Version 1.8.2.3 / 2011-11-09
 
