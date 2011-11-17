@@ -1,7 +1,8 @@
-## Edge
+## Version 1.8.4 / 2011-11-14
 
 * Add new command `wti rmlocale locale_code_1 locale_code_2 ...` to delete a locale from a project.
 * Add new command `wti rm path_to_file1 path_to_file2 ...` to delete a master file from a project.
+* `wti` sends client name and version in custom headers. #73.
 
 ## Version 1.8.3 / 2011-11-14
 
