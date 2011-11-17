@@ -6,6 +6,8 @@ module WebTranslateIt
       begin
         WebTranslateIt::Util.http_connection do |http|
           request = Net::HTTP::Get.new("/api/projects/#{api_key}.yaml")
+          request.add_field("X-Client-Name", "web_translate_it")
+          request.add_field("X-Client-Version", WebTranslateIt::Util.version)
           response = http.request(request)
           if response.is_a?(Net::HTTPSuccess)
             return response.body
@@ -26,6 +28,8 @@ module WebTranslateIt
       begin
         WebTranslateIt::Util.http_connection do |http|
           request = Net::HTTP::Get.new("/api/projects/#{api_key}/stats.yaml")
+          request.add_field("X-Client-Name", "web_translate_it")
+          request.add_field("X-Client-Version", WebTranslateIt::Util.version)
           Util.handle_response(http.request(request), true)
         end
       rescue Timeout::Error
@@ -39,6 +43,8 @@ module WebTranslateIt
       begin
         WebTranslateIt::Util.http_connection do |http|
           request = Net::HTTP::Post.new("/api/projects/#{api_key}/locales")
+          request.add_field("X-Client-Name", "web_translate_it")
+          request.add_field("X-Client-Version", WebTranslateIt::Util.version)
           request.set_form_data({ 'id' => locale_code }, ';')
           Util.handle_response(http.request(request), true)
         end
@@ -53,6 +59,8 @@ module WebTranslateIt
       begin
         WebTranslateIt::Util.http_connection do |http|
           request = Net::HTTP::Delete.new("/api/projects/#{api_key}/locales/#{locale_code}")
+          request.add_field("X-Client-Name", "web_translate_it")
+          request.add_field("X-Client-Version", WebTranslateIt::Util.version)
           Util.handle_response(http.request(request), true)
         end
       rescue Timeout::Error

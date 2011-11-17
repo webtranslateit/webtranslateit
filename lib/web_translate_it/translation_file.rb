@@ -42,9 +42,12 @@ module WebTranslateIt
       display.push "#{StringUtil.checksumify(self.local_checksum.to_s)}..#{StringUtil.checksumify(self.remote_checksum.to_s)}"
       if !File.exist?(self.file_path) or force or self.remote_checksum != self.local_checksum
         begin
-          response = http_connection.get(api_url)
+          request = Net::HTTP::Get.new(api_url)
+          request.add_field("X-Client-Name", "web_translate_it")
+          request.add_field("X-Client-Version", WebTranslateIt::Util.version)
           FileUtils.mkpath(self.file_path.split('/')[0..-2].join('/')) unless File.exist?(self.file_path) or self.file_path.split('/')[0..-2].join('/') == ""
           begin
+            response = http_connection.request(request)
             File.open(self.file_path, 'wb'){ |file| file << response.body } if response.code.to_i == 200 and response.body != ''
             display.push Util.handle_response(response)
           rescue
@@ -80,6 +83,8 @@ module WebTranslateIt
         File.open(self.file_path) do |file|
           begin
             request = Net::HTTP::Put::Multipart.new(api_url, {"file" => UploadIO.new(file, "text/plain", file.path), "merge" => merge, "ignore_missing" => ignore_missing, "label" => label, "low_priority" => low_priority })
+            request.add_field("X-Client-Name", "web_translate_it")
+            request.add_field("X-Client-Version", WebTranslateIt::Util.version)
             display.push Util.handle_response(http_connection.request(request))
             puts ArrayUtil.to_columns(display)
           rescue Timeout::Error
@@ -112,6 +117,8 @@ module WebTranslateIt
         File.open(self.file_path) do |file|
           begin
             request = Net::HTTP::Post::Multipart.new(api_url_for_create, { "name" => self.file_path, "file" => UploadIO.new(file, "text/plain", file.path), "low_priority" => low_priority })
+            request.add_field("X-Client-Name", "web_translate_it")
+            request.add_field("X-Client-Version", WebTranslateIt::Util.version)
             display.push Util.handle_response(http_connection.request(request))
             puts ArrayUtil.to_columns(display)
           rescue Timeout::Error
@@ -135,6 +142,8 @@ module WebTranslateIt
         File.open(self.file_path) do |file|
           begin
             request = Net::HTTP::Delete.new(api_url_for_delete)
+            request.add_field("X-Client-Name", "web_translate_it")
+            request.add_field("X-Client-Version", WebTranslateIt::Util.version)
             display.push Util.handle_response(http_connection.request(request))
             puts ArrayUtil.to_columns(display)
           rescue Timeout::Error
