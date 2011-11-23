@@ -78,7 +78,7 @@ EOS
   when "server"
     Trollop::options do
       banner <<-EOS
-Deprecated, used start a synchronisation server.
+Deprecated, used to start a synchronisation server.
 `gem install web_translate_it_server` and run `wti-server` instead.
 [options] are:
 EOS
