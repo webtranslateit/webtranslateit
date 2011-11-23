@@ -180,7 +180,10 @@ module WebTranslateIt
     alias :st :status
     
     def server
-      WebTranslateIt::Server.start(command_options.host, command_options.port)
+      puts "This feature is deprecated and was extracted to a separate gem,"
+      puts "    `web_translate_it_server`."
+      puts "To use it, run `gem install web_translate_it_server`"
+      puts "and run the server with `wti-server`."
     end
     
     def method_missing(m, *args, &block)
