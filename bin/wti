@@ -16,7 +16,9 @@ The most commonly used wti commands are:
   push        Push master language file(s)
   match       Display matching of local files with File Manager
   add         Create and push a new master language file
+  rm          Delete a master language file from a project
   addlocale   Add a new locale to the project
+  rmlocale    Delete a locale from a project
   status      Fetch and display project statistics
   init        Configure your project to sync      
 
