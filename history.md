@@ -1,4 +1,4 @@
-## Edge
+## Version 1.9.0 / 2011-11-23
 
 * Deprecate `wti server`. This feature was introducing a hard dependency on Sinatra, which is not desirable when embedding `web_translate_it` on a Rails application. `wti server` now lives in a separate gem, `web_translate_it_server`, which depends on the `web_translate_it` gem. To keep using `wti server`, execute: `gem install web_translate_it_server` and run: `wti-server`. 
 
