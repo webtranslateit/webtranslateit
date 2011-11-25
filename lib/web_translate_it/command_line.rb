@@ -51,7 +51,7 @@ module WebTranslateIt
       puts StringUtil.titleize("Pushing files")
       WebTranslateIt::Util.http_connection do |http|
         fetch_locales_to_push(configuration).each do |locale|
-          configuration.files.find_all{ |file| file.locale == locale }.each do |file|
+          configuration.files.find_all{ |file| file.locale == locale }.sort{|a,b| a.file_path <=> b.file_path} .each do |file|
             file.upload(http, command_options[:merge], command_options.ignore_missing, command_options.label, command_options.low_priority)
           end
         end
