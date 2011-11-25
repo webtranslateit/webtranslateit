@@ -3,29 +3,32 @@
 require 'trollop'
 require 'web_translate_it'
 
+show_commands = <<-EOS
+A CLI for syncing files with WebTranslateIt.com
+
+Usage: wti <command> [options]+
+
+The most commonly used wti commands are:
+
+pull        Pull target language file(s)
+push        Push master language file(s)
+match       Display matching of local files with File Manager
+add         Create and push a new master language file
+rm          Delete a master language file from a project
+addlocale   Add a new locale to the project
+rmlocale    Delete a locale from a project
+status      Fetch and display project statistics
+init        Configure your project to sync
+
+See `wti <command> --help` for more information on a specific command.
+
+[options] are:
+EOS
+
 SUB_COMMANDS = %w(pull push match add addlocale server status st init)
 global_options = Trollop::options do
   stop_on SUB_COMMANDS
-  banner <<-EOS
-
-Usage: wti <command> [options]+
-  
-The most commonly used wti commands are:
-  
-  pull        Pull target language file(s)
-  push        Push master language file(s)
-  match       Display matching of local files with File Manager
-  add         Create and push a new master language file
-  rm          Delete a master language file from a project
-  addlocale   Add a new locale to the project
-  rmlocale    Delete a locale from a project
-  status      Fetch and display project statistics
-  init        Configure your project to sync      
-
-See `wti <command> --help` for more information on a specific command.
-  
-[options] are:
-EOS
+  banner show_commands
   version "Web Translate It v#{WebTranslateIt::Util.version}"
 end
 
@@ -105,7 +108,12 @@ EOS
       opt :config, "Path to a translation.yml file", :short => "-c", :default => ".wti"
     end
   else
-    Trollop::die "Unknown subcommand #{command.inspect}"
+    if command.nil?
+      puts show_commands
+      exit
+    else
+      Trollop::die "Unknown subcommand #{command.inspect}"
+    end
   end
 
 begin
