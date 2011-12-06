@@ -50,13 +50,13 @@ module WebTranslateIt
             response = http_connection.request(request)
             File.open(self.file_path, 'wb'){ |file| file << response.body } if response.code.to_i == 200 and response.body != ''
             display.push Util.handle_response(response)
+          rescue Timeout::Error
+            puts StringUtil.failure("Request timeout. Will retry in 5 seconds.")
+            sleep(5)
+            retry
           rescue
             display.push StringUtil.failure("An error occured: #{$!}")
           end
-        rescue Timeout::Error
-          puts StringUtil.failure("Request timeout. Will retry in 5 seconds.")
-          sleep(5)
-          fetch(http_connection, force)
         end
       else
         display.push StringUtil.success("Skipped")
@@ -90,7 +90,7 @@ module WebTranslateIt
           rescue Timeout::Error
             puts StringUtil.failure("Request timeout. Will retry in 5 seconds.")
             sleep(5)
-            upload(merge, ignore_missing, label, low_priority)
+            retry
           end
         end
       else
@@ -124,7 +124,7 @@ module WebTranslateIt
           rescue Timeout::Error
             puts StringUtil.failure("Request timeout. Will retry in 5 seconds.")
             sleep(5)
-            create
+            retry
           end
         end
       else
@@ -149,7 +149,7 @@ module WebTranslateIt
           rescue Timeout::Error
             puts StringUtil.failure("Request timeout. Will retry in 5 seconds.")
             sleep(5)
-            delete
+            retry
           end
         end
       else
