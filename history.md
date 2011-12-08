@@ -3,6 +3,7 @@
 * Add `wti rm` and `wti rmlocale` to CLI help.
 * Sort files by name in `wti push`.
 * Improve command-line interface. Executing `wti` should now give help.
+* Bug fix: TranslationFile timeouts, #77. (@bray).
 
 ## Version 1.9.0 / 2011-11-23
 
