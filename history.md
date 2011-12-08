@@ -1,4 +1,4 @@
-## Edge
+## Version 1.9.1 / 2011-12-08
 
 * Add `wti rm` and `wti rmlocale` to CLI help.
 * Sort files by name in `wti push`.
