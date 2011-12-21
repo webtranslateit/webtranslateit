@@ -1,3 +1,8 @@
+## Edge
+
+* Bug fix: the round(1) used in performance statistics wasn’t compatible with ruby < 1.9.
+
+
 ## Version 1.9.2 / 2011-12-21
 
 * Gem now includes library to connect to [String](http://docs.webtranslateit.com/api/string/) and [Translation](http://docs.webtranslateit.com/api/translation/) APIs, see #74 and #78. (@bray).
