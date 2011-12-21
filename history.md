@@ -1,4 +1,4 @@
-## Edge
+## Version 1.9.3 / 2011-12-21
 
 * Bug fix: the round(1) used in performance statistics wasn’t compatible with ruby < 1.9.
 
