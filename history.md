@@ -4,6 +4,7 @@
 * Add <filename> placeholder.
 * Bug fix: don’t crash when running `wti init` on an empty project.
 * Bug fix: File API was returning `102 Continue` error status when fetching a file begin currently imported. It was making subsequent requests fail. The File API now returns `503 Service Unavailable`. Client was updated to handle this status.
+* Fix `wti status` command.
 
 ## Version 1.9.1 / 2011-12-08
 

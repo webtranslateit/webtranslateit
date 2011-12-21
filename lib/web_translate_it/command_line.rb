@@ -177,8 +177,6 @@ module WebTranslateIt
       end
     end
     
-    alias :st :status
-    
     def server
       puts "This feature is deprecated and was extracted to a separate gem,"
       puts "    `web_translate_it_server`."

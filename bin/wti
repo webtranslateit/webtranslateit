@@ -92,7 +92,6 @@ EOS
       opt :config, "Path to a translation.yml file", :short => "-c", :default => ".wti"
     end
   when "status"
-  when "st"
     Trollop::options do
       banner "Fetch and display project statistics"
       opt :config, "Path to a translation.yml file", :short => "-c", :default => ".wti"
