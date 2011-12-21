@@ -16,7 +16,7 @@ module WebTranslateIt
     def initialize(root_path = Rails.root, path_to_config_file = ".wti")
       self.path           = root_path
       self.logger         = logger
-      configuration       = YAML.load_file(File.join(self.path, path_to_config_file))
+      configuration       = YAML.load_file(File.expand_path(path_to_config_file, self.path))
       self.api_key        = configuration['api_key']
       self.before_pull    = configuration['before_pull']
       self.after_pull     = configuration['after_pull']
