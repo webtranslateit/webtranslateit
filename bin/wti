@@ -6,7 +6,7 @@ require 'web_translate_it'
 show_commands = <<-EOS
 A CLI for syncing files with WebTranslateIt.com
 
-Usage: wti <command> [options]+
+Usage: wti <command> [options]+ <filename>
 
 The most commonly used wti commands are:
 
