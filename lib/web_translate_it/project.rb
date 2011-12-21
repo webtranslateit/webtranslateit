@@ -13,7 +13,7 @@ module WebTranslateIt
             return response.body
           else
             puts "An error occured while fetching the project information:"
-            puts response.body.failure
+            puts StringUtil.failure(response.body)
             exit
           end
         end

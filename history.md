@@ -2,6 +2,7 @@
 
 * Gem now includes library to connect to [String](http://docs.webtranslateit.com/api/string/) and [Translation](http://docs.webtranslateit.com/api/translation/) APIs, see #74 and #78. (@bray).
 * Add <filename> placeholder.
+* Bug fix: don’t crash when running `wti init` on an empty project.
 
 ## Version 1.9.1 / 2011-12-08
 
