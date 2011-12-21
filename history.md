@@ -5,6 +5,7 @@
 * Bug fix: don’t crash when running `wti init` on an empty project.
 * Bug fix: File API was returning `102 Continue` error status when fetching a file begin currently imported. It was making subsequent requests fail. The File API now returns `503 Service Unavailable`. Client was updated to handle this status.
 * Fix `wti status` command.
+* Improvement: truncate `wti pull` performance statistics (`Pulled 10 files in 0.7 seconds at 13.4 files/sec`).
 * Fix: Configuration file lookup improvements. Configuration files can now be located in another directory, and `wti` commands don’t have to be executed in the root directory. It is now possible to execute:
 	
 	```

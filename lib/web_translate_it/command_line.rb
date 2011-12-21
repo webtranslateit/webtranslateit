@@ -41,7 +41,7 @@ module WebTranslateIt
       end
       threads.each { |thread| thread.join }
       time = Time.now - time
-      puts "Pulled #{files.count} files in #{time} seconds at #{files.count/time} files/sec."
+      puts "Pulled #{files.count} files in #{time.round(1)} seconds at #{(files.count/time).round(1)} files/sec."
       `#{configuration.after_pull}` if configuration.after_pull
     end
     
