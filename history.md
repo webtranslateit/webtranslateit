@@ -1,7 +1,10 @@
+## Edge
+
+* Bug fix: Prevent `wti` from crashing when attempting to pull from a project having no files.
+
 ## Version 1.9.3 / 2011-12-21
 
 * Bug fix: the round(1) used in performance statistics wasn’t compatible with ruby < 1.9.
-
 
 ## Version 1.9.2 / 2011-12-21
 

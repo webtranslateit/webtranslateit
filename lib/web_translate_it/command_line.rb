@@ -23,26 +23,30 @@ module WebTranslateIt
       fetch_locales_to_pull.each do |locale|
         files.concat configuration.files.find_all{ |file| file.locale == locale }
       end
-      # Now actually pulling files
-      time = Time.now
-      threads = []
-      n_threads = (files.count.to_f/3).ceil >= 20 ? 20 : (files.count.to_f/3).ceil
-      puts "Using up to #{n_threads} threads"
-      ArrayUtil.chunk(files, n_threads).each do |file_array|
-        unless file_array.empty?
-          threads << Thread.new(file_array) do |file_array|
-            WebTranslateIt::Util.http_connection do |http|
-              file_array.each do |file|
-                file.fetch(http, command_options.force)
+      if files.count == 0
+        puts "No files to pull."
+      else
+        # Now actually pulling files
+        time = Time.now
+        threads = []
+        n_threads = (files.count.to_f/3).ceil >= 20 ? 20 : (files.count.to_f/3).ceil
+        puts "Using up to #{n_threads} threads"
+        ArrayUtil.chunk(files, n_threads).each do |file_array|
+          unless file_array.empty?
+            threads << Thread.new(file_array) do |file_array|
+              WebTranslateIt::Util.http_connection do |http|
+                file_array.each do |file|
+                  file.fetch(http, command_options.force)
+                end
               end
             end
           end
         end
+        threads.each { |thread| thread.join }
+        time = Time.now - time
+        puts "Pulled #{files.count} files at #{(files.count/time).round} files/sec."
+        `#{configuration.after_pull}` if configuration.after_pull
       end
-      threads.each { |thread| thread.join }
-      time = Time.now - time
-      puts "Pulled #{files.count} files at #{(files.count/time).round} files/sec."
-      `#{configuration.after_pull}` if configuration.after_pull
     end
     
     def push
