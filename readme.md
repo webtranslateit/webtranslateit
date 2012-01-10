@@ -167,4 +167,4 @@ This feature was extracted out to a separate gem. See [web_translate_it_server](
 
 # License
 
-Copyright (c) 2009-2011 Atelier Convivialité, released under the MIT License.
+Copyright (c) 2009-2012 Atelier Convivialité, released under the MIT License.

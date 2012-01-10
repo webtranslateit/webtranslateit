@@ -1,6 +1,6 @@
-## Edge
+## Version 1.9.4 / 2012-01-10
 
-* Bug fix: Prevent `wti` from crashing when attempting to pull from a project having no files.
+* Bug fix: Prevent `wti` from crashing when pulling from a project having no files.
 
 ## Version 1.9.3 / 2011-12-21
 
