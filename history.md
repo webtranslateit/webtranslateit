@@ -1,4 +1,4 @@
-## Edge
+## Version 1.9.5 / 2012-02-06
 
 * Include classes to connect to [TermBase](http://docs.webtranslateit.com/api/term_base/) and [TermBase Translation](http://docs.webtranslateit.com/api/term_base_translation/) APIs.
 
