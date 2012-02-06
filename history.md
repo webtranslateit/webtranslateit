@@ -1,3 +1,7 @@
+## Edge
+
+* Include classes to connect to [TermBase](http://docs.webtranslateit.com/api/term_base/) and [TermBase Translation](http://docs.webtranslateit.com/api/term_base_translation/) APIs.
+
 ## Version 1.9.4 / 2012-01-10
 
 * Bug fix: Prevent `wti` from crashing when pulling from a project having no files.
