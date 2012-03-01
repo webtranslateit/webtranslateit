@@ -1,4 +1,4 @@
-## Edge
+## Version 1.9.6 / 2012-03-01
 
 * Support for new `minor_changes` flag on File API. Use with `wti push --minor`.
 
