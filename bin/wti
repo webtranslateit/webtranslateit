@@ -56,6 +56,7 @@ EOS
       opt :low_priority, "WTI will process this file with a low priority"
       opt :merge,  "Force WTI to merge this file"
       opt :ignore_missing, "Force WTI to not obsolete missing strings"
+      opt :minor, "Minor Changes. When pushing a master file, prevents target translations to be flagged as `to_verify`."
       opt :label,  "Apply a label to the changes", :type => :string
       opt :config, "Path to a translation.yml file", :short => "-c", :default => ".wti"
     end

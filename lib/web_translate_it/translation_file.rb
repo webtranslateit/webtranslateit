@@ -75,14 +75,14 @@ module WebTranslateIt
     #
     # Note that the request might or might not eventually be acted upon, as it might be disallowed when processing
     # actually takes place. This is due to the fact that language file imports are handled by background processing.
-    def upload(http_connection, merge=false, ignore_missing=false, label=nil, low_priority=false)
+    def upload(http_connection, merge=false, ignore_missing=false, label=nil, low_priority=false, minor_changes=false)
       display = []
       display.push(self.file_path)
       display.push "#{StringUtil.checksumify(self.local_checksum.to_s)}..#{StringUtil.checksumify(self.remote_checksum.to_s)}"
       if File.exists?(self.file_path)
         File.open(self.file_path) do |file|
           begin
-            request = Net::HTTP::Put::Multipart.new(api_url, {"file" => UploadIO.new(file, "text/plain", file.path), "merge" => merge, "ignore_missing" => ignore_missing, "label" => label, "low_priority" => low_priority })
+            request = Net::HTTP::Put::Multipart.new(api_url, {"file" => UploadIO.new(file, "text/plain", file.path), "merge" => merge, "ignore_missing" => ignore_missing, "label" => label, "low_priority" => low_priority, "minor_changes" => minor_changes })
             request.add_field("X-Client-Name", "web_translate_it")
             request.add_field("X-Client-Version", WebTranslateIt::Util.version)
             display.push Util.handle_response(http_connection.request(request))

@@ -1,3 +1,7 @@
+## Edge
+
+* Support for new `minor_changes` flag on File API. Use with `wti push --minor`.
+
 ## Version 1.9.5 / 2012-02-06
 
 * Include classes to connect to [TermBase](http://docs.webtranslateit.com/api/term_base/) and [TermBase Translation](http://docs.webtranslateit.com/api/term_base_translation/) APIs.

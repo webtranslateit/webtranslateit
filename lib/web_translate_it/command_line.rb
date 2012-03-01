@@ -56,7 +56,7 @@ module WebTranslateIt
       WebTranslateIt::Util.http_connection do |http|
         fetch_locales_to_push(configuration).each do |locale|
           configuration.files.find_all{ |file| file.locale == locale }.sort{|a,b| a.file_path <=> b.file_path} .each do |file|
-            file.upload(http, command_options[:merge], command_options.ignore_missing, command_options.label, command_options.low_priority)
+            file.upload(http, command_options[:merge], command_options.ignore_missing, command_options.label, command_options.low_priority, command_options[:minor])
           end
         end
       end
