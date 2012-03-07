@@ -1,4 +1,4 @@
-## Edge
+## Version 1.10.0 / 2012-03-07
 
 * New: `wti push` only push local files having a different checksum than the ones on WTI server.
 * New: `wti push --force` lets you force push files.
