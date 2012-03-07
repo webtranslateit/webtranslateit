@@ -1,7 +1,12 @@
+## Edge
+
+* New: Prevent existing master files from being added again on `wti add`.
+  This allows to run something like: `ls *.xml | grep -v "\.en" | xargs wti add` without worrying about adding files a second time. Patch submitted by Ivan Kolesnikov <ik@playtox.ru>.
+
 ## Version 1.10.0 / 2012-03-07
 
-* New: `wti push` only push local files having a different checksum than the ones on WTI server.
-* New: `wti push --force` lets you force push files.
+* New: `wti push` only push local files having a different checksum than the ones on WTI server. Patch submitted by Ivan Kolesnikov <ik@playtox.ru>.
+* New: `wti push --force` lets you force push files. Patch submitted by Ivan Kolesnikov <ik@playtox.ru>.
 
 ## Version 1.9.6 / 2012-03-01
 
