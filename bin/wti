@@ -53,6 +53,7 @@ Push master language file(s)
 EOS
       opt :locale, "ISO code of locale(s) to push", :type => :string
       opt :all,    "Upload all files"
+      opt :force,  "Force push (bypass conditional requests to WTI)"
       opt :low_priority, "WTI will process this file with a low priority"
       opt :merge,  "Force WTI to merge this file"
       opt :ignore_missing, "Force WTI to not obsolete missing strings"
@@ -122,4 +123,4 @@ rescue Interrupt => e
   puts StringUtil.failure("\nQuitting...")
   exit 1
 end
-  
+ 

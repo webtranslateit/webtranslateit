@@ -1,3 +1,8 @@
+## Edge
+
+* New: `wti push` only push local files having a different checksum than the ones on WTI server.
+* New: `wti push --force` lets you force push files.
+
 ## Version 1.9.6 / 2012-03-01
 
 * Support for new `minor_changes` flag on File API. Use with `wti push --minor`.
