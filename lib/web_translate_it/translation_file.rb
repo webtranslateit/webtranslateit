@@ -92,7 +92,7 @@ module WebTranslateIt
               sleep(5)
               retry
             end
-        end
+          end
         else
           display.push StringUtil.success("Skipped")
         end
