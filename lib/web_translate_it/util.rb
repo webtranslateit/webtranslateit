@@ -56,7 +56,11 @@ module WebTranslateIt
     
     def self.handle_response(response, return_response = false)
       if response.code.to_i >= 400 and response.code.to_i < 500
-        StringUtil.failure("Error: Can't find project with this API key.")
+        if response.body
+          StringUtil.failure(response.body)
+        else
+          StringUtil.failure("Error: Can't find project with this API key.")
+        end
       elsif response.code.to_i == 500
         StringUtil.failure("Error: Server temporarily unavailable. Please try again shortly.")
       else
