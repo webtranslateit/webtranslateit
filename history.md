@@ -3,6 +3,7 @@
 * New: Prevent existing master files from being added again on `wti add`.
   This allows to run something like: `ls *.xml | grep -v "\.en" | xargs wti add` without worrying about adding files a second time. Patch submitted by Ivan Kolesnikov <ik@playtox.ru>.
 * New: Better error messages. #82.
+* Fix: Prevents `wti status` from crashing, #83.
 
 ## Version 1.10.0 / 2012-03-07
 
