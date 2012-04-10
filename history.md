@@ -1,4 +1,4 @@
-## Edge
+## Version 1.10.1 / 2012-04-10
 
 * New: Prevent existing master files from being added again on `wti add`.
   This allows to run something like: `ls *.xml | grep -v "\.en" | xargs wti add` without worrying about adding files a second time. Patch submitted by Ivan Kolesnikov <ik@playtox.ru>.
