@@ -20,7 +20,7 @@ module WebTranslateIt
       rescue Timeout::Error
         puts "The request timed out. The service may be overloaded. We will retry in 5 seconds."
         sleep(5)
-        self.fetch_info(api_key)
+        retry
       end
     end
     
@@ -35,7 +35,7 @@ module WebTranslateIt
       rescue Timeout::Error
         puts "The request timed out. The service may be overloaded. We will retry in 5 seconds."
         sleep(5)
-        self.fetch_stats(api_key)
+        retry
       end
     end
     
@@ -51,7 +51,7 @@ module WebTranslateIt
       rescue Timeout::Error
         puts "The request timed out. The service may be overloaded. We will retry in 5 seconds."
         sleep(5)
-        self.create_locale(api_key, locale_code)
+        retry
       end
     end
     
@@ -66,7 +66,7 @@ module WebTranslateIt
       rescue Timeout::Error
         puts "The request timed out. The service may be overloaded. We will retry in 5 seconds."
         sleep(5)
-        self.delete_locale(api_key, locale_code)
+        retry
       end
     end
   end
