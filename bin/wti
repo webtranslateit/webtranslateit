@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+$PROGRAM_NAME = 'wti'
+
 require 'trollop'
 require 'web_translate_it'
 
