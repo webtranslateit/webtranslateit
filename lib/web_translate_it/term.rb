@@ -6,6 +6,21 @@ module WebTranslateIt
     
     attr_accessor :api_key, :id, :text, :description, :created_at, :updated_at, :translations, :new_record
     
+    # Initialize a new WebTranslateIt::Term
+    # The only mandatory parameter is `api_key`
+    #
+    # Implementation Example:
+    #
+    #   WebTranslateIt::Term.new('secret_api_token', { "text" => "Term Name" })
+    #
+    # to instantiate a new Term.
+    #
+    #   translation_es = WebTranslateIt::TermTranslation.new({ "locale" => "es", "text" => "Hola" })
+    #   translation_fr = WebTranslateIt::TermTranslation.new({ "locale" => "fr", "text" => "Bonjour" })
+    #   WebTranslateIt::Term.new('secret_api_token', { "text" => "Hello", "translations" => [translation_es, translation_fr]})
+    #
+    # to instantiate a new Term with a Term Translations in Spanish and French.
+    
     def initialize(api_key, params = {})
       self.api_key      = api_key
       self.id           = params["id"] || nil
@@ -17,7 +32,18 @@ module WebTranslateIt
       self.new_record   = true
     end
     
-    # TODO: pagination
+    # Fetch all terms
+    # Needs a HTTPS Connection
+    #
+    # Implementation Example:
+    #
+    #   WebTranslateIt::Util.http_connection do |connection|
+    #     terms = WebTranslateIt::Term.find_all(connection, 'secret_api_token')
+    #   end
+    #
+    #  puts terms.inspect #=> An array of WebTranslateIt::Term objects
+    #
+    # TODO: Implement pagination
     
     def self.find_all(http_connection, api_key, params = {})
       url = "/api/projects/#{api_key}/terms.yaml"
@@ -44,6 +70,20 @@ module WebTranslateIt
       end
     end
     
+    # Find a Term based on its ID
+    # Needs a HTTPS Connection
+    #
+    # Implementation Example:
+    #
+    #   WebTranslateIt::Util.http_connection do |connection|
+    #     term = WebTranslateIt::Term.find(connection, 'secret_api_token', 1234)
+    #   end
+    #
+    #   puts term.inspect #=> A Term object
+    #
+    # to find and instantiate the Term which ID is `1234`.
+    #
+    
     def self.find(http_connection, api_key, term_id)
       request = Net::HTTP::Get.new("/api/projects/#{api_key}/terms/#{term_id}.yaml")
       request.add_field("X-Client-Name", "web_translate_it")
@@ -62,6 +102,18 @@ module WebTranslateIt
       end
     end
 
+    # Update or create a Term to WebTranslateIt.com
+    # Needs a HTTPS Connection
+    #
+    # Implementation Example:
+    #
+    #   WebTranslateIt::Util.http_connection do |connection|
+    #     term = WebTranslateIt::Term.find(connection, 'secret_api_token', 1234)
+    #     term.text = "Hello"
+    #     term.save(http_connection)
+    #   end
+    #
+
     def save(http_connection)
       if self.new_record
         self.create(http_connection)
@@ -69,6 +121,17 @@ module WebTranslateIt
         self.update(http_connection)
       end
     end
+    
+    # Delete a Term on WebTranslateIt.com
+    # Needs a HTTPS Connection
+    #
+    # Implementation Example:
+    #
+    #   WebTranslateIt::Util.http_connection do |connection|
+    #     term = WebTranslateIt::Term.find(connection, 'secret_api_token', 1234)
+    #     term.delete(http_connection)
+    #   end
+    #
     
     def delete(http_connection)
       request = Net::HTTP::Delete.new("/api/projects/#{self.api_key}/terms/#{self.id}")
@@ -83,6 +146,17 @@ module WebTranslateIt
         retry
       end
     end
+    
+    # Gets a Translation for a Term
+    # Needs a HTTPS Connection
+    #
+    # Implementation Example:
+    #
+    #   WebTranslateIt::Util.http_connection do |connection|
+    #     term = WebTranslateIt::Term.find(connection, 'secret_api_token', 1234)
+    #     puts term.translation_for(connection, "fr") #=> A TermTranslation object
+    #   end
+    #
     
     def translation_for(http_connection, locale)
       return self.translations unless self.translations == []

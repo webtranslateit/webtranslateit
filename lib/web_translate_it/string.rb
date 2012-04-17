@@ -12,13 +12,13 @@ module WebTranslateIt
     #
     # Implementation Example:
     #
-    #   WebTranslateIt::String.new('secret_api_token', { "key" => "product_name_123" }
+    #   WebTranslateIt::String.new('secret_api_token', { "key" => "product_name_123" })
     #
     # to instantiate a new String without any text.
     #
     #   translation_en = WebTranslateIt::Translation.new({ "locale" => "en", "text" => "Hello" })
     #   translation_fr = WebTranslateIt::Translation.new({ "locale" => "fr", "text" => "Bonjour" })
-    #   WebTranslateIt::String.new('secret_api_token, { "key" => "product_name_123", "translations" => [translation1, translation2]})
+    #   WebTranslateIt::String.new('secret_api_token', { "key" => "product_name_123", "translations" => [translation_en, translation_fr]})
     #
     # to instantiate a new String with a source and target translation.
     
@@ -46,8 +46,10 @@ module WebTranslateIt
     # Implementation Example:
     #
     #   WebTranslateIt::Util.http_connection do |connection|
-    #     WebTranslateIt::String.find_all(connection, 'secret_api_token', { "key" => "product_name_123" }
+    #     strings = WebTranslateIt::String.find_all(connection, 'secret_api_token', { "key" => "product_name_123" })
     #   end
+    #
+    #   puts strings.inspect #=> An array of WebTranslateIt::String objects
     #
     # to find and instantiate an array of String which key is like `product_name_123`.
     #
@@ -83,8 +85,10 @@ module WebTranslateIt
     # Implementation Example:
     #
     #   WebTranslateIt::Util.http_connection do |connection|
-    #     WebTranslateIt::String.find(connection, 'secret_api_token', 1234 }
+    #     string = WebTranslateIt::String.find(connection, 'secret_api_token', 1234)
     #   end
+    #
+    #   puts string.inspect #=> A WebTranslateIt::String object
     #
     # to find and instantiate the String which ID is `1234`.
     #
@@ -107,13 +111,13 @@ module WebTranslateIt
       end
     end
     
-    # Save changes or create a String to WebTranslateIt.com
+    # Update or create a String to WebTranslateIt.com
     # Needs a HTTPS Connection
     #
     # Implementation Example:
     #
     #   WebTranslateIt::Util.http_connection do |connection|
-    #     string = WebTranslateIt::String.find(connection, 'secret_api_token', 1234 }
+    #     string = WebTranslateIt::String.find(connection, 'secret_api_token', 1234)
     #     string.status = "status_obsolete"
     #     string.save(http_connection)
     #   end
@@ -133,7 +137,7 @@ module WebTranslateIt
     # Implementation Example:
     #
     #   WebTranslateIt::Util.http_connection do |connection|
-    #     string = WebTranslateIt::String.find(connection, 'secret_api_token', 1234 }
+    #     string = WebTranslateIt::String.find(connection, 'secret_api_token', 1234)
     #     string.delete(http_connection)
     #   end
     #
@@ -151,6 +155,17 @@ module WebTranslateIt
         retry
       end
     end
+    
+    # Gets a Translation for a String
+    # Needs a HTTPS Connection
+    #
+    # Implementation Example:
+    #
+    #   WebTranslateIt::Util.http_connection do |connection|
+    #     string = WebTranslateIt::String.find(connection, 'secret_api_token', 1234)
+    #     puts string.translation_for(connection, "fr") #=> A Translation object
+    #   end
+    #
     
     def translation_for(http_connection, locale)
       return self.translations unless self.translations == []

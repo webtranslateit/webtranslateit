@@ -6,6 +6,16 @@ module WebTranslateIt
     
     attr_accessor :api_key, :id, :locale, :text, :description, :status, :new_record, :term_id
     
+    # Initialize a new WebTranslateIt::TermTranslation
+    # Mandatory parameter is `api_key`
+    #
+    # Implementation Example:
+    #
+    #   WebTranslateIt::TermTranslation.new('secret_api_token', { "text" => "Super!" })
+    #
+    # to instantiate a new TermTranslation.
+    #
+    
     def initialize(api_key, params = {})
       self.api_key     = api_key
       self.id          = params["id"] || nil
@@ -16,7 +26,18 @@ module WebTranslateIt
       self.term_id     = params["term_id"] || nil
       self.new_record  = true
     end
-        
+    
+    # Update or Create a WebTranslateIt::TermTranslation
+    #
+    # Implementation Example:
+    #
+    #   translation = WebTranslateIt::TermTranslation.new('secret_api_token', { "term_id" => "1234", "text" => "Super!" })
+    #   translation.text = "I changed it!"
+    #   WebTranslateIt::Util.http_connection do |connection|
+    #     translation.save(connection)
+    #   end
+    #
+    
     def save(http_connection)
       if self.new_record
         self.create(http_connection)

@@ -1,5 +1,4 @@
-Web Translate It
-================
+# Web Translate It
 
 [Homepage](https://webtranslateit.com) | 
 [RDoc](http://yardoc.org/docs/AtelierConvivialite-webtranslateit) | 
@@ -7,18 +6,22 @@ Web Translate It
 [Report a bug](http://github.com/AtelierConvivialite/webtranslateit/issues) | 
 [Support](http://help.webtranslateit.com)
 
-`web_translate_it` is a rubygem providing tools to sync your language files with [Web Translate It](https://webtranslateit.com), a web-based translation software.
+`web_translate_it` is a tool to sync your language files with [WebTranslateIt.com](https://webtranslateit.com), a web-based translation software.
 
 ![Web Translate It](http://f.cl.ly/items/2X3m0h0g0I1O1U07163o/wti_example.jpg)
 
-This gem provides:
+## This rubygem provides:
 
-* a command-line executable `wti`, to sync your files between your computer/server and WebTranslateIt.com,
-* a synchronisation server to help your translation team update your language files from a web interface,
-* a rack middleware you can use within your Rails app to automatically fetch new translations from Web Translate It.
+1. A command-line executable `wti` to sync your files between your computer/server and WebTranslateIt.com. It can run in a terminal (Linux, MacOS X) or in cmd.exe (Windows). This is what this page is all about.
+2. A synchronisation server to help your translation team update your language files from a web interface. To learn how to install it, go to [web_translate_it_server](https://github.com/AtelierConvivialite/web_translate_it_server).
+3. Ruby libraries to write programs connecting to WebTranslateIt.com’s API. For more information, go to [Extras](https://github.com/AtelierConvivialite/webtranslateit/wiki/Extras).
+4. A rack middleware you can use in your Rails app to automatically fetch new translations from Web Translate It.
 
-Installation
-------------
+This readme focusses on the most commonly used functionality of this rubygem: the `wti` command-line executable.
+
+---
+
+## Installation
 
 You will need ruby to run wti. On Linux or a Mac, it’s already installed. Install [RubyInstaller](http://rubyinstaller.org/) if you’re using Windows. [See detailed installation instructions for Windows users](https://github.com/AtelierConvivialite/webtranslateit/wiki/Install-wti-on-Windows).
 
@@ -26,20 +29,18 @@ You will need ruby to run wti. On Linux or a Mac, it’s already installed. Inst
     
 At this point you should have the `wti` executable working.
 
-Configuration
--------------
+## Configuration
 
 Now that the tool is installed, you’ll have to configure your project:
 
     wti init
 
-The tool will prompt for:
+The command will ask you to enter:
 
-* your Web Translate It API key. You can find it in your project settings ([where are the project settings?](http://help.webtranslateit.com/kb/troubleshooting/where-are-my-project-settings)),
-* where to save the configuration file (by default in `config/translations.yml`).
+* Your Web Translate It API key. You can find it in your project settings,
+* Where to save the configuration file (by default it will create a `.wti` in your project root directory).
 
-Usage
------
+## Usage
 
 Execute `wti --help` to see the usage:
 
@@ -76,8 +77,7 @@ Append `--help` for each command for more information. For instance:
            --label, -b <s>:   Apply a label to the changes
                 --help, -h:   Show this message
 
-Sample Commands
----------------
+## Sample Commands
 
 <table>
   <tr>
@@ -146,8 +146,7 @@ Sample Commands
   </tr>
 </table>
 
-Hooks
------
+## Hooks
 
 It is sometimes useful to hook a command or a script before or after a push or a pull. One use-case would be to launch a build after pulling language files. You can do that by implementing hooks in your `.wti` file.
 
@@ -160,8 +159,7 @@ There are 4 hooks:
 
 Check the [sample `.wti`](https://github.com/AtelierConvivialite/webtranslateit/blob/master/examples/.wti#L9..L13) file for implementation.
 
-Web Translate It Synchronisation Console
-----------------------------------------
+## Web Translate It Server
 
 This feature was extracted out to a separate gem. See [web_translate_it_server](https://github.com/AtelierConvivialite/web_translate_it_server).
 

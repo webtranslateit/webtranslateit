@@ -11,7 +11,7 @@ module WebTranslateIt
     #
     # Implementation Example:
     #
-    #   WebTranslateIt::Translation.new('secret_api_token', { "string_id" => "1234", "text" => "Super!" }
+    #   WebTranslateIt::Translation.new('secret_api_token', { "string_id" => "1234", "text" => "Super!" })
     #
     # to instantiate a new Translation without any text.
     #
@@ -36,7 +36,7 @@ module WebTranslateIt
     #
     # Implementation Example:
     #
-    #   translation = WebTranslateIt::Translation.new('secret_api_token', { "string_id" => "1234", "text" => "Super!" }
+    #   translation = WebTranslateIt::Translation.new('secret_api_token', { "string_id" => "1234", "text" => "Super!" })
     #   translation.text = "I changed it!"
     #   WebTranslateIt::Util.http_connection do |connection|
     #     translation.save(connection)
