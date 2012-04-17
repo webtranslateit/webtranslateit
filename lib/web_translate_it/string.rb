@@ -16,10 +16,11 @@ module WebTranslateIt
     #
     # to instantiate a new String without any text.
     #
-    #   translation = WebTranslateIt::Translation.new({ "locale" => "en", "text" => "Some text" })
-    #   WebTranslateIt::String.new('secret_api_token, { "key" => "product_name_123", "translations" => [translation]})
+    #   translation_en = WebTranslateIt::Translation.new({ "locale" => "en", "text" => "Hello" })
+    #   translation_fr = WebTranslateIt::Translation.new({ "locale" => "fr", "text" => "Bonjour" })
+    #   WebTranslateIt::String.new('secret_api_token, { "key" => "product_name_123", "translations" => [translation1, translation2]})
     #
-    # to instantiate a new String with a source translation.
+    # to instantiate a new String with a source and target translation.
     
     def initialize(api_key, params = {})
       self.api_key      = api_key
@@ -39,7 +40,7 @@ module WebTranslateIt
       self.new_record   = true
     end
     
-    # Find a String based on criteria
+    # Find a String based on filters
     # Needs a HTTPS Connection
     #
     # Implementation Example:
@@ -50,6 +51,7 @@ module WebTranslateIt
     #
     # to find and instantiate an array of String which key is like `product_name_123`.
     #
+    # TODO: Implement pagination
     
     def self.find_all(http_connection, api_key, params = {})
       url = "/api/projects/#{api_key}/strings.yaml"
@@ -157,9 +159,13 @@ module WebTranslateIt
 
       begin
         response = Util.handle_response(http_connection.request(request), true)
-        translation = WebTranslateIt::Translation.new(api_key, YAML.load(response))
-        translation.new_record = false
-        return translation
+        hash = YAML.load(response)
+        unless hash.empty?
+          translation = WebTranslateIt::Translation.new(api_key, hash)
+          translation.new_record = false
+          return translation
+        end
+        return nil
         
       rescue Timeout::Error
         puts "The request timed out. The service may be overloaded. We will retry in 5 seconds."
@@ -179,8 +185,13 @@ module WebTranslateIt
       request.add_field("X-Client-Name", "web_translate_it")
       request.add_field("X-Client-Version", WebTranslateIt::Util.version)
       request.add_field("Content-Type", "application/json")
-      request.body = self.to_json # TODO: Handle Array of Translation
-
+      request.body = self.to_json
+      
+      self.translations.each do |translation|
+        translation.string_id = self.id
+        translation.save(http_connection)
+      end
+      
       begin
         Util.handle_response(http_connection.request(request), true)
       rescue Timeout::Error
@@ -199,7 +210,7 @@ module WebTranslateIt
       request.add_field("X-Client-Name", "web_translate_it")
       request.add_field("X-Client-Version", WebTranslateIt::Util.version)
       request.add_field("Content-Type", "application/json")
-      request.body = self.to_json # TODO: Handle Array of Translation
+      request.body = self.to_json(true)
 
       begin
         response = YAML.load(Util.handle_response(http_connection.request(request), true))
@@ -210,6 +221,29 @@ module WebTranslateIt
         sleep(5)
         retry
       end
+    end
+    
+    def to_json(with_translations = false)
+      hash = {
+        "id" => id,
+        "key" => key,
+        "plural" => plural,
+        "type" => type,
+        "dev_comment" => dev_comment,
+        "status" => status,
+        "label" => label,
+        "category" => category,
+        "file" => {
+          "id" => file
+        }
+      }
+      if self.translations.any? && with_translations
+        hash.update({ "translations" => [] })
+        translations.each do |translation|
+          hash["translations"].push(translation.to_hash)
+        end
+      end
+      hash.to_json
     end
   end
 end
