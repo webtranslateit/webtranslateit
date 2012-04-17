@@ -1,3 +1,7 @@
+## Version 1.10.2 / 2012-04-17
+
+* Compatibility fix for ruby 1.8.7.
+
 ## Version 1.10.1 / 2012-04-10
 
 * New: Prevent existing master files from being added again on `wti add`.
