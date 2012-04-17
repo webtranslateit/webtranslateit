@@ -6,32 +6,29 @@ require 'trollop'
 require 'web_translate_it'
 
 show_commands = <<-EOS
-A CLI for syncing files with WebTranslateIt.com
-
 Usage: wti <command> [options]+ <filename>
 
 The most commonly used wti commands are:
-
-pull        Pull target language file(s)
-push        Push master language file(s)
-match       Display matching of local files with File Manager
-add         Create and push a new master language file
-rm          Delete a master language file from a project
-addlocale   Add a new locale to the project
-rmlocale    Delete a locale from a project
-status      Fetch and display project statistics
-init        Configure your project to sync
+   pull        Pull target language file(s)
+   push        Push master language file(s)
+   match       Display matching of local files with File Manager
+   add         Create and push a new master language file
+   rm          Delete a master language file from a project
+   addlocale   Add a new locale to the project
+   rmlocale    Delete a locale from a project
+   status      Fetch and display project statistics
+   init        Configure your project to sync
 
 See `wti <command> --help` for more information on a specific command.
 
 [options] are:
 EOS
 
-SUB_COMMANDS = %w(pull push match add addlocale server status st init)
+SUB_COMMANDS = %w(pull push match add addlocale status st init)
 global_options = Trollop::options do
   stop_on SUB_COMMANDS
   banner show_commands
-  version "Web Translate It v#{WebTranslateIt::Util.version}"
+  version "wti version #{WebTranslateIt::Util.version}"
 end
 
 command = ARGV.shift # get the subcommand
@@ -82,17 +79,6 @@ EOS
   when "rmlocale"
     Trollop::options do
       banner "Delete a locale from the project"
-      opt :config, "Path to a translation.yml file", :short => "-c", :default => ".wti"
-    end
-  when "server"
-    Trollop::options do
-      banner <<-EOS
-Deprecated, used to start a synchronisation server.
-`gem install web_translate_it_server` and run `wti-server` instead.
-[options] are:
-EOS
-      opt :port, "Run server on a specific port", :default => 4000, :short => "-p"
-      opt :host, "Run server on a specific host", :default => "0.0.0.0", :short => "-h"
       opt :config, "Path to a translation.yml file", :short => "-c", :default => ".wti"
     end
   when "status"

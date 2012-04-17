@@ -182,18 +182,7 @@ module WebTranslateIt
         self.status if Util.ask_yes_no("Some of these stats are out of date. Would you like to refresh?", true)
       end
     end
-    
-    def server
-      puts "This feature is deprecated and was extracted to a separate gem,"
-      puts "    `web_translate_it_server`."
-      puts "To use it, run `gem install web_translate_it_server`"
-      puts "and run the server with `wti-server`."
-    end
-    
-    def method_missing(m, *args, &block)
-      puts "wti: '#{m}' is not a wti command. See 'wti --help'."
-    end
-        
+                
     def fetch_locales_to_pull
       if command_options.locale
         locales = command_options.locale.split

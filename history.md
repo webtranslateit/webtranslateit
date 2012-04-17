@@ -1,5 +1,9 @@
 ## Edge
 
+* Remove deprecated `wti server`.
+
+## Version 2.0.0.rc2 / 2012-04-16
+
 * Backport of compatibility fix for ruby 1.8.7 from 1.x serie.
 * Fix issue with new version system, which broke the gem. #86
 
