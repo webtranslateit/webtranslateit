@@ -72,8 +72,8 @@ module WebTranslateIt
         exit
       end
       WebTranslateIt::Util.http_connection do |http|
-	      added = configuration.files.find_all{ |file| file.locale == configuration.source_locale}.collect {|file| File.absolute_path(file.file_path) }.to_set
-        parameters.reject{ |param| added.include?(File.absolute_path(param))}.each do |param|
+	      added = configuration.files.find_all{ |file| file.locale == configuration.source_locale}.collect {|file| File.expand_path(file.file_path) }.to_set
+        parameters.reject{ |param| added.include?(File.expand_path(param))}.each do |param|
           file = TranslationFile.new(nil, param, nil, configuration.api_key)
           file.create(http, command_options.low_priority)
         end
