@@ -1,3 +1,8 @@
+## Edge
+
+* New: Remove undeclared dependency on ActiveSupport. ActiveSupport was required to use the `WebTranslateIt::String`, `Translation`, `Term` and `TermTranslation` classes. #84
+* Refactor `WebTranslateIt::String` and `WebTranslateIt::Translation` classes.
+
 ## Version 1.10.1 / 2012-04-10
 
 * New: Prevent existing master files from being added again on `wti add`.
