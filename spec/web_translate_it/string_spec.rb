@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe WebTranslateIt::String do
   
-  let(:api_key) { "8b669bfc326eff878e2532b67dd001ad55998963" }
+  let(:api_key) { "19875cfdd4f169b33e0ffab32cfb0bbb9e33d653" }
   
   describe "#initialize" do
     it "should assign api_key and many parameters" do
