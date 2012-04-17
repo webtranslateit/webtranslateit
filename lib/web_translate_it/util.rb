@@ -11,7 +11,7 @@ module WebTranslateIt
     # Return a string representing the gem version
     # For example "1.8.3"
     def self.version
-      IO.read("version")
+      IO.read(File.expand_path('../../../version', __FILE__))
     end
     
     # Yields a HTTP connection over SSL to Web Translate It.

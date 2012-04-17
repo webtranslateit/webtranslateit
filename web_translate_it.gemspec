@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.homepage    = "https://webtranslateit.com"
   s.authors     = "Édouard Brière"
  
-  s.files       = Dir["history.md", "license", "readme.md", "version.yml", "examples/**/*", "lib/**/*", "generators/**/*", "bin/**/*", "man/**/*"]
+  s.files       = Dir["history.md", "license", "readme.md", "version", "examples/**/*", "lib/**/*", "generators/**/*", "bin/**/*", "man/**/*"]
   
   s.test_files  = Dir["spec/**/*"]  
   
