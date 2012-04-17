@@ -55,7 +55,7 @@ module WebTranslateIt
     
     def self.find_all(http_connection, api_key, params = {})
       url = "/api/projects/#{api_key}/strings.yaml"
-      url += '?' + HashUtil.to_param({ :filters => params }) unless params.blank?
+      url += '?' + HashUtil.to_params("filters" => params) unless params.empty?
 
       request = Net::HTTP::Get.new(url)
       request.add_field("X-Client-Name", "web_translate_it")
@@ -95,8 +95,9 @@ module WebTranslateIt
       request.add_field("X-Client-Version", WebTranslateIt::Util.version)
 
       begin
-        response = Util.handle_response(http_connection.request(request), true)
-        string = WebTranslateIt::String.new(api_key, YAML.load(response))
+        response = http_connection.request(request)
+        return nil if response.code.to_i == 404
+        string = WebTranslateIt::String.new(api_key, YAML.load(response.body))
         string.new_record = false
         return string
       rescue Timeout::Error
@@ -160,12 +161,9 @@ module WebTranslateIt
       begin
         response = Util.handle_response(http_connection.request(request), true)
         hash = YAML.load(response)
-        unless hash.empty?
-          translation = WebTranslateIt::Translation.new(api_key, hash)
-          translation.new_record = false
-          return translation
-        end
-        return nil
+        return nil if hash.empty?
+        translation = WebTranslateIt::Translation.new(api_key, hash)
+        return translation
         
       rescue Timeout::Error
         puts "The request timed out. The service may be overloaded. We will retry in 5 seconds."
@@ -215,6 +213,7 @@ module WebTranslateIt
       begin
         response = YAML.load(Util.handle_response(http_connection.request(request), true))
         self.id = response["id"]
+        self.new_record = false
         return true
       rescue Timeout::Error
         puts "The request timed out. The service may be overloaded. We will retry in 5 seconds."
