@@ -2,6 +2,7 @@
 module WebTranslateIt
   class TermTranslation
     require 'net/https'
+    require 'json'
     
     attr_accessor :id, :locale, :api_key
     
@@ -11,10 +12,8 @@ module WebTranslateIt
       self.api_key    = api_key
     end
     
-    def show(http_connection, options = {})
-      options.reverse_merge!(:format => 'yaml')
-      
-      request = Net::HTTP::Get.new("/api/projects/#{self.api_key}/terms/#{self.id}/locales/#{self.locale}/translations.#{options[:format]}")
+    def show(http_connection)      
+      request = Net::HTTP::Get.new("/api/projects/#{self.api_key}/terms/#{self.id}/locales/#{self.locale}/translations.yaml")
       request.add_field("X-Client-Name", "web_translate_it")
       request.add_field("X-Client-Version", WebTranslateIt::Util.version)
 

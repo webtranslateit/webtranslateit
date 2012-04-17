@@ -2,6 +2,7 @@
 module WebTranslateIt
   class Term
     require 'net/https'
+    require 'json'
     
     attr_accessor :id, :api_key
     
@@ -10,10 +11,8 @@ module WebTranslateIt
       self.api_key    = api_key
     end
     
-    def self.list(http_connection, api_key, params = {}, options = {})
-      options.reverse_merge!(:format => 'yaml')
-
-      url = "/api/projects/#{api_key}/terms.#{options[:format]}"
+    def self.list(http_connection, api_key, params = {})
+      url = "/api/projects/#{api_key}/terms.yaml"
       url += '?' + HashUtil.to_param(params) unless params.blank?
 
       request = Net::HTTP::Get.new(url)
@@ -29,10 +28,8 @@ module WebTranslateIt
       end
     end
     
-    def show(http_connection, options = {})
-      options.reverse_merge!(:format => 'yaml')
-
-      request = Net::HTTP::Get.new("/api/projects/#{self.api_key}/terms/#{self.id}.#{options[:format]}")
+    def show(http_connection)
+      request = Net::HTTP::Get.new("/api/projects/#{self.api_key}/terms/#{self.id}.yaml")
       request.add_field("X-Client-Name", "web_translate_it")
       request.add_field("X-Client-Version", WebTranslateIt::Util.version)
 
@@ -45,10 +42,8 @@ module WebTranslateIt
       end
     end
 
-    def update(http_connection, params = {}, options = {})
-      options.reverse_merge!(:format => 'yaml')
-
-      request = Net::HTTP::Put.new("/api/projects/#{self.api_key}/terms/#{self.id}.#{options[:format]}")
+    def update(http_connection, params = {})
+      request = Net::HTTP::Put.new("/api/projects/#{self.api_key}/terms/#{self.id}.yaml")
       request.add_field("X-Client-Name", "web_translate_it")
       request.add_field("X-Client-Version", WebTranslateIt::Util.version)
       request.add_field("Content-Type", "application/json")

@@ -2,6 +2,7 @@
 module WebTranslateIt
   class String
     require 'net/https'
+    require 'json'
     
     attr_accessor :api_key, :id, :key, :plural, :type, :dev_comment, :word_count, :status, :category, :label, :file,
                   :created_at, :updated_at, :translations, :new_record
