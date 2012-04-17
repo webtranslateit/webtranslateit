@@ -1,6 +1,6 @@
-## Edge
+## Version 2.0.0.rc1 / 2012-04-16
 
-**Important**: This release introduces breaking changes in the String, Translation, Term and TermTranslation APIs. See [Extras](https://github.com/AtelierConvivialite/webtranslateit/wiki/Extras) if you use the String, Translation, Term and TermTranslation APIs to programmatically manage strings, translations and terms. 
+**Important**: This release candidate introduce breaking changes in the String, Translation, Term and TermTranslation APIs. See [Extras](https://github.com/AtelierConvivialite/webtranslateit/wiki/Extras) if you use the String, Translation, Term and TermTranslation APIs to programmatically manage strings, translations and terms. 
 
 * Remove undeclared dependency on ActiveSupport. ActiveSupport was required to use the `WebTranslateIt::String`, `Translation`, `Term` and `TermTranslation` classes. #84
 * Refactor `WebTranslateIt::String` and `WebTranslateIt::Translation` classes and add specs. #85
