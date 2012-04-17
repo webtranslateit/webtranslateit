@@ -43,8 +43,9 @@ module WebTranslateIt
     #
     # Implementation Example:
     #
-    #   http = WebTranslateIt::Util.http_connection
-    #   WebTranslateIt::String.find_all(http_connection, 'secret_api_token', { "key" => "product_name_123" }
+    #   WebTranslateIt::Util.http_connection do |connection|
+    #     WebTranslateIt::String.find_all(connection, 'secret_api_token', { "key" => "product_name_123" }
+    #   end
     #
     # to find and instantiate an array of String which key is like `product_name_123`.
     #
@@ -78,8 +79,9 @@ module WebTranslateIt
     #
     # Implementation Example:
     #
-    #   http = WebTranslateIt::Util.http_connection
-    #   WebTranslateIt::String.find(http_connection, 'secret_api_token', 1234 }
+    #   WebTranslateIt::Util.http_connection do |connection|
+    #     WebTranslateIt::String.find(connection, 'secret_api_token', 1234 }
+    #   end
     #
     # to find and instantiate the String which ID is `1234`.
     #
@@ -106,10 +108,11 @@ module WebTranslateIt
     #
     # Implementation Example:
     #
-    #   http = WebTranslateIt::Util.http_connection
-    #   string = WebTranslateIt::String.find(http_connection, 'secret_api_token', 1234 }
-    #   string.status = "status_obsolete"
-    #   string.save(http_connection)
+    #   WebTranslateIt::Util.http_connection do |connection|
+    #     string = WebTranslateIt::String.find(connection, 'secret_api_token', 1234 }
+    #     string.status = "status_obsolete"
+    #     string.save(http_connection)
+    #   end
     #
     
     def save(http_connection)
@@ -125,9 +128,10 @@ module WebTranslateIt
     #
     # Implementation Example:
     #
-    #   http = WebTranslateIt::Util.http_connection
-    #   string = WebTranslateIt::String.find(http_connection, 'secret_api_token', 1234 }
-    #   string.delete(http_connection)
+    #   WebTranslateIt::Util.http_connection do |connection|
+    #     string = WebTranslateIt::String.find(connection, 'secret_api_token', 1234 }
+    #     string.delete(http_connection)
+    #   end
     #
     
     def delete(http_connection)
@@ -174,7 +178,6 @@ module WebTranslateIt
       request.add_field("X-Client-Name", "web_translate_it")
       request.add_field("X-Client-Version", WebTranslateIt::Util.version)
       request.add_field("Content-Type", "application/json")
-          
       request.body = self.to_json # TODO: Handle Array of Translation
 
       begin
@@ -195,7 +198,6 @@ module WebTranslateIt
       request.add_field("X-Client-Name", "web_translate_it")
       request.add_field("X-Client-Version", WebTranslateIt::Util.version)
       request.add_field("Content-Type", "application/json")
-        
       request.body = self.to_json # TODO: Handle Array of Translation
 
       begin
@@ -208,6 +210,5 @@ module WebTranslateIt
         retry
       end
     end
-    
   end
 end

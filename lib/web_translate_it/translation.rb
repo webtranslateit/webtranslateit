@@ -44,7 +44,6 @@ module WebTranslateIt
       request.add_field("X-Client-Name", "web_translate_it")
       request.add_field("X-Client-Version", WebTranslateIt::Util.version)
       request.add_field("Content-Type", "application/json")
-        
       request.body = self.to_json
 
       begin
