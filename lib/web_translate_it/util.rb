@@ -11,8 +11,7 @@ module WebTranslateIt
     # Return a string representing the gem version
     # For example "1.8.3"
     def self.version
-      hash = YAML.load_file File.expand_path('../../../version.yml', __FILE__)
-      [hash[:major], hash[:minor], hash[:patch]].join('.')
+      IO.read("version")
     end
     
     # Yields a HTTP connection over SSL to Web Translate It.
