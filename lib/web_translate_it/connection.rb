@@ -9,6 +9,21 @@ module WebTranslateIt
     @@api_key = nil
     @@http_connection = nil
     
+    #
+    # Initialize and yield a HTTPS Keep-Alive connection to WebTranslateIt.com
+    #
+    # Usage:
+    #
+    # WebTranslateIt::Connection.new(api_key) do
+    #   # do something with Connection.api_key and Connection.http_connection
+    # end
+    #
+    # Or:
+    #
+    # WebTranslateIt::Connection.new(api_key) do |http_connection|
+    #   http_connection.request(request)
+    # end
+    #
     def initialize(api_key)
       @@api_key = api_key
       proxy = ENV['http_proxy'] ? URI.parse(ENV['http_proxy']) : OpenStruct.new

@@ -35,7 +35,7 @@ module WebTranslateIt
         ArrayUtil.chunk(files, n_threads).each do |file_array|
           unless file_array.empty?
             threads << Thread.new(file_array) do |file_array|
-              WebTranslateIt::Util.http_connection do |http|
+              WebTranslateIt::Connection.new(configuration.api_key) do |http|
                 file_array.each do |file|
                   file.fetch(http, command_options.force)
                 end
@@ -54,7 +54,7 @@ module WebTranslateIt
       STDOUT.sync = true
       `#{configuration.before_push}` if configuration.before_push
       puts StringUtil.titleize("Pushing files")
-      WebTranslateIt::Util.http_connection do |http|
+      WebTranslateIt::Connection.new(configuration.api_key) do |http|
         fetch_locales_to_push(configuration).each do |locale|
           configuration.files.find_all{ |file| file.locale == locale }.sort{|a,b| a.file_path <=> b.file_path} .each do |file|
             file.upload(http, command_options[:merge], command_options.ignore_missing, command_options.label, command_options.low_priority, command_options[:minor], command_options.force)
@@ -71,7 +71,7 @@ module WebTranslateIt
         puts "Usage: wti add master_file_1 master_file_2 ..."
         exit
       end
-      WebTranslateIt::Util.http_connection do |http|
+      WebTranslateIt::Connection.new(configuration.api_key) do |http|
 	      added = configuration.files.find_all{ |file| file.locale == configuration.source_locale}.collect {|file| File.expand_path(file.file_path) }.to_set
         parameters.reject{ |param| added.include?(File.expand_path(param))}.each do |param|
           file = TranslationFile.new(nil, param, nil, configuration.api_key)
@@ -88,7 +88,7 @@ module WebTranslateIt
         puts "Usage: wti rm master_file_1 master_file_2 ..."
         exit
       end
-      WebTranslateIt::Util.http_connection do |http|
+      WebTranslateIt::Connection.new(configuration.api_key) do |http|
         parameters.each do |param|
           if Util.ask_yes_no("Are you certain you want to delete the master file #{param} and its attached target files and translations?", false)
             configuration.files.find_all{ |file| file.file_path == param }.each do |master_file|
@@ -114,7 +114,9 @@ module WebTranslateIt
       end
       parameters.each do |param|
         print StringUtil.success("Adding locale #{param}... ")
-        puts WebTranslateIt::Project.create_locale(configuration.api_key, param)
+        WebTranslateIt::Connection.new(configuration.api_key) do
+          puts WebTranslateIt::Project.create_locale(param)
+        end
       end
       puts "Done!"
     end
@@ -129,7 +131,9 @@ module WebTranslateIt
       parameters.each do |param|
         if Util.ask_yes_no("Are you certain you want to delete the locale #{param} and its attached target files and translations?", false)
           print StringUtil.success("Deleting locale #{param}... ")
-          puts WebTranslateIt::Project.delete_locale(configuration.api_key, param)
+          WebTranslateIt::Connection.new(configuration.api_key) do |http|
+            puts WebTranslateIt::Project.delete_locale(param)
+          end
         end
       end
       puts "Done!"
