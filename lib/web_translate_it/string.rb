@@ -233,9 +233,7 @@ module WebTranslateIt
         "status" => status,
         "label" => label,
         "category" => category,
-        "file" => {
-          "id" => file
-        }
+        "file" => file
       }
       if self.translations.any? && with_translations
         hash.update({ "translations" => [] })
