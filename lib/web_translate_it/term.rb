@@ -4,25 +4,23 @@ module WebTranslateIt
     require 'net/https'
     require 'json'
     
-    attr_accessor :api_key, :id, :text, :description, :created_at, :updated_at, :translations, :new_record
+    attr_accessor :id, :text, :description, :created_at, :updated_at, :translations, :new_record
     
     # Initialize a new WebTranslateIt::Term
-    # The only mandatory parameter is `api_key`
     #
     # Implementation Example:
     #
-    #   WebTranslateIt::Term.new('secret_api_token', { "text" => "Term Name" })
+    #   WebTranslateIt::Term.new({ "text" => "Term Name" })
     #
     # to instantiate a new Term.
     #
     #   translation_es = WebTranslateIt::TermTranslation.new({ "locale" => "es", "text" => "Hola" })
     #   translation_fr = WebTranslateIt::TermTranslation.new({ "locale" => "fr", "text" => "Bonjour" })
-    #   WebTranslateIt::Term.new('secret_api_token', { "text" => "Hello", "translations" => [translation_es, translation_fr]})
+    #   WebTranslateIt::Term.new({ "text" => "Hello", "translations" => [translation_es, translation_fr]})
     #
     # to instantiate a new Term with a Term Translations in Spanish and French.
     
-    def initialize(api_key, params = {})
-      self.api_key      = api_key
+    def initialize(params = {})
       self.id           = params["id"] || nil
       self.text         = params["text"] || nil
       self.description  = params["description"] || nil
@@ -33,20 +31,19 @@ module WebTranslateIt
     end
     
     # Fetch all terms
-    # Needs a HTTPS Connection
     #
     # Implementation Example:
     #
-    #   WebTranslateIt::Util.http_connection do |connection|
-    #     terms = WebTranslateIt::Term.find_all(connection, 'secret_api_token')
+    #   WebTranslateIt::Connection.new('secret_api_token') do
+    #     terms = WebTranslateIt::Term.find_all
     #   end
     #
     #  puts terms.inspect #=> An array of WebTranslateIt::Term objects
     #
     # TODO: Implement pagination
     
-    def self.find_all(http_connection, api_key, params = {})
-      url = "/api/projects/#{api_key}/terms.yaml"
+    def self.find_all(params = {})
+      url = "/api/projects/#{Connection.api_key}/terms.yaml"
       url += '?' + HashUtil.to_params(params) unless params.empty?
 
       request = Net::HTTP::Get.new(url)
@@ -54,10 +51,10 @@ module WebTranslateIt
       request.add_field("X-Client-Version", WebTranslateIt::Util.version)
 
       begin
-        response = Util.handle_response(http_connection.request(request), true)
+        response = Util.handle_response(Connection.http_connection.request(request), true)
         terms = []
         YAML.load(response).each do |term_response|
-          term = WebTranslateIt::Term.new(api_key, term_response)
+          term = WebTranslateIt::Term.new(term_response)
           term.new_record = false
           terms.push(term)
         end
@@ -71,12 +68,11 @@ module WebTranslateIt
     end
     
     # Find a Term based on its ID
-    # Needs a HTTPS Connection
     #
     # Implementation Example:
     #
-    #   WebTranslateIt::Util.http_connection do |connection|
-    #     term = WebTranslateIt::Term.find(connection, 'secret_api_token', 1234)
+    #   WebTranslateIt::Connection.new('secret_api_token') do
+    #     term = WebTranslateIt::Term.find(1234)
     #   end
     #
     #   puts term.inspect #=> A Term object
@@ -84,15 +80,15 @@ module WebTranslateIt
     # to find and instantiate the Term which ID is `1234`.
     #
     
-    def self.find(http_connection, api_key, term_id)
-      request = Net::HTTP::Get.new("/api/projects/#{api_key}/terms/#{term_id}.yaml")
+    def self.find(term_id)
+      request = Net::HTTP::Get.new("/api/projects/#{Connection.api_key}/terms/#{term_id}.yaml")
       request.add_field("X-Client-Name", "web_translate_it")
       request.add_field("X-Client-Version", WebTranslateIt::Util.version)
 
       begin
-        response = http_connection.request(request)
+        response = Connection.http_connection.request(request)
         return nil if response.code.to_i == 404
-        term = WebTranslateIt::Term.new(api_key, YAML.load(response.body))
+        term = WebTranslateIt::Term.new(YAML.load(response.body))
         term.new_record = false
         return term
       rescue Timeout::Error
@@ -103,43 +99,37 @@ module WebTranslateIt
     end
 
     # Update or create a Term to WebTranslateIt.com
-    # Needs a HTTPS Connection
     #
     # Implementation Example:
     #
-    #   WebTranslateIt::Util.http_connection do |connection|
-    #     term = WebTranslateIt::Term.find(connection, 'secret_api_token', 1234)
+    #   WebTranslateIt::Connection.new('secret_api_token') do
+    #     term = WebTranslateIt::Term.find(1234)
     #     term.text = "Hello"
-    #     term.save(http_connection)
+    #     term.save
     #   end
     #
 
-    def save(http_connection)
-      if self.new_record
-        self.create(http_connection)
-      else
-        self.update(http_connection)
-      end
+    def save
+      self.new_record ? self.create : self.update
     end
     
     # Delete a Term on WebTranslateIt.com
-    # Needs a HTTPS Connection
     #
     # Implementation Example:
     #
-    #   WebTranslateIt::Util.http_connection do |connection|
-    #     term = WebTranslateIt::Term.find(connection, 'secret_api_token', 1234)
-    #     term.delete(http_connection)
+    #   WebTranslateIt::Connection.new('secret_api_token') do
+    #     term = WebTranslateIt::Term.find(1234)
+    #     term.delete
     #   end
     #
     
-    def delete(http_connection)
-      request = Net::HTTP::Delete.new("/api/projects/#{self.api_key}/terms/#{self.id}")
+    def delete
+      request = Net::HTTP::Delete.new("/api/projects/#{Connection.api_key}/terms/#{self.id}")
       request.add_field("X-Client-Name", "web_translate_it")
       request.add_field("X-Client-Version", WebTranslateIt::Util.version)
 
       begin
-        Util.handle_response(http_connection.request(request), true)
+        Util.handle_response(Connection.http_connection.request(request), true)
       rescue Timeout::Error
         puts "The request timed out. The service may be overloaded. We will retry in 5 seconds."
         sleep(5)
@@ -148,29 +138,28 @@ module WebTranslateIt
     end
     
     # Gets a Translation for a Term
-    # Needs a HTTPS Connection
     #
     # Implementation Example:
     #
-    #   WebTranslateIt::Util.http_connection do |connection|
-    #     term = WebTranslateIt::Term.find(connection, 'secret_api_token', 1234)
-    #     puts term.translation_for(connection, "fr") #=> A TermTranslation object
+    #   WebTranslateIt::Connection.new('secret_api_token') do
+    #     term = WebTranslateIt::Term.find(1234)
+    #     puts term.translation_for("fr") #=> A TermTranslation object
     #   end
     #
     
-    def translation_for(http_connection, locale)
+    def translation_for(locale)
       return self.translations unless self.translations == []
-      request = Net::HTTP::Get.new("/api/projects/#{self.api_key}/terms/#{self.id}/locales/#{locale}/translations.yaml")
+      request = Net::HTTP::Get.new("/api/projects/#{Connection.api_key}/terms/#{self.id}/locales/#{locale}/translations.yaml")
       request.add_field("X-Client-Name", "web_translate_it")
       request.add_field("X-Client-Version", WebTranslateIt::Util.version)
 
       begin
-        response = Util.handle_response(http_connection.request(request), true)
+        response = Util.handle_response(Connection.http_connection.request(request), true)
         array = YAML.load(response)
         return nil if array.empty?
         translations = []
         array.each do |translation|
-          term_translation = WebTranslateIt::TermTranslation.new(api_key, translation)
+          term_translation = WebTranslateIt::TermTranslation.new(translation)
           translations.push(term_translation)
         end
         return translations
@@ -184,8 +173,8 @@ module WebTranslateIt
 
     protected
 
-    def update(http_connection)
-      request = Net::HTTP::Put.new("/api/projects/#{self.api_key}/terms/#{self.id}.yaml")
+    def update
+      request = Net::HTTP::Put.new("/api/projects/#{Connection.api_key}/terms/#{self.id}.yaml")
       request.add_field("X-Client-Name", "web_translate_it")
       request.add_field("X-Client-Version", WebTranslateIt::Util.version)
       request.add_field("Content-Type", "application/json")
@@ -194,11 +183,11 @@ module WebTranslateIt
 
       self.translations.each do |translation|
         translation.term_id = self.id
-        translation.save(http_connection)
+        translation.save
       end
 
       begin
-        Util.handle_response(http_connection.request(request), true)
+        Util.handle_response(Connection.http_connection.request(request), true)
       rescue Timeout::Error
         puts "The request timed out. The service may be overloaded. We will retry in 5 seconds."
         sleep(5)
@@ -206,8 +195,8 @@ module WebTranslateIt
       end
     end
     
-    def create(http_connection)
-      request = Net::HTTP::Post.new("/api/projects/#{api_key}/terms")
+    def create
+      request = Net::HTTP::Post.new("/api/projects/#{Connection.api_key}/terms")
       request.add_field("X-Client-Name", "web_translate_it")
       request.add_field("X-Client-Version", WebTranslateIt::Util.version)
       request.add_field("Content-Type", "application/json")
@@ -215,7 +204,7 @@ module WebTranslateIt
       request.body = self.to_json(true)
 
       begin
-        response = YAML.load(Util.handle_response(http_connection.request(request), true))
+        response = YAML.load(Util.handle_response(Connection.http_connection.request(request), true))
         self.id = response["id"]
         self.new_record = false
         return true

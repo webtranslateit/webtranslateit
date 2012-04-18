@@ -4,20 +4,18 @@ module WebTranslateIt
     require 'net/https'
     require 'json'
     
-    attr_accessor :api_key, :id, :locale, :text, :description, :status, :new_record, :term_id
+    attr_accessor :id, :locale, :text, :description, :status, :new_record, :term_id
     
     # Initialize a new WebTranslateIt::TermTranslation
-    # Mandatory parameter is `api_key`
     #
     # Implementation Example:
     #
-    #   WebTranslateIt::TermTranslation.new('secret_api_token', { "text" => "Super!" })
+    #   WebTranslateIt::TermTranslation.new({ "text" => "Super!" })
     #
     # to instantiate a new TermTranslation.
     #
     
-    def initialize(api_key, params = {})
-      self.api_key     = api_key
+    def initialize(params = {})
       self.id          = params["id"] || nil
       self.locale      = params["locale"] || nil
       self.text        = params["text"] || nil
@@ -31,19 +29,14 @@ module WebTranslateIt
     #
     # Implementation Example:
     #
-    #   translation = WebTranslateIt::TermTranslation.new('secret_api_token', { "term_id" => "1234", "text" => "Super!" })
-    #   translation.text = "I changed it!"
-    #   WebTranslateIt::Util.http_connection do |connection|
-    #     translation.save(connection)
+    #   translation = WebTranslateIt::TermTranslation.new({ "term_id" => "1234", "text" => "Super!" })
+    #   WebTranslateIt::Connection.new('secret_api_token') do
+    #     translation.save
     #   end
     #
     
-    def save(http_connection)
-      if self.new_record
-        self.create(http_connection)
-      else
-        self.update(http_connection)
-      end
+    def save
+      self.new_record ? self.create : self.update
     end
     
     def to_hash
@@ -58,8 +51,8 @@ module WebTranslateIt
     
     protected
     
-    def create(http_connection)
-      request = Net::HTTP::Post.new("/api/projects/#{self.api_key}/terms/#{self.term_id}/locales/#{self.locale}/translations")
+    def create
+      request = Net::HTTP::Post.new("/api/projects/#{Connection.api_key}/terms/#{self.term_id}/locales/#{self.locale}/translations")
       request.add_field("X-Client-Name", "web_translate_it")
       request.add_field("X-Client-Version", WebTranslateIt::Util.version)
       request.add_field("Content-Type", "application/json")
@@ -67,7 +60,7 @@ module WebTranslateIt
       request.body = self.to_hash.to_json
 
       begin
-        response = Util.handle_response(http_connection.request(request), true)
+        response = Util.handle_response(Connection.http_connection.request(request), true)
         response = YAML.load(response)
         self.id = response["id"]
         self.new_record = false
@@ -80,8 +73,8 @@ module WebTranslateIt
       end
     end
 
-    def update(http_connection)
-      request = Net::HTTP::Put.new("/api/projects/#{self.api_key}/terms/#{self.id}/locales/#{self.locale}/translations/#{self.id}")
+    def update
+      request = Net::HTTP::Put.new("/api/projects/#{Connection.api_key}/terms/#{self.id}/locales/#{self.locale}/translations/#{self.id}")
       request.add_field("X-Client-Name", "web_translate_it")
       request.add_field("X-Client-Version", WebTranslateIt::Util.version)
       request.add_field("Content-Type", "application/json")
@@ -89,7 +82,7 @@ module WebTranslateIt
       request.body = self.to_hash.to_json
 
       begin
-        Util.handle_response(http_connection.request(request), true)
+        Util.handle_response(Connection.http_connection.request(request), true)
         
       rescue Timeout::Error
         puts "The request timed out. The service may be overloaded. We will retry in 5 seconds."
@@ -97,6 +90,5 @@ module WebTranslateIt
         retry
       end
     end
-
   end
 end

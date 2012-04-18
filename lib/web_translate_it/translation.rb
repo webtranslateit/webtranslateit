@@ -4,20 +4,18 @@ module WebTranslateIt
     require 'net/https'
     require 'json'
     
-    attr_accessor :api_key, :id, :locale, :text, :status, :created_at, :updated_at, :version, :string_id
+    attr_accessor :id, :locale, :text, :status, :created_at, :updated_at, :version, :string_id
     
     # Initialize a new WebTranslateIt::Translation
-    # Mandatory parameters are `api_key` and { "string_id" => "1234" }
     #
     # Implementation Example:
     #
-    #   WebTranslateIt::Translation.new('secret_api_token', { "string_id" => "1234", "text" => "Super!" })
+    #   WebTranslateIt::Translation.new({ "string_id" => "1234", "text" => "Super!" })
     #
     # to instantiate a new Translation without any text.
     #
     
-    def initialize(api_key, params = {})
-      self.api_key    = api_key
+    def initialize(params = {})
       self.id         = params["id"] || nil
       self.locale     = params["locale"] || nil
       self.text       = params["text"] || nil
@@ -36,22 +34,21 @@ module WebTranslateIt
     #
     # Implementation Example:
     #
-    #   translation = WebTranslateIt::Translation.new('secret_api_token', { "string_id" => "1234", "text" => "Super!" })
-    #   translation.text = "I changed it!"
-    #   WebTranslateIt::Util.http_connection do |connection|
-    #     translation.save(connection)
+    #   translation = WebTranslateIt::Translation.new({ "string_id" => "1234", "text" => "Super!" })
+    #   WebTranslateIt::Connection.new('secret_api_token') do
+    #     translation.save
     #   end
     #
     
-    def save(http_connection)
-      request = Net::HTTP::Post.new("/api/projects/#{self.api_key}/strings/#{self.string_id}/locales/#{self.locale}/translations")
+    def save
+      request = Net::HTTP::Post.new("/api/projects/#{Connection.api_key}/strings/#{self.string_id}/locales/#{self.locale}/translations")
       request.add_field("X-Client-Name", "web_translate_it")
       request.add_field("X-Client-Version", WebTranslateIt::Util.version)
       request.add_field("Content-Type", "application/json")
       request.body = self.to_hash.to_json
 
       begin
-        Util.handle_response(http_connection.request(request), true)
+        Util.handle_response(Connection.http_connection.request(request), true)
       rescue Timeout::Error
         puts "The request timed out. The service may be overloaded. We will retry in 5 seconds."
         sleep(5)

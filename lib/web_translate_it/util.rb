@@ -1,9 +1,5 @@
 # encoding: utf-8
 module WebTranslateIt
-  require 'net/http'
-  require 'net/https'
-  require 'uri'
-  require 'ostruct'
   
   # A few useful functions
   class Util
@@ -13,41 +9,7 @@ module WebTranslateIt
     def self.version
       IO.read(File.expand_path('../../../version', __FILE__))
     end
-    
-    # Yields a HTTP connection over SSL to Web Translate It.
-    # This is used for the connections to the API throughout the library.
-    # Use it like so:
-    # 
-    #   WebTranslateIt::Util.http_connection do |http|
-    #     request = Net::HTTP::Get.new(api_url)
-    #     response = http.request(request)
-    #   end
-    #
-    # This method will try to connect through a proxy if `http_proxy` is set.
-    #
-    def self.http_connection
-      proxy = ENV['http_proxy'] ? URI.parse(ENV['http_proxy']) : OpenStruct.new
-      http = Net::HTTP::Proxy(proxy.host, proxy.port, proxy.user, proxy.password).new('webtranslateit.com', 443)
-      http.use_ssl      = true
-      http.open_timeout = http.read_timeout = 30
-      begin
-        http.verify_mode  = OpenSSL::SSL::VERIFY_PEER
-        if File.exists?('/etc/ssl/certs') # Ubuntu
-          http.ca_path = '/etc/ssl/certs'
-        else
-          http.ca_file = File.expand_path('cacert.pem', __FILE__)
-        end
-        yield http.start
-      rescue OpenSSL::SSL::SSLError
-        puts "Unable to verify SSL certificate."
-        http = Net::HTTP::Proxy(proxy.host, proxy.port, proxy.user, proxy.password).new('webtranslateit.com', 443)
-        http.use_ssl      = true
-        http.open_timeout = http.read_timeout = 30
-        http.verify_mode  = OpenSSL::SSL::VERIFY_NONE
-        yield http.start
-      end
-    end
-        
+            
     def self.calculate_percentage(processed, total)
       return 0 if total == 0
       ((processed*10)/total).to_f.ceil*10

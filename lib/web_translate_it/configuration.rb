@@ -10,7 +10,8 @@ module WebTranslateIt
   class Configuration
     require 'yaml'
     require 'fileutils'
-    attr_accessor :path, :api_key, :source_locale, :target_locales, :files, :ignore_locales, :logger, :before_pull, :after_pull, :before_push, :after_push
+    attr_accessor :path, :api_key, :source_locale, :target_locales, :files, :ignore_locales
+    attr_accessor :logger, :before_pull, :after_pull, :before_push, :after_push
     
     # Load configuration file from the path.
     def initialize(root_path = Rails.root, path_to_config_file = ".wti")

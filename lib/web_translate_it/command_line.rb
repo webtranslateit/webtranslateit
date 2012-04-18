@@ -13,7 +13,7 @@ module WebTranslateIt
       end
       self.send(command)
     end
-        
+    
     def pull
       STDOUT.sync = true
       `#{configuration.before_pull}` if configuration.before_pull
@@ -152,7 +152,6 @@ module WebTranslateIt
     end
     
     def match
-      puts StringUtil.titleize("Matching local files with File Manager")
       configuration.files.find_all{ |mf| mf.locale == configuration.source_locale }.each do |master_file|
         if !File.exists?(master_file.file_path)
           puts StringUtil.failure(master_file.file_path) + " (#{master_file.locale})"
