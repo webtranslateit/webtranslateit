@@ -1,6 +1,8 @@
 ## Edge
 
 * Remove deprecated `wti server`.
+* Reword command help and output.
+* Rework String, Translation, Term and TermTranslation refactoring. Now using a connection persisted as a class instance. See connection.rb. This makes for a nicer syntax.
 
 ## Version 2.0.0.rc2 / 2012-04-16
 
