@@ -1,4 +1,4 @@
-## Edge
+## Version 2.0.0.rc3 / 2012-04-19
 
 * Remove deprecated `wti server`.
 * Reword command help and output.
