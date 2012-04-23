@@ -1,4 +1,4 @@
-## Edge
+## Version 2.0.0.rc4 / 2012-04-23
 
 * Allow instantiating `WebTranslateIt::String` and `WebTranslateIt::Term` using a Hash made of symbols or strings.
 
