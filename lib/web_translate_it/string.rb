@@ -10,17 +10,18 @@ module WebTranslateIt
     #
     # Implementation Example:
     #
-    #   WebTranslateIt::String.new({ "key" => "product_name_123" })
+    #   WebTranslateIt::String.new({ :key => "product_name_123" })
     #
     # to instantiate a new String without any text.
     #
-    #   translation_en = WebTranslateIt::Translation.new({ "locale" => "en", "text" => "Hello" })
-    #   translation_fr = WebTranslateIt::Translation.new({ "locale" => "fr", "text" => "Bonjour" })
-    #   WebTranslateIt::String.new({ "key" => "product_name_123", "translations" => [translation_en, translation_fr]})
+    #   translation_en = WebTranslateIt::Translation.new({ :locale => "en", :text => "Hello" })
+    #   translation_fr = WebTranslateIt::Translation.new({ :locale => "fr", :text => "Bonjour" })
+    #   WebTranslateIt::String.new({ :key => "product_name_123", :translations => [translation_en, translation_fr]})
     #
     # to instantiate a new String with a source and target translation.
     
     def initialize(params = {})
+      params.stringify_keys!
       self.id           = params["id"] || nil
       self.key          = params["key"] || nil
       self.plural       = params["plural"] || nil
@@ -42,7 +43,7 @@ module WebTranslateIt
     # Implementation Example:
     #
     #   WebTranslateIt::Connection.new('secret_api_token') do
-    #     strings = WebTranslateIt::String.find_all({ "key" => "product_name_123" })
+    #     strings = WebTranslateIt::String.find_all({ :key => "product_name_123" })
     #   end
     #
     #   puts strings.inspect #=> An array of WebTranslateIt::String objects
@@ -52,6 +53,7 @@ module WebTranslateIt
     # TODO: Implement pagination
     
     def self.find_all(params = {})
+      params.stringify_keys!
       url = "/api/projects/#{Connection.api_key}/strings.yaml"
       url += '?' + HashUtil.to_params("filters" => params) unless params.empty?
 

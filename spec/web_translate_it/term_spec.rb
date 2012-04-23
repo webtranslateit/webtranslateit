@@ -10,6 +10,12 @@ describe WebTranslateIt::Term do
       term.id.should == 1234
       term.text.should == "bacon"
     end
+
+    it "should assign parameters using symbols" do
+      term = WebTranslateIt::Term.new({ :id => 1234, :text => "bacon"})
+      term.id.should == 1234
+      term.text.should == "bacon"
+    end
   end
   
   describe "#save" do

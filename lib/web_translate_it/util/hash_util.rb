@@ -25,3 +25,13 @@ class HashUtil
     params
   end
 end
+
+class Hash
+  # Destructively convert all keys to strings.
+  def stringify_keys!
+    keys.each do |key|
+      self[key.to_s] = delete(key)
+    end
+    self
+  end
+end

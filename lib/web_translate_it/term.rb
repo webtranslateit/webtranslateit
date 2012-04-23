@@ -10,17 +10,18 @@ module WebTranslateIt
     #
     # Implementation Example:
     #
-    #   WebTranslateIt::Term.new({ "text" => "Term Name" })
+    #   WebTranslateIt::Term.new({ :text => "Term Name" })
     #
     # to instantiate a new Term.
     #
-    #   translation_es = WebTranslateIt::TermTranslation.new({ "locale" => "es", "text" => "Hola" })
-    #   translation_fr = WebTranslateIt::TermTranslation.new({ "locale" => "fr", "text" => "Bonjour" })
+    #   translation_es = WebTranslateIt::TermTranslation.new({ :locale => "es", :text => "Hola" })
+    #   translation_fr = WebTranslateIt::TermTranslation.new({ :locale => "fr", :text => "Bonjour" })
     #   WebTranslateIt::Term.new({ "text" => "Hello", "translations" => [translation_es, translation_fr]})
     #
     # to instantiate a new Term with a Term Translations in Spanish and French.
     
     def initialize(params = {})
+      params.stringify_keys!
       self.id           = params["id"] || nil
       self.text         = params["text"] || nil
       self.description  = params["description"] || nil
@@ -43,6 +44,7 @@ module WebTranslateIt
     # TODO: Implement pagination
     
     def self.find_all(params = {})
+      params.stringify_keys!
       url = "/api/projects/#{Connection.api_key}/terms.yaml"
       url += '?' + HashUtil.to_params(params) unless params.empty?
 

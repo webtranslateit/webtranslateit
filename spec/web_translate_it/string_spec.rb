@@ -10,6 +10,12 @@ describe WebTranslateIt::String do
       string.id.should == 1234
       string.key.should == "bacon"
     end
+    
+    it "should assign parameters using symbols" do
+      string = WebTranslateIt::String.new({ :id => 1234, :key => "bacon"})
+      string.id.should == 1234
+      string.key.should == "bacon"
+    end
   end
   
   describe "#save" do
@@ -108,6 +114,11 @@ describe WebTranslateIt::String do
         strings[0].key.should == "bacon"
         strings[1].key.should == "bacon tart"
         
+        strings = WebTranslateIt::String.find_all({ :key => "bacon" })
+        strings.count.should == 2
+        strings[0].key.should == "bacon"
+        strings[1].key.should == "bacon tart"
+
         strings = WebTranslateIt::String.find_all({ "key" => "tart" })
         strings.count.should == 2
         strings[0].key.should == "tart"

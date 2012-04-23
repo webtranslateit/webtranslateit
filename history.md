@@ -1,3 +1,7 @@
+## Edge
+
+* Allow instantiating `WebTranslateIt::String` and `WebTranslateIt::Term` using a Hash made of symbols or strings.
+
 ## Version 2.0.0.rc3 / 2012-04-19
 
 * Remove deprecated `wti server`.

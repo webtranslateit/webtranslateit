@@ -10,12 +10,13 @@ module WebTranslateIt
     #
     # Implementation Example:
     #
-    #   WebTranslateIt::Translation.new({ "string_id" => "1234", "text" => "Super!" })
+    #   WebTranslateIt::Translation.new({ :string_id => "1234", :text => "Super!" })
     #
     # to instantiate a new Translation without any text.
     #
     
     def initialize(params = {})
+      params.stringify_keys!
       self.id         = params["id"] || nil
       self.locale     = params["locale"] || nil
       self.text       = params["text"] || nil
@@ -34,7 +35,7 @@ module WebTranslateIt
     #
     # Implementation Example:
     #
-    #   translation = WebTranslateIt::Translation.new({ "string_id" => "1234", "text" => "Super!" })
+    #   translation = WebTranslateIt::Translation.new({ :string_id => "1234", :text => "Super!" })
     #   WebTranslateIt::Connection.new('secret_api_token') do
     #     translation.save
     #   end
