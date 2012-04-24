@@ -138,8 +138,9 @@ module WebTranslateIt
     end
         
     def init
-      api_key = Util.ask("Project API Key:")
-      path = Util.ask("Configuration file path:", '.wti')
+      puts "# Initializing project"
+      api_key = Util.ask(" Project API Key:")
+      path = Util.ask(" Path to configuration file:", '.wti')
       FileUtils.mkpath(path.split('/')[0..path.split('/').size-2].join('/')) unless path.split('/').count == 1
       project = YAML.load WebTranslateIt::Project.fetch_info(api_key)
       project_info = project['project']
@@ -149,7 +150,28 @@ module WebTranslateIt
       end
       File.open(path, 'w'){ |file| file << generate_configuration(api_key, project_info) }
       puts ""
-      puts "Your project was successfully setup. You can now use `wti` to push and pull your language files."
+      puts " Your project was successfully initialized."
+      if project_info["source_locale"]["code"].nil? || project_info["target_locales"].count <= 1 || project_info["project_files"].none?
+        puts ""
+        puts " There are a few more things to set up:"
+        puts ""
+      end
+      if project_info["source_locale"]["code"].nil?
+        puts " *) You don't have a source locale setup."
+        puts "    Add the source locale with: `wti addlocale <locale_code>`"
+        puts ""
+      end
+      if project_info["target_locales"].count <= 1
+        puts " *) You don't have a target locale setup."
+        puts "    Add the first target locale with: `wti addlocale <locale_code>`"
+        puts ""
+      end
+      if project_info["project_files"].none?
+        puts " *) You don't have linguistic files setup."
+        puts "    Add a master file with: `wti add <path/to/file.xml>`"
+        puts ""
+      end
+      puts "You can now use `wti` to push and pull your language files."
       puts "Check `wti --help` for help."
     end
     
