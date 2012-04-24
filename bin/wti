@@ -42,7 +42,7 @@ EOS
       opt :locale, "ISO code of locale(s) to pull", :type => :string
       opt :all,    "Pull all files"
       opt :force,  "Force pull (bypass conditional requests to WTI)"
-      opt :config, "Path to a translation.yml file", :short => "-c", :default => ".wti"
+      opt :config, "Path to a configuration file", :short => "-c", :default => ".wti"
     end
   when "push"
     Trollop::options do
@@ -58,43 +58,43 @@ EOS
       opt :ignore_missing, "Force WTI to not obsolete missing strings"
       opt :minor, "Minor Changes. When pushing a master file, prevents target translations to be flagged as `to_verify`."
       opt :label,  "Apply a label to the changes", :type => :string
-      opt :config, "Path to a translation.yml file", :short => "-c", :default => ".wti"
+      opt :config, "Path to a configuration file", :short => "-c", :default => ".wti"
     end
   when "add"
     Trollop::options do
       banner "Create and push a new master language file"
       opt :low_priority, "WTI will process this file with a low priority"
-      opt :config, "Path to a translation.yml file", :short => "-c", :default => ".wti"
+      opt :config, "Path to a configuration file", :short => "-c", :default => ".wti"
     end
   when "rm"
     Trollop::options do
       banner "Delete a master language file"
-      opt :config, "Path to a translation.yml file", :short => "-c", :default => ".wti"
+      opt :config, "Path to a configuration file", :short => "-c", :default => ".wti"
     end
   when "addlocale"
     Trollop::options do
       banner "Add a new locale to the project"
-      opt :config, "Path to a translation.yml file", :short => "-c", :default => ".wti"
+      opt :config, "Path to a configuration file", :short => "-c", :default => ".wti"
     end
   when "rmlocale"
     Trollop::options do
       banner "Delete a locale from the project"
-      opt :config, "Path to a translation.yml file", :short => "-c", :default => ".wti"
+      opt :config, "Path to a configuration file", :short => "-c", :default => ".wti"
     end
   when "status"
     Trollop::options do
       banner "Fetch and display project statistics"
-      opt :config, "Path to a translation.yml file", :short => "-c", :default => ".wti"
+      opt :config, "Path to a configuration file", :short => "-c", :default => ".wti"
     end
   when "init"
     Trollop::options do
       banner "Configure your project to sync"
-      opt :config, "Path to a translation.yml file", :short => "-c", :default => ".wti"
+      opt :config, "Path to a configuration file", :short => "-c", :default => ".wti"
     end
   when "match"
     Trollop::options do
       banner "Display matching of local files with File Manager"
-      opt :config, "Path to a translation.yml file", :short => "-c", :default => ".wti"
+      opt :config, "Path to a configuration file", :short => "-c", :default => ".wti"
     end
   else
     if command.nil?
