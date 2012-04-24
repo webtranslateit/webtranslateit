@@ -2,6 +2,7 @@
 
 * Add more helpers to `wti init` a project
 * Add ability to add a source locale to a project from the command line: the first `wti addlocale xx` sets the source locale.
+* `wti add`: Display if there are no new files to add.
 
 ## Version 2.0.0.rc4 / 2012-04-23
 

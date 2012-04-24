@@ -64,6 +64,7 @@ module WebTranslateIt
     
     def add
       STDOUT.sync = true
+      puts "# Creating master files"
       if parameters == []
         puts StringUtil.failure("Error: You must provide the path to the master file to add.")
         puts "Usage: wti add path/to/master_file_1 path/to/master_file_2 ..."
@@ -71,12 +72,16 @@ module WebTranslateIt
       end
       WebTranslateIt::Connection.new(configuration.api_key) do |http|
 	      added = configuration.files.find_all{ |file| file.locale == configuration.source_locale}.collect {|file| File.expand_path(file.file_path) }.to_set
-        parameters.reject{ |param| added.include?(File.expand_path(param))}.each do |param|
-          file = TranslationFile.new(nil, param, nil, configuration.api_key)
-          file.create(http, command_options.low_priority)
+        to_add = parameters.reject{ |param| added.include?(File.expand_path(param))}
+        if to_add.any?
+          to_add.each do |param|
+            file = TranslationFile.new(nil, param, nil, configuration.api_key)
+            file.create(http, command_options.low_priority)
+          end
+        else
+          puts "No new master file to add."
         end
       end
-      puts StringUtil.success("Master file added.")
     end
 
     def rm
