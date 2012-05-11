@@ -1,4 +1,4 @@
-## Edge
+## Version 2.0.1 / 2012-05-11
 
 * Fix: Issue with saving labels on a string.
 
