@@ -1,3 +1,7 @@
+## Edge
+
+* Fix: Issue with saving labels on a string.
+
 ## Version 2.0.0 / 2012-04-24
 
 * Add more helpers to `wti init` a project

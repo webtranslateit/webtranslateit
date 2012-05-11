@@ -3,7 +3,7 @@ module WebTranslateIt
   class String
     require 'json'
     
-    attr_accessor :id, :key, :plural, :type, :dev_comment, :word_count, :status, :category, :label, :file,
+    attr_accessor :id, :key, :plural, :type, :dev_comment, :word_count, :status, :category, :labels, :file,
                   :created_at, :updated_at, :translations, :new_record
     
     # Initialize a new WebTranslateIt::String
@@ -30,7 +30,7 @@ module WebTranslateIt
       self.word_count   = params["word_count"] || nil
       self.status       = params["status"] || nil
       self.category     = params["category"] || nil
-      self.label        = params["label"] || nil
+      self.labels       = params["labels"] || nil
       self.file         = params["file"] || nil
       self.created_at   = params["created_at"] || nil
       self.updated_at   = params["updated_at"] || nil
@@ -233,7 +233,7 @@ module WebTranslateIt
         "type" => type,
         "dev_comment" => dev_comment,
         "status" => status,
-        "label" => label,
+        "labels" => labels,
         "category" => category,
         "file" => file
       }
