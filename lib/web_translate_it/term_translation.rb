@@ -61,8 +61,7 @@ module WebTranslateIt
       request.body = self.to_hash.to_json
 
       begin
-        response = Util.handle_response(Connection.http_connection.request(request), true)
-        response = YAML.load(response)
+        response = YAML.load(Util.handle_response(Connection.http_connection.request(request), true, true))
         self.id = response["id"]
         self.new_record = false
         return true
@@ -83,8 +82,7 @@ module WebTranslateIt
       request.body = self.to_hash.to_json
 
       begin
-        Util.handle_response(Connection.http_connection.request(request), true)
-        
+        Util.handle_response(Connection.http_connection.request(request), true, true)        
       rescue Timeout::Error
         puts "The request timed out. The service may be overloaded. We will retry in 5 seconds."
         sleep(5)

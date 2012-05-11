@@ -4,6 +4,8 @@ module WebTranslateIt
   # A few useful functions
   class Util
     
+    require 'json'
+    
     # Return a string representing the gem version
     # For example "1.8.3"
     def self.version
@@ -15,15 +17,19 @@ module WebTranslateIt
       ((processed*10)/total).to_f.ceil*10
     end
     
-    def self.handle_response(response, return_response = false)
+    def self.handle_response(response, return_response = false, raise_exception = false)
       if response.code.to_i >= 400 and response.code.to_i < 500
-        if response.body
-          StringUtil.failure(response.body)
+        if raise_exception
+          raise "Error: #{JSON.parse(response.body)['error']}"
         else
-          StringUtil.failure("Error: Can't find project with this API key.")
+          StringUtil.failure(JSON.parse(response.body)['error'])
         end
       elsif response.code.to_i == 500
-        StringUtil.failure("Error: Server temporarily unavailable. Please try again shortly.")
+        if raise_exception
+          raise "Error: Server temporarily unavailable (Error 500)."
+        else
+          StringUtil.failure("Error: Server temporarily unavailable (Error 500).")
+        end
       else
         return response.body if return_response
         return StringUtil.success("OK") if response.code.to_i == 200

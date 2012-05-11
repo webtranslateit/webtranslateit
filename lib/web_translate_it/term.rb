@@ -53,7 +53,7 @@ module WebTranslateIt
       request.add_field("X-Client-Version", WebTranslateIt::Util.version)
 
       begin
-        response = Util.handle_response(Connection.http_connection.request(request), true)
+        response = Util.handle_response(Connection.http_connection.request(request), true, true)
         terms = []
         YAML.load(response).each do |term_response|
           term = WebTranslateIt::Term.new(term_response)
@@ -88,8 +88,7 @@ module WebTranslateIt
       request.add_field("X-Client-Version", WebTranslateIt::Util.version)
 
       begin
-        response = Connection.http_connection.request(request)
-        return nil if response.code.to_i == 404
+        response = Util.handle_response(Connection.http_connection.request(request), true, true)
         term = WebTranslateIt::Term.new(YAML.load(response.body))
         term.new_record = false
         return term
@@ -131,7 +130,7 @@ module WebTranslateIt
       request.add_field("X-Client-Version", WebTranslateIt::Util.version)
 
       begin
-        Util.handle_response(Connection.http_connection.request(request), true)
+        Util.handle_response(Connection.http_connection.request(request), true, true)
       rescue Timeout::Error
         puts "The request timed out. The service may be overloaded. We will retry in 5 seconds."
         sleep(5)
@@ -156,7 +155,7 @@ module WebTranslateIt
       request.add_field("X-Client-Version", WebTranslateIt::Util.version)
 
       begin
-        response = Util.handle_response(Connection.http_connection.request(request), true)
+        response = Util.handle_response(Connection.http_connection.request(request), true, true)
         array = YAML.load(response)
         return nil if array.empty?
         translations = []
@@ -189,7 +188,7 @@ module WebTranslateIt
       end
 
       begin
-        Util.handle_response(Connection.http_connection.request(request), true)
+        Util.handle_response(Connection.http_connection.request(request), true, true)
       rescue Timeout::Error
         puts "The request timed out. The service may be overloaded. We will retry in 5 seconds."
         sleep(5)
@@ -206,7 +205,7 @@ module WebTranslateIt
       request.body = self.to_json(true)
 
       begin
-        response = YAML.load(Util.handle_response(Connection.http_connection.request(request), true))
+        response = YAML.load(Util.handle_response(Connection.http_connection.request(request), true, true))
         self.id = response["id"]
         self.new_record = false
         return true
