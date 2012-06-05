@@ -23,7 +23,9 @@ This readme focusses on the most commonly used functionality of this rubygem: th
 
 ## Installation
 
-You will need ruby to run wti. On Linux or a Mac, it’s already installed. Install [RubyInstaller](http://rubyinstaller.org/) if you’re using Windows. [See detailed installation instructions for Windows users](https://github.com/AtelierConvivialite/webtranslateit/wiki/Install-wti-on-Windows).
+A dependency of wti needs gcc in order to install, so you will need build tools. With Linux, `apt-get install gcc` or `yum install gcc` should do it.
+
+You will also need ruby to run wti. On Linux or a Mac, it’s already installed. Install [RubyInstaller](http://rubyinstaller.org/) if you’re using Windows. [See detailed installation instructions for Windows users](https://github.com/AtelierConvivialite/webtranslateit/wiki/Install-wti-on-Windows).
 
     gem install web_translate_it
     
