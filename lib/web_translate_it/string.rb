@@ -49,8 +49,6 @@ module WebTranslateIt
     #   puts strings.inspect #=> An array of WebTranslateIt::String objects
     #
     # to find and instantiate an array of String which key is like `product_name_123`.
-    #
-    # TODO: Implement pagination
     
     def self.find_all(params = {})
       params.stringify_keys!
@@ -62,12 +60,22 @@ module WebTranslateIt
       request.add_field("X-Client-Version", WebTranslateIt::Util.version)
 
       begin
-        response = Util.handle_response(Connection.http_connection.request(request), true, true)
         strings = []
-        YAML.load(response).each do |string_response|
-          string = WebTranslateIt::String.new(string_response)
-          string.new_record = false
-          strings.push(string)
+        while(request) do
+          response = Connection.http_connection.request(request)
+          YAML.load(response.body).each do |string_response|
+            string = WebTranslateIt::String.new(string_response)
+            string.new_record = false
+            strings.push(string)
+          end
+          if response["Link"] && response["Link"].include?("rel=\"next\"")
+            url = response["Link"].match(/<(.*)>; rel="next"/)[1]
+            request = Net::HTTP::Get.new(url)
+            request.add_field("X-Client-Name", "web_translate_it")
+            request.add_field("X-Client-Version", WebTranslateIt::Util.version)
+          else
+            request = nil
+          end
         end
         return strings
       rescue Timeout::Error

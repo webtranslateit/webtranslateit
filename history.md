@@ -1,6 +1,7 @@
 ## Edge
 
 * String, Translation, Term and TermTranslation classes now raise exceptions and display useful error messages. #87
+* Implemented pagination for `String#find_all` and `Term#find_all`. This should work seemlessly with no API change.
 
 ## Version 2.0.1 / 2012-05-11
 

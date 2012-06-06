@@ -40,8 +40,6 @@ module WebTranslateIt
     #   end
     #
     #  puts terms.inspect #=> An array of WebTranslateIt::Term objects
-    #
-    # TODO: Implement pagination
     
     def self.find_all(params = {})
       params.stringify_keys!
@@ -53,15 +51,24 @@ module WebTranslateIt
       request.add_field("X-Client-Version", WebTranslateIt::Util.version)
 
       begin
-        response = Util.handle_response(Connection.http_connection.request(request), true, true)
         terms = []
-        YAML.load(response).each do |term_response|
-          term = WebTranslateIt::Term.new(term_response)
-          term.new_record = false
-          terms.push(term)
+        while(request) do
+          response = Connection.http_connection.request(request)
+          YAML.load(response).each do |term_response|
+            term = WebTranslateIt::Term.new(term_response)
+            term.new_record = false
+            terms.push(term)
+          end
+          if response["Link"] && response["Link"].include?("rel=\"next\"")
+            url = response["Link"].match(/<(.*)>; rel="next"/)[1]
+            request = Net::HTTP::Get.new(url)
+            request.add_field("X-Client-Name", "web_translate_it")
+            request.add_field("X-Client-Version", WebTranslateIt::Util.version)
+          else
+            request = nil
+          end
         end
         return terms
-        
       rescue Timeout::Error
         puts "The request timed out. The service may be overloaded. We will retry in 5 seconds."
         sleep(5)
