@@ -1,4 +1,4 @@
-## Edge
+## Version 2.0.3 / 2012-06-07
 
 * Fix: String#translation_for('xx') should not return an array of all translations. #88
 * Fix: Term#translation_for('xx') should not return an array of all term translations.
