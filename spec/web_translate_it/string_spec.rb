@@ -133,4 +133,27 @@ describe WebTranslateIt::String do
       end
     end
   end
+  
+  describe "#translation_for" do
+    it "should fetch translations" do
+      translation = WebTranslateIt::Translation.new({ "locale" => "en", "text" => "Hello" })
+      string = WebTranslateIt::String.new({ "key" => "bacon", "translations" => [translation] })
+      WebTranslateIt::Connection.new(api_key) do
+        string.save
+        string_fetched = WebTranslateIt::String.find(string.id)
+        string_fetched.translation_for("en").should_not be_nil
+        string_fetched.translation_for("en").text.should == "Hello"
+        string_fetched.translation_for("fr").should be_nil
+        string.delete
+      end
+    end
+    
+    it "should not return a stale object" do
+      string = WebTranslateIt::String.new({ :key => "bacon" })
+      translation = WebTranslateIt::Translation.new({ :locale => "es", :text => "text", :string_id => string.id })
+      string.translations << translation
+      string.translation_for('fr').should be_nil
+      string.translation_for('es').should_not be_nil
+    end
+  end
 end

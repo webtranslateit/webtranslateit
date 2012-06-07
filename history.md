@@ -1,3 +1,7 @@
+## Edge
+
+* Fix: String#translation_for('xx') should not return an array of all translations. #88
+
 ## Version 2.0.2 / 2012-06-06
 
 * String, Translation, Term and TermTranslation classes now raise exceptions and display useful error messages. #87
