@@ -93,7 +93,7 @@ describe WebTranslateIt::String do
         string_fetched.should_not be_nil
         
         string_fetched.delete
-        lambda { WebTranslateIt::String.find(string.id) }.should raise_error
+        WebTranslateIt::String.find(string.id).should be_nil
       end
     end
   end

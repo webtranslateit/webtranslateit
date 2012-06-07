@@ -86,6 +86,7 @@ module WebTranslateIt
     end
     
     # Find a String based on its ID
+    # Return a String object, or nil if not found.
     #
     # Implementation Example:
     #
@@ -104,8 +105,9 @@ module WebTranslateIt
       request.add_field("X-Client-Version", WebTranslateIt::Util.version)
 
       begin
-        response = Util.handle_response(Connection.http_connection.request(request), true, true)
-        string = WebTranslateIt::String.new(YAML.load(response))
+        response = Connection.http_connection.request(request)
+        return nil if response.code.to_i == 404
+        string = WebTranslateIt::String.new(YAML.load(response.body))
         string.new_record = false
         return string
       rescue Timeout::Error

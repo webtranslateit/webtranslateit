@@ -2,6 +2,7 @@
 
 * Fix: String#translation_for('xx') should not return an array of all translations. #88
 * Fix: Term#translation_for('xx') should not return an array of all term translations.
+* String#find and Term#find now return nil if no element was found with that ID.
 
 ## Version 2.0.2 / 2012-06-06
 

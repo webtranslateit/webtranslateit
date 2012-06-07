@@ -54,7 +54,7 @@ module WebTranslateIt
         terms = []
         while(request) do
           response = Connection.http_connection.request(request)
-          YAML.load(response).each do |term_response|
+          YAML.load(response.body).each do |term_response|
             term = WebTranslateIt::Term.new(term_response)
             term.new_record = false
             terms.push(term)
@@ -77,6 +77,7 @@ module WebTranslateIt
     end
     
     # Find a Term based on its ID
+    # Returns a Term object or nil if not found.
     #
     # Implementation Example:
     #
@@ -95,7 +96,8 @@ module WebTranslateIt
       request.add_field("X-Client-Version", WebTranslateIt::Util.version)
 
       begin
-        response = Util.handle_response(Connection.http_connection.request(request), true, true)
+        response = Connection.http_connection.request(request)
+        return nil if response.code.to_i == 404
         term = WebTranslateIt::Term.new(YAML.load(response.body))
         term.new_record = false
         return term
