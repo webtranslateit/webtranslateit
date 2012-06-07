@@ -156,7 +156,9 @@ module WebTranslateIt
     #
     
     def translation_for(locale)
-      return self.translations unless self.translations == []
+      translation = self.translations.detect{ |t| t.locale == locale }
+      return translation if translation
+      return nil if self.new_record
       request = Net::HTTP::Get.new("/api/projects/#{Connection.api_key}/terms/#{self.id}/locales/#{locale}/translations.yaml")
       request.add_field("X-Client-Name", "web_translate_it")
       request.add_field("X-Client-Version", WebTranslateIt::Util.version)
