@@ -1,46 +1,62 @@
-# Web Translate It
+# WebTranslateIt Synchronization Tool
 
-[Homepage](https://webtranslateit.com) | 
-[RDoc](http://yardoc.org/docs/AtelierConvivialite-webtranslateit) | 
+[RDoc](http://rubydoc.info/github/AtelierConvivialite/webtranslateit) | 
 [Example app](http://github.com/AtelierConvivialite/rails_example_app) | 
 [Report a bug](http://github.com/AtelierConvivialite/webtranslateit/issues) | 
-[Support](http://help.webtranslateit.com)
+[Support](https://webtranslateit.com/support) |
+[WebTranslateIt.com Homepage](https://webtranslateit.com)
 
-`web_translate_it` is a tool to sync your language files with [WebTranslateIt.com](https://webtranslateit.com), a web-based translation software.
+`web_translate_it` is a tool to sync your language files with [WebTranslateIt.com](https://webtranslateit.com), a web-based tool to translation software.
 
-![Web Translate It](http://f.cl.ly/items/2X3m0h0g0I1O1U07163o/wti_example.jpg)
+![WebTranslateIt Synchronization Tool](http://f.cl.ly/items/2X3m0h0g0I1O1U07163o/wti_example.jpg)
 
 ## This rubygem provides:
 
-1. A command-line executable `wti` to sync your files between your computer/server and WebTranslateIt.com. It can run in a terminal (Linux, MacOS X) or in cmd.exe (Windows). This is what this page is all about.
-2. A synchronisation server to help your translation team update your language files from a web interface. To learn how to install it, go to [web_translate_it_server](https://github.com/AtelierConvivialite/web_translate_it_server).
-3. Ruby libraries to write programs connecting to WebTranslateIt.com’s API. For more information, go to [Extras](https://github.com/AtelierConvivialite/webtranslateit/wiki/Extras).
-4. A rack middleware you can use in your Rails app to automatically fetch new translations from Web Translate It.
-
-This readme focusses on the most commonly used functionality of this rubygem: the `wti` command-line executable.
+1. A Command-Line Interface, `wti`, to sync files between your computer/server and WebTranslateIt.com. It is cross-platform and runs in a terminal (Linux, MacOS X) or in cmd.exe (Windows).
+2. A synchronisation server which provides a web interface for your translation team to update your language files. [Learn more on the web_translate_it_server project page](https://github.com/AtelierConvivialite/web_translate_it_server).
+3. A library to help write programs to connect to WebTranslateIt.com’s API. See [Extras](https://github.com/AtelierConvivialite/webtranslateit/wiki/Extras).
+4. A rack middleware you can use in your Rails app to automatically fetch new translations from WebTranslateIt.
 
 ---
 
 ## Installation
 
-A dependency of wti needs gcc in order to install, so you will need build tools. With Linux, `apt-get install gcc` or `yum install gcc` should do it.
+A dependency of `wti` needs gcc, so you will need it. With Linux, `apt-get install build-essential` or `yum install gcc` should do it.
 
-You will also need ruby to run wti. On Linux or a Mac, it’s already installed. Install [RubyInstaller](http://rubyinstaller.org/) if you’re using Windows. [See detailed installation instructions for Windows users](https://github.com/AtelierConvivialite/webtranslateit/wiki/Install-wti-on-Windows).
+You will also need ruby to run `wti`. On Linux or a Mac, it’s already installed. Install [RubyInstaller](http://rubyinstaller.org/) if you’re using Windows. [See detailed installation instructions for Windows users](https://github.com/AtelierConvivialite/webtranslateit/wiki/Install-wti-on-Windows).
 
-    gem install web_translate_it
+``` bash
+$ gem install web_translate_it
+Fetching: web_translate_it-2.0.3.gem (100%)
+Successfully installed web_translate_it-2.0.3
+1 gem installed
+```
     
-At this point you should have the `wti` executable working.
+At this point you should have the `wti` executable working:
+
+``` bash
+$ wti -v
+wti version 2.0.3
+```
 
 ## Configuration
 
-Now that the tool is installed, you’ll have to configure your project:
+Now that the tool is installed, you’ll have to configure your project. Basically, `wti` is to be run on a project root directory, and looks for a `.wti` file containing your project information. The command `wti init` lets your create your `.wti` file.
 
-    wti init
+``` bash
+$ wti init
+# Initializing project
+ Project API Key:  55555abc1235555
+ Path to configuration file: (Default: .wti)  
 
-The command will ask you to enter:
+ Your project was successfully initialized.
+You can now use `wti` to push and pull your language files.
+Check `wti --help` for help.
+```
 
-* Your Web Translate It API key. You can find it in your project settings,
-* Where to save the configuration file (by default it will create a `.wti` in your project root directory).
+The command asks you to enter your project API key (you can find it in your project settings) and where to save the configuration file (by default it will create a `.wti` in your project root directory).
+
+Now you’re all set and you can use the `wti` commands on your project.
 
 ## Usage
 
@@ -128,7 +144,7 @@ Append `--help` for each command for more information. For instance:
   </tr>
   <tr>
     <td>wti pull --force</td>
-    <td>Force pull (to bypass Web Translate It’s HTTP caching)</td>
+    <td>Force pull (to bypass WebTranslateIt’s HTTP caching)</td>
   </tr>
   <tr>
     <td>wti addlocale fr</td>
@@ -144,7 +160,7 @@ Append `--help` for each command for more information. For instance:
   </tr>
   <tr>
     <td>wti match</td>
-    <td>Show matching between files on local computer and the ones in Web Translate It’s File Manager</td>
+    <td>Show matching between files on local computer and the ones in WebTranslateIt’s File Manager</td>
   </tr>
 </table>
 
@@ -161,7 +177,7 @@ There are 4 hooks:
 
 Check the [sample `.wti`](https://github.com/AtelierConvivialite/webtranslateit/blob/master/examples/.wti#L9..L13) file for implementation.
 
-## Web Translate It Server
+## WebTranslateIt Server
 
 This feature was extracted out to a separate gem. See [web_translate_it_server](https://github.com/AtelierConvivialite/web_translate_it_server).
 
