@@ -4,12 +4,28 @@ module WebTranslateIt
     require 'fileutils'
     require 'set'
     attr_accessor :configuration, :global_options, :command_options, :parameters
-    
+
     def initialize(command, command_options, global_options, parameters, project_path)
       self.command_options = command_options
       self.parameters = parameters
       unless command == 'init'
-        self.configuration = WebTranslateIt::Configuration.new(project_path, configuration_file_path)
+        case command
+        when 'pull'
+          message = "Pulling files"
+        when 'push'
+          message = "Pushing files"
+        when 'add'
+          message = "Creating master files"
+        when 'rm'
+          message = "Deleting files"
+        when 'addlocale'
+          message = "Adding locale"
+        when 'rmlocale'
+          message = "Deleting locale"
+        else
+          message = "Gathering information"
+        end
+        throb { print "  #{message}"; self.configuration = WebTranslateIt::Configuration.new(project_path, configuration_file_path) }
       end
       self.send(command)
     end
@@ -26,7 +42,6 @@ module WebTranslateIt
         puts "No files to pull."
       else
         # Now actually pulling files
-        puts "# Pulling files"
         time = Time.now
         threads = []
         n_threads = (files.count.to_f/3).ceil >= 20 ? 20 : (files.count.to_f/3).ceil
@@ -51,7 +66,6 @@ module WebTranslateIt
     def push
       STDOUT.sync = true
       `#{configuration.before_push}` if configuration.before_push
-      puts "# Pushing files"
       WebTranslateIt::Connection.new(configuration.api_key) do |http|
         fetch_locales_to_push(configuration).each do |locale|
           configuration.files.find_all{ |file| file.locale == locale }.sort{|a,b| a.file_path <=> b.file_path} .each do |file|
@@ -64,7 +78,6 @@ module WebTranslateIt
     
     def add
       STDOUT.sync = true
-      puts "# Creating master files"
       if parameters == []
         puts StringUtil.failure("Error: You must provide the path to the master file to add.")
         puts "Usage: wti add path/to/master_file_1 path/to/master_file_2 ..."
@@ -273,6 +286,27 @@ api_key: #{api_key}
 
 FILE
       return file
-    end    
-  end
+    end
+
+    def throb
+      throb = %w(⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏)
+      throb.reverse! if rand > 0.5
+      i = rand throb.length
+
+      thread = Thread.new do
+        dot = lambda do
+          print "\r#{throb[i]}\e[?25l"
+          i = (i + 1) % throb.length
+          sleep 0.1 and dot.call
+        end
+        dot.call
+      end
+      yield
+      ensure
+        if thread
+          thread.kill
+          puts "\r\e[0G#\e[?25h"
+        end
+      end
+    end
 end

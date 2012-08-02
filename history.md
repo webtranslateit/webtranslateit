@@ -1,3 +1,7 @@
+## Edge
+
+* New: Add a throbber to indicate the project information is loading.
+
 ## Version 2.0.3 / 2012-06-07
 
 * Fix: String#translation_for('xx') should not return an array of all translations. #88
