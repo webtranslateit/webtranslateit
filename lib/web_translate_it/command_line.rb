@@ -68,8 +68,13 @@ module WebTranslateIt
       `#{configuration.before_push}` if configuration.before_push
       WebTranslateIt::Connection.new(configuration.api_key) do |http|
         fetch_locales_to_push(configuration).each do |locale|
-          configuration.files.find_all{ |file| file.locale == locale }.sort{|a,b| a.file_path <=> b.file_path} .each do |file|
-            file.upload(http, command_options[:merge], command_options.ignore_missing, command_options.label, command_options.low_priority, command_options[:minor], command_options.force)
+          files = configuration.files.find_all{ |file| file.locale == locale }.sort{|a,b| a.file_path <=> b.file_path}
+          if files.count == 0
+            puts "No files to push."
+          else
+            files.each do |file|
+              file.upload(http, command_options[:merge], command_options.ignore_missing, command_options.label, command_options.low_priority, command_options[:minor], command_options.force)
+            end
           end
         end
       end
@@ -226,6 +231,9 @@ module WebTranslateIt
                 
     def fetch_locales_to_pull
       if command_options.locale
+        command_options.locale.split.each do |locale|
+          puts "Locale #{locale} doesn't exist -- `wti addlocale #{locale}` to add it." unless configuration.target_locales.include?(locale)
+        end
         locales = command_options.locale.split
       else
         locales = configuration.target_locales
@@ -237,6 +245,9 @@ module WebTranslateIt
         
     def fetch_locales_to_push(configuration)
       if command_options.locale
+        command_options.locale.split.each do |locale|
+          puts "Locale #{locale} doesn't exist -- `wti addlocale #{locale}` to add it." unless configuration.target_locales.include?(locale)
+        end
         locales = command_options.locale.split
       else
         locales = [configuration.source_locale]
