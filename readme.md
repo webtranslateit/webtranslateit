@@ -1,6 +1,6 @@
 # WebTranslateIt Synchronization Tool
 
-[RDoc](http://rubydoc.info/github/AtelierConvivialite/webtranslateit) | 
+[RubyDoc](http://rubydoc.info/github/AtelierConvivialite/webtranslateit/) | 
 [Example app](http://github.com/AtelierConvivialite/rails_example_app) | 
 [Report a bug](http://github.com/AtelierConvivialite/webtranslateit/issues) | 
 [Support](https://webtranslateit.com/support) |
