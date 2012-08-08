@@ -2,6 +2,7 @@
 
 * New: Add a throbber to indicate the project information is loading.
 * New: Display error message when pushing or pulling a language that doesn’t exist in a project.
+* Fixed: Compatibility problem with ruby 1.8.6.
 
 ## Version 2.0.3 / 2012-06-07
 

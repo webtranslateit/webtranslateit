@@ -38,13 +38,13 @@ module WebTranslateIt
       fetch_locales_to_pull.each do |locale|
         files.concat configuration.files.find_all{ |file| file.locale == locale }
       end
-      if files.count == 0
+      if files.size == 0
         puts "No files to pull."
       else
         # Now actually pulling files
         time = Time.now
         threads = []
-        n_threads = (files.count.to_f/3).ceil >= 20 ? 20 : (files.count.to_f/3).ceil
+        n_threads = (files.size.to_f/3).ceil >= 20 ? 20 : (files.size.to_f/3).ceil
         ArrayUtil.chunk(files, n_threads).each do |file_array|
           unless file_array.empty?
             threads << Thread.new(file_array) do |file_array|
@@ -58,7 +58,7 @@ module WebTranslateIt
         end
         threads.each { |thread| thread.join }
         time = Time.now - time
-        puts "Pulled #{files.count} files at #{(files.count/time).round} files/sec, using #{n_threads} threads."
+        puts "Pulled #{files.size} files at #{(files.size/time).round} files/sec, using #{n_threads} threads."
         `#{configuration.after_pull}` if configuration.after_pull
       end
     end
@@ -69,7 +69,7 @@ module WebTranslateIt
       WebTranslateIt::Connection.new(configuration.api_key) do |http|
         fetch_locales_to_push(configuration).each do |locale|
           files = configuration.files.find_all{ |file| file.locale == locale }.sort{|a,b| a.file_path <=> b.file_path}
-          if files.count == 0
+          if files.size == 0
             puts "No files to push."
           else
             files.each do |file|
@@ -164,7 +164,7 @@ module WebTranslateIt
       puts "# Initializing project"
       api_key = Util.ask(" Project API Key:")
       path = Util.ask(" Path to configuration file:", '.wti')
-      FileUtils.mkpath(path.split('/')[0..path.split('/').size-2].join('/')) unless path.split('/').count == 1
+      FileUtils.mkpath(path.split('/')[0..path.split('/').size-2].join('/')) unless path.split('/').size == 1
       project = YAML.load WebTranslateIt::Project.fetch_info(api_key)
       project_info = project['project']
       if File.exists?(path) && !File.writable?(path)
@@ -174,7 +174,7 @@ module WebTranslateIt
       File.open(path, 'w'){ |file| file << generate_configuration(api_key, project_info) }
       puts ""
       puts " Your project was successfully initialized."
-      if project_info["source_locale"]["code"].nil? || project_info["target_locales"].count <= 1 || project_info["project_files"].none?
+      if project_info["source_locale"]["code"].nil? || project_info["target_locales"].size <= 1 || project_info["project_files"].none?
         puts ""
         puts " There are a few more things to set up:"
         puts ""
@@ -184,7 +184,7 @@ module WebTranslateIt
         puts "    Add the source locale with: `wti addlocale <locale_code>`"
         puts ""
       end
-      if project_info["target_locales"].count <= 1
+      if project_info["target_locales"].size <= 1
         puts " *) You don't have a target locale setup."
         puts "    Add the first target locale with: `wti addlocale <locale_code>`"
         puts ""
