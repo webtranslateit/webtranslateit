@@ -1,4 +1,4 @@
-## Edge
+## Version 2.0.4 / 2012-08-08
 
 * New: Add a throbber to indicate the project information is loading.
 * New: Display error message when pushing or pulling a language that doesn’t exist in a project.
