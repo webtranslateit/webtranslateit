@@ -14,14 +14,15 @@
 
 1. A Command-Line Interface, `wti`, to sync files between your computer/server and WebTranslateIt.com. It is cross-platform and runs in a terminal (Linux, MacOS X) or in cmd.exe (Windows).
 2. A synchronisation server which provides a web interface for your translation team to update your language files. [Learn more on the web_translate_it_server project page](https://github.com/AtelierConvivialite/web_translate_it_server).
-3. A library to help write programs to connect to WebTranslateIt.com’s API. See [Extras](https://github.com/AtelierConvivialite/webtranslateit/wiki/Extras).
-4. A rack middleware you can use in your Rails app to automatically fetch new translations from WebTranslateIt.
+3. A rack middleware you can use in your Rails app to automatically fetch new translations from WebTranslateIt.
+
+An external library, [web_translate_it_server](https://github.com/AtelierConvivialite/web_translate_it_server), extends this rubygem and provides a web interface for your translation team to update your language files.
 
 ---
 
 ## Installation
 
-A dependency of `wti` needs gcc, so you will need it. With Linux, `apt-get install build-essential` or `yum install gcc` should do it.
+`wti` requires `json`, a library that needs gcc, so you will need to have a gcc compile. With Linux, `apt-get install build-essential` or `yum install gcc` should do it. On Mac OS X, install Xcode command line tools.
 
 You will also need ruby to run `wti`. On Linux or a Mac, it’s already installed. Install [RubyInstaller](http://rubyinstaller.org/) if you’re using Windows. [See detailed installation instructions for Windows users](https://github.com/AtelierConvivialite/webtranslateit/wiki/Install-wti-on-Windows).
 
@@ -176,10 +177,6 @@ There are 4 hooks:
 * `after_push`
 
 Check the [sample `.wti`](https://github.com/AtelierConvivialite/webtranslateit/blob/master/examples/.wti#L9..L13) file for implementation.
-
-## WebTranslateIt Server
-
-This feature was extracted out to a separate gem. See [web_translate_it_server](https://github.com/AtelierConvivialite/web_translate_it_server).
 
 # License
 
