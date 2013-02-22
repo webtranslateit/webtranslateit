@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.test_files  = Dir["spec/**/*"]  
   
   s.add_dependency "multipart-post", "~> 1.1.3"
-  s.add_dependency "trollop", "~> 1.16.2"
+  s.add_dependency "trollop", "~> 2.0"
   s.add_dependency "json"
 
   s.add_development_dependency "rspec", ">= 2.6.0"
