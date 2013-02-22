@@ -1,10 +1,8 @@
 # encoding: utf-8
 
-require File.expand_path('../lib/web_translate_it/util', __FILE__)
-
 Gem::Specification.new do |s|
   s.name        = "web_translate_it" 
-  s.version     = WebTranslateIt::Util.version
+  s.version     = "2.0.4"
   s.summary     = "A CLI to sync locale files with webtranslateit.com."
   s.email       = "edouard@atelierconvivialite.com"
   s.homepage    = "https://webtranslateit.com"

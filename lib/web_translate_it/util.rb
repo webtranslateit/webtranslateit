@@ -9,7 +9,7 @@ module WebTranslateIt
     # Return a string representing the gem version
     # For example "1.8.3"
     def self.version
-      File.read(File.expand_path('../../../version', __FILE__))
+      Gem.loaded_specs['web_translate_it'].version
     end
             
     def self.calculate_percentage(processed, total)
