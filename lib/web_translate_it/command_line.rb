@@ -68,7 +68,11 @@ module WebTranslateIt
       `#{configuration.before_push}` if configuration.before_push
       WebTranslateIt::Connection.new(configuration.api_key) do |http|
         fetch_locales_to_push(configuration).each do |locale|
-          files = configuration.files.find_all{ |file| file.locale == locale }.sort{|a,b| a.file_path <=> b.file_path}
+          if parameters.any?
+            files = configuration.files.find_all{ |file| parameters.include?(file.file_path) }.sort{|a,b| a.file_path <=> b.file_path}
+          else
+            files = configuration.files.find_all{ |file| file.locale == locale }.sort{|a,b| a.file_path <=> b.file_path}
+          end
           if files.size == 0
             puts "No files to push."
           else

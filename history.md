@@ -1,3 +1,8 @@
+## Edge
+
+* New: Add ability to pass a file path in `wti push`: `wti push path/to/file`. #90.
+* Made it a bit clearer that wti push now takes an optional file path.
+
 ## Version 2.0.4 / 2012-08-08
 
 * New: Add a throbber to indicate the project information is loading.

@@ -36,7 +36,7 @@ command_options = case command
   when "pull"
     Trollop::options do
       banner <<-EOS
-Pull target language file(s)
+wti pull - Pull target language file(s)
 [options] are:
 EOS
       opt :locale, "ISO code of locale(s) to pull", :type => :string
@@ -47,7 +47,7 @@ EOS
   when "push"
     Trollop::options do
       banner <<-EOS
-Push master language file(s)
+wti push [filename] - Push master language file(s)
 [options] are:
 EOS
       opt :locale, "ISO code of locale(s) to push", :type => :string
@@ -62,38 +62,38 @@ EOS
     end
   when "add"
     Trollop::options do
-      banner "Create and push a new master language file"
+      banner "wti add filename - Create and push a new master language file"
       opt :low_priority, "WTI will process this file with a low priority"
       opt :config, "Path to a configuration file", :short => "-c", :default => ".wti"
     end
   when "rm"
     Trollop::options do
-      banner "Delete a master language file"
+      banner "wti rm filename - Delete a master language file"
       opt :config, "Path to a configuration file", :short => "-c", :default => ".wti"
     end
   when "addlocale"
     Trollop::options do
-      banner "Add a new locale to the project"
+      banner "wti addlocale localename - Add a new locale to the project"
       opt :config, "Path to a configuration file", :short => "-c", :default => ".wti"
     end
   when "rmlocale"
     Trollop::options do
-      banner "Delete a locale from the project"
+      banner "wti rmlocale localename Delete a locale from the project"
       opt :config, "Path to a configuration file", :short => "-c", :default => ".wti"
     end
   when "status"
     Trollop::options do
-      banner "Fetch and display project statistics"
+      banner "wti status - Fetch and display project statistics"
       opt :config, "Path to a configuration file", :short => "-c", :default => ".wti"
     end
   when "init"
     Trollop::options do
-      banner "Configure your project to sync"
+      banner "wti init - Configure your project to sync"
       opt :config, "Path to a configuration file", :short => "-c", :default => ".wti"
     end
   when "match"
     Trollop::options do
-      banner "Display matching of local files with File Manager"
+      banner "wti match - Display matching of local files with File Manager"
       opt :config, "Path to a configuration file", :short => "-c", :default => ".wti"
     end
   else
