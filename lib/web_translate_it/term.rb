@@ -2,7 +2,7 @@
 module WebTranslateIt
   class Term
     require 'net/https'
-    require 'json'
+    require 'multi_json'
     
     attr_accessor :id, :text, :description, :created_at, :updated_at, :translations, :new_record
     
@@ -240,7 +240,7 @@ module WebTranslateIt
           hash["translations"].push(translation.to_hash)
         end
       end
-      hash.to_json
+      MultiJson.dump(hash)
     end
   end
 end

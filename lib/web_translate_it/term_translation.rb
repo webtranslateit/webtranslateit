@@ -2,7 +2,7 @@
 module WebTranslateIt
   class TermTranslation
     require 'net/https'
-    require 'json'
+    require 'multi_json'
     
     attr_accessor :id, :locale, :text, :description, :status, :new_record, :term_id
     
@@ -49,6 +49,10 @@ module WebTranslateIt
         "status" => status
       }
     end
+
+    def to_json
+      MultiJson.dump(self.to_hash)
+    end
     
     protected
     
@@ -58,7 +62,7 @@ module WebTranslateIt
       request.add_field("X-Client-Version", WebTranslateIt::Util.version)
       request.add_field("Content-Type", "application/json")
         
-      request.body = self.to_hash.to_json
+      request.body = self.to_json
 
       begin
         response = YAML.load(Util.handle_response(Connection.http_connection.request(request), true, true))
@@ -79,7 +83,7 @@ module WebTranslateIt
       request.add_field("X-Client-Version", WebTranslateIt::Util.version)
       request.add_field("Content-Type", "application/json")
         
-      request.body = self.to_hash.to_json
+      request.body = self.to_json
 
       begin
         Util.handle_response(Connection.http_connection.request(request), true, true)        

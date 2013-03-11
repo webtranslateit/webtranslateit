@@ -4,7 +4,7 @@ module WebTranslateIt
   # A few useful functions
   class Util
     
-    require 'json'
+    require 'multi_json'
     
     # Return a string representing the gem version
     # For example "1.8.3"
@@ -20,9 +20,9 @@ module WebTranslateIt
     def self.handle_response(response, return_response = false, raise_exception = false)
       if response.code.to_i >= 400 and response.code.to_i < 500
         if raise_exception
-          raise "Error: #{JSON.parse(response.body)['error']}"
+          raise "Error: #{MultiJson.load(response.body)['error']}"
         else
-          StringUtil.failure(JSON.parse(response.body)['error'])
+          StringUtil.failure(MultiJson.load(response.body)['error'])
         end
       elsif response.code.to_i == 500
         if raise_exception

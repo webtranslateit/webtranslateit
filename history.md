@@ -1,3 +1,7 @@
+## Edge
+
+* Use `multi_json` so wti doesn’t depend on JSON anymore so it is now easier to install the gem. It previously required a C compiler installed.
+
 ## Version 2.0.5 / 2012-02-22
 
 * New: Add ability to pass a file path in `wti push`: `wti push path/to/file`. #90.

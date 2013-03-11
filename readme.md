@@ -22,8 +22,6 @@ An external library, [web_translate_it_server](https://github.com/AtelierConvivi
 
 ## Installation
 
-`wti` requires `json`, a library that needs gcc, so you will need to have a gcc compile. With Linux, `apt-get install build-essential` or `yum install gcc` should do it. On Mac OS X, install Xcode command line tools.
-
 You will also need ruby to run `wti`. On Linux or a Mac, it’s already installed. Install [RubyInstaller](http://rubyinstaller.org/) if you’re using Windows. [See detailed installation instructions for Windows users](https://github.com/AtelierConvivialite/webtranslateit/wiki/Install-wti-on-Windows).
 
 ``` bash

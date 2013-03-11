@@ -1,7 +1,7 @@
 # encoding: utf-8
 module WebTranslateIt
   class String
-    require 'json'
+    require 'multi_json'
     
     attr_accessor :id, :key, :plural, :type, :dev_comment, :word_count, :status, :category, :labels, :file,
                   :created_at, :updated_at, :translations, :new_record
@@ -254,7 +254,7 @@ module WebTranslateIt
           hash["translations"].push(translation.to_hash)
         end
       end
-      hash.to_json
+      MultiJson.dump(hash)
     end
   end
 end
