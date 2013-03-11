@@ -1,6 +1,7 @@
-## Edge
+## Version 2.0.6 / 2012-03-11
 
-* Use `multi_json` so wti doesn’t depend on JSON anymore so it is now easier to install the gem. It previously required a C compiler installed.
+* Remove dependency on JSON. We use `multi_json` instead so wti should now be easier to install.
+  (it previously required a C compiler to install).
 
 ## Version 2.0.5 / 2012-02-22
 
