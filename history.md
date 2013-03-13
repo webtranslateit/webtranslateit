@@ -1,9 +1,9 @@
-## Version 2.0.6 / 2012-03-11
+## Version 2.0.6 / 2013-03-11
 
 * Remove dependency on JSON. We use `multi_json` instead so wti should now be easier to install.
   (it previously required a C compiler to install).
 
-## Version 2.0.5 / 2012-02-22
+## Version 2.0.5 / 2013-02-22
 
 * New: Add ability to pass a file path in `wti push`: `wti push path/to/file`. #90.
 * Made it a bit clearer that wti push now takes an optional file path.
