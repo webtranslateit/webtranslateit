@@ -225,11 +225,7 @@ module WebTranslateIt
       stats.each do |locale, values|
         percent_translated = Util.calculate_percentage(values['count_strings_to_proofread'].to_i + values['count_strings_done'].to_i + values['count_strings_to_verify'].to_i, values['count_strings'].to_i)
         percent_completed  = Util.calculate_percentage(values['count_strings_done'].to_i, values['count_strings'].to_i)
-        puts "#{locale}: #{percent_translated}% translated, #{percent_completed}% completed #{values['stale'] ? "Out of date" : ""}"
-        stale = true if values['stale']
-      end
-      if stale
-        self.status if Util.ask_yes_no("Some of these stats are outdated. Would you like to refresh?", true)
+        puts "#{locale}: #{percent_translated}% translated, #{percent_completed}% completed."
       end
     end
                 

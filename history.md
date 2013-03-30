@@ -1,3 +1,8 @@
+## Edge
+
+* A new version of WebTranslateIt brings instant statistics generation. Statistics are never stale,
+  so removed some code that was handling stale stats in `wti status`. #93
+
 ## Version 2.0.6 / 2013-03-11
 
 * Remove dependency on JSON. We use `multi_json` instead so wti should now be easier to install.
