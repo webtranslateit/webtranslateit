@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name        = "web_translate_it" 
-  s.version     = "2.0.6"
+  s.version     = "2.0.7"
   s.summary     = "A CLI to sync locale files with webtranslateit.com."
   s.email       = "edouard@atelierconvivialite.com"
   s.homepage    = "https://webtranslateit.com"

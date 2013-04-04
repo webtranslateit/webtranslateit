@@ -1,4 +1,4 @@
-## Edge
+## Version 2.0.7 / 2013-04-04
 
 * A new version of WebTranslateIt brings instant statistics generation. Statistics are never stale,
   so removed some code that was handling stale stats in `wti status`. #93
