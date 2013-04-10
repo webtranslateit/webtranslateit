@@ -1,4 +1,4 @@
-## Edge
+## Version 2.0.8 / 2013-04-04
 
 * Update CA cert of the WebTranslateit’s issuer (Rapid SSL). #95.
 
