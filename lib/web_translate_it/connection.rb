@@ -3,6 +3,7 @@ module WebTranslateIt
   class Connection
     require 'net/http'
     require 'net/https'
+    require 'openssl'
     require 'uri'
     require 'ostruct'
     
@@ -35,7 +36,7 @@ module WebTranslateIt
         if File.exists?('/etc/ssl/certs') # Ubuntu
           http.ca_path = '/etc/ssl/certs'
         else
-          http.ca_file = File.expand_path('cacert.pem', __FILE__)
+          http.ca_file = File.expand_path('../cacert.pem', __FILE__)
         end
         @@http_connection = http.start
         yield @@http_connection if block_given?

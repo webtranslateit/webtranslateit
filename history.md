@@ -1,3 +1,7 @@
+## Edge
+
+* Update CA cert of the WebTranslateit’s issuer (Rapid SSL). #95.
+
 ## Version 2.0.7 / 2013-04-04
 
 * A new version of WebTranslateIt brings instant statistics generation. Statistics are never stale,
@@ -107,13 +111,13 @@
 * Fix `wti status` command.
 * Improvement: truncate `wti pull` performance statistics (`Pulled 10 files in 0.7 seconds at 13.4 files/sec`).
 * Fix: Configuration file lookup improvements. Configuration files can now be located in another directory, and `wti` commands don’t have to be executed in the root directory. It is now possible to execute:
-	
-	```
-	wti pull 
-	wti pull -c /Users/edouard/code/test/.wti
-	wti pull -c ../.wti
-	wti pull -c ~/code/.wti
-	```
+  
+  ```
+  wti pull 
+  wti pull -c /Users/edouard/code/test/.wti
+  wti pull -c ../.wti
+  wti pull -c ~/code/.wti
+  ```
 
 ## Version 1.9.1 / 2011-12-08
 
