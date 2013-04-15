@@ -1,4 +1,4 @@
-## Version 2.1.0 / 2013-04-15
+## Version 2.1.1 / 2013-04-15
 
 * Upgrade dependency on multipart-post, which includes a few compatibility fixes to ruby 2.0.
 
