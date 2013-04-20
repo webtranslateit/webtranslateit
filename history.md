@@ -1,3 +1,7 @@
+## Edge
+
+* Update my name so it doesn’t contain accentuated characters anymore (seems to make jruby/rubygems 2.0.3 fail to install the gem). #96
+
 ## Version 2.1.1 / 2013-04-15
 
 * Upgrade dependency on multipart-post, which includes a few compatibility fixes to ruby 2.0.

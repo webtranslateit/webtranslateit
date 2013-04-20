@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.summary     = "A CLI to sync locale files with webtranslateit.com."
   s.email       = "edouard@atelierconvivialite.com"
   s.homepage    = "https://webtranslateit.com"
-  s.authors     = "Édouard Brière"
+  s.authors     = "Edouard Briere"
  
   s.files       = Dir["history.md", "license", "readme.md", "version", "examples/**/*", "lib/**/*", "generators/**/*", "bin/**/*", "man/**/*"]
   
