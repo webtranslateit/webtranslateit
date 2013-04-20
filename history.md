@@ -1,4 +1,4 @@
-## Edge
+## Version 2.1.2 / 2013-04-20
 
 * Update my name so it doesn’t contain accentuated characters anymore (seems to make jruby/rubygems 2.0.3 fail to install the gem). #96
 
