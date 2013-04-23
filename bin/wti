@@ -88,7 +88,7 @@ EOS
     end
   when "init"
     Trollop::options do
-      banner "wti init - Configure your project to sync"
+      banner "wti init [api_token] - Configure your project to sync"
       opt :config, "Path to a configuration file", :short => "-c", :default => ".wti"
     end
   when "match"

@@ -1,6 +1,7 @@
 ## Edge
 
 * Display more information about “unavail” error message. #97
+* New: add ability to initialize project with a one-liner: `wti init api_token`. #94
 
 ## Version 2.1.2 / 2013-04-20
 
