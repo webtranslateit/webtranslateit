@@ -17,16 +17,21 @@ module WebTranslateIt
     def initialize(root_path = Rails.root, path_to_config_file = ".wti")
       self.path           = root_path
       self.logger         = logger
-      configuration       = YAML.load_file(File.expand_path(path_to_config_file, self.path))
-      self.api_key        = configuration['api_key']
-      self.before_pull    = configuration['before_pull']
-      self.after_pull     = configuration['after_pull']
-      self.before_push    = configuration['before_push']
-      self.after_push     = configuration['after_push']
-      project_info        = YAML.load WebTranslateIt::Project.fetch_info(api_key)
-      set_locales_to_ignore(configuration)
-      set_files(project_info['project'])
-      set_locales(project_info['project'])
+      if File.exists?(File.expand_path(path_to_config_file, self.path))
+        configuration       = YAML.load_file(File.expand_path(path_to_config_file, self.path))
+        self.api_key        = configuration['api_key']
+        self.before_pull    = configuration['before_pull']
+        self.after_pull     = configuration['after_pull']
+        self.before_push    = configuration['before_push']
+        self.after_push     = configuration['after_push']
+        project_info        = YAML.load WebTranslateIt::Project.fetch_info(api_key)
+        set_locales_to_ignore(configuration)
+        set_files(project_info['project'])
+        set_locales(project_info['project'])
+      else
+        puts StringUtil.failure("\nCan't find a configuration file in #{File.expand_path(path_to_config_file, self.path)}")
+        exit(1)
+      end
     end
     
     # Set the project locales from the Project API.
