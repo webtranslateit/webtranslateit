@@ -26,8 +26,8 @@ You will also need ruby to run `wti`. On Linux or a Mac, it’s already installe
 
 ``` bash
 $ gem install web_translate_it
-Fetching: web_translate_it-2.0.3.gem (100%)
-Successfully installed web_translate_it-2.0.3
+Fetching: web_translate_it-2.1.3.gem (100%)
+Successfully installed web_translate_it-2.1.3
 1 gem installed
 ```
     
@@ -35,7 +35,7 @@ At this point you should have the `wti` executable working:
 
 ``` bash
 $ wti -v
-wti version 2.0.3
+wti version 2.1.3
 ```
 
 ## Configuration
@@ -43,17 +43,17 @@ wti version 2.0.3
 Now that the tool is installed, you’ll have to configure your project. Basically, `wti` is to be run on a project root directory, and looks for a `.wti` file containing your project information. The command `wti init` lets your create your `.wti` file.
 
 ``` bash
-$ wti init
+$ wti init 55555abc1235555
 # Initializing project
- Project API Key:  55555abc1235555
- Path to configuration file: (Default: .wti)  
 
  Your project was successfully initialized.
 You can now use `wti` to push and pull your language files.
 Check `wti --help` for help.
 ```
 
-The command asks you to enter your project API key (you can find it in your project settings) and where to save the configuration file (by default it will create a `.wti` in your project root directory).
+`55555abc1235555` is the API token, which you can find in your project settings.
+
+If you’d like to specify another path for your configuration file, you can use `wti init`. This command will ask you to enter your project API token and where to save the configuration file (by default it will create a `.wti` in your project root directory).
 
 Now you’re all set and you can use the `wti` commands on your project.
 
