@@ -1,3 +1,7 @@
+## Edge
+
+* Update `WebTranslateIt.fetch_translations`.
+
 ## Version 2.1.3 / 2013-04-25
 
 * Display more information about “unavail” error message. #97
