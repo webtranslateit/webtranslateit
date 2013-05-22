@@ -1,22 +1,24 @@
-# WebTranslateIt Synchronization Tool
+# WebTranslateIt Synchronization Tool : wti
 
 [RubyDoc](http://rubydoc.info/github/AtelierConvivialite/webtranslateit/) | 
-[Example app](http://github.com/AtelierConvivialite/rails_example_app) | 
 [Report a bug](http://github.com/AtelierConvivialite/webtranslateit/issues) | 
 [Support](https://webtranslateit.com/support) |
 [WebTranslateIt.com Homepage](https://webtranslateit.com)
 
-`web_translate_it` is a tool to sync your language files with [WebTranslateIt.com](https://webtranslateit.com), a web-based tool to translation software.
+wti lets you easily sync your language files with [WebTranslateIt.com](https://webtranslateit.com), a web-based tool to translation software.
 
 ![WebTranslateIt Synchronization Tool](http://f.cl.ly/items/2X3m0h0g0I1O1U07163o/wti_example.jpg)
 
-## This rubygem provides:
+### wti...
 
-1. A Command-Line Interface, `wti`, to sync files between your computer/server and WebTranslateIt.com. It is cross-platform and runs in a terminal (Linux, MacOS X) or in cmd.exe (Windows).
-2. A synchronisation server which provides a web interface for your translation team to update your language files. [Learn more on the web_translate_it_server project page](https://github.com/AtelierConvivialite/web_translate_it_server).
-3. A rack middleware you can use in your Rails app to automatically fetch new translations from WebTranslateIt.
+* wti is a **command-line tool**. It works on all operating systems: Windows, Linux, MacOS X...
+* wti is really easy to use. It was inspired by git. Use `wti push` and `wti pull` to sync your language files with WebTranslateIt.com.
 
-An external library, [web_translate_it_server](https://github.com/AtelierConvivialite/web_translate_it_server), extends this rubygem and provides a web interface for your translation team to update your language files.
+### Optionally, wti does...
+
+* include a rack middleware you can use in your Rails app to automatically fetch new translations from WebTranslateIt.com.
+* include libraries you can use to programmatically fetch your segments from WebTranslateIt.com. See [Extras](https://github.com/AtelierConvivialite/webtranslateit/wiki/Extras)
+* include a web interface for your translation team to update your language files. [Learn more on the web_translate_it_server project page](https://github.com/AtelierConvivialite/web_translate_it_server).
 
 ---
 
