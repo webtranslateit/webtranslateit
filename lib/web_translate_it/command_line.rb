@@ -44,7 +44,8 @@ module WebTranslateIt
         # Now actually pulling files
         time = Time.now
         threads = []
-        ArrayUtil.chunk(files, 2).each do |file_array|
+        n_threads = (files.size.to_f/3).ceil >= 10 ? 10 : (files.size.to_f/3).ceil
+        ArrayUtil.chunk(files, n_threads).each do |file_array|
           unless file_array.empty?
             threads << Thread.new(file_array) do |file_array|
               WebTranslateIt::Connection.new(configuration.api_key) do |http|
@@ -57,7 +58,7 @@ module WebTranslateIt
         end
         threads.each { |thread| thread.join }
         time = Time.now - time
-        puts "Pulled #{files.size} files at #{(files.size/time).round} files/sec."
+        puts "Pulled #{files.size} files at #{(files.size/time).round} files/sec, using #{n_threads} threads."
         `#{configuration.after_pull}` if configuration.after_pull
       end
     end

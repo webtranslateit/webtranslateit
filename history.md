@@ -1,3 +1,7 @@
+## Version 2.1.5 / 2013-07-01
+
+* Tweak `wti pull` to use up to 10 threads.
+
 ## Version 2.1.4 / 2013-07-01
 
 * Update `WebTranslateIt.fetch_translations`.
