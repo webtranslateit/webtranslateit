@@ -1,6 +1,7 @@
 ## Edge
 
 * Update `WebTranslateIt.fetch_translations`.
+* Limit amount of simultaneous HTTP requests to WTI.
 
 ## Version 2.1.3 / 2013-04-25
 
