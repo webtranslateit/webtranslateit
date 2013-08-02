@@ -1,3 +1,8 @@
+## Edge
+
+* Commands now display more information, such as the current project’s name.
+* Improvements to auto-fetch: reload I18n after fetch, and do not run auto-fetch for static requests.
+
 ## Version 2.1.5 / 2013-07-01
 
 * Tweak `wti pull` to use up to 10 threads.
