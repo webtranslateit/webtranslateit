@@ -1,4 +1,4 @@
-## Edge
+## Version 2.1.6 / 2013-08-02
 
 * Commands now display more information, such as the current project’s name.
 * Improvements to auto-fetch: reload I18n after fetch, and do not run auto-fetch for static requests.
