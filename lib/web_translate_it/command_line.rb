@@ -25,7 +25,7 @@ module WebTranslateIt
         else
           message = "Gathering information"
         end
-        throb { print "  #{message}"; self.configuration = WebTranslateIt::Configuration.new(project_path, configuration_file_path) }
+        throb { print "  #{message}"; self.configuration = WebTranslateIt::Configuration.new(project_path, configuration_file_path); print " #{message} on #{self.configuration.project_name}"; }
       end
       self.send(command)
     end
@@ -182,7 +182,8 @@ module WebTranslateIt
       end
       File.open(path, 'w'){ |file| file << generate_configuration(api_key, project_info) }
       puts ""
-      puts " Your project was successfully initialized."
+      puts " The project #{project_info['name']} was successfully initialized."
+      puts ""
       if project_info["source_locale"]["code"].nil? || project_info["target_locales"].size <= 1 || project_info["project_files"].none?
         puts ""
         puts " There are a few more things to set up:"

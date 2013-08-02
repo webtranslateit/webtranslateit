@@ -11,7 +11,7 @@ module WebTranslateIt
     require 'yaml'
     require 'fileutils'
     attr_accessor :path, :api_key, :source_locale, :target_locales, :files, :ignore_locales
-    attr_accessor :logger, :before_pull, :after_pull, :before_push, :after_push
+    attr_accessor :logger, :before_pull, :after_pull, :before_push, :after_push, :project_name
     
     # Load configuration file from the path.
     def initialize(root_path = Rails.root, path_to_config_file = ".wti")
@@ -28,6 +28,7 @@ module WebTranslateIt
         set_locales_to_ignore(configuration)
         set_files(project_info['project'])
         set_locales(project_info['project'])
+        self.project_name = project_info['project']['name']
       else
         puts StringUtil.failure("\nCan't find a configuration file in #{File.expand_path(path_to_config_file, self.path)}")
         exit(1)
