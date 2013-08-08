@@ -15,9 +15,19 @@ module WebTranslateIt
     end
 
     def call(env)
-      WebTranslateIt::fetch_translations unless env['REQUEST_PATH'] =~ /\.(js|css|jpeg|jpg|gif|png|woff)$/
-      I18n.reload!
+      update_translations if valid_request?(env)
       @app.call(env)
+    end
+
+  private
+
+    def update_translations
+      WebTranslateIt.fetch_translations
+      I18n.reload!
+    end
+
+    def valid_request?(env)
+      !(env['PATH_INFO'] =~ /\.(js|css|jpeg|jpg|gif|png|woff)$/)
     end
   end
 end
