@@ -1,4 +1,4 @@
-## Edge
+## Version 2.1.7 / 2013-08-28
 
 * New: Ability to pull a specific file or directory.
   Examples: `wti pull path/to/file.json` to pull a file.
