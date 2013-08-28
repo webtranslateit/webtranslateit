@@ -1,7 +1,13 @@
+## Edge
+
+* Improvements to auto-fetch: reload I18n after fetch, and do not run auto-fetch for static requests.
+* New: Ability to pull a specific file or directory.
+  Examples: `wti pull path/to/file.json` to pull a file.
+            `wti pull config/locales/javascript/*` to pull all the files in the `config/locales/javascript directory.
+
 ## Version 2.1.6 / 2013-08-02
 
 * Commands now display more information, such as the current project’s name.
-* Improvements to auto-fetch: reload I18n after fetch, and do not run auto-fetch for static requests.
 
 ## Version 2.1.5 / 2013-07-01
 

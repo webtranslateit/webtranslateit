@@ -36,7 +36,11 @@ module WebTranslateIt
       # Selecting files to pull
       files = []
       fetch_locales_to_pull.each do |locale|
-        files.concat configuration.files.find_all{ |file| file.locale == locale }
+        if parameters.any?
+          files = configuration.files.find_all{ |file| parameters.include?(file.file_path) }.sort{ |a,b| a.file_path <=> b.file_path }
+        else
+          files = configuration.files.find_all{ |file| file.locale == locale }.sort{ |a,b| a.file_path <=> b.file_path }
+        end
       end
       if files.size == 0
         puts "No files to pull."

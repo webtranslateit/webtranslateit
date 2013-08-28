@@ -36,7 +36,7 @@ command_options = case command
   when "pull"
     Trollop::options do
       banner <<-EOS
-wti pull - Pull target language file(s)
+wti pull [filename] - Pull target language file(s)
 [options] are:
 EOS
       opt :locale, "ISO code of locale(s) to pull", :type => :string
