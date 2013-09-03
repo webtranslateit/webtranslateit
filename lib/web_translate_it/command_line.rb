@@ -39,7 +39,7 @@ module WebTranslateIt
         if parameters.any?
           files = configuration.files.find_all{ |file| parameters.include?(file.file_path) }.sort{ |a,b| a.file_path <=> b.file_path }
         else
-          files = configuration.files.find_all{ |file| file.locale == locale }.sort{ |a,b| a.file_path <=> b.file_path }
+          files |= configuration.files.find_all{ |file| file.locale == locale }.sort{ |a,b| a.file_path <=> b.file_path }
         end
       end
       if files.size == 0

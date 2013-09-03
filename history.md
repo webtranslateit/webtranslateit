@@ -1,3 +1,7 @@
+## Edge
+
+* Bug fix on `wti pull`.
+
 ## Version 2.1.7 / 2013-08-28
 
 * New: Ability to pull a specific file or directory.
