@@ -1,4 +1,4 @@
-## Edge
+## Version 2.1.8 / 2013-09-03
 
 * Bug fix on `wti pull`.
 
