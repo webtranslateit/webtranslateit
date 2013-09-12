@@ -3,7 +3,8 @@
 Gem::Specification.new do |s|
   s.name        = "web_translate_it" 
   s.version     = "2.1.8"
-  s.summary     = "A CLI to sync locale files with webtranslateit.com."
+  s.summary     = "A CLI to sync locale files with WebTranslateIt.com."
+  s.description = "A gem to push and pull language files to WebTranslateIt.com."
   s.email       = "edouard@atelierconvivialite.com"
   s.homepage    = "https://webtranslateit.com"
   s.authors     = "Edouard Briere"
@@ -21,6 +22,8 @@ Gem::Specification.new do |s|
   s.has_rdoc         = true
   s.rdoc_options     = ["--main", "readme.md"]
   s.extra_rdoc_files = ["history.md", "readme.md"]
+
+  s.license = 'MIT'
   
   s.require_path       = 'lib'
   s.bindir             = 'bin'
