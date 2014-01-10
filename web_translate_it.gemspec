@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name        = "web_translate_it" 
-  s.version     = "2.1.8"
+  s.version     = "2.2.0"
   s.summary     = "A CLI to sync locale files with WebTranslateIt.com."
   s.description = "A gem to push and pull language files to WebTranslateIt.com."
   s.email       = "edouard@atelierconvivialite.com"
@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   
   s.test_files  = Dir["spec/**/*"]  
   
-  s.add_dependency "multipart-post", "~> 1.2.0"
+  s.add_dependency "multipart-post", "~> 2.0"
   s.add_dependency "trollop", "~> 2.0"
   s.add_dependency "multi_json"
 

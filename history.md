@@ -1,3 +1,7 @@
+## Version 2.2.0 / 2014-01-10
+
+* Update dependencies.
+
 ## Version 2.1.8 / 2013-09-03
 
 * Bug fix on `wti pull`.
