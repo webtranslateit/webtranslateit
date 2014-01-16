@@ -246,8 +246,14 @@ module WebTranslateIt
         end
         locales = command_options.locale.split
       else
-        locales = configuration.target_locales
-        configuration.ignore_locales.each{ |locale_to_delete| locales.delete(locale_to_delete) }
+        if configuration.needed_locales.any?
+          locales = configuration.needed_locales
+        else
+          locales = configuration.target_locales
+          if configuration.ignore_locales.any?
+            configuration.ignore_locales.each{ |locale_to_delete| locales.delete(locale_to_delete) }
+          end
+        end
       end
       locales.push(configuration.source_locale) if command_options.all
       return locales.uniq
@@ -293,10 +299,13 @@ module WebTranslateIt
       file = <<-FILE
 api_key: #{api_key}
 
-# Optional: locales not to sync with Web Translate It.
+# Optional: locales not to sync with WebTranslateIt.
 # Takes a string, a symbol, or an array of string or symbol.
 # More information here: https://github.com/AtelierConvivialite/webtranslateit/wiki
 # ignore_locales: '#{project_info["source_locale"]["code"]}'
+
+# Or if you prefer a list of locales to sync with WebTranslateIt:
+# needed_locales: #{project_info["target_locales"].map {|locale| locale["code"]}.to_s}
 
 # Optional
 # before_pull: "echo 'some unix command'"   # Command executed before pulling files

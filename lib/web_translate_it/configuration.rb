@@ -10,7 +10,7 @@ module WebTranslateIt
   class Configuration
     require 'yaml'
     require 'fileutils'
-    attr_accessor :path, :api_key, :source_locale, :target_locales, :files, :ignore_locales
+    attr_accessor :path, :api_key, :source_locale, :target_locales, :files, :ignore_locales, :needed_locales
     attr_accessor :logger, :before_pull, :after_pull, :before_push, :after_push, :project_name
     
     # Load configuration file from the path.
@@ -26,6 +26,7 @@ module WebTranslateIt
         self.after_push     = configuration['after_push']
         project_info        = YAML.load WebTranslateIt::Project.fetch_info(api_key)
         set_locales_to_ignore(configuration)
+        set_locales_needed(configuration)
         set_files(project_info['project'])
         set_locales(project_info['project'])
         self.project_name = project_info['project']['name']
@@ -64,6 +65,11 @@ module WebTranslateIt
     # Set locales to ignore from the configuration file, if set.
     def set_locales_to_ignore(configuration)
       self.ignore_locales = Array(configuration['ignore_locales']).map{ |locale| locale.to_s }
+    end
+
+    # Set locales to specifically pull from the configuration file, if set
+    def set_locales_needed(configuration)
+      self.needed_locales = Array(configuration['needed_locales']).map{ |locale| locale.to_s }
     end
     
     # Convenience method which returns the endpoint for fetching a list of locales for a project.
