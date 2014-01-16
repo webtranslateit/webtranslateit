@@ -1,4 +1,4 @@
-## Edge
+## Version 2.2.1 / 2014-01-16
 
 * New configuration option: `needed_locale`: an array containing all the locales you want to sync with WebTranslateIt. #110
 
