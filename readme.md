@@ -37,7 +37,7 @@ At this point you should have the `wti` executable working:
 
 ``` bash
 $ wti -v
-wti version 2.1.3
+wti version 2.2.1
 ```
 
 ## Configuration
