@@ -116,6 +116,10 @@ Append `--help` for each command for more information. For instance:
     <td>Create several master language files at once, by specifying an extension</td>
   </tr>
   <tr>
+    <td>find . -name "*en.yml" | xargs wti add</td>
+    <td>Find all the en.yml files and add them to the project</td>
+  </tr>
+  <tr>
     <td>wti push</td>
     <td>Update a master language file</td>
   </tr>
