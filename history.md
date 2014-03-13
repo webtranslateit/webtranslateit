@@ -1,4 +1,4 @@
-## Edge
+## Version 2.2.2 / 2014-03-13
 
 * Deprecate `wti push --all`.
   This command was replaced by `wti push --target`, which is slightly different since it only pushes target locales.
