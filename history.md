@@ -1,4 +1,4 @@
-## Edge
+## Version 2.2.2 / 2014-03-13
 
 * Fix deprecation warning. #112
 
