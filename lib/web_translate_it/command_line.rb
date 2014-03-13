@@ -268,7 +268,7 @@ module WebTranslateIt
       else
         locales = [configuration.source_locale]
       end
-      locales += configuration.target_locales if command_options.all
+      locales = configuration.target_locales.reject{ |locale| locale == configuration.source_locale } if command_options.all
       return locales.uniq
     end
     

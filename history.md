@@ -1,5 +1,7 @@
 ## Edge
 
+* New behaviour for `wti push --all`: don’t push the source locale.
+  Pushing all source and target files at the same time can cause synchronization issues under some circumstances.
 * Fix deprecation warning. #112
 
 ## Version 2.2.1 / 2014-01-16
