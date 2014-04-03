@@ -10,7 +10,7 @@ module WebTranslateIt
   class Configuration
     require 'yaml'
     require 'fileutils'
-    attr_accessor :path, :api_key, :source_locale, :target_locales, :files, :ignore_locales, :needed_locales
+    attr_accessor :path, :api_key, :source_locale, :target_locales, :files, :ignore_locales, :needed_locales, :ignore_files
     attr_accessor :logger, :before_pull, :after_pull, :before_push, :after_push, :project_name
     
     # Load configuration file from the path.
@@ -24,6 +24,7 @@ module WebTranslateIt
         self.after_pull     = configuration['after_pull']
         self.before_push    = configuration['before_push']
         self.after_push     = configuration['after_push']
+        self.ignore_files   = configuration['ignore_files']
         project_info        = YAML.load WebTranslateIt::Project.fetch_info(api_key)
         set_locales_to_ignore(configuration)
         set_locales_needed(configuration)
@@ -56,6 +57,8 @@ module WebTranslateIt
       project['project_files'].each do |project_file|
         if project_file['name'].nil? or project_file['name'].strip == ''
           puts "File #{project_file['id']} not set up"
+        elsif self.ignore_files.any?{|glob| File.fnmatch(glob, project_file['name'])}
+          puts "Ignoring #{project_file['name']}"
         else
           self.files.push TranslationFile.new(project_file['id'], project_file['name'], project_file['locale_code'], self.api_key, project_file['updated_at'], project_file['hash_file'], project_file['master_project_file_id'])
         end
@@ -70,6 +73,11 @@ module WebTranslateIt
     # Set locales to specifically pull from the configuration file, if set
     def set_locales_needed(configuration)
       self.needed_locales = Array(configuration['needed_locales']).map{ |locale| locale.to_s }
+    end
+    
+    # Set files to ignore from the configuration file, if set.
+    def set_ignore_files(configuration)
+      self.ignore_files = Array(configuration['ignore_files']).map{ |glob| glob.to_s }
     end
     
     # Convenience method which returns the endpoint for fetching a list of locales for a project.
