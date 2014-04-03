@@ -424,6 +424,10 @@ module WebTranslateIt
         # Or if you prefer a list of locales to sync with WebTranslateIt:
         # needed_locales: #{project_info['target_locales'].map { |locale| locale['code'] }}
 
+        # Optional: files not to sync with WebTranslateIt.
+        # Takes an array of globs.
+        # ignore_files: ['somefile*.csv']
+
         # Optional
         # before_pull: "echo 'some unix command'"   # Command executed before pulling files
         # after_pull:  "touch tmp/restart.txt"      # Command executed after pulling files

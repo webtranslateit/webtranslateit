@@ -1,6 +1,8 @@
 ## Unreleased
 
 * Code cleaning using Rubocop.
+* Add ability to ignore files from pulls with a setting in the `.wti` file. Example:
+  `ignore_files: ['**/fr.yml', 'config/locales/js/*.yml', 'config/locales/app/fr.yml']`
 
 ## Version 2.5.4 / 2022-03-08
 

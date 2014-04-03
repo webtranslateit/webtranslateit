@@ -9,6 +9,10 @@ api_key: SECRET
 # Or if you prefer a list of locales to sync with WebTranslateIt:
 # needed_locales: [en, fr, it]
 
+# Optional: files not to sync with WebTranslateIt.
+# Takes an array of globs.
+# ignore_files: ['**/fr.yml', 'config/locales/js/*.yml', 'config/locales/app/fr.yml']
+
 # Optional
 # before_pull: "echo 'some unix command'"   # Command executed before pulling files
 # after_pull:  "touch tmp/restart.txt"      # Command executed after pulling files
