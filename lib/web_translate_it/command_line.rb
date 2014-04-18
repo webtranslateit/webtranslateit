@@ -268,7 +268,12 @@ module WebTranslateIt
       else
         locales = [configuration.source_locale]
       end
-      locales += configuration.target_locales if command_options.all
+      if command_options.all
+        puts "`wti push --all` was deprecated in wti 2.3. Use `wti push --target` instead."
+        return []
+      elsif command_options.target
+        locales = configuration.target_locales.reject{ |locale| locale == configuration.source_locale }
+      end
       return locales.uniq
     end
     

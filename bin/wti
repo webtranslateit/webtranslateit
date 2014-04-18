@@ -51,7 +51,7 @@ wti push [filename] - Push master language file(s)
 [options] are:
 EOS
       opt :locale, "ISO code of locale(s) to push", :type => :string
-      opt :all,    "Upload all files"
+      opt :target, "Upload all target files"
       opt :force,  "Force push (bypass conditional requests to WTI)"
       opt :low_priority, "WTI will process this file with a low priority"
       opt :merge,  "Force WTI to merge this file"
@@ -59,6 +59,7 @@ EOS
       opt :minor, "Minor Changes. When pushing a master file, prevents target translations to be flagged as `to_verify`."
       opt :label,  "Apply a label to the changes", :type => :string
       opt :config, "Path to a configuration file", :short => "-c", :default => ".wti"
+      opt :all,    "DEPRECATED -- See `wti push --target` instead"
     end
   when "add"
     Trollop::options do

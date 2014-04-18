@@ -1,3 +1,10 @@
+## Edge
+
+* Deprecate `wti push --all`.
+  This command was replaced by `wti push --target`, which is slightly different since it only pushes target locales.
+  The `--all` option was deprecated because pushing all source and target files at the same time can cause synchronization issues under some circumstances.
+* Add new `wti push --target` command to push target files only.
+
 ## Version 2.2.2 / 2014-03-13
 
 * Fix deprecation warning. #112
