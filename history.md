@@ -1,3 +1,7 @@
+## Version 2.3.1 / 2014-05-07
+
+* The `.wti` configuration file is now parsed by ERB so the API token can be stored in an environment variable instead of in the `.wti` file. #118
+
 ## Version 2.3.0 / 2014-04-18
 
 * Deprecate `wti push --all`.
