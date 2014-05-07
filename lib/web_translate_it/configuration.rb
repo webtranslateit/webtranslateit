@@ -18,7 +18,6 @@ module WebTranslateIt
       self.path           = root_path
       self.logger         = logger
       if File.exists?(File.expand_path(path_to_config_file, self.path))
-        configuration       = YAML.load_file(File.expand_path(path_to_config_file, self.path))
         self.api_key        = configuration['api_key']
         self.before_pull    = configuration['before_pull']
         self.after_pull     = configuration['after_pull']
@@ -84,6 +83,16 @@ module WebTranslateIt
       elsif defined?(RAILS_DEFAULT_LOGGER)
         RAILS_DEFAULT_LOGGER
       end
+    end
+
+    def configuration
+      @configuration ||= YAML.load(parse_erb_in_configuration)
+    end
+
+    private
+
+    def parse_erb_in_configuration
+      ERB.new(File.read(File.expand_path(path_to_config_file, self.path))).result
     end
   end
 end
