@@ -30,7 +30,7 @@ module WebTranslateIt
       proxy = ENV['http_proxy'] ? URI.parse(ENV['http_proxy']) : OpenStruct.new
       http = Net::HTTP::Proxy(proxy.host, proxy.port, proxy.user, proxy.password).new('webtranslateit.com', 443)
       http.use_ssl      = true
-      http.open_timeout = http.read_timeout = 30
+      http.open_timeout = http.read_timeout = 60
       begin
         http.verify_mode  = OpenSSL::SSL::VERIFY_PEER
         if File.exists?('/etc/ssl/certs') # Ubuntu

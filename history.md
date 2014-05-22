@@ -1,3 +1,7 @@
+## Edge
+
+* Use longer timeout.
+
 ## Version 2.3.1 / 2014-05-07
 
 * The `.wti` configuration file is now parsed by ERB so the API token can be stored in an environment variable instead of in the `.wti` file. #118
