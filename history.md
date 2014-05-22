@@ -1,4 +1,4 @@
-## Edge
+## Version 2.3.3 / 2014-05-22
 
 * Use longer timeout.
 
