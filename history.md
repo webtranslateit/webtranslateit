@@ -1,3 +1,7 @@
+## Version 2.3.4 / 2014-05-23
+
+* Add `--debug` option to turn on debug output.
+
 ## Version 2.3.3 / 2014-05-22
 
 * Use longer timeout.

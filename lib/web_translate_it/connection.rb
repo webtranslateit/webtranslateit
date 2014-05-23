@@ -9,6 +9,7 @@ module WebTranslateIt
     
     @@api_key = nil
     @@http_connection = nil
+    @@debug = false
     
     #
     # Initialize and yield a HTTPS Keep-Alive connection to WebTranslateIt.com
@@ -31,6 +32,7 @@ module WebTranslateIt
       http = Net::HTTP::Proxy(proxy.host, proxy.port, proxy.user, proxy.password).new('webtranslateit.com', 443)
       http.use_ssl      = true
       http.open_timeout = http.read_timeout = 60
+      http.set_debug_output($stderr) if @@debug
       begin
         http.verify_mode  = OpenSSL::SSL::VERIFY_PEER
         if File.exists?('/etc/ssl/certs') # Ubuntu
@@ -43,16 +45,23 @@ module WebTranslateIt
       rescue OpenSSL::SSL::SSLError
         puts "Unable to verify SSL certificate."
         http = Net::HTTP::Proxy(proxy.host, proxy.port, proxy.user, proxy.password).new('webtranslateit.com', 443)
+        http.set_debug_output($stderr) if @@debug
         http.use_ssl      = true
         http.open_timeout = http.read_timeout = 60
         http.verify_mode  = OpenSSL::SSL::VERIFY_NONE
         @@http_connection = http.start
         yield @@http_connection if block_given?
+      rescue
+        puts $!
       end
     end
     
     def self.http_connection
       @@http_connection
+    end
+
+    def self.turn_debug_on
+      @@debug = true
     end
     
     def self.api_key

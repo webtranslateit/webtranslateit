@@ -21,6 +21,8 @@ module WebTranslateIt
         puts "The request timed out. The service may be overloaded. We will retry in 5 seconds."
         sleep(5)
         retry
+      rescue
+        puts $!.inspect
       end
     end
     
