@@ -40,6 +40,7 @@ wti pull [filename] - Pull target language file(s)
 [options] are:
 EOS
       opt :locale, "ISO code of locale(s) to pull", :type => :string
+      opt :output, "File path to export translation to", :type => :string, :short => "-o"
       opt :type, "File type to export translations as", :type => :string, :short => "-t"
       opt :all,    "Pull all files"
       opt :force,  "Force pull (bypass conditional requests to WTI)"

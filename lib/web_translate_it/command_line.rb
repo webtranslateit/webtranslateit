@@ -54,7 +54,7 @@ module WebTranslateIt
             threads << Thread.new(file_array) do |file_array|
               WebTranslateIt::Connection.new(configuration.api_key) do |http|
                 file_array.each do |file|
-                  file.fetch(http, command_options.force, command_options.type)
+                  file.fetch(http, command_options.force, command_options.type, command_options.output)
                 end
               end
             end

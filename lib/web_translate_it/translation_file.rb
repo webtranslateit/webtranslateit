@@ -31,17 +31,11 @@ module WebTranslateIt
     #   file.fetch # returns nothing, with a status 304 Not Modified
     #   file.fetch(true) # force to re-download the file, will return the content of the file with a 200 OK
     #
-    def fetch(http_connection, force = false, output_type = nil)
+    def fetch(http_connection, force = false, output_type = nil, output_path=nil)
 
       output_formatter = Formatters.find_formatter(output_type)
-
-      if output_formatter
-
-        output_path = File.basename(self.file_path, ".*") + output_formatter::FILE_EXTENSION
-      else
-
-        output_path = self.file_path
-      end
+      file_extension = output_formatter::FILE_EXTENSION || File.extname(self.file_path)
+      output_path = generate_output_path(output_path || self.file_path, file_extension)
 
       display = []
       display.push(output_path)
@@ -51,20 +45,14 @@ module WebTranslateIt
           request = Net::HTTP::Get.new(api_url)
           request.add_field("X-Client-Name", "web_translate_it")
           request.add_field("X-Client-Version", WebTranslateIt::Util.version)
-          FileUtils.mkpath(self.file_path.split('/')[0..-2].join('/')) unless File.exist?(self.file_path) or self.file_path.split('/')[0..-2].join('/') == ""
+          FileUtils.mkdir_p File.dirname(output_path)
           begin
             response = http_connection.request(request)
+            input_formatter = Formatters.find_formatter_for_file_extension(file_extension)
 
-            extension = File.extname(self.file_path)
-            input_formatter = Formatters.find_formatter_for_file_extension(extension)
-
-            if output_formatter and input_formatter
-              if response.code.to_i == 200 and response.body != ''
-                input_formatter.to_translation_file(response.body, self)
-                File.open(output_path, 'wb'){ |file| file << output_formatter.from_translation_file(self) }
-              end
-            else
-              File.open(output_path, 'wb'){ |file| file << response.body } if response.code.to_i == 200 and response.body != ''
+            if response.code.to_i == 200 and response.body != ''
+              import_file_into_translation_file(response.body, input_formatter)
+              export_translation_file_to_file(output_formatter || input_formatter, output_path)
             end
 
             display.push Util.handle_response(response)
@@ -80,6 +68,22 @@ module WebTranslateIt
         display.push StringUtil.success("Skipped")
       end
       print ArrayUtil.to_columns(display)
+    end
+
+    def generate_output_path(output_path, file_extension)
+
+      replacements = { '%locale%' => self.locale, '%extension%' => file_extension }
+      pattern = Regexp.union(replacements.keys)
+
+      output_path.gsub(pattern, replacements)
+    end
+
+    def import_file_into_translation_file(file, input_formatter)
+      input_formatter.to_translation_file(file, self)
+    end
+
+    def export_translation_file_to_file(output_formatter, output_path)
+      File.open(output_path, 'wb'){ |file| file << output_formatter.from_translation_file(self) }
     end
 
     # Update a language file to Web Translate It by performing a PUT Request.
