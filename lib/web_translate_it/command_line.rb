@@ -29,7 +29,7 @@ module WebTranslateIt
       end
       self.send(command)
     end
-    
+
     def pull
       STDOUT.sync = true
       `#{configuration.before_pull}` if configuration.before_pull
@@ -54,7 +54,7 @@ module WebTranslateIt
             threads << Thread.new(file_array) do |file_array|
               WebTranslateIt::Connection.new(configuration.api_key) do |http|
                 file_array.each do |file|
-                  file.fetch(http, command_options.force)
+                  file.fetch(http, command_options.force, command_options.type)
                 end
               end
             end
@@ -66,7 +66,7 @@ module WebTranslateIt
         `#{configuration.after_pull}` if configuration.after_pull
       end
     end
-    
+
     def push
       STDOUT.sync = true
       `#{configuration.before_push}` if configuration.before_push
@@ -88,7 +88,7 @@ module WebTranslateIt
       end
       `#{configuration.after_push}` if configuration.after_push
     end
-    
+
     def add
       STDOUT.sync = true
       if parameters == []
@@ -133,7 +133,7 @@ module WebTranslateIt
       end
       puts StringUtil.success("Master file deleted.")
     end
-    
+
     def addlocale
       STDOUT.sync = true
       if parameters == []
@@ -149,7 +149,7 @@ module WebTranslateIt
         puts "Done."
       end
     end
-    
+
     def rmlocale
       STDOUT.sync = true
       if parameters == []
@@ -167,7 +167,7 @@ module WebTranslateIt
         end
       end
     end
-        
+
     def init
       puts "# Initializing project"
       if parameters.any?
@@ -211,7 +211,7 @@ module WebTranslateIt
       puts "You can now use `wti` to push and pull your language files."
       puts "Check `wti --help` for help."
     end
-    
+
     def match
       configuration.files.find_all{ |mf| mf.locale == configuration.source_locale }.each do |master_file|
         if !File.exists?(master_file.file_path)
@@ -228,7 +228,7 @@ module WebTranslateIt
         end
       end
     end
-        
+
     def status
       stats = YAML.load(Project.fetch_stats(configuration.api_key))
       stale = false
@@ -238,7 +238,7 @@ module WebTranslateIt
         puts "#{locale}: #{percent_translated}% translated, #{percent_completed}% completed."
       end
     end
-                
+
     def fetch_locales_to_pull
       if command_options.locale
         command_options.locale.split.each do |locale|
@@ -258,7 +258,7 @@ module WebTranslateIt
       locales.push(configuration.source_locale) if command_options.all
       return locales.uniq
     end
-        
+
     def fetch_locales_to_push(configuration)
       if command_options.locale
         command_options.locale.split.each do |locale|
@@ -276,7 +276,7 @@ module WebTranslateIt
       end
       return locales.uniq
     end
-    
+
     def configuration_file_path
       if self.command_options.config
         return self.command_options.config
@@ -299,7 +299,7 @@ module WebTranslateIt
         end
       end
     end
-    
+
     def generate_configuration(api_key, project_info)
       file = <<-FILE
 api_key: #{api_key}

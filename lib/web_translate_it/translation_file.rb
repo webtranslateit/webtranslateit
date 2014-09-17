@@ -1,19 +1,13 @@
-# encoding: utf-8
 module WebTranslateIt
-  # A TranslationFile is the representation of a master language file
-  # on Web Translate It.
-  #
-  # This class allows to manipulate TranslationFiles, more specifically upload and download them.
-  # If you pass a Locale to the master language file you will be able to
-  # manipulate a _target_ language file.
   class TranslationFile
     require 'net/https'
     require 'net/http/post/multipart'
     require 'time'
     require 'fileutils'
-    
-    attr_accessor :id, :file_path, :locale, :api_key, :updated_at, :remote_checksum, :master_id
-    
+    require 'web_translate_it/formatters'
+
+    attr_accessor :id, :file_path, :locale, :api_key, :updated_at, :remote_checksum, :master_id, :translations
+
     def initialize(id, file_path, locale, api_key, updated_at = nil, remote_checksum = "", master_id = nil)
       self.id         = id
       self.file_path  = file_path
@@ -22,8 +16,9 @@ module WebTranslateIt
       self.updated_at = updated_at
       self.remote_checksum = remote_checksum
       self.master_id  = master_id
+      self.translations = {}
     end
-    
+
     # Fetch a language file.
     # By default it will make a conditional GET Request, using the `If-Modified-Since` tag.
     # You can force the method to re-download your file by passing `true` as a second argument
@@ -36,11 +31,22 @@ module WebTranslateIt
     #   file.fetch # returns nothing, with a status 304 Not Modified
     #   file.fetch(true) # force to re-download the file, will return the content of the file with a 200 OK
     #
-    def fetch(http_connection, force = false)
+    def fetch(http_connection, force = false, output_type = nil)
+
+      output_formatter = Formatters.find_formatter(output_type)
+
+      if output_formatter
+
+        output_path = File.basename(self.file_path, ".*") + output_formatter::FILE_EXTENSION
+      else
+
+        output_path = self.file_path
+      end
+
       display = []
-      display.push(self.file_path)
+      display.push(output_path)
       display.push "#{StringUtil.checksumify(self.local_checksum.to_s)}..#{StringUtil.checksumify(self.remote_checksum.to_s)}"
-      if !File.exist?(self.file_path) or force or self.remote_checksum != self.local_checksum
+      if !File.exist?(output_path) or force or self.remote_checksum != self.local_checksum
         begin
           request = Net::HTTP::Get.new(api_url)
           request.add_field("X-Client-Name", "web_translate_it")
@@ -48,7 +54,19 @@ module WebTranslateIt
           FileUtils.mkpath(self.file_path.split('/')[0..-2].join('/')) unless File.exist?(self.file_path) or self.file_path.split('/')[0..-2].join('/') == ""
           begin
             response = http_connection.request(request)
-            File.open(self.file_path, 'wb'){ |file| file << response.body } if response.code.to_i == 200 and response.body != ''
+
+            extension = File.extname(self.file_path)
+            input_formatter = Formatters.find_formatter_for_file_extension(extension)
+
+            if output_formatter and input_formatter
+              if response.code.to_i == 200 and response.body != ''
+                input_formatter.to_translation_file(response.body, self)
+                File.open(output_path, 'wb'){ |file| file << output_formatter.from_translation_file(self) }
+              end
+            else
+              File.open(output_path, 'wb'){ |file| file << response.body } if response.code.to_i == 200 and response.body != ''
+            end
+
             display.push Util.handle_response(response)
           rescue Timeout::Error
             puts StringUtil.failure("Request timeout. Will retry in 5 seconds.")
@@ -63,7 +81,7 @@ module WebTranslateIt
       end
       print ArrayUtil.to_columns(display)
     end
-    
+
     # Update a language file to Web Translate It by performing a PUT Request.
     #
     # Example of implementation:
@@ -80,7 +98,7 @@ module WebTranslateIt
       display.push(self.file_path)
       display.push "#{StringUtil.checksumify(self.local_checksum.to_s)}..#{StringUtil.checksumify(self.remote_checksum.to_s)}"
       if File.exists?(self.file_path)
-	      if force or self.remote_checksum != self.local_checksum
+        if force or self.remote_checksum != self.local_checksum
           File.open(self.file_path) do |file|
             begin
               request = Net::HTTP::Put::Multipart.new(api_url, {"file" => UploadIO.new(file, "text/plain", file.path), "merge" => merge, "ignore_missing" => ignore_missing, "label" => label, "low_priority" => low_priority, "minor_changes" => minor_changes })
@@ -101,7 +119,7 @@ module WebTranslateIt
         puts StringUtil.failure("Can't push #{self.file_path}. File doesn't exist.")
       end
     end
-    
+
     # Create a master language file to Web Translate It by performing a POST Request.
     #
     # Example of implementation:
@@ -135,7 +153,7 @@ module WebTranslateIt
         puts StringUtil.failure("\nFile #{self.file_path} doesn't exist!")
       end
     end
-    
+
     # Delete a master language file from Web Translate It by performing a DELETE Request.
     #
     def delete(http_connection)
@@ -164,31 +182,31 @@ module WebTranslateIt
     def exists?
       File.exists?(file_path)
     end
-    
+
     def modified_remotely?
       fetch == "200 OK"
     end
-         
+
     protected
-      
+
       # Convenience method which returns the date of last modification of a language file.
       def last_modification
         File.mtime(File.new(self.file_path, 'r'))
       end
-      
+
       # Convenience method which returns the URL of the API endpoint for a locale.
       def api_url
         "/api/projects/#{self.api_key}/files/#{self.id}/locales/#{self.locale}"
       end
-      
+
       def api_url_for_create
         "/api/projects/#{self.api_key}/files"
       end
-      
+
       def api_url_for_delete
         "/api/projects/#{self.api_key}/files/#{self.id}"
       end
-      
+
       def local_checksum
         require 'digest/sha1'
         begin
