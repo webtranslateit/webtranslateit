@@ -1,13 +1,12 @@
-# The Project API Token from Web Translate It
-api_key: SECRET
+api_key: a5WmeDxtA0oA9-Myyi32sw
 
-# Optional: locales not to sync with Web Translate It.
+# Optional: locales not to sync with WebTranslateIt.
 # Takes a string, a symbol, or an array of string or symbol.
 # More information here: https://github.com/AtelierConvivialite/webtranslateit/wiki
-# ignore_locales: :en
+# ignore_locales: 'en-GB'
 
 # Or if you prefer a list of locales to sync with WebTranslateIt:
-# needed_locales: [en, fr, it]
+# needed_locales: ["en-GB", "en-US"]
 
 # Optional
 # before_pull: "echo 'some unix command'"   # Command executed before pulling files
@@ -15,3 +14,4 @@ api_key: SECRET
 #
 # before_push: "echo 'some unix command'"   # Command executed before pushing files
 # after_push:  "touch tmp/restart.txt"      # Command executed after pushing files
+

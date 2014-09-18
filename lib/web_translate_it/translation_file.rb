@@ -34,8 +34,9 @@ module WebTranslateIt
     def fetch(http_connection, force = false, output_type = nil, output_path=nil)
 
       output_formatter = Formatters.find_formatter(output_type)
-      file_extension = output_formatter::FILE_EXTENSION || File.extname(self.file_path)
-      output_path = generate_output_path(output_path || self.file_path, file_extension)
+      input_file_extension = File.extname(self.file_path)
+      output_file_extension = output_formatter::FILE_EXTENSION || input_file_extension
+      output_path = generate_output_path(output_path || self.file_path, output_file_extension)
 
       display = []
       display.push(output_path)
@@ -48,7 +49,7 @@ module WebTranslateIt
           FileUtils.mkdir_p File.dirname(output_path)
           begin
             response = http_connection.request(request)
-            input_formatter = Formatters.find_formatter_for_file_extension(file_extension)
+            input_formatter = Formatters.find_formatter_for_file_extension(input_file_extension)
 
             if response.code.to_i == 200 and response.body != ''
               import_file_into_translation_file(response.body, input_formatter)
@@ -83,7 +84,6 @@ module WebTranslateIt
     end
 
     def export_translation_file_to_file(output_formatter, output_path)
-      puts output_formatter
       File.open(output_path, 'wb'){ |file| file << output_formatter.from_translation_file(self) }
     end
 
