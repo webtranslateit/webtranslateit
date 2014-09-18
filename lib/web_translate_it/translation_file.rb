@@ -83,6 +83,7 @@ module WebTranslateIt
     end
 
     def export_translation_file_to_file(output_formatter, output_path)
+      puts output_formatter
       File.open(output_path, 'wb'){ |file| file << output_formatter.from_translation_file(self) }
     end
 

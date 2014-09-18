@@ -13,6 +13,8 @@ module WebTranslateIt
           strings_contents << "\"#{key}\" = #{value.inspect};\n"
         end
 
+        puts "String Contents: " + strings_contents
+
         strings_contents
       end
 
