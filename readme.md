@@ -1,6 +1,6 @@
 # WebTranslateIt Synchronization Tool : wti
 
-Modified by Unii to add conversion capabilities.
+Modified by Unii to add conversion capabilities, because we like to boogie.
 
 [RubyDoc](http://rubydoc.info/github/AtelierConvivialite/webtranslateit/) | 
 [Report a bug](http://github.com/AtelierConvivialite/webtranslateit/issues) | 
