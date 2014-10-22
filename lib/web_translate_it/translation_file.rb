@@ -38,7 +38,7 @@ module WebTranslateIt
       input_file_extension = File.extname(self.file_path)
 
       #Generate the output location for this file
-      output_file_extension = (output_formatter) ? output_formatter.file_extension : input_file_extension
+      output_file_extension = (output_formatter) ? output_formatter::FILE_EXTENSION : input_file_extension
       output_path = generate_output_path(output_path || self.file_path, output_file_extension)
 
       #Check output path has an extension and add it if not

@@ -20,7 +20,7 @@ module WebTranslateIt
     def self.find_formatter_for_file_extension(extension)
 
       FORMATTERS.each do |key, formatter|
-        return formatter if formatter.file_extension == extension
+        return formatter if formatter::FILE_EXTENSION == extension
       end
     end
   end

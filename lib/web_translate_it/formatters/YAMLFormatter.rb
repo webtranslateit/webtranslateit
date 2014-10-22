@@ -3,7 +3,7 @@ module WebTranslateIt
   module Formatters
     class YAMLFormatter
 
-      @@file_extension = ".yml"
+      FILE_EXTENSION = ".yml"
 
       def self.from_translation_file(translation_file)
       end
