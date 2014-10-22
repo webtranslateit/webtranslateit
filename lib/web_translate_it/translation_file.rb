@@ -35,6 +35,9 @@ module WebTranslateIt
 
       output_formatter = Formatters.find_formatter(output_type) if output_type
       input_file_extension = File.extname(self.file_path)
+
+      puts output_formatter
+
       output_file_extension = (output_type) ? output_formatter::FILE_EXTENSION ? input_file_extension
 
       output_path = generate_output_path(output_path || self.file_path, output_file_extension)
