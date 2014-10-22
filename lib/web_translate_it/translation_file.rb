@@ -43,7 +43,7 @@ module WebTranslateIt
 
       #Check output path has an extension and add it if not
       extension = File.extname(output_path)
-      output_path += ".#{output_file_extension}" if extension.empty?
+      output_path += "#{output_file_extension}" if extension.empty?
 
       display = []
       display.push(output_path)
