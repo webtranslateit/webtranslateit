@@ -3,7 +3,7 @@ module WebTranslateIt
   module Formatters
     class AppleStringsFormatter
 
-      FILE_EXTENSION = ".strings"
+      @@file_extension = ".strings"
 
       def self.from_translation_file(translation_file)
         strings_contents = ""
