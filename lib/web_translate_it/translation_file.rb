@@ -38,7 +38,7 @@ module WebTranslateIt
 
       puts output_formatter
 
-      output_file_extension = (output_type) ? output_formatter::FILE_EXTENSION ? input_file_extension
+      output_file_extension = (output_type) ? output_formatter::FILE_EXTENSION : input_file_extension
 
       output_path = generate_output_path(output_path || self.file_path, output_file_extension)
 
