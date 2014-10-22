@@ -64,7 +64,7 @@ module WebTranslateIt
               if output_formatter
                 output_contents = output_formatter.from_translation_file(self)
               else
-                output_contents = response.body,
+                output_contents = response.body
               end
 
               File.open(output_path, 'wb'){ |file| file << output_contents }
