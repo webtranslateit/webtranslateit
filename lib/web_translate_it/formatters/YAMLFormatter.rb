@@ -6,9 +6,7 @@ module WebTranslateIt
       FILE_EXTENSION = ".yml"
 
       def self.from_translation_file(translation_file)
-
-        yaml_output = { translation_file.locale => translation_file.translations }
-        yaml_output.to_yaml 
+        #We need to implement this
       end
 
       def self.to_translation_file(file_contents, translation_file)

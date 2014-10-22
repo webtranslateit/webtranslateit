@@ -17,6 +17,7 @@ module WebTranslateIt
       end
 
       def self.to_translation_file(file_contents, translation_file)
+        #We need to implement this
       end
 
       private

@@ -60,7 +60,14 @@ module WebTranslateIt
 
             if response.code.to_i == 200 and response.body != ''
               import_file_into_translation_file(response.body, input_formatter)
-              export_translation_file_to_file(output_formatter || input_formatter, output_path)
+
+              if output_formatter
+                output_contents = output_formatter.from_translation_file(self)
+              else
+                output_contents = response.body,
+              end
+
+              File.open(output_path, 'wb'){ |file| file << output_contents }
             end
 
             display.push Util.handle_response(response)
@@ -88,10 +95,6 @@ module WebTranslateIt
 
     def import_file_into_translation_file(file, input_formatter)
       input_formatter.to_translation_file(file, self)
-    end
-
-    def export_translation_file_to_file(output_formatter, output_path)
-      File.open(output_path, 'wb'){ |file| file << output_formatter.from_translation_file(self) }
     end
 
     # Update a language file to Web Translate It by performing a PUT Request.
