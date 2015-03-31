@@ -6,16 +6,16 @@ module WebTranslateIt
       FILE_EXTENSION = ".json"
 
       def self.from_translation_file(translation_file)
-        strings_contents = "{"
+        json_contents = "{"
 
         translation_file.translations.each_with_index do |(key, value), index|
-          strings_contents << ",\n" if index > 0
-          strings_contents << "\"#{key}\": #{value.inspect}"
+          json_contents << ",\n" if index > 0
+          json_contents << "\"#{key}\": #{value.inspect}"
         end
 
-        strings_contents << "}"
+        json_contents << "}"
 
-        strings_contents
+        json_contents
       end
 
       def self.to_translation_file(file_contents, translation_file)
