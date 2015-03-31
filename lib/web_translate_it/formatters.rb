@@ -1,12 +1,14 @@
 # encoding: utf-8
 require 'web_translate_it/formatters/AppleStringsFormatter'
 require 'web_translate_it/formatters/YAMLFormatter'
+require 'web_translate_it/formatters/JSONFormatter'
 
 module WebTranslateIt
   module Formatters
     FORMATTERS = {
       :apple_strings => AppleStringsFormatter,
-      :yaml => YAMLFormatter
+      :yaml => YAMLFormatter,
+      :json => JSONFormatter
     }
 
     def self.find_formatter(type)
