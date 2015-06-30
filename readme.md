@@ -184,4 +184,4 @@ Check the [sample `.wti`](https://github.com/AtelierConvivialite/webtranslateit/
 
 # License
 
-Copyright (c) 2009-2014 Atelier Convivialité, released under the MIT License.
+Copyright (c) 2009-2015 Atelier Convivialité, released under the MIT License.
