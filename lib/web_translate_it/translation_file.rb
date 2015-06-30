@@ -38,6 +38,7 @@ module WebTranslateIt
     #
     def fetch(http_connection, force = false)
       success = true
+      tries ||= 3
       display = []
       display.push(self.file_path)
       display.push "#{StringUtil.checksumify(self.local_checksum.to_s)}..#{StringUtil.checksumify(self.remote_checksum.to_s)}"
@@ -53,8 +54,12 @@ module WebTranslateIt
             display.push Util.handle_response(response)
           rescue Timeout::Error
             puts StringUtil.failure("Request timeout. Will retry in 5 seconds.")
-            sleep(5)
-            retry
+            if (tries -= 1) > 0
+              sleep(5)
+              retry
+            else
+              success = false
+            end
           rescue
             display.push StringUtil.failure("An error occured: #{$!}")
             success = false
@@ -80,6 +85,7 @@ module WebTranslateIt
     # actually takes place. This is due to the fact that language file imports are handled by background processing.
     def upload(http_connection, merge=false, ignore_missing=false, label=nil, low_priority=false, minor_changes=false, force=false)
       success = true
+      tries ||= 3
       display = []
       display.push(self.file_path)
       display.push "#{StringUtil.checksumify(self.local_checksum.to_s)}..#{StringUtil.checksumify(self.remote_checksum.to_s)}"
@@ -93,8 +99,12 @@ module WebTranslateIt
               display.push Util.handle_response(http_connection.request(request))
             rescue Timeout::Error
               puts StringUtil.failure("Request timeout. Will retry in 5 seconds.")
-              sleep(5)
-              retry
+              if (tries -= 1) > 0
+                sleep(5)
+                retry
+              else
+                success = false
+              end
             rescue
               display.push StringUtil.failure("An error occured: #{$!}")
               success = false
@@ -123,6 +133,7 @@ module WebTranslateIt
     #
     def create(http_connection, low_priority=false)
       success = true
+      tries ||= 3
       display = []
       display.push file_path
       display.push "#{StringUtil.checksumify(self.local_checksum.to_s)}..[     ]"
@@ -136,8 +147,12 @@ module WebTranslateIt
             puts ArrayUtil.to_columns(display)
           rescue Timeout::Error
             puts StringUtil.failure("Request timeout. Will retry in 5 seconds.")
-            sleep(5)
-            retry
+            if (tries -= 1) > 0
+              sleep(5)
+              retry
+            else
+              success = false
+            end
           rescue
             display.push StringUtil.failure("An error occured: #{$!}")
             success = false
@@ -153,6 +168,7 @@ module WebTranslateIt
     #
     def delete(http_connection)
       success = true
+      tries ||= 3
       display = []
       display.push file_path
       # display.push "#{StringUtil.checksumify(self.local_checksum.to_s)}..[     ]"
@@ -166,8 +182,12 @@ module WebTranslateIt
             puts ArrayUtil.to_columns(display)
           rescue Timeout::Error
             puts StringUtil.failure("Request timeout. Will retry in 5 seconds.")
-            sleep(5)
-            retry
+            if (tries -= 1) > 0
+              sleep(5)
+              retry
+            else
+              success = false
+            end
           rescue
             display.push StringUtil.failure("An error occured: #{$!}")
             success = false

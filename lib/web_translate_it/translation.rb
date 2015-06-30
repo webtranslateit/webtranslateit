@@ -42,6 +42,7 @@ module WebTranslateIt
     #
     
     def save
+      tries ||= 3
       request = Net::HTTP::Post.new("/api/projects/#{Connection.api_key}/strings/#{self.string_id}/locales/#{self.locale}/translations")
       request.add_field("X-Client-Name", "web_translate_it")
       request.add_field("X-Client-Version", WebTranslateIt::Util.version)
@@ -51,9 +52,13 @@ module WebTranslateIt
       begin
         Util.handle_response(Connection.http_connection.request(request), true, true)
       rescue Timeout::Error
-        puts "The request timed out. The service may be overloaded. We will retry in 5 seconds."
-        sleep(5)
-        retry
+        puts "Request timeout. Will retry in 5 seconds."
+        if (tries -= 1) > 0
+          sleep(5)
+          retry
+        else
+          success = false
+        end
       end
     end
     
