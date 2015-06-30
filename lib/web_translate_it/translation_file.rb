@@ -171,7 +171,6 @@ module WebTranslateIt
       tries ||= 3
       display = []
       display.push file_path
-      # display.push "#{StringUtil.checksumify(self.local_checksum.to_s)}..[     ]"
       if File.exists?(self.file_path)
         File.open(self.file_path) do |file|
           begin
