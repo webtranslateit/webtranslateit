@@ -1,3 +1,7 @@
+## Version 2.4.0 / Unreleased
+
+* Now returns correct exit codes. `0` if command successful, `1` if any error has occured.
+
 ## Version 2.3.4 / 2014-05-23
 
 * Add `--debug` option to turn on debug output.

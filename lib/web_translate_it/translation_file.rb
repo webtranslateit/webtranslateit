@@ -37,6 +37,7 @@ module WebTranslateIt
     #   file.fetch(true) # force to re-download the file, will return the content of the file with a 200 OK
     #
     def fetch(http_connection, force = false)
+      success = true
       display = []
       display.push(self.file_path)
       display.push "#{StringUtil.checksumify(self.local_checksum.to_s)}..#{StringUtil.checksumify(self.remote_checksum.to_s)}"
@@ -56,12 +57,14 @@ module WebTranslateIt
             retry
           rescue
             display.push StringUtil.failure("An error occured: #{$!}")
+            success = false
           end
         end
       else
         display.push StringUtil.success("Skipped")
       end
       print ArrayUtil.to_columns(display)
+      return success
     end
     
     # Update a language file to Web Translate It by performing a PUT Request.
@@ -76,6 +79,7 @@ module WebTranslateIt
     # Note that the request might or might not eventually be acted upon, as it might be disallowed when processing
     # actually takes place. This is due to the fact that language file imports are handled by background processing.
     def upload(http_connection, merge=false, ignore_missing=false, label=nil, low_priority=false, minor_changes=false, force=false)
+      success = true
       display = []
       display.push(self.file_path)
       display.push "#{StringUtil.checksumify(self.local_checksum.to_s)}..#{StringUtil.checksumify(self.remote_checksum.to_s)}"
@@ -91,6 +95,9 @@ module WebTranslateIt
               puts StringUtil.failure("Request timeout. Will retry in 5 seconds.")
               sleep(5)
               retry
+            rescue
+              display.push StringUtil.failure("An error occured: #{$!}")
+              success = false
             end
           end
         else
@@ -100,6 +107,7 @@ module WebTranslateIt
       else
         puts StringUtil.failure("Can't push #{self.file_path}. File doesn't exist.")
       end
+      return success
     end
     
     # Create a master language file to Web Translate It by performing a POST Request.
@@ -114,6 +122,7 @@ module WebTranslateIt
     # actually takes place. This is due to the fact that language file imports are handled by background processing.
     #
     def create(http_connection, low_priority=false)
+      success = true
       display = []
       display.push file_path
       display.push "#{StringUtil.checksumify(self.local_checksum.to_s)}..[     ]"
@@ -129,16 +138,21 @@ module WebTranslateIt
             puts StringUtil.failure("Request timeout. Will retry in 5 seconds.")
             sleep(5)
             retry
+          rescue
+            display.push StringUtil.failure("An error occured: #{$!}")
+            success = false
           end
         end
       else
         puts StringUtil.failure("\nFile #{self.file_path} doesn't exist!")
       end
+      return success
     end
     
     # Delete a master language file from Web Translate It by performing a DELETE Request.
     #
     def delete(http_connection)
+      success = true
       display = []
       display.push file_path
       # display.push "#{StringUtil.checksumify(self.local_checksum.to_s)}..[     ]"
@@ -154,11 +168,15 @@ module WebTranslateIt
             puts StringUtil.failure("Request timeout. Will retry in 5 seconds.")
             sleep(5)
             retry
+          rescue
+            display.push StringUtil.failure("An error occured: #{$!}")
+            success = false
           end
         end
       else
         puts StringUtil.failure("\nFile #{self.file_path} doesn't exist!")
       end
+      return success
     end
 
     def exists?

@@ -27,10 +27,12 @@ module WebTranslateIt
         end
         throb { print "  #{message}"; self.configuration = WebTranslateIt::Configuration.new(project_path, configuration_file_path); print " #{message} on #{self.configuration.project_name}"; }
       end
-      self.send(command)
+      success = self.send(command)
+      exit 1 if !success
     end
     
     def pull
+      complete_success = true
       STDOUT.sync = true
       `#{configuration.before_pull}` if configuration.before_pull
       # Selecting files to pull
@@ -54,7 +56,8 @@ module WebTranslateIt
             threads << Thread.new(file_array) do |file_array|
               WebTranslateIt::Connection.new(configuration.api_key) do |http|
                 file_array.each do |file|
-                  file.fetch(http, command_options.force)
+                  success = file.fetch(http, command_options.force)
+                  complete_success = false if !success
                 end
               end
             end
@@ -64,10 +67,12 @@ module WebTranslateIt
         time = Time.now - time
         puts "Pulled #{files.size} files at #{(files.size/time).round} files/sec, using #{n_threads} threads."
         `#{configuration.after_pull}` if configuration.after_pull
+        complete_success
       end
     end
     
     def push
+      complete_success = true
       STDOUT.sync = true
       `#{configuration.before_push}` if configuration.before_push
       WebTranslateIt::Connection.new(configuration.api_key) do |http|
@@ -81,15 +86,18 @@ module WebTranslateIt
             puts "No files to push."
           else
             files.each do |file|
-              file.upload(http, command_options[:merge], command_options.ignore_missing, command_options.label, command_options.low_priority, command_options[:minor], command_options.force)
+              success = file.upload(http, command_options[:merge], command_options.ignore_missing, command_options.label, command_options.low_priority, command_options[:minor], command_options.force)
+              complete_success = false if !success
             end
           end
         end
       end
       `#{configuration.after_push}` if configuration.after_push
+      complete_success
     end
     
     def add
+      complete_success = true
       STDOUT.sync = true
       if parameters == []
         puts StringUtil.failure("Error: You must provide the path to the master file to add.")
@@ -102,15 +110,18 @@ module WebTranslateIt
         if to_add.any?
           to_add.each do |param|
             file = TranslationFile.new(nil, param, nil, configuration.api_key)
-            file.create(http, command_options.low_priority)
+            success = file.create(http, command_options.low_priority)
+            complete_success = false if !success
           end
         else
           puts "No new master file to add."
         end
       end
+      complete_success
     end
 
     def rm
+      complete_success = true
       STDOUT.sync = true
       if parameters == []
         puts StringUtil.failure("Error: You must provide the path to the master file to remove.")
@@ -123,15 +134,18 @@ module WebTranslateIt
             configuration.files.find_all{ |file| file.file_path == param }.each do |master_file|
               master_file.delete(http)
               # delete files
-              File.delete(master_file.file_path) if File.exists?(master_file.file_path)
+              success = File.delete(master_file.file_path) if File.exists?(master_file.file_path)
+              complete_success = false if !success
               configuration.files.find_all{ |file| file.master_id == master_file.id }.each do |target_file|
-                File.delete(target_file.file_path) if File.exists?(target_file.file_path)
+                success = File.delete(target_file.file_path) if File.exists?(target_file.file_path)
+                complete_success = false if !success
               end
             end
           end
         end
       end
       puts StringUtil.success("Master file deleted.")
+      complete_success
     end
     
     def addlocale
@@ -139,7 +153,7 @@ module WebTranslateIt
       if parameters == []
         puts StringUtil.failure("Locale code missing.")
         puts "Usage: wti addlocale fr es ..."
-        exit
+        exit 1
       end
       parameters.each do |param|
         print StringUtil.success("Adding locale #{param.upcase}... ")
@@ -155,7 +169,7 @@ module WebTranslateIt
       if parameters == []
         puts StringUtil.failure("Error: You must provide the locale code to remove.")
         puts "Usage: wti rmlocale fr es ..."
-        exit
+        exit 1
       end
       parameters.each do |param|
         if Util.ask_yes_no("Are you certain you want to delete the locale #{param.upcase}?\nThis will also delete its files and translations.", false)
@@ -227,6 +241,7 @@ module WebTranslateIt
           end
         end
       end
+      return true
     end
         
     def status
@@ -237,6 +252,7 @@ module WebTranslateIt
         percent_completed  = Util.calculate_percentage(values['count_strings_done'].to_i, values['count_strings'].to_i)
         puts "#{locale}: #{percent_translated}% translated, #{percent_completed}% completed."
       end
+      return true
     end
                 
     def fetch_locales_to_pull
