@@ -182,6 +182,34 @@ There are 4 hooks:
 
 Check the [sample `.wti`](https://github.com/AtelierConvivialite/webtranslateit/blob/master/examples/.wti#L9..L13) file for implementation.
 
+## Exit codes
+
+Since version 1.4.0 `wti` returns exit codes on failure. The exit code is `0` if the command executed successfully and `1` if the command executed but encountered at least one error. This is useful to act upon errors if you use `wti` to pull files in an automated build process.
+
+``` zsh
+~/code/webtranslateit.com[master]% wti pull
+# Pulling files on WebTranslateIt
+ config/locales/translation_validator/en.yml        | e82e044..e82e044  Skipped
+ config/locales/app/en.yml                          | f2ca86c..f2ca86c  Skipped
+ config/locales/defaults/en.yml                     | 2fcb61f..2fcb61f  Skipped
+ config/locales/js/en.yml                           | ee6589d..ee6589d  Skipped
+ config/locales/js/fr.yml                           | 2f8bb0e..2f8bb0e  Skipped
+ config/locales/translation_validator/fr.yml        | 534af2c..534af2c  Skipped
+ config/locales/app/fr.yml                          | 29f8c9d..da39a3e  OK
+ config/locales/defaults/fr.yml                     | aca123e..aca123e  Skipped
+Pulled 8 files at 7 files/sec, using 3 threads.
+~/code/webtranslateit.com[master]% echo $!
+0
+~/code/webtranslateit.com[master]% wti pull
+# Pulling files on WebTranslateIt
+ config/locales/translation_validator/en.yml        | e82e044..e82e044  Error
+ config/locales/app/en.yml                          | f2ca86c..f2ca86c  Skipped
+ config/locales/defaults/fr.yml                     | aca123e..aca123e  Skipped
+Pulled 3 files at 3 files/sec, using 3 threads.
+~/code/webtranslateit.com[master]% echo $!
+1
+```
+
 # License
 
 Copyright (c) 2009-2015 Atelier Convivialité, released under the MIT License.
