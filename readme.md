@@ -40,6 +40,20 @@ $ wti -v
 wti version 2.2.1
 ```
 
+On some Linux distributions you may get the following error:
+
+``` bash
+$ wti
+If 'wti' is not a typo you can use command-not-found to lookup the package that contains it, like this:
+    cnf wti
+```
+
+The reason is that the wti file is named in another way: `/usr/bin/wti.ruby2.1` so you will have to create a symlink to make wti run.
+
+``` bash
+$ ln -s /usr/bin/wti.ruby2.1 wti
+```
+
 ## Configuration
 
 Now that the tool is installed, you’ll have to configure your project. Basically, `wti` is to be run on a project root directory, and looks for a `.wti` file containing your project information. The command `wti init` lets your create your `.wti` file.
