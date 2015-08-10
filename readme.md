@@ -51,7 +51,7 @@ If 'wti' is not a typo you can use command-not-found to lookup the package that 
 The reason is that the wti file is named in another way: `/usr/bin/wti.ruby2.1` so you will have to create a symlink to make wti run.
 
 ``` bash
-$ ln -s /usr/bin/wti.ruby2.1 wti
+# ln -s /usr/bin/wti.ruby2.1 /usr/bin/wti
 ```
 
 ## Configuration
