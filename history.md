@@ -1,4 +1,4 @@
-## Version 2.4.0 / Unreleased
+## Version 2.4.0 / 2015-08-10
 
 * Now returns correct exit codes. `0` if command successful, `1` if any error has occured.
 * Limit the amount of retries to 3 on timeout.
