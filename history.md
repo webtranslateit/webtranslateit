@@ -1,3 +1,10 @@
+## Edge - unreleased
+
+* `wti status` now returns a status code when a project is not 100% translated or not 100% proofread. Status codes are:
+  - 100 if not 100% translated,
+  - 101 if not 100% proofread,
+  - 1 if project is 100% translated and proofread.
+
 ## Version 2.4.0 / 2015-08-10
 
 * Now returns correct exit codes. `0` if command successful, `1` if any error has occurred.

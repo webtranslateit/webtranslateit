@@ -247,11 +247,17 @@ module WebTranslateIt
     def status
       stats = YAML.load(Project.fetch_stats(configuration.api_key))
       stale = false
+      completely_translated = true
+      completely_proofread  = true
       stats.each do |locale, values|
         percent_translated = Util.calculate_percentage(values['count_strings_to_proofread'].to_i + values['count_strings_done'].to_i + values['count_strings_to_verify'].to_i, values['count_strings'].to_i)
         percent_completed  = Util.calculate_percentage(values['count_strings_done'].to_i, values['count_strings'].to_i)
+        completely_translated = false if percent_translated != 100
+        completely_proofread  = false if percent_completed  != 100
         puts "#{locale}: #{percent_translated}% translated, #{percent_completed}% completed."
       end
+      exit 100 if !completely_translated
+      exit 101 if !completely_proofread
       return true
     end
                 

@@ -212,7 +212,7 @@ Since version 1.4.0 `wti` returns exit codes on failure. The exit code is `0` if
  config/locales/app/fr.yml                          | 29f8c9d..da39a3e  OK
  config/locales/defaults/fr.yml                     | aca123e..aca123e  Skipped
 Pulled 8 files at 7 files/sec, using 3 threads.
-~/code/webtranslateit.com[master]% echo $!
+~/code/webtranslateit.com[master]% echo $?
 0
 ~/code/webtranslateit.com[master]% wti pull
 # Pulling files on WebTranslateIt
@@ -220,9 +220,11 @@ Pulled 8 files at 7 files/sec, using 3 threads.
  config/locales/app/en.yml                          | f2ca86c..f2ca86c  Skipped
  config/locales/defaults/fr.yml                     | aca123e..aca123e  Skipped
 Pulled 3 files at 3 files/sec, using 3 threads.
-~/code/webtranslateit.com[master]% echo $!
+~/code/webtranslateit.com[master]% echo $?
 1
 ```
+
+Since version 2.4.1 the `wti status` command also returns meaningfull codes. It will exit with `0` if the project is 100% translated and proofread, `100` if the project is not 100% translated and `101` if the project is not 100% proofread. This allows you to check if a project is 100% translated or completed before deploying a project, for instance.
 
 # License
 
