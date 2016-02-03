@@ -232,7 +232,7 @@ Since version 2.4.1 the `wti status` command also returns meaningful codes. It w
 ``` zsh
 ~/Desktop/test% wti status
 # Gathering information on test ts
-$fr: 40% translated, 40% completed.
+fr: 40% translated, 40% completed.
 en: 90% translated, 0% completed.
 
 ~/Desktop/test% echo $?
