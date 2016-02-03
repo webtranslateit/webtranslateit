@@ -222,6 +222,7 @@ Pulled 8 files at 7 files/sec, using 3 threads.
  config/locales/app/en.yml                          | f2ca86c..f2ca86c  Skipped
  config/locales/defaults/fr.yml                     | aca123e..aca123e  Skipped
 Pulled 3 files at 3 files/sec, using 3 threads.
+
 ~/code/webtranslateit.com[master]% echo $?
 1
 ```
