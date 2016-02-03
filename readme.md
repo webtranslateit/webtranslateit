@@ -212,8 +212,10 @@ Since version 1.4.0 `wti` returns exit codes on failure. The exit code is `0` if
  config/locales/app/fr.yml                          | 29f8c9d..da39a3e  OK
  config/locales/defaults/fr.yml                     | aca123e..aca123e  Skipped
 Pulled 8 files at 7 files/sec, using 3 threads.
+
 ~/code/webtranslateit.com[master]% echo $?
 0
+
 ~/code/webtranslateit.com[master]% wti pull
 # Pulling files on WebTranslateIt
  config/locales/translation_validator/en.yml        | e82e044..e82e044  Error
@@ -224,7 +226,30 @@ Pulled 3 files at 3 files/sec, using 3 threads.
 1
 ```
 
-Since version 2.4.1 the `wti status` command also returns meaningfull codes. It will exit with `0` if the project is 100% translated and proofread, `100` if the project is not 100% translated and `101` if the project is not 100% proofread. This allows you to check if a project is 100% translated or completed before deploying a project, for instance.
+Since version 2.4.1 the `wti status` command also returns meaningful codes. It will exit with `0` if the project is 100% translated and proofread, `100` if the project is not 100% translated and `101` if the project is not 100% proofread. This could allow you to check if a project is 100% translated or completed before deploying a project.
+
+``` zsh
+~/Desktop/test% wti status
+# Gathering information on test ts
+$fr: 40% translated, 40% completed.
+en: 90% translated, 0% completed.
+~/Desktop/test% echo $?
+100
+
+~/Desktop/test% wti status
+# Gathering information on test ts
+en: 100% translated, 0% completed.
+fr: 100% translated, 100% completed.
+~/Desktop/test% echo $?
+101
+
+~/Desktop/test% wti status
+# Gathering information on test ts
+en: 100% translated, 100% completed.
+fr: 100% translated, 100% completed.
+~/Desktop/test% echo $?   
+0
+```
 
 # License
 
