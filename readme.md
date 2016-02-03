@@ -233,6 +233,7 @@ Since version 2.4.1 the `wti status` command also returns meaningful codes. It w
 # Gathering information on test ts
 $fr: 40% translated, 40% completed.
 en: 90% translated, 0% completed.
+
 ~/Desktop/test% echo $?
 100
 
@@ -240,6 +241,7 @@ en: 90% translated, 0% completed.
 # Gathering information on test ts
 en: 100% translated, 0% completed.
 fr: 100% translated, 100% completed.
+
 ~/Desktop/test% echo $?
 101
 
@@ -247,6 +249,7 @@ fr: 100% translated, 100% completed.
 # Gathering information on test ts
 en: 100% translated, 100% completed.
 fr: 100% translated, 100% completed.
+
 ~/Desktop/test% echo $?   
 0
 ```
