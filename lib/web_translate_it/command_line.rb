@@ -224,6 +224,7 @@ module WebTranslateIt
       end
       puts "You can now use `wti` to push and pull your language files."
       puts "Check `wti --help` for help."
+      return true
     end
     
     def match
