@@ -1,4 +1,4 @@
-## Edge - unreleased
+## Version 2.4.1 / 2016-02-03
 
 * `wti status` now returns a status code when a project is not 100% translated or not 100% proofread. #127
   Status codes are:
