@@ -257,4 +257,4 @@ fr: 100% translated, 100% completed.
 
 # License
 
-Copyright (c) 2009-2015 Atelier Convivialité, released under the MIT License.
+Copyright (c) 2009-2016 Atelier Convivialité, released under the MIT License.
