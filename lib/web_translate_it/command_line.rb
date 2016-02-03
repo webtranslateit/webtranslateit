@@ -196,7 +196,7 @@ module WebTranslateIt
       project_info = project['project']
       if File.exists?(path) && !File.writable?(path)
         puts StringUtil.failure("Error: `#{path}` file is not writable.")
-        exit
+        exit 1
       end
       File.open(path, 'w'){ |file| file << generate_configuration(api_key, project_info) }
       puts ""

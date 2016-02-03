@@ -16,7 +16,7 @@ module WebTranslateIt
           else
             puts "An error occured while fetching the project information:"
             puts StringUtil.failure(response.body)
-            exit
+            exit 1
           end
         end
       rescue Timeout::Error
