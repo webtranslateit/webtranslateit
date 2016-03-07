@@ -4,7 +4,7 @@
   Status codes are:
   - 100 if not 100% translated,
   - 101 if not 100% proofread,
-  - 1 if project is 100% translated and proofread.
+  - 0 if project is 100% translated and proofread.
 * `wti init` now returns a successful status code. #126
 
 ## Version 2.4.0 / 2015-08-10
