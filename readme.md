@@ -162,6 +162,10 @@ Append `--help` for each command for more information. For instance:
     <td>Download all language files, including source</td>
   </tr>
   <tr>
+    <td>wti pull path/to/files/*</td>
+    <td>Download all files in path/to/files</td>
+  </tr>
+  <tr>
     <td>wti pull --force</td>
     <td>Force pull (to bypass WebTranslateIt’s HTTP caching)</td>
   </tr>
