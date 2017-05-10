@@ -15,12 +15,21 @@ module WebTranslateIt
     attr_accessor :logger, :before_pull, :after_pull, :before_push, :after_push, :project_name, :path_to_config_file
     
     # Load configuration file from the path.
-    def initialize(root_path = Rails.root, path_to_config_file = ".wti")
+    def initialize(root_path = Rails.root, path_to_config_file = ".wti", project = nil)
       self.path_to_config_file = path_to_config_file
       self.path           = root_path
       self.logger         = logger
       if File.exists?(File.expand_path(path_to_config_file, self.path))
-        self.api_key        = configuration['api_key']
+        if project
+          if configuration[project]
+            self.api_key    = configuration[project]['api_key']
+          else
+            puts StringUtil.failure("\nCan't find the #{project} project configured in .wti file")
+            exit(1)
+          end
+        else
+          self.api_key      = configuration['default']['api_key']
+        end
         self.before_pull    = configuration['before_pull']
         self.after_pull     = configuration['after_pull']
         self.before_push    = configuration['before_push']

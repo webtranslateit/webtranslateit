@@ -25,7 +25,7 @@ module WebTranslateIt
         else
           message = "Gathering information"
         end
-        throb { print "  #{message}"; self.configuration = WebTranslateIt::Configuration.new(project_path, configuration_file_path); print " #{message} on #{self.configuration.project_name}"; }
+        throb { print "  #{message}"; self.configuration = WebTranslateIt::Configuration.new(project_path, configuration_file_path, command_options[:project]); print " #{message} on #{self.configuration.project_name}"; }
       end
       success = self.send(command)
       exit 1 if !success
