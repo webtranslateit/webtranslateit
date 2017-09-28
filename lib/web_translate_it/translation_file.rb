@@ -50,7 +50,7 @@ module WebTranslateIt
           FileUtils.mkpath(self.file_path.split('/')[0..-2].join('/')) unless File.exist?(self.file_path) or self.file_path.split('/')[0..-2].join('/') == ""
           begin
             response = http_connection.request(request)
-            File.open(self.file_path, 'wb'){ |file| file << response.body } if response.code.to_i == 200 and response.body != ''
+            File.open(self.file_path, 'wb'){ |file| file << response.body } if response.code.to_i == 200
             display.push Util.handle_response(response)
           rescue Timeout::Error
             puts StringUtil.failure("Request timeout. Will retry in 5 seconds.")

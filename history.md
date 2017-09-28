@@ -1,3 +1,7 @@
+## Version 2.4.2 / 2017-09-28
+
+* Fixed an issue where a file would not be created if its content was empty.
+
 ## Version 2.4.1 / 2016-02-03
 
 * `wti status` now returns a status code when a project is not 100% translated or not 100% proofread. #127
