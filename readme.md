@@ -150,6 +150,10 @@ Append `--help` for each command for more information. For instance:
     <td>Update all language files at once</td>
   </tr>
   <tr>
+    <td>wti push path/to/file.yml</td>
+    <td>Pushes the path/to/file.yml file</td>
+  </tr>
+  <tr>
     <td>wti pull</td>
     <td>Download target language files</td>
   </tr>
