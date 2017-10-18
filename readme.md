@@ -59,15 +59,16 @@ The reason is that the wti file is named in another way: `/usr/bin/wti.ruby2.1` 
 Now that the tool is installed, you’ll have to configure your project. Basically, `wti` is to be run on a project root directory, and looks for a `.wti` file containing your project information. The command `wti init` lets your create your `.wti` file.
 
 ``` bash
-$ wti init 55555abc1235555
+$ wti init proj_pvt_V8skdjsdDDA4
 # Initializing project
 
- Your project was successfully initialized.
+ The project Frontend was successfully initialized.
+
 You can now use `wti` to push and pull your language files.
 Check `wti --help` for help.
 ```
 
-`55555abc1235555` is the API token, which you can find in your project settings.
+`proj_pvt_V8skdjsdDDA4` is the API token, which you can find in your project settings.
 
 If you’d like to specify another path for your configuration file, you can use `wti init`. This command will ask you to enter your project API token and where to save the configuration file (by default it will create a `.wti` in your project root directory).
 
@@ -100,15 +101,21 @@ Execute `wti --help` to see the usage:
 Append `--help` for each command for more information. For instance:
 
     $ wti push --help
-    Push master language file(s)
+    wti push [filename] - Push master language file(s)
     [options] are:
-          --locale, -l <s>:   ISO code of locale(s) to push
-                 --all, -a:   Upload all files
-        --low-priority, -o:   WTI will process this file with a low priority
-               --merge, -m:   Force WTI to merge this file
-      --ignore-missing, -i:   Force WTI to not obsolete missing strings
-           --label, -b <s>:   Apply a label to the changes
-                --help, -h:   Show this message
+      -l, --locale=<s>        ISO code of locale(s) to push
+      -t, --target            Upload all target files
+      -f, --force             Force push (bypass conditional requests to WTI)
+      -o, --low-priority      WTI will process this file with a low priority
+      -m, --merge             Force WTI to merge this file
+      -i, --ignore-missing    Force WTI to not obsolete missing strings
+      -n, --minor             Minor Changes. When pushing a master file, prevents
+                              target translations to be flagged as `to_verify`.
+      -a, --label=<s>         Apply a label to the changes
+      -c, --config=<s>        Path to a configuration file (default: .wti)
+      --all                   DEPRECATED -- See `wti push --target` instead
+      -d, --debug             Display debug information
+      -h, --help              Show this message
 
 ## Sample Commands
 
@@ -265,4 +272,4 @@ fr: 100% translated, 100% completed.
 
 # License
 
-Copyright (c) 2009-2016 Atelier Convivialité, released under the MIT License.
+Copyright (c) 2009-2017 Atelier Convivialité, released under the MIT License.
