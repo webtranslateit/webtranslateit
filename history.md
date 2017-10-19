@@ -3,6 +3,12 @@
 * Clearer error message when no files to push. #136
 * New: ability to pull by file name and language. #133
   Example: `wti pull config/locales/app/* -l en`
+* New: `wti pull [filepath]` now pulls files matching a
+  [glob](https://en.wikipedia.org/wiki/Glob_(programming)) match
+  on the files hosted on WebTranslateIt.com (instead of relying on
+  shell’s list of files which might not exist on the first pull). Close #137.
+  This shouldn’t change existing commands but allows typing something like:
+  `wti pull config/locales/*/en.yml` to download only the `en` files.
 
 ## Version 2.4.2 / 2017-09-28
 
