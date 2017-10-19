@@ -1,6 +1,8 @@
 ## Edge
 
 * Clearer error message when no files to push. #136
+* New: ability to pull by file name and language. #133
+  Example: `wti pull config/locales/app/* -l en`
 
 ## Version 2.4.2 / 2017-09-28
 
