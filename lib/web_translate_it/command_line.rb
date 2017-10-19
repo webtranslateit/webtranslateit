@@ -83,7 +83,7 @@ module WebTranslateIt
             files = configuration.files.find_all{ |file| file.locale == locale }.sort{|a,b| a.file_path <=> b.file_path}
           end
           if files.size == 0
-            puts "No files to push."
+            puts "Couldn't find any local files registered on WebTranslateIt to push."
           else
             files.each do |file|
               success = file.upload(http, command_options[:merge], command_options.ignore_missing, command_options.label, command_options.low_priority, command_options[:minor], command_options.force)

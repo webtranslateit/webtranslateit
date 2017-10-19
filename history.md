@@ -1,3 +1,7 @@
+## Edge
+
+* Clearer error message when no files to push. #136
+
 ## Version 2.4.2 / 2017-09-28
 
 * Fixed an issue where a file would not be created if its content was empty.
