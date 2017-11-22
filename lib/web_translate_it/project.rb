@@ -41,7 +41,7 @@ module WebTranslateIt
           request = Net::HTTP::Get.new("/api/projects/#{api_key}/stats.yaml")
           request.add_field("X-Client-Name", "web_translate_it")
           request.add_field("X-Client-Version", WebTranslateIt::Util.version)
-          return Util.handle_response(http.request(request), true)
+          Util.handle_response(http.request(request), true)
         end
       rescue Timeout::Error
         puts "Request timeout. Will retry in 5 seconds."

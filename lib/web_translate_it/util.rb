@@ -22,13 +22,13 @@ module WebTranslateIt
         if raise_exception
           raise "Error: #{MultiJson.load(response.body)['error']}"
         else
-          StringUtil.failure(MultiJson.load(response.body)['error'])
+          puts StringUtil.failure(MultiJson.load(response.body)['error'])
         end
       elsif response.code.to_i == 500
         if raise_exception
           raise "Error: Server temporarily unavailable (Error 500)."
         else
-          StringUtil.failure("Error: Server temporarily unavailable (Error 500).")
+          puts StringUtil.failure("Error: Server temporarily unavailable (Error 500).")
         end
       else
         return response.body if return_response

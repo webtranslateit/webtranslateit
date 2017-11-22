@@ -9,6 +9,11 @@
   shell’s list of files which might not exist on the first pull). Close #137.
   This shouldn’t change existing commands but allows typing something like:
   `wti pull config/locales/*/en.yml` to download only the `en` files.
+* Fix: Report error messages when running commands such as:
+  - wti rmlocale xxx
+  - wti addlocale xxx
+  - wti status
+  #139
 
 ## Version 2.4.2 / 2017-09-28
 
