@@ -1,4 +1,4 @@
-## Edge
+## Version 2.4.3 / 2017-11-22
 
 * Clearer error message when no files to push. #136
 * New: ability to pull by file name and language. #133
