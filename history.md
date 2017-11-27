@@ -1,3 +1,7 @@
+## Version 2.4.4 / 2017-11-27
+
+* Fix issue on `wti status` command.
+
 ## Version 2.4.3 / 2017-11-22
 
 * Clearer error message when no files to push. #136
