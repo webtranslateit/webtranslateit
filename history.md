@@ -1,3 +1,7 @@
+## Version 2.4.5 / 2017-12-21
+
+* Fix issue pulling multiple files. #142
+
 ## Version 2.4.4 / 2017-11-27
 
 * Fix issue on `wti status` command.
