@@ -1,3 +1,7 @@
+## Version 2.4.6 / 2018-02-28
+
+* Fix SSL issue.
+
 ## Version 2.4.5 / 2017-12-21
 
 * Fix issue pulling multiple files. #142
