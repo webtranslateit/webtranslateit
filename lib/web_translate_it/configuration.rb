@@ -30,6 +30,7 @@ module WebTranslateIt
         set_locales_needed(configuration)
         set_files(project_info['project'])
         set_locales(project_info['project'])
+        WebTranslateIt::Connection.turn_silent_on if configuration['silence_errors']
         self.project_name = project_info['project']['name']
       else
         puts StringUtil.failure("\nCan't find a configuration file in #{File.expand_path(path_to_config_file, self.path)}")

@@ -1,3 +1,7 @@
+## Version 2.4.7 / 2018-03-28
+
+* Add an option to .wti file to silence SSL errors.
+
 ## Version 2.4.6 / 2018-02-28
 
 * Fix SSL issue.

@@ -4,3 +4,6 @@ api_key: 4af21ce1fb3a4f7127a60b31ebc41c1446b38bb2
 # Optional: locales not to sync with Web Translate It.
 # eg. [:en, :fr] or just 'en'
 # ignore_locales: :en
+
+# Silence SSL errors
+# silence_errors: true
