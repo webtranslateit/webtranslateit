@@ -40,6 +40,12 @@ module WebTranslateIt
       end
     end
     
+    def self.add_fields(request)
+      request.add_field("X-Client-Name", "web_translate_it")
+      request.add_field("X-Client-Version", version)
+      request.add_field("Content-Type", "application/json")
+    end
+    
     ##
     # Ask a question. Returns a true for yes, false for no, default for nil.
     

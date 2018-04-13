@@ -58,9 +58,7 @@ module WebTranslateIt
       url += '?' + HashUtil.to_params("filters" => params) unless params.empty?
 
       request = Net::HTTP::Get.new(url)
-      request.add_field("X-Client-Name", "web_translate_it")
-      request.add_field("X-Client-Version", WebTranslateIt::Util.version)
-
+      WebTranslateIt::Util.add_fields(request)
       begin
         strings = []
         while(request) do
@@ -73,8 +71,7 @@ module WebTranslateIt
           if response["Link"] && response["Link"].include?("rel=\"next\"")
             url = response["Link"].match(/<(.*)>; rel="next"/)[1]
             request = Net::HTTP::Get.new(url)
-            request.add_field("X-Client-Name", "web_translate_it")
-            request.add_field("X-Client-Version", WebTranslateIt::Util.version)
+            WebTranslateIt::Util.add_fields(request)
           else
             request = nil
           end
@@ -110,9 +107,7 @@ module WebTranslateIt
       success = true
       tries ||= 3
       request = Net::HTTP::Get.new("/api/projects/#{Connection.api_key}/strings/#{id}.yaml")
-      request.add_field("X-Client-Name", "web_translate_it")
-      request.add_field("X-Client-Version", WebTranslateIt::Util.version)
-
+      WebTranslateIt::Util.add_fields(request)
       begin
         response = Connection.http_connection.request(request)
         return nil if response.code.to_i == 404
@@ -160,9 +155,7 @@ module WebTranslateIt
       success = true
       tries ||= 3
       request = Net::HTTP::Delete.new("/api/projects/#{Connection.api_key}/strings/#{self.id}")
-      request.add_field("X-Client-Name", "web_translate_it")
-      request.add_field("X-Client-Version", WebTranslateIt::Util.version)
-
+      WebTranslateIt::Util.add_fields(request)
       begin
         Util.handle_response(Connection.http_connection.request(request), true, true)
       rescue Timeout::Error
@@ -194,9 +187,7 @@ module WebTranslateIt
       return translation if translation
       return nil if self.new_record
       request = Net::HTTP::Get.new("/api/projects/#{Connection.api_key}/strings/#{self.id}/locales/#{locale}/translations.yaml")
-      request.add_field("X-Client-Name", "web_translate_it")
-      request.add_field("X-Client-Version", WebTranslateIt::Util.version)
-
+      WebTranslateIt::Util.add_fields(request)
       begin
         response = Util.handle_response(Connection.http_connection.request(request), true, true)
         hash = YAML.load(response)
@@ -225,9 +216,7 @@ module WebTranslateIt
       success = true
       tries ||= 3
       request = Net::HTTP::Put.new("/api/projects/#{Connection.api_key}/strings/#{self.id}.yaml")
-      request.add_field("X-Client-Name", "web_translate_it")
-      request.add_field("X-Client-Version", WebTranslateIt::Util.version)
-      request.add_field("Content-Type", "application/json")
+      WebTranslateIt::Util.add_fields(request)
       request.body = self.to_json
       
       self.translations.each do |translation|
@@ -256,11 +245,8 @@ module WebTranslateIt
       success = true
       tries ||= 3
       request = Net::HTTP::Post.new("/api/projects/#{Connection.api_key}/strings")
-      request.add_field("X-Client-Name", "web_translate_it")
-      request.add_field("X-Client-Version", WebTranslateIt::Util.version)
-      request.add_field("Content-Type", "application/json")
+      WebTranslateIt::Util.add_fields(request)
       request.body = self.to_json(true)
-
       begin
         response = YAML.load(Util.handle_response(Connection.http_connection.request(request), true, true))
         self.id = response["id"]

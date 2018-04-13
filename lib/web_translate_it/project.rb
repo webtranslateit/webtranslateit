@@ -8,8 +8,7 @@ module WebTranslateIt
       begin
         WebTranslateIt::Connection.new(api_key) do |http|
           request = Net::HTTP::Get.new("/api/projects/#{api_key}.yaml")
-          request.add_field("X-Client-Name", "web_translate_it")
-          request.add_field("X-Client-Version", WebTranslateIt::Util.version)
+          WebTranslateIt::Util.add_fields(request)
           response = http.request(request)
           if response.is_a?(Net::HTTPSuccess)
             return response.body
@@ -39,8 +38,7 @@ module WebTranslateIt
       begin
         WebTranslateIt::Connection.new(api_key) do |http|
           request = Net::HTTP::Get.new("/api/projects/#{api_key}/stats.yaml")
-          request.add_field("X-Client-Name", "web_translate_it")
-          request.add_field("X-Client-Version", WebTranslateIt::Util.version)
+          WebTranslateIt::Util.add_fields(request)
           return Util.handle_response(http.request(request), true)
         end
       rescue Timeout::Error
@@ -60,8 +58,7 @@ module WebTranslateIt
       tries ||= 3
       begin
         request = Net::HTTP::Post.new("/api/projects/#{Connection.api_key}/locales")
-        request.add_field("X-Client-Name", "web_translate_it")
-        request.add_field("X-Client-Version", WebTranslateIt::Util.version)
+        WebTranslateIt::Util.add_fields(request)
         request.set_form_data({ 'id' => locale_code }, ';')
         Util.handle_response(Connection.http_connection.request(request), true)
       rescue Timeout::Error
@@ -81,8 +78,7 @@ module WebTranslateIt
       tries ||= 3
       begin
         request = Net::HTTP::Delete.new("/api/projects/#{Connection.api_key}/locales/#{locale_code}")
-        request.add_field("X-Client-Name", "web_translate_it")
-        request.add_field("X-Client-Version", WebTranslateIt::Util.version)
+        WebTranslateIt::Util.add_fields(request)
         Util.handle_response(Connection.http_connection.request(request), true)
       rescue Timeout::Error
         puts "Request timeout. Will retry in 5 seconds."
