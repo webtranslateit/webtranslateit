@@ -1,3 +1,7 @@
+## Version 2.4.8 / 2018-09-06
+
+* Update deprecated gem `Trollop` to `Optimist`.
+
 ## Version 2.4.7 / 2018-03-28
 
 * Add an option to .wti file to silence SSL errors.

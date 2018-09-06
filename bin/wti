@@ -2,7 +2,7 @@
 
 $PROGRAM_NAME = 'wti'
 
-require 'trollop'
+require 'optimist'
 require 'web_translate_it'
 
 show_commands = <<-EOS
@@ -18,14 +18,15 @@ The most commonly used wti commands are:
    rmlocale    Delete a locale from a project
    status      Fetch and display project statistics
    init        Configure your project to sync
+   configuser  Configure your user email
 
 See `wti <command> --help` for more information on a specific command.
 
 [options] are:
 EOS
 
-SUB_COMMANDS = %w(pull push match add addlocale status st init)
-global_options = Trollop::options do
+SUB_COMMANDS = %w(pull push match add addlocale status st init configuser)
+global_options = Optimist::options do
   stop_on SUB_COMMANDS
   banner show_commands
   version "wti version #{WebTranslateIt::Util.version}"
@@ -34,7 +35,7 @@ end
 command = ARGV.shift # get the subcommand
 command_options = case command
   when "pull"
-    Trollop::options do
+    Optimist::options do
       banner <<-EOS
 wti pull [filename] - Pull target language file(s)
 [options] are:
@@ -46,7 +47,7 @@ EOS
       opt :debug,  "Display debug information"
     end
   when "push"
-    Trollop::options do
+    Optimist::options do
       banner <<-EOS
 wti push [filename] - Push master language file(s)
 [options] are:
@@ -64,44 +65,49 @@ EOS
       opt :debug,  "Display debug information"
     end
   when "add"
-    Trollop::options do
+    Optimist::options do
       banner "wti add filename - Create and push a new master language file"
       opt :low_priority, "WTI will process this file with a low priority"
       opt :config, "Path to a configuration file", :short => "-c", :default => ".wti"
       opt :debug,  "Display debug information"
     end
   when "rm"
-    Trollop::options do
+    Optimist::options do
       banner "wti rm filename - Delete a master language file"
       opt :config, "Path to a configuration file", :short => "-c", :default => ".wti"
       opt :debug,  "Display debug information"
     end
   when "addlocale"
-    Trollop::options do
+    Optimist::options do
       banner "wti addlocale localename - Add a new locale to the project"
       opt :config, "Path to a configuration file", :short => "-c", :default => ".wti"
       opt :debug,  "Display debug information"
     end
   when "rmlocale"
-    Trollop::options do
+    Optimist::options do
       banner "wti rmlocale localename Delete a locale from the project"
       opt :config, "Path to a configuration file", :short => "-c", :default => ".wti"
       opt :debug,  "Display debug information"
     end
   when "status"
-    Trollop::options do
+    Optimist::options do
       banner "wti status - Fetch and display project statistics"
       opt :config, "Path to a configuration file", :short => "-c", :default => ".wti"
       opt :debug,  "Display debug information"
     end
   when "init"
-    Trollop::options do
+    Optimist::options do
       banner "wti init [api_token] - Configure your project to sync"
       opt :config, "Path to a configuration file", :short => "-c", :default => ".wti"
       opt :debug,  "Display debug information"
     end
+  when "configuser"
+    Optimist::options do
+      banner "wti configuser - Configure your user email"
+      opt :debug,  "Display debug information"
+    end
   when "match"
-    Trollop::options do
+    Optimist::options do
       banner "wti match - Display matching of local files with File Manager"
       opt :config, "Path to a configuration file", :short => "-c", :default => ".wti"
       opt :debug,  "Display debug information"
