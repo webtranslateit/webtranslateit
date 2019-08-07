@@ -1,6 +1,7 @@
 ## Edge
 
 * Fix issue referencing old `Trollop` library. #149
+* Fix issue with SSL certificates. If you encounter any issues you will need to update your CA certificates: https://github.com/AtelierConvivialite/webtranslateit/wiki/Update-CA-certificates
 
 ## Version 2.4.8 / 2018-09-06
 

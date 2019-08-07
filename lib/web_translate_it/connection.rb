@@ -36,11 +36,6 @@ module WebTranslateIt
       http.set_debug_output($stderr) if @@debug
       begin
         http.verify_mode  = OpenSSL::SSL::VERIFY_PEER
-        if File.exists?('/etc/ssl/certs') # Ubuntu
-          http.ca_path = '/etc/ssl/certs'
-        else
-          http.ca_file = File.expand_path('../cacert.pem', __FILE__)
-        end
         @@http_connection = http.start
         yield @@http_connection if block_given?
       rescue OpenSSL::SSL::SSLError
