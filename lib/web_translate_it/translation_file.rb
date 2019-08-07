@@ -222,7 +222,7 @@ module WebTranslateIt
       def api_url_for_delete
         "/api/projects/#{self.api_key}/files/#{self.id}"
       end
-            
+      
       def local_checksum
         require 'digest/sha1'
         begin
