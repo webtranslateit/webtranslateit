@@ -1,3 +1,7 @@
+## Edge
+
+* Fix issue referencing old `Trollop` library. #149
+
 ## Version 2.4.8 / 2018-09-06
 
 * Update deprecated gem `Trollop` to `Optimist`.

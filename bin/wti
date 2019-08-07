@@ -117,7 +117,7 @@ EOS
       puts show_commands
       exit
     else
-      Trollop::die "Unknown subcommand #{command.inspect}"
+      Optimist::die "Unknown subcommand #{command.inspect}"
     end
   end
 
