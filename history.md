@@ -1,3 +1,8 @@
+## (unreleased)
+
+* New command: `wti mv path/to/file.po newpath/to/file.po` to move a language file
+  both on your local working directory and on your WebTranslateIt project.
+
 ## Version 2.4.9 / 2019-08-07
 
 * Fix issue referencing old `Trollop` library. #149
