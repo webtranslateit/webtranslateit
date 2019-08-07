@@ -38,6 +38,18 @@ module WebTranslateIt
       end
     end
     
+    # Reload project data
+    #
+    def reload
+      project_info = YAML.load WebTranslateIt::Project.fetch_info(self.api_key)
+      set_locales_to_ignore(configuration)
+      set_locales_needed(configuration)
+      set_files(project_info['project'])
+      set_locales(project_info['project'])
+      WebTranslateIt::Connection.turn_silent_on if configuration['silence_errors']
+      self.project_name = project_info['project']['name']
+    end
+    
     # Set the project locales from the Project API.
     # Implementation example:
     #

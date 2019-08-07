@@ -18,6 +18,8 @@ module WebTranslateIt
           message = "Creating master files"
         when 'rm'
           message = "Deleting files"
+        when 'mv'
+          message = "Moving files"
         when 'addlocale'
           message = "Adding locale"
         when 'rmlocale'
@@ -127,7 +129,7 @@ module WebTranslateIt
       STDOUT.sync = true
       if parameters == []
         puts StringUtil.failure("Error: You must provide the path to the master file to remove.")
-        puts "Usage: wti path/to/rm master_file_1 path/to/master_file_2 ..."
+        puts "Usage: wti rm path/to/master_file_1 path/to/master_file_2 ..."
         exit
       end
       WebTranslateIt::Connection.new(configuration.api_key) do |http|
@@ -147,6 +149,39 @@ module WebTranslateIt
         end
       end
       puts StringUtil.success("Master file deleted.")
+      complete_success
+    end
+    
+    def mv
+      complete_success = true
+      STDOUT.sync = true
+      if parameters.count != 2
+        puts StringUtil.failure("Error: You must provide the source path and destination path of the master file to move.")
+        puts "Usage: wti mv path/to/master_file_old_path path/to/master_file_new_path ..."
+        exit
+      end
+      source = parameters[0]
+      destination = parameters[1]
+      WebTranslateIt::Connection.new(configuration.api_key) do |http|
+        if Util.ask_yes_no("Are you sure you want to move the master file #{source} and its target files?", true)
+          configuration.files.find_all{ |file| file.file_path == source }.each do |master_file|
+            master_file.upload(http, false, false, nil, false, false, true, true, destination)
+            # move master file
+            success = File.rename(source, destination) if File.exists?(source)
+            complete_success = false if !success
+            configuration.files.find_all{ |file| file.master_id == master_file.id }.each do |target_file|
+              success = File.delete(target_file.file_path) if File.exists?(target_file.file_path)
+              complete_success = false if !success
+            end
+            configuration.reload
+            configuration.files.find_all{ |file| file.master_id == master_file.id }.each do |target_file|
+              success = target_file.fetch(http)
+              complete_success = false if !success
+            end
+          end
+        end
+      end
+      puts StringUtil.success("Master file and target files renamed from #{source} to #{destination}.")
       complete_success
     end
     

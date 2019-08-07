@@ -82,7 +82,7 @@ module WebTranslateIt
     #
     # Note that the request might or might not eventually be acted upon, as it might be disallowed when processing
     # actually takes place. This is due to the fact that language file imports are handled by background processing.
-    def upload(http_connection, merge=false, ignore_missing=false, label=nil, low_priority=false, minor_changes=false, force=false)
+    def upload(http_connection, merge=false, ignore_missing=false, label=nil, low_priority=false, minor_changes=false, force=false, rename_others=false, destination_path=nil)
       success = true
       tries ||= 3
       display = []
@@ -92,7 +92,10 @@ module WebTranslateIt
 	      if force or self.remote_checksum != self.local_checksum
           File.open(self.file_path) do |file|
             begin
-              request = Net::HTTP::Put::Multipart.new(api_url, {"file" => UploadIO.new(file, "text/plain", file.path), "merge" => merge, "ignore_missing" => ignore_missing, "label" => label, "low_priority" => low_priority, "minor_changes" => minor_changes })
+              params = {"file" => UploadIO.new(file, "text/plain", file.path), "merge" => merge, "ignore_missing" => ignore_missing, "label" => label, "low_priority" => low_priority, "minor_changes" => minor_changes }
+              params["name"] = destination_path unless destination_path.nil?
+              params["rename_others"] = rename_others
+              request = Net::HTTP::Put::Multipart.new(api_url, params)
               WebTranslateIt::Util.add_fields(request)
               display.push Util.handle_response(http_connection.request(request))
             rescue Timeout::Error
@@ -169,24 +172,22 @@ module WebTranslateIt
       display = []
       display.push file_path
       if File.exists?(self.file_path)
-        File.open(self.file_path) do |file|
-          begin
-            request = Net::HTTP::Delete.new(api_url_for_delete)
-            WebTranslateIt::Util.add_fields(request)
-            display.push Util.handle_response(http_connection.request(request))
-            puts ArrayUtil.to_columns(display)
-          rescue Timeout::Error
-            puts StringUtil.failure("Request timeout. Will retry in 5 seconds.")
-            if (tries -= 1) > 0
-              sleep(5)
-              retry
-            else
-              success = false
-            end
-          rescue
-            display.push StringUtil.failure("An error occured: #{$!}")
+        begin
+          request = Net::HTTP::Delete.new(api_url_for_delete)
+          WebTranslateIt::Util.add_fields(request)
+          display.push Util.handle_response(http_connection.request(request))
+          puts ArrayUtil.to_columns(display)
+        rescue Timeout::Error
+          puts StringUtil.failure("Request timeout. Will retry in 5 seconds.")
+          if (tries -= 1) > 0
+            sleep(5)
+            retry
+          else
             success = false
           end
+        rescue
+          display.push StringUtil.failure("An error occured: #{$!}")
+          success = false
         end
       else
         puts StringUtil.failure("\nFile #{self.file_path} doesn't exist!")
@@ -221,7 +222,7 @@ module WebTranslateIt
       def api_url_for_delete
         "/api/projects/#{self.api_key}/files/#{self.id}"
       end
-      
+            
       def local_checksum
         require 'digest/sha1'
         begin
