@@ -37,7 +37,7 @@ module WebTranslateIt
         exit(1)
       end
     end
-        
+    
     # Set the project locales from the Project API.
     # Implementation example:
     #
