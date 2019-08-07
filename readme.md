@@ -7,7 +7,7 @@
 
 wti lets you easily sync your language files with [WebTranslateIt.com](https://webtranslateit.com), a web-based tool to translation software.
 
-<img src="https://s3.amazonaws.com/f.cl.ly/items/27192V1K263K2O433h2g/webtranslateit_com_%E2%80%94_edouard_Edouards-MacBook-Pro-2____code_webtranslateit_com_%E2%80%94___anslateit_com_%E2%80%94_zsh_%E2%80%94_80%C3%9740.png" alt="WebTranslateIt Synchronization Tool" width="500px">
+<img src="https://edouard.baconfile.com.s3.us-east-1.amazonaws.com/web_translate_it/wti4.png" alt="WebTranslateIt Synchronization Tool" width="500px">
 
 ### wti...
 
