@@ -14,18 +14,18 @@ The most commonly used wti commands are:
    match       Display matching of local files with File Manager
    add         Create and push a new master language file
    rm          Delete a master language file from a project
+   mv          Moves a file both locally and from a project
    addlocale   Add a new locale to the project
    rmlocale    Delete a locale from a project
    status      Fetch and display project statistics
    init        Configure your project to sync
-   configuser  Configure your user email
 
 See `wti <command> --help` for more information on a specific command.
 
 [options] are:
 EOS
 
-SUB_COMMANDS = %w(pull push match add addlocale status st init configuser)
+SUB_COMMANDS = %w(pull push match add rm mv addlocale rmlocale status st init)
 global_options = Optimist::options do
   stop_on SUB_COMMANDS
   banner show_commands
@@ -105,11 +105,6 @@ EOS
     Optimist::options do
       banner "wti init [api_token] - Configure your project to sync"
       opt :config, "Path to a configuration file", short: "-c", default: ".wti"
-      opt :debug,  "Display debug information"
-    end
-  when "configuser"
-    Optimist::options do
-      banner "wti configuser - Configure your user email"
       opt :debug,  "Display debug information"
     end
   when "match"
