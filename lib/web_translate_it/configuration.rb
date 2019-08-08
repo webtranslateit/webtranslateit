@@ -33,7 +33,7 @@ module WebTranslateIt
         WebTranslateIt::Connection.turn_silent_on if configuration['silence_errors']
         self.project_name = project_info['project']['name']
       else
-        puts StringUtil.failure("\nCan't find a configuration file in #{File.expand_path(path_to_config_file, self.path)}")
+        puts StringUtil.failure("\nNo configuration file found in #{File.expand_path(path_to_config_file, self.path)}")
         exit(1)
       end
     end
