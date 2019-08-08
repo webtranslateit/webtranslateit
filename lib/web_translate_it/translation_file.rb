@@ -116,7 +116,7 @@ module WebTranslateIt
         end
         puts ArrayUtil.to_columns(display)
       else
-        puts StringUtil.failure("Can't push #{self.file_path}. File doesn't exist.")
+        puts StringUtil.failure("Can't push #{self.file_path}. File doesn't exist locally.")
       end
       return success
     end
@@ -159,7 +159,7 @@ module WebTranslateIt
           end
         end
       else
-        puts StringUtil.failure("\nFile #{self.file_path} doesn't exist!")
+        puts StringUtil.failure("\nFile #{self.file_path} doesn't exist locally!")
       end
       return success
     end
@@ -190,7 +190,7 @@ module WebTranslateIt
           success = false
         end
       else
-        puts StringUtil.failure("\nFile #{self.file_path} doesn't exist!")
+        puts StringUtil.failure("\nMaster file #{self.file_path} doesn't exist locally!")
       end
       return success
     end
