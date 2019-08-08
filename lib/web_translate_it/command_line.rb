@@ -180,21 +180,26 @@ module WebTranslateIt
           configuration.files.find_all{ |file| file.file_path == source }.each do |master_file|
             master_file.upload(http, false, false, nil, false, false, true, true, destination)
             # move master file
-            success = File.rename(source, destination) if File.exists?(source)
+            if File.exists?(source)
+              success = File.rename(source, destination) if File.exists?(source)
+              puts StringUtil.success("Moved master file #{master_file.file_path}.") if success
+            end
             complete_success = false if !success
             configuration.files.find_all{ |file| file.master_id == master_file.id }.each do |target_file|
-              success = File.delete(target_file.file_path) if File.exists?(target_file.file_path)
-              complete_success = false if !success
+              if File.exists?(target_file.file_path)
+                success = File.delete(target_file.file_path)
+                complete_success = false if !success
+              end
             end
             configuration.reload
             configuration.files.find_all{ |file| file.master_id == master_file.id }.each do |target_file|
               success = target_file.fetch(http)
               complete_success = false if !success
             end
+            puts StringUtil.success("All done.") if complete_success
           end
         end
       end
-      puts StringUtil.success("Master file and target files renamed from #{source} to #{destination}.")
       complete_success
     end
     
