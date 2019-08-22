@@ -19,7 +19,6 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency "rspec", ">= 2.6.0"
   s.add_development_dependency "guard-rspec"
-  s.has_rdoc         = true
   s.rdoc_options     = ["--main", "readme.md"]
   s.extra_rdoc_files = ["history.md", "readme.md"]
 
@@ -28,5 +27,4 @@ Gem::Specification.new do |s|
   s.require_path       = 'lib'
   s.bindir             = 'bin'
   s.executables        = 'wti'
-  s.default_executable = 'wti'  
 end
