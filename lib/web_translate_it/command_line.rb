@@ -46,7 +46,7 @@ module WebTranslateIt
       parameters.each do |parameter|
         found_files += files.find_all{ |file| File.fnmatch(parameter, file.file_path) }
       end
-      files = found_files if found_files.any?
+      files = found_files
       files = files.uniq.sort{ |a,b| a.file_path <=> b.file_path }
       if files.size == 0
         puts "No files to pull."

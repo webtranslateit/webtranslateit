@@ -1,7 +1,8 @@
-## (unreleased)
+## Version 2.4.10 / 2019-10-21
 
 * New command: `wti mv path/to/file.po newpath/to/file.po` to move a language file
   both on your local working directory and on your WebTranslateIt project.
+* Fix: `wti pull something` now doesn’t pull anything if no files match what needs to be pulled. Close #151.
 
 ## Version 2.4.9 / 2019-08-07
 
