@@ -1,3 +1,7 @@
+## Version 2.4.11 / 2019-10-22
+
+* Fix for `wti pull` without parameters.
+
 ## Version 2.4.10 / 2019-10-21
 
 * New command: `wti mv path/to/file.po newpath/to/file.po` to move a language file
