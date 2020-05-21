@@ -36,7 +36,7 @@ module WebTranslateIt
     #   file.fetch # returns nothing, with a status 304 Not Modified
     #   file.fetch(true) # force to re-download the file, will return the content of the file with a 200 OK
     #
-    def fetch(http_connection, force = false)
+    def fetch(http_connection, logger, force = false)
       success = true
       tries ||= 3
       display = []
@@ -49,7 +49,8 @@ module WebTranslateIt
           FileUtils.mkpath(self.file_path.split('/')[0..-2].join('/')) unless File.exist?(self.file_path) or self.file_path.split('/')[0..-2].join('/') == ""
           begin
             response = http_connection.request(request)
-            File.open(self.file_path, 'wb'){ |file| file << response.body } if response.code.to_i == 200
+            valid = response.code.to_i == 200 && !!YAML.safe_load(response.body)
+            File.open(self.file_path, 'wb'){ |file| file << response.body } if valid
             display.push Util.handle_response(response)
           rescue Timeout::Error
             puts StringUtil.failure("Request timeout. Will retry in 5 seconds.")
@@ -59,6 +60,12 @@ module WebTranslateIt
             else
               success = false
             end
+          rescue Psych::SyntaxError => e
+            message = "Could not parse file #{file_path} with id=#{id}"
+            display.push StringUtil.failure("Skipped translation: #{message}")
+            logger&.error(e)
+            logger&.error(message)
+            success = false
           rescue
             display.push StringUtil.failure("An error occured: #{$!}")
             success = false
