@@ -1,3 +1,9 @@
+## Version 2.4.12 / 2021-06-30
+
+* Add ability to pass project API token as an ENV variable. You can run:
+  `export WTI_PROJECT_API_KEY=[my_api_token]`
+  `wti pull`
+
 ## Version 2.4.11 / 2019-10-22
 
 * Fix for `wti pull` without parameters.

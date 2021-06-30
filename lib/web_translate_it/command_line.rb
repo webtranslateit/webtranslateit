@@ -113,7 +113,7 @@ module WebTranslateIt
         to_add = parameters.reject{ |param| added.include?(File.expand_path(param))}
         if to_add.any?
           to_add.each do |param|
-            file = TranslationFile.new(nil, param, nil, configuration.api_key)
+            file = TranslationFile.new(nil, param.gsub(/ /, "\\ "), nil, configuration.api_key)
             success = file.create(http, command_options.low_priority)
             complete_success = false if !success
           end
