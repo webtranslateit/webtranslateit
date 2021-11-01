@@ -97,7 +97,7 @@ EOS
     end
   when "status"
     Optimist::options do
-      banner "wti status - Fetch and display project statistics"
+      banner "wti status - Fetch and display project statistics. Returns 100 if untranslated strings or 101 if unproof read strings exist in project."
       opt :config, "Path to a configuration file", short: "-c", default: ".wti"
       opt :debug,  "Display debug information"
     end
