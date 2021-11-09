@@ -16,6 +16,7 @@
  i18nextv4.json                                     | 84d6cdf..8776cb3  OK
  test.txt                                           | 8f305f3..7a1a5db  OK
 ```
+* Improve help on `wti status` documentation.
 
 ## Version 2.4.12 / 2021-06-30
 
