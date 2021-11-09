@@ -1,3 +1,22 @@
+## Edge
+
+* Display files that are being updated on WebTranslateIt but are not ready to be downloaded by a `*`.
+
+``` bash
+~/Desktop/test% wti pull 
+# Pulling files on test 3
+*cs-CZ.de.yml                                       | 65a7fc8..65a7fc8  Skipped
+ en.yml                                             | ffd8096..ffd8096  Skipped
+ i18nextv4.de.json                                  | 142aca7..142aca7  Skipped
+*cs-CZ.yml                                          | 42c32a3..42c32a3  Skipped
+ de.yml                                             | 9dda491..9dda491  Skipped
+ test.de.json                                       | 48a9c13..48a9c13  Skipped
+ test.de.txt                                        | 8f305f3..8f305f3  Skipped
+ test.json                                          | 7a9478f..7a9478f  Skipped
+ i18nextv4.json                                     | 84d6cdf..8776cb3  OK
+ test.txt                                           | 8f305f3..7a1a5db  OK
+```
+
 ## Version 2.4.12 / 2021-06-30
 
 * Add ability to pass project API token as an ENV variable. You can run:

@@ -12,9 +12,9 @@ module WebTranslateIt
     require 'time'
     require 'fileutils'
     
-    attr_accessor :id, :file_path, :locale, :api_key, :updated_at, :remote_checksum, :master_id
+    attr_accessor :id, :file_path, :locale, :api_key, :updated_at, :remote_checksum, :master_id, :fresh
     
-    def initialize(id, file_path, locale, api_key, updated_at = nil, remote_checksum = "", master_id = nil)
+    def initialize(id, file_path, locale, api_key, updated_at = nil, remote_checksum = "", master_id = nil, fresh = nil)
       self.id         = id
       self.file_path  = file_path
       self.locale     = locale
@@ -22,6 +22,7 @@ module WebTranslateIt
       self.updated_at = updated_at
       self.remote_checksum = remote_checksum
       self.master_id  = master_id
+      self.fresh      = fresh
     end
     
     # Fetch a language file.
@@ -40,7 +41,11 @@ module WebTranslateIt
       success = true
       tries ||= 3
       display = []
-      display.push(self.file_path)
+      if self.fresh
+        display.push(self.file_path)
+      else
+        display.push("*#{self.file_path}")
+      end
       display.push "#{StringUtil.checksumify(self.local_checksum.to_s)}..#{StringUtil.checksumify(self.remote_checksum.to_s)}"
       if !File.exist?(self.file_path) or force or self.remote_checksum != self.local_checksum
         begin
