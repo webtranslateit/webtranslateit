@@ -1,4 +1,4 @@
-## Edge
+## Version 2.5.0 / 2021-11-15
 
 * Display files that are being updated on WebTranslateIt but are not ready to be downloaded by a `*`.
 
