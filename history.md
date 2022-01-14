@@ -1,3 +1,7 @@
+## Version 2.5.1 / 2021-11-15
+
+* Ruby 3.1.0 compatible.
+
 ## Version 2.5.0 / 2021-11-15
 
 * Display files that are being updated on WebTranslateIt but are not ready to be downloaded by a `*`.
