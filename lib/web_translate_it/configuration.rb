@@ -25,7 +25,7 @@ module WebTranslateIt
         self.after_pull     = configuration['after_pull']
         self.before_push    = configuration['before_push']
         self.after_push     = configuration['after_push']
-        project_info        = YAML.load WebTranslateIt::Project.fetch_info(api_key)
+        project_info        = YAML.safe_load WebTranslateIt::Project.fetch_info(api_key), permitted_classes: [Time]
         set_locales_to_ignore(configuration)
         set_locales_needed(configuration)
         set_files(project_info['project'])
