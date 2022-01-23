@@ -1,9 +1,9 @@
 # WebTranslateIt Synchronization Tool : wti
 
-[RubyDoc](http://rubydoc.info/github/AtelierConvivialite/webtranslateit/) | 
-[Report a bug](http://github.com/AtelierConvivialite/webtranslateit/issues) | 
-[Support](https://webtranslateit.com/support) |
-[WebTranslateIt.com Homepage](https://webtranslateit.com)
+[RubyDoc](https://rubydoc.info/github/webtranslateit/webtranslateit/master) | 
+[Report a bug](https://github.com/webtranslateit/webtranslateit/issues) | 
+[Support](https://webtranslateit.com/en/support) |
+[WebTranslateIt.com Homepage](https://webtranslateit.com/en)
 
 wti lets you easily sync your language files with [WebTranslateIt.com](https://webtranslateit.com), a web-based tool to translation software.
 
@@ -17,14 +17,14 @@ wti lets you easily sync your language files with [WebTranslateIt.com](https://w
 ### Optionally, wti does...
 
 * include a rack middleware you can use in your Rails app to automatically fetch new translations from WebTranslateIt.com.
-* include libraries you can use to programmatically fetch your segments from WebTranslateIt.com. See [Extras](https://github.com/AtelierConvivialite/webtranslateit/wiki/Extras)
-* include a web interface for your translation team to update your language files. [Learn more on the web_translate_it_server project page](https://github.com/AtelierConvivialite/web_translate_it_server).
+* include libraries you can use to programmatically fetch your segments from WebTranslateIt.com. See [Extras](https://github.com/webtranslateit/webtranslateit/wiki/Extras)
+* include a web interface for your translation team to update your language files. [Learn more on the web_translate_it_server project page](https://github.com/webtranslateit/web_translate_it_server).
 
 ---
 
 ## Installation
 
-You will also need ruby to run `wti`. On Linux or a Mac, it’s already installed. Install [RubyInstaller](http://rubyinstaller.org/) if you’re using Windows. [See detailed installation instructions for Windows users](https://github.com/AtelierConvivialite/webtranslateit/wiki/Install-wti-on-Windows).
+You will also need ruby to run `wti`. On Linux or a Mac, it’s already installed. Install [RubyInstaller](http://rubyinstaller.org/) if you’re using Windows. [See detailed installation instructions for Windows users](https://github.com/webtranslateit/webtranslateit/wiki/Install-wti-on-Windows).
 
 ``` bash
 $ gem install web_translate_it
@@ -213,7 +213,7 @@ There are 4 hooks:
 * `before_push`
 * `after_push`
 
-Check the [sample `.wti`](https://github.com/AtelierConvivialite/webtranslateit/blob/master/examples/.wti#L9..L13) file for implementation.
+Check the [sample `.wti`](https://github.com/webtranslateit/webtranslateit/blob/master/examples/.wti#L9..L13) file for implementation.
 
 ## Exit codes
 
@@ -276,4 +276,4 @@ fr: 100% translated, 100% completed.
 
 # License
 
-Copyright (c) 2009-2021 WebTranslateIt Software S.L, released under the MIT License.
+Copyright (c) 2009-2022 [WebTranslateIt Software S.L](https://webtranslateit.com), released under the MIT License.
