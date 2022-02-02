@@ -53,8 +53,8 @@ describe WebTranslateIt::Term do
         term.save
         term_fetched = WebTranslateIt::Term.find(term.id)
         term_fetched.translation_for("fr").should_not be_nil
-        term_fetched.translation_for("fr")[0].text.should == "Bonjour"
-        term_fetched.translation_for("fr")[1].text.should == "Salut"
+        term_fetched.translation_for("fr")[0].text.should == "Salut"
+        term_fetched.translation_for("fr")[1].text.should == "Bonjour"
         term_fetched.translation_for("es").should be_nil
         term.delete
       end
@@ -75,8 +75,8 @@ describe WebTranslateIt::Term do
 
         term_fetched = WebTranslateIt::Term.find(term.id)
         term_fetched.translation_for("fr").should_not be_nil
-        term_fetched.translation_for("fr")[0].text.should == "Bonjour"
-        term_fetched.translation_for("fr")[1].text.should == "Salut"
+        term_fetched.translation_for("fr")[0].text.should == "Salut"
+        term_fetched.translation_for("fr")[1].text.should == "Bonjour"
         term.delete
       end
     end
@@ -100,6 +100,9 @@ describe WebTranslateIt::Term do
   describe "#find_all" do
     it "should fetch many terms" do
       WebTranslateIt::Connection.new(api_key) do
+        terms = WebTranslateIt::Term.find_all
+        count = terms.count
+        
         term1 = WebTranslateIt::Term.new({ "text" => "greeting 1" })
         term1.save
         term2 = WebTranslateIt::Term.new({ "text" => "greeting 2" })
@@ -108,7 +111,7 @@ describe WebTranslateIt::Term do
         term3.save
 
         terms = WebTranslateIt::Term.find_all
-        terms.count.should == 3
+        count - terms.count.should == 3
 
         term1.delete
         term2.delete
