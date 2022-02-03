@@ -18,6 +18,7 @@ Gem::Specification.new do |s|
   s.add_dependency "multi_json"
 
   s.add_development_dependency "rspec", ">= 2.6.0"
+  s.add_development_dependency "rubocop"
   s.add_development_dependency 'simplecov'
   s.add_development_dependency "guard-rspec"
   s.rdoc_options     = ["--main", "readme.md"]
