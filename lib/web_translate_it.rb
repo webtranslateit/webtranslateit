@@ -17,7 +17,7 @@ require 'web_translate_it/project'
 
 module WebTranslateIt
 
-  def self.fetch_translations
+  def self.fetch_translations # rubocop:todo Metrics/AbcSize
     config = Configuration.new
     locale = I18n.locale.to_s
     return if config.ignore_locales.include?(locale)

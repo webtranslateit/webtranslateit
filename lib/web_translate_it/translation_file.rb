@@ -6,7 +6,7 @@ module WebTranslateIt
   # This class allows to manipulate TranslationFiles, more specifically upload and download them.
   # If you pass a Locale to the master language file you will be able to
   # manipulate a _target_ language file.
-  class TranslationFile
+  class TranslationFile # rubocop:todo Metrics/ClassLength
     require 'net/https'
     require 'net/http/post/multipart'
     require 'time'
@@ -14,7 +14,7 @@ module WebTranslateIt
     
     attr_accessor :id, :file_path, :locale, :api_key, :updated_at, :remote_checksum, :master_id, :fresh
     
-    def initialize(id, file_path, locale, api_key, updated_at = nil, remote_checksum = "", master_id = nil, fresh = nil)
+    def initialize(id, file_path, locale, api_key, updated_at = nil, remote_checksum = "", master_id = nil, fresh = nil) # rubocop:todo Metrics/ParameterLists
       self.id         = id
       self.file_path  = file_path
       self.locale     = locale
@@ -37,7 +37,7 @@ module WebTranslateIt
     #   file.fetch # returns nothing, with a status 304 Not Modified
     #   file.fetch(true) # force to re-download the file, will return the content of the file with a 200 OK
     #
-    def fetch(http_connection, force = false)
+    def fetch(http_connection, force = false) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
       success = true
       tries ||= 3
       display = []
@@ -87,7 +87,11 @@ module WebTranslateIt
     #
     # Note that the request might or might not eventually be acted upon, as it might be disallowed when processing
     # actually takes place. This is due to the fact that language file imports are handled by background processing.
-    def upload(http_connection, merge=false, ignore_missing=false, label=nil, low_priority=false, minor_changes=false, force=false, rename_others=false, destination_path=nil)
+    # rubocop:todo Metrics/PerceivedComplexity
+    # rubocop:todo Metrics/ParameterLists
+    # rubocop:todo Metrics/MethodLength
+    # rubocop:todo Metrics/AbcSize
+    def upload(http_connection, merge=false, ignore_missing=false, label=nil, low_priority=false, minor_changes=false, force=false, rename_others=false, destination_path=nil) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/ParameterLists, Metrics/PerceivedComplexity
       success = true
       tries ||= 3
       display = []
@@ -105,7 +109,7 @@ module WebTranslateIt
               display.push Util.handle_response(http_connection.request(request))
             rescue Timeout::Error
               puts StringUtil.failure("Request timeout. Will retry in 5 seconds.")
-              if (tries -= 1) > 0
+              if (tries -= 1) > 0 # rubocop:todo Metrics/BlockNesting
                 sleep(5)
                 retry
               else
@@ -125,6 +129,10 @@ module WebTranslateIt
       end
       return success
     end
+    # rubocop:enable Metrics/AbcSize
+    # rubocop:enable Metrics/MethodLength
+    # rubocop:enable Metrics/ParameterLists
+    # rubocop:enable Metrics/PerceivedComplexity
     
     # Create a master language file to Web Translate It by performing a POST Request.
     #
@@ -137,7 +145,7 @@ module WebTranslateIt
     # Note that the request might or might not eventually be acted upon, as it might be disallowed when processing
     # actually takes place. This is due to the fact that language file imports are handled by background processing.
     #
-    def create(http_connection, low_priority=false)
+    def create(http_connection, low_priority=false) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
       success = true
       tries ||= 3
       display = []
@@ -171,7 +179,7 @@ module WebTranslateIt
     
     # Delete a master language file from Web Translate It by performing a DELETE Request.
     #
-    def delete(http_connection)
+    def delete(http_connection) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
       success = true
       tries ||= 3
       display = []

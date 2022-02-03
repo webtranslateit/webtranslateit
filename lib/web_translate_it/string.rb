@@ -1,6 +1,6 @@
 # encoding: utf-8
 module WebTranslateIt
-  class String
+  class String # rubocop:todo Metrics/ClassLength
     require 'multi_json'
     
     attr_accessor :id, :key, :plural, :type, :dev_comment, :word_count, :status, :category, :labels, :file,
@@ -20,7 +20,7 @@ module WebTranslateIt
     #
     # to instantiate a new String with a source and target translation.
     
-    def initialize(params = {})
+    def initialize(params = {}) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
       params.stringify_keys!
       self.id           = params["id"] || nil
       self.key          = params["key"] || nil
@@ -50,7 +50,7 @@ module WebTranslateIt
     #
     # to find and instantiate an array of String which key is like `product_name_123`.
     
-    def self.find_all(params = {})
+    def self.find_all(params = {}) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
       success = true
       tries ||= 3
       params.stringify_keys!
@@ -103,7 +103,7 @@ module WebTranslateIt
     # to find and instantiate the String which ID is `1234`.
     #
     
-    def self.find(id)
+    def self.find(id) # rubocop:todo Metrics/MethodLength
       success = true
       tries ||= 3
       request = Net::HTTP::Get.new("/api/projects/#{Connection.api_key}/strings/#{id}.yaml")
@@ -151,7 +151,7 @@ module WebTranslateIt
     #   end
     #
     
-    def delete
+    def delete # rubocop:todo Metrics/MethodLength
       success = true
       tries ||= 3
       request = Net::HTTP::Delete.new("/api/projects/#{Connection.api_key}/strings/#{self.id}")
@@ -180,7 +180,7 @@ module WebTranslateIt
     #   end
     #
     
-    def translation_for(locale)
+    def translation_for(locale) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
       success = true
       tries ||= 3
       translation = self.translations.detect{ |t| t.locale == locale }
@@ -212,7 +212,7 @@ module WebTranslateIt
     # Save the changes made to a String to WebTranslateIt.com
     #
     
-    def update
+    def update # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
       success = true
       tries ||= 3
       request = Net::HTTP::Put.new("/api/projects/#{Connection.api_key}/strings/#{self.id}.yaml")
@@ -241,7 +241,7 @@ module WebTranslateIt
     # Create a new String to WebTranslateIt.com
     #
     
-    def create
+    def create # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
       success = true
       tries ||= 3
       request = Net::HTTP::Post.new("/api/projects/#{Connection.api_key}/strings")
@@ -264,7 +264,7 @@ module WebTranslateIt
       success
     end
     
-    def to_json(with_translations = false)
+    def to_json(with_translations = false) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
       hash = {
         "id" => id,
         "key" => key,

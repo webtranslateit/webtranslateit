@@ -1,5 +1,5 @@
 class HashUtil
-  def self.to_params(hash)
+  def self.to_params(hash) # rubocop:todo Metrics/MethodLength
     params = ''
     stack = []
 

@@ -1,6 +1,6 @@
 # encoding: utf-8
 module WebTranslateIt
-  class Term
+  class Term # rubocop:todo Metrics/ClassLength
     require 'net/https'
     require 'multi_json'
     
@@ -41,7 +41,7 @@ module WebTranslateIt
     #
     #  puts terms.inspect #=> An array of WebTranslateIt::Term objects
     
-    def self.find_all(params = {})
+    def self.find_all(params = {}) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
       success = true
       tries ||= 3
       params.stringify_keys!
@@ -94,7 +94,7 @@ module WebTranslateIt
     # to find and instantiate the Term which ID is `1234`.
     #
     
-    def self.find(term_id)
+    def self.find(term_id) # rubocop:todo Metrics/MethodLength
       success = true
       tries ||= 3
       request = Net::HTTP::Get.new("/api/projects/#{Connection.api_key}/terms/#{term_id}.yaml")
@@ -142,7 +142,7 @@ module WebTranslateIt
     #   end
     #
     
-    def delete
+    def delete # rubocop:todo Metrics/MethodLength
       success = true
       tries ||= 3
       request = Net::HTTP::Delete.new("/api/projects/#{Connection.api_key}/terms/#{self.id}")
@@ -171,7 +171,7 @@ module WebTranslateIt
     #   end
     #
     
-    def translation_for(locale)
+    def translation_for(locale) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
       success = true
       tries ||= 3
       translation = self.translations.detect{ |t| t.locale == locale }
@@ -204,7 +204,7 @@ module WebTranslateIt
 
     protected
 
-    def update
+    def update # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
       success = true
       tries ||= 3
       request = Net::HTTP::Put.new("/api/projects/#{Connection.api_key}/terms/#{self.id}.yaml")
@@ -230,7 +230,7 @@ module WebTranslateIt
       success
     end
     
-    def create
+    def create # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
       success = true
       tries ||= 3
       request = Net::HTTP::Post.new("/api/projects/#{Connection.api_key}/terms")
@@ -255,7 +255,7 @@ module WebTranslateIt
       success
     end
     
-    def to_json(with_translations = false)
+    def to_json(with_translations = false) # rubocop:todo Metrics/MethodLength
       hash = {
         "id" => id,
         "text" => text,

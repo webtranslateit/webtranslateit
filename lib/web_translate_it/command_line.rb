@@ -1,11 +1,11 @@
 # encoding: utf-8
 module WebTranslateIt
-  class CommandLine
+  class CommandLine # rubocop:todo Metrics/ClassLength
     require 'fileutils'
     require 'set'
     attr_accessor :configuration, :global_options, :command_options, :parameters
 
-    def initialize(command, command_options, global_options, parameters, project_path)
+    def initialize(command, command_options, global_options, parameters, project_path) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength
       self.command_options = command_options
       self.parameters = parameters
       unless command == 'init'
@@ -33,7 +33,7 @@ module WebTranslateIt
       exit 1 if !success
     end
     
-    def pull
+    def pull # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
       complete_success = true
       STDOUT.sync = true
       before_pull_hook
@@ -97,7 +97,7 @@ module WebTranslateIt
       end
     end
 
-    def push
+    def push # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
       complete_success = true
       STDOUT.sync = true
       before_push_hook
@@ -144,7 +144,7 @@ module WebTranslateIt
       end
     end
     
-    def add
+    def add # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
       complete_success = true
       STDOUT.sync = true
       if parameters == []
@@ -168,7 +168,7 @@ module WebTranslateIt
       complete_success
     end
 
-    def rm
+    def rm # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
       complete_success = true
       STDOUT.sync = true
       if parameters == []
@@ -176,7 +176,7 @@ module WebTranslateIt
         puts "Usage: wti rm path/to/master_file_1 path/to/master_file_2 ..."
         exit
       end
-      WebTranslateIt::Connection.new(configuration.api_key) do |http|
+      WebTranslateIt::Connection.new(configuration.api_key) do |http| # rubocop:todo Metrics/BlockLength
         parameters.each do |param|
           if Util.ask_yes_no("Are you sure you want to delete the master file #{param}?\nThis will also delete its target files and translations.", false)
             files = configuration.files.find_all{ |file| file.file_path == param }
@@ -186,13 +186,13 @@ module WebTranslateIt
                 # delete files
                 if File.exists?(master_file.file_path)
                   success = File.delete(master_file.file_path)
-                  puts StringUtil.success("Deleted master file #{master_file.file_path}.") if success
+                  puts StringUtil.success("Deleted master file #{master_file.file_path}.") if success # rubocop:todo Metrics/BlockNesting
                 end
                 complete_success = false if !success
                 configuration.files.find_all{ |file| file.master_id == master_file.id }.each do |target_file|
                   if File.exists?(target_file.file_path)
                     success = File.delete(target_file.file_path)
-                    puts StringUtil.success("Deleted target file #{target_file.file_path}.") if success
+                    puts StringUtil.success("Deleted target file #{target_file.file_path}.") if success # rubocop:todo Metrics/BlockNesting
                   else
                     puts StringUtil.failure("Target file #{target_file.file_path} doesn’t exist locally")
                   end
@@ -209,7 +209,7 @@ module WebTranslateIt
       complete_success
     end
     
-    def mv
+    def mv # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
       complete_success = true
       STDOUT.sync = true
       if parameters.count != 2
@@ -247,7 +247,7 @@ module WebTranslateIt
       complete_success
     end
     
-    def addlocale
+    def addlocale # rubocop:todo Metrics/MethodLength
       STDOUT.sync = true
       if parameters == []
         puts StringUtil.failure("Locale code missing.")
@@ -263,7 +263,7 @@ module WebTranslateIt
       end
     end
     
-    def rmlocale
+    def rmlocale # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
       STDOUT.sync = true
       if parameters == []
         puts StringUtil.failure("Error: You must provide the locale code to remove.")
@@ -281,7 +281,7 @@ module WebTranslateIt
       end
     end
         
-    def init
+    def init # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
       puts "# Initializing project"
       if parameters.any?
         api_key = parameters[0]
@@ -326,7 +326,7 @@ module WebTranslateIt
       return true
     end
     
-    def match
+    def match # rubocop:todo Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
       configuration.files.find_all{ |mf| mf.locale == configuration.source_locale }.each do |master_file|
         if !File.exists?(master_file.file_path)
           puts StringUtil.failure(master_file.file_path) + " (#{master_file.locale})"
@@ -344,7 +344,7 @@ module WebTranslateIt
       return true
     end
         
-    def status
+    def status # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
       stats = YAML.load(Project.fetch_stats(configuration.api_key))
       stale = false
       completely_translated = true
@@ -361,7 +361,7 @@ module WebTranslateIt
       return true
     end
                 
-    def fetch_locales_to_pull
+    def fetch_locales_to_pull # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
       if command_options.locale
         command_options.locale.split.each do |locale|
           puts "Locale #{locale} doesn't exist -- `wti addlocale #{locale}` to add it." unless configuration.target_locales.include?(locale)
@@ -381,7 +381,7 @@ module WebTranslateIt
       return locales.uniq
     end
         
-    def fetch_locales_to_push(configuration)
+    def fetch_locales_to_push(configuration) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
       if command_options.locale
         command_options.locale.split.each do |locale|
           puts "Locale #{locale} doesn't exist -- `wti addlocale #{locale}` to add it." unless configuration.target_locales.include?(locale)
@@ -399,7 +399,7 @@ module WebTranslateIt
       return locales.uniq
     end
     
-    def configuration_file_path
+    def configuration_file_path # rubocop:todo Metrics/MethodLength, Metrics/PerceivedComplexity
       if self.command_options.config
         return self.command_options.config
       else
@@ -407,7 +407,7 @@ module WebTranslateIt
           puts "Warning: `config/translation.yml` is deprecated in favour of a `.wti` file."
           if Util.ask_yes_no("Would you like to migrate your configuration now?", true)
             require 'fileutils'
-            if FileUtils.mv('config/translation.yml', '.wti')
+            if FileUtils.mv('config/translation.yml', '.wti') # rubocop:todo Metrics/BlockNesting
               return '.wti'
             else
               puts "Couldn’t move `config/translation.yml`."
@@ -448,7 +448,7 @@ FILE
       return file
     end
 
-    def throb
+    def throb # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
       throb = %w(⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏)
       throb.reverse! if rand > 0.5
       i = rand throb.length

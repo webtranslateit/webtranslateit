@@ -27,7 +27,7 @@ module WebTranslateIt
     #   http_connection.request(request)
     # end
     #
-    def initialize(api_key)
+    def initialize(api_key) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength
       @@api_key = api_key
       proxy = ENV['http_proxy'] ? URI.parse(ENV['http_proxy']) : OpenStruct.new
       http = Net::HTTP::Proxy(proxy.host, proxy.port, proxy.user, proxy.password).new('webtranslateit.com', 443)

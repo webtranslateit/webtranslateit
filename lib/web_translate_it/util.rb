@@ -17,7 +17,10 @@ module WebTranslateIt
       ((processed*10)/total).to_f.ceil*10
     end
     
-    def self.handle_response(response, return_response = false, raise_exception = false)
+    # rubocop:todo Metrics/PerceivedComplexity
+    # rubocop:todo Metrics/MethodLength
+    # rubocop:todo Metrics/AbcSize
+    def self.handle_response(response, return_response = false, raise_exception = false) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
       if response.code.to_i >= 400 and response.code.to_i < 500
         if raise_exception
           raise "Error: #{MultiJson.load(response.body)['error']}"
@@ -39,6 +42,9 @@ module WebTranslateIt
         return StringUtil.failure("Locked\n                                                    (another import in progress)") if response.code.to_i == 503
       end
     end
+    # rubocop:enable Metrics/AbcSize
+    # rubocop:enable Metrics/MethodLength
+    # rubocop:enable Metrics/PerceivedComplexity
     
     def self.add_fields(request)
       request.add_field("X-Client-Name", "web_translate_it")
@@ -49,7 +55,7 @@ module WebTranslateIt
     ##
     # Ask a question. Returns a true for yes, false for no, default for nil.
     
-    def self.ask_yes_no(question, default=nil)
+    def self.ask_yes_no(question, default=nil) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/MethodLength
       qstr = case default
              when nil
                'yn'

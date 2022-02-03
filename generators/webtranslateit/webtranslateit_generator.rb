@@ -5,7 +5,7 @@ class WebtranslateitGenerator < Rails::Generator::Base
     opt.on('-k', '--api-key=key', String, "Your Web Translate It API key") {|v| options[:api_key] = v}
   end
 
-  def manifest
+  def manifest # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
     if !api_key_configured? && !options[:api_key]
       puts "You must pass --api-key or create config/translations.yml"
       exit

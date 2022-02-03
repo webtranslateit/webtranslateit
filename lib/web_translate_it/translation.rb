@@ -15,7 +15,7 @@ module WebTranslateIt
     # to instantiate a new Translation without any text.
     #
     
-    def initialize(params = {})
+    def initialize(params = {}) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
       params.stringify_keys!
       self.id         = params["id"] || nil
       self.locale     = params["locale"] || nil
@@ -41,7 +41,7 @@ module WebTranslateIt
     #   end
     #
     
-    def save
+    def save # rubocop:todo Metrics/MethodLength
       tries ||= 3
       request = Net::HTTP::Post.new("/api/projects/#{Connection.api_key}/strings/#{self.string_id}/locales/#{self.locale}/translations")
       WebTranslateIt::Util.add_fields(request)

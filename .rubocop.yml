@@ -2,3 +2,10 @@ AllCops:
   NewCops: enable
 
 inherit_from: .rubocop_todo.yml
+
+
+# - Metrics Cops --------------------------------------------------------------
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*_spec.rb'

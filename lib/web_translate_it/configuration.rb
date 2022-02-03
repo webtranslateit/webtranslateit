@@ -15,7 +15,7 @@ module WebTranslateIt
     attr_accessor :logger, :before_pull, :after_pull, :before_push, :after_push, :project_name, :path_to_config_file
     
     # Load configuration file from the path.
-    def initialize(root_path = Rails.root, path_to_config_file = ".wti")
+    def initialize(root_path = Rails.root, path_to_config_file = ".wti") # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
       self.path_to_config_file = path_to_config_file
       self.path           = root_path
       self.logger         = logger
@@ -44,7 +44,7 @@ module WebTranslateIt
     
     # Reload project data
     #
-    def reload
+    def reload # rubocop:todo Metrics/AbcSize
       project_info = YAML.load WebTranslateIt::Project.fetch_info(self.api_key)
       set_locales_to_ignore(configuration)
       set_locales_needed(configuration)
@@ -69,7 +69,7 @@ module WebTranslateIt
     #
     #   configuration = WebTranslateIt::Configuration.new
     #   files = configuration.files # returns an array of TranslationFile
-    def set_files(project)
+    def set_files(project) # rubocop:todo Metrics/AbcSize
       self.files = []
       project['project_files'].each do |project_file|
         if project_file['name'].nil? or project_file['name'].strip == ''

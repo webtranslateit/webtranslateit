@@ -56,7 +56,7 @@ module WebTranslateIt
     
     protected
     
-    def create
+    def create # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
       success = true
       tries ||= 3
       request = Net::HTTP::Post.new("/api/projects/#{Connection.api_key}/terms/#{self.term_id}/locales/#{self.locale}/translations")
@@ -81,7 +81,7 @@ module WebTranslateIt
       success
     end
 
-    def update
+    def update # rubocop:todo Metrics/MethodLength
       success = true
       tries ||= 3
       request = Net::HTTP::Put.new("/api/projects/#{Connection.api_key}/terms/#{self.id}/locales/#{self.locale}/translations/#{self.id}")

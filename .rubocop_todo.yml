@@ -366,48 +366,6 @@ Lint/Void:
     - 'spec/web_translate_it/string_spec.rb'
     - 'spec/web_translate_it/term_spec.rb'
 
-# Offense count: 37
-# Configuration parameters: IgnoredMethods, CountRepeatedAttributes.
-Metrics/AbcSize:
-  Max: 68
-
-# Offense count: 6
-# Configuration parameters: CountComments, CountAsOne, ExcludedMethods, IgnoredMethods.
-# IgnoredMethods: refine
-Metrics/BlockLength:
-  Max: 130
-
-# Offense count: 4
-# Configuration parameters: CountBlocks.
-Metrics/BlockNesting:
-  Max: 4
-
-# Offense count: 4
-# Configuration parameters: CountComments, CountAsOne.
-Metrics/ClassLength:
-  Max: 383
-
-# Offense count: 19
-# Configuration parameters: IgnoredMethods.
-Metrics/CyclomaticComplexity:
-  Max: 17
-
-# Offense count: 49
-# Configuration parameters: CountComments, CountAsOne, ExcludedMethods, IgnoredMethods.
-Metrics/MethodLength:
-  Max: 42
-
-# Offense count: 4
-# Configuration parameters: CountKeywordArgs.
-Metrics/ParameterLists:
-  MaxOptionalParameters: 8
-  Max: 9
-
-# Offense count: 19
-# Configuration parameters: IgnoredMethods.
-Metrics/PerceivedComplexity:
-  Max: 18
-
 # Offense count: 4
 Naming/AccessorMethodName:
   Exclude:
