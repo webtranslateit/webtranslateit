@@ -25,7 +25,7 @@ module WebTranslateIt
         self.after_pull     = configuration['after_pull']
         self.before_push    = configuration['before_push']
         self.after_push     = configuration['after_push']
-        project_info = if RUBY_VERSION >= 3.1
+        project_info = if RUBY_VERSION >= '3.1.0'
           YAML.safe_load WebTranslateIt::Project.fetch_info(api_key), permitted_classes: [Time]
         else
           YAML.load WebTranslateIt::Project.fetch_info(api_key)

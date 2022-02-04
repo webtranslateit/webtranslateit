@@ -1,3 +1,7 @@
+## Version 2.5.3 / 2022-02-04
+
+* Properly fix ruby compatibility issues.
+
 ## Version 2.5.2 / 2022-02-02
 
 * Fix compatibility issues with rubies < 2.6.
