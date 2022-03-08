@@ -93,13 +93,6 @@ Style/RescueStandardError:
     - 'lib/web_translate_it/project.rb'
     - 'lib/web_translate_it/translation_file.rb'
 
-# Offense count: 6
-# Cop supports --auto-correct.
-# Configuration parameters: RequireEnglish.
-# SupportedStyles: use_perl_names, use_english_names
-Style/SpecialGlobalVars:
-  EnforcedStyle: use_perl_names
-
 # Offense count: 27
 # Cop supports --auto-correct.
 # Configuration parameters: AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.

@@ -1,3 +1,4 @@
+require 'English'
 module WebTranslateIt
   class Project
     def self.fetch_info(api_key) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
@@ -23,7 +24,7 @@ module WebTranslateIt
           success = false
         end
       rescue
-        puts $!.inspect
+        puts $ERROR_INFO.inspect
       end
       success
     end

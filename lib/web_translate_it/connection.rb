@@ -1,3 +1,4 @@
+require 'English'
 module WebTranslateIt
   class Connection
     attr_reader :api_key, :http_connection
@@ -49,7 +50,7 @@ module WebTranslateIt
         @http_connection = http.start
         yield @http_connection if block_given?
       rescue
-        puts $!
+        puts $ERROR_INFO
       end
     end
 

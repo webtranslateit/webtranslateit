@@ -82,7 +82,7 @@ module WebTranslateIt
       return unless configuration.before_pull
 
       output = `#{configuration.before_pull}`
-      if $?.success?
+      if $CHILD_STATUS.success?
         puts output
       else
         abort "Error: before_pull command exited with: #{output}"
@@ -93,7 +93,7 @@ module WebTranslateIt
       return unless configuration.after_pull
 
       output = `#{configuration.after_pull}`
-      if $?.success?
+      if $CHILD_STATUS.success?
         puts output
       else
         abort "Error: after_pull command exited with: #{output}"
@@ -129,7 +129,7 @@ module WebTranslateIt
       return unless configuration.before_push
 
       output = `#{configuration.before_push}`
-      if $?.success?
+      if $CHILD_STATUS.success?
         puts output
       else
         abort "Error: before_push command exited with: #{output}"
@@ -140,7 +140,7 @@ module WebTranslateIt
       return unless configuration.after_push
 
       output = `#{configuration.after_push}`
-      if $?.success?
+      if $CHILD_STATUS.success?
         puts output
       else
         abort "Error: after_push command exited with: #{output}"

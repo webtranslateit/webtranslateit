@@ -13,6 +13,8 @@ require 'web_translate_it/auto_fetch'
 require 'web_translate_it/command_line'
 require 'web_translate_it/project'
 
+require 'English'
+
 module WebTranslateIt
   def self.fetch_translations # rubocop:todo Metrics/AbcSize
     config = Configuration.new
