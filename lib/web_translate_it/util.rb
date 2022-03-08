@@ -20,17 +20,13 @@ module WebTranslateIt
     # rubocop:todo Metrics/AbcSize
     def self.handle_response(response, return_response = false, raise_exception = false) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
       if response.code.to_i >= 400 and response.code.to_i < 500
-        if raise_exception
-          raise "Error: #{MultiJson.load(response.body)['error']}"
-        else
-          puts StringUtil.failure(MultiJson.load(response.body)['error'])
-        end
+        raise "Error: #{MultiJson.load(response.body)['error']}" if raise_exception
+
+        puts StringUtil.failure(MultiJson.load(response.body)['error'])
       elsif response.code.to_i == 500
-        if raise_exception
-          raise 'Error: Server temporarily unavailable (Error 500).'
-        else
-          puts StringUtil.failure('Error: Server temporarily unavailable (Error 500).')
-        end
+        raise 'Error: Server temporarily unavailable (Error 500).' if raise_exception
+
+        puts StringUtil.failure('Error: Server temporarily unavailable (Error 500).')
       else
         return response.body if return_response
         return StringUtil.success('OK') if response.code.to_i == 200

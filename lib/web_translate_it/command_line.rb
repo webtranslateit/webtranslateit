@@ -75,24 +75,24 @@ module WebTranslateIt
     end
 
     def before_pull_hook
-      if configuration.before_pull
-        output = `#{configuration.before_pull}`
-        if $?.success?
-          puts output
-        else
-          abort 'Error: exit code for before_pull command is not zero'
-        end
+      return unless configuration.before_pull
+
+      output = `#{configuration.before_pull}`
+      if $?.success?
+        puts output
+      else
+        abort 'Error: exit code for before_pull command is not zero'
       end
     end
 
     def after_pull_hook
-      if configuration.after_pull
-        output = `#{configuration.after_pull}`
-        if $?.success?
-          puts output
-        else
-          abort 'Error: exit code for after_pull command is not zero'
-        end
+      return unless configuration.after_pull
+
+      output = `#{configuration.after_pull}`
+      if $?.success?
+        puts output
+      else
+        abort 'Error: exit code for after_pull command is not zero'
       end
     end
 
@@ -122,24 +122,24 @@ module WebTranslateIt
     end
 
     def before_push_hook
-      if configuration.before_push
-        output = `#{configuration.before_push}`
-        if $?.success?
-          puts output
-        else
-          abort 'Error: exit code for before_push command is not zero'
-        end
+      return unless configuration.before_push
+
+      output = `#{configuration.before_push}`
+      if $?.success?
+        puts output
+      else
+        abort 'Error: exit code for before_push command is not zero'
       end
     end
 
     def after_push_hook
-      if configuration.after_push
-        output = `#{configuration.after_push}`
-        if $?.success?
-          puts output
-        else
-          abort 'Error: exit code for after_push command is not zero'
-        end
+      return unless configuration.after_push
+
+      output = `#{configuration.after_push}`
+      if $?.success?
+        puts output
+      else
+        abort 'Error: exit code for after_push command is not zero'
       end
     end
 
@@ -396,27 +396,19 @@ module WebTranslateIt
       return locales.uniq
     end
 
-    def configuration_file_path # rubocop:todo Metrics/MethodLength, Metrics/PerceivedComplexity
-      if self.command_options.config
-        return self.command_options.config
-      else
-        if File.exists?('config/translation.yml')
-          puts 'Warning: `config/translation.yml` is deprecated in favour of a `.wti` file.'
-          if Util.ask_yes_no('Would you like to migrate your configuration now?', true)
-            require 'fileutils'
-            if FileUtils.mv('config/translation.yml', '.wti') # rubocop:todo Metrics/BlockNesting
-              return '.wti'
-            else
-              puts 'Couldn’t move `config/translation.yml`.'
-              return false
-            end
-          else
-            return 'config/translation.yml'
-          end
-        else
-          return '.wti'
-        end
-      end
+    def configuration_file_path
+      return self.command_options.config if self.command_options.config
+
+      return '.wti' unless File.exists?('config/translation.yml')
+
+      puts 'Warning: `config/translation.yml` is deprecated in favour of a `.wti` file.'
+      return 'config/translation.yml' unless Util.ask_yes_no('Would you like to migrate your configuration now?', true)
+
+      require 'fileutils'
+      return '.wti' if FileUtils.mv('config/translation.yml', '.wti')
+
+      puts 'Couldn’t move `config/translation.yml`.'
+      return false
     end
 
     def generate_configuration(api_key, project_info)

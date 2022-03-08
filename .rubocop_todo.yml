@@ -129,16 +129,6 @@ Style/Documentation:
 Style/FrozenStringLiteralComment:
   Enabled: false
 
-# Offense count: 10
-# Configuration parameters: MinBodyLength.
-Style/GuardClause:
-  Exclude:
-    - 'generators/webtranslateit/lib/insert_commands.rb'
-    - 'lib/web_translate_it/command_line.rb'
-    - 'lib/web_translate_it/project.rb'
-    - 'lib/web_translate_it/util.rb'
-    - 'lib/web_translate_it/util/string_util.rb'
-
 # Offense count: 14
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, EnforcedShorthandSyntax, UseHashRocketsWithSymbolValues, PreferHashRocketsForNonAlnumEndingSymbols.

@@ -8,13 +8,11 @@ module WebTranslateIt
           request = Net::HTTP::Get.new("/api/projects/#{api_key}.yaml")
           WebTranslateIt::Util.add_fields(request)
           response = http.request(request)
-          if response.is_a?(Net::HTTPSuccess)
-            return response.body
-          else
-            puts 'An error occured while fetching the project information:'
-            puts StringUtil.failure(response.body)
-            exit 1
-          end
+          return response.body if response.is_a?(Net::HTTPSuccess)
+
+          puts 'An error occured while fetching the project information:'
+          puts StringUtil.failure(response.body)
+          exit 1
         end
       rescue Timeout::Error
         puts 'Request timeout. Will retry in 5 seconds.'
