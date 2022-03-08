@@ -51,7 +51,7 @@ module WebTranslateIt
       end
       files = found_files if parameters.any?
       files = files.uniq.sort { |a, b| a.file_path <=> b.file_path }
-      if files.size == 0
+      if files.empty?
         puts 'No files to pull.'
       else
         # Now actually pulling files
@@ -111,7 +111,7 @@ module WebTranslateIt
                   else
                     configuration.files.find_all { |file| file.locale == locale }.sort { |a, b| a.file_path <=> b.file_path }
                   end
-          if files.size == 0
+          if files.empty?
             puts "Couldn't find any local files registered on WebTranslateIt to push."
           else
             files.each do |file|
