@@ -36,7 +36,7 @@ module WebTranslateIt
     def pull
       complete_success = true
       STDOUT.sync = true
-      `#{configuration.before_pull}` if configuration.before_pull
+      before_pull_hook
       # Selecting files to pull
       files = []
       fetch_locales_to_pull.each do |locale|
@@ -70,15 +70,37 @@ module WebTranslateIt
         threads.each { |thread| thread.join }
         time = Time.now - time
         puts "Pulled #{files.size} files at #{(files.size/time).round} files/sec, using #{n_threads} threads."
-        `#{configuration.after_pull}` if configuration.after_pull
+        after_pull_hook
         complete_success
       end
     end
-    
+
+    def before_pull_hook
+      if configuration.before_pull
+        output = `#{configuration.before_pull}`
+        if $?.success?
+          puts output
+        else
+          abort 'Error: exit code for before_pull command is not zero'
+        end
+      end
+    end
+
+    def after_pull_hook
+      if configuration.after_pull
+        output = `#{configuration.after_pull}`
+        if $?.success?
+          puts output
+        else
+          abort 'Error: exit code for after_pull command is not zero'
+        end
+      end
+    end
+
     def push
       complete_success = true
       STDOUT.sync = true
-      `#{configuration.before_push}` if configuration.before_push
+      before_push_hook
       WebTranslateIt::Connection.new(configuration.api_key) do |http|
         fetch_locales_to_push(configuration).each do |locale|
           if parameters.any?
@@ -96,8 +118,30 @@ module WebTranslateIt
           end
         end
       end
-      `#{configuration.after_push}` if configuration.after_push
+      after_push_hook
       complete_success
+    end
+
+    def before_push_hook
+      if configuration.before_push
+        output = `#{configuration.before_push}`
+        if $?.success?
+          puts output
+        else
+          abort 'Error: exit code for before_push command is not zero'
+        end
+      end
+    end
+
+    def after_push_hook
+      if configuration.after_push
+        output = `#{configuration.after_push}`
+        if $?.success?
+          puts output
+        else
+          abort 'Error: exit code for after_push command is not zero'
+        end
+      end
     end
     
     def add
