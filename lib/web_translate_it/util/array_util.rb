@@ -8,7 +8,7 @@ class ArrayUtil
   end
 
   def self.chunk(arr, pieces = 2) # rubocop:todo Metrics/MethodLength
-    len = arr.length;
+    len = arr.length
     mid = (len / pieces)
     chunks = []
     start = 0
