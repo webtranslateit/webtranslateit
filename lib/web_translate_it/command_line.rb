@@ -61,9 +61,9 @@ module WebTranslateIt
         ArrayUtil.chunk(files, n_threads).each do |file_array|
           next if file_array.empty?
 
-          threads << Thread.new(file_array) do |file_array|
+          threads << Thread.new(file_array) do |f_array|
             WebTranslateIt::Connection.new(configuration.api_key) do |http|
-              file_array.each do |file|
+              f_array.each do |file|
                 success = file.fetch(http, command_options.force)
                 complete_success = false unless success
               end

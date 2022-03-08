@@ -11,8 +11,8 @@ class HashUtil
       end
     end
 
-    stack.each do |parent, hash|
-      hash.each do |k, v|
+    stack.each do |parent, h|
+      h.each do |k, v|
         if v.is_a?(Hash)
           stack << ["#{parent}[#{k}]", v]
         else

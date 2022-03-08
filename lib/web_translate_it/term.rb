@@ -186,8 +186,8 @@ module WebTranslateIt
         return nil if array.empty?
 
         translations = []
-        array.each do |translation|
-          term_translation = WebTranslateIt::TermTranslation.new(translation)
+        array.each do |trans|
+          term_translation = WebTranslateIt::TermTranslation.new(trans)
           translations.push(term_translation)
         end
         return translations

@@ -11,9 +11,9 @@ Rails::Generator::Commands::Create.class_eval do
     logger.insert "#{line} appended to #{file}"
     return if options[:pretend] || file_contains?(file, line)
 
-    File.open(file, 'a') do |file|
-      file.puts
-      file.puts line
+    File.open(file, 'a') do |f|
+      f.puts
+      f.puts line
     end
   end
 end
