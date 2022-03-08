@@ -25,7 +25,7 @@ show_commands = <<~COMMANDS
   [options] are:
 COMMANDS
 
-SUB_COMMANDS = %w(pull push match add rm mv addlocale rmlocale status st init)
+SUB_COMMANDS = %w(pull push match add rm mv addlocale rmlocale status st init).freeze
 global_options = Optimist.options do
   stop_on SUB_COMMANDS
   banner show_commands
