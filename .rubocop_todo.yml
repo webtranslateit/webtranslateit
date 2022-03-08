@@ -129,13 +129,6 @@ Style/Documentation:
 Style/FrozenStringLiteralComment:
   Enabled: false
 
-# Offense count: 9
-# Cop supports --auto-correct.
-Style/GlobalStdStream:
-  Exclude:
-    - 'lib/web_translate_it/command_line.rb'
-    - 'lib/web_translate_it/util.rb'
-
 # Offense count: 10
 # Configuration parameters: MinBodyLength.
 Style/GuardClause:

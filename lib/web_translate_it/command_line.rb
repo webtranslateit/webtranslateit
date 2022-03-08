@@ -34,7 +34,7 @@ module WebTranslateIt
 
     def pull # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
       complete_success = true
-      STDOUT.sync = true
+      $stdout.sync = true
       before_pull_hook
       # Selecting files to pull
       files = []
@@ -98,7 +98,7 @@ module WebTranslateIt
 
     def push # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
       complete_success = true
-      STDOUT.sync = true
+      $stdout.sync = true
       before_push_hook
       WebTranslateIt::Connection.new(configuration.api_key) do |http|
         fetch_locales_to_push(configuration).each do |locale|
@@ -145,7 +145,7 @@ module WebTranslateIt
 
     def add # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
       complete_success = true
-      STDOUT.sync = true
+      $stdout.sync = true
       if parameters == []
         puts StringUtil.failure('Error: You must provide the path to the master file to add.')
         puts 'Usage: wti add path/to/master_file_1 path/to/master_file_2 ...'
@@ -169,7 +169,7 @@ module WebTranslateIt
 
     def rm # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
       complete_success = true
-      STDOUT.sync = true
+      $stdout.sync = true
       if parameters == []
         puts StringUtil.failure('Error: You must provide the path to the master file to remove.')
         puts 'Usage: wti rm path/to/master_file_1 path/to/master_file_2 ...'
@@ -210,7 +210,7 @@ module WebTranslateIt
 
     def mv # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
       complete_success = true
-      STDOUT.sync = true
+      $stdout.sync = true
       if parameters.count != 2
         puts StringUtil.failure('Error: You must provide the source path and destination path of the master file to move.')
         puts 'Usage: wti mv path/to/master_file_old_path path/to/master_file_new_path ...'
@@ -247,7 +247,7 @@ module WebTranslateIt
     end
 
     def addlocale # rubocop:todo Metrics/MethodLength
-      STDOUT.sync = true
+      $stdout.sync = true
       if parameters == []
         puts StringUtil.failure('Locale code missing.')
         puts 'Usage: wti addlocale fr es ...'
@@ -263,7 +263,7 @@ module WebTranslateIt
     end
 
     def rmlocale # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
-      STDOUT.sync = true
+      $stdout.sync = true
       if parameters == []
         puts StringUtil.failure('Error: You must provide the locale code to remove.')
         puts 'Usage: wti rmlocale fr es ...'
