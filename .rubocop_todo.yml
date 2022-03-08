@@ -286,13 +286,6 @@ Style/IfUnlessModifier:
     - 'lib/web_translate_it/command_line.rb'
 
 # Offense count: 1
-# Cop supports --auto-correct-all.
-# Configuration parameters: InverseMethods, InverseBlocks.
-Style/InverseMethods:
-  Exclude:
-    - 'lib/web_translate_it/auto_fetch.rb'
-
-# Offense count: 1
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.
 # SupportedStyles: literals, strict

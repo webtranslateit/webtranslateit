@@ -27,7 +27,7 @@ module WebTranslateIt
     end
 
     def valid_request?(env)
-      !(env['PATH_INFO'] =~ /\.(js|css|jpeg|jpg|gif|png|woff)$/)
+      env['PATH_INFO'] !~ /\.(js|css|jpeg|jpg|gif|png|woff)$/
     end
   end
 end
