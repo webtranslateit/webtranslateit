@@ -55,13 +55,13 @@ module WebTranslateIt
         threads = []
         n_threads = (files.size.to_f / 3).ceil >= 10 ? 10 : (files.size.to_f / 3).ceil
         ArrayUtil.chunk(files, n_threads).each do |file_array|
-          unless file_array.empty?
-            threads << Thread.new(file_array) do |file_array|
-              WebTranslateIt::Connection.new(configuration.api_key) do |http|
-                file_array.each do |file|
-                  success = file.fetch(http, command_options.force)
-                  complete_success = false unless success
-                end
+          next if file_array.empty?
+
+          threads << Thread.new(file_array) do |file_array|
+            WebTranslateIt::Connection.new(configuration.api_key) do |http|
+              file_array.each do |file|
+                success = file.fetch(http, command_options.force)
+                complete_success = false unless success
               end
             end
           end
@@ -177,31 +177,31 @@ module WebTranslateIt
       end
       WebTranslateIt::Connection.new(configuration.api_key) do |http| # rubocop:todo Metrics/BlockLength
         parameters.each do |param|
-          if Util.ask_yes_no("Are you sure you want to delete the master file #{param}?\nThis will also delete its target files and translations.", false)
-            files = configuration.files.find_all { |file| file.file_path == param }
-            if files.any?
-              files.each do |master_file|
-                master_file.delete(http)
-                # delete files
-                if File.exists?(master_file.file_path)
-                  success = File.delete(master_file.file_path)
-                  puts StringUtil.success("Deleted master file #{master_file.file_path}.") if success # rubocop:todo Metrics/BlockNesting
+          next unless Util.ask_yes_no("Are you sure you want to delete the master file #{param}?\nThis will also delete its target files and translations.", false)
+
+          files = configuration.files.find_all { |file| file.file_path == param }
+          if files.any?
+            files.each do |master_file|
+              master_file.delete(http)
+              # delete files
+              if File.exists?(master_file.file_path)
+                success = File.delete(master_file.file_path)
+                puts StringUtil.success("Deleted master file #{master_file.file_path}.") if success
+              end
+              complete_success = false unless success
+              configuration.files.find_all { |file| file.master_id == master_file.id }.each do |target_file|
+                if File.exists?(target_file.file_path)
+                  success = File.delete(target_file.file_path)
+                  puts StringUtil.success("Deleted target file #{target_file.file_path}.") if success
+                else
+                  puts StringUtil.failure("Target file #{target_file.file_path} doesn’t exist locally")
                 end
                 complete_success = false unless success
-                configuration.files.find_all { |file| file.master_id == master_file.id }.each do |target_file|
-                  if File.exists?(target_file.file_path)
-                    success = File.delete(target_file.file_path)
-                    puts StringUtil.success("Deleted target file #{target_file.file_path}.") if success # rubocop:todo Metrics/BlockNesting
-                  else
-                    puts StringUtil.failure("Target file #{target_file.file_path} doesn’t exist locally")
-                  end
-                  complete_success = false unless success
-                end
               end
-              puts StringUtil.success('All done.') if complete_success
-            else
-              puts StringUtil.failure("#{param}: File doesn’t exist on project.")
             end
+            puts StringUtil.success('All done.') if complete_success
+          else
+            puts StringUtil.failure("#{param}: File doesn’t exist on project.")
           end
         end
       end
@@ -270,13 +270,13 @@ module WebTranslateIt
         exit 1
       end
       parameters.each do |param|
-        if Util.ask_yes_no("Are you certain you want to delete the locale #{param.upcase}?\nThis will also delete its files and translations.", false)
-          print StringUtil.success("Deleting locale #{param.upcase}... ")
-          WebTranslateIt::Connection.new(configuration.api_key) do
-            WebTranslateIt::Project.delete_locale(param)
-          end
-          puts 'Done.'
+        next unless Util.ask_yes_no("Are you certain you want to delete the locale #{param.upcase}?\nThis will also delete its files and translations.", false)
+
+        print StringUtil.success("Deleting locale #{param.upcase}... ")
+        WebTranslateIt::Connection.new(configuration.api_key) do
+          WebTranslateIt::Project.delete_locale(param)
         end
+        puts 'Done.'
       end
     end
 

@@ -129,14 +129,6 @@ Style/Documentation:
 Style/FrozenStringLiteralComment:
   Enabled: false
 
-# Offense count: 3
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, MinBodyLength.
-# SupportedStyles: skip_modifier_ifs, always
-Style/Next:
-  Exclude:
-    - 'lib/web_translate_it/command_line.rb'
-
 # Offense count: 26
 # Cop supports --auto-correct-all.
 # Configuration parameters: EnforcedStyle, IgnoredMethods.
