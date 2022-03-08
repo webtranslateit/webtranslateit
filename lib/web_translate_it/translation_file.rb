@@ -40,20 +40,20 @@ module WebTranslateIt
       success = true
       tries ||= 3
       display = []
-      if self.fresh
-        display.push(self.file_path)
+      if fresh
+        display.push(file_path)
       else
-        display.push("*#{self.file_path}")
+        display.push("*#{file_path}")
       end
-      display.push "#{StringUtil.checksumify(self.local_checksum.to_s)}..#{StringUtil.checksumify(self.remote_checksum.to_s)}"
-      if !File.exist?(self.file_path) or force or self.remote_checksum != self.local_checksum
+      display.push "#{StringUtil.checksumify(local_checksum.to_s)}..#{StringUtil.checksumify(remote_checksum.to_s)}"
+      if !File.exist?(file_path) or force or remote_checksum != local_checksum
         begin
           request = Net::HTTP::Get.new(api_url)
           WebTranslateIt::Util.add_fields(request)
-          FileUtils.mkpath(self.file_path.split('/')[0..-2].join('/')) unless File.exist?(self.file_path) or self.file_path.split('/')[0..-2].join('/') == ''
+          FileUtils.mkpath(file_path.split('/')[0..-2].join('/')) unless File.exist?(file_path) or file_path.split('/')[0..-2].join('/') == ''
           begin
             response = http_connection.request(request)
-            File.open(self.file_path, 'wb') { |file| file << response.body } if response.code.to_i == 200
+            File.open(file_path, 'wb') { |file| file << response.body } if response.code.to_i == 200
             display.push Util.handle_response(response)
           rescue Timeout::Error
             puts StringUtil.failure('Request timeout. Will retry in 5 seconds.')
@@ -94,11 +94,11 @@ module WebTranslateIt
       success = true
       tries ||= 3
       display = []
-      display.push(self.file_path)
-      display.push "#{StringUtil.checksumify(self.local_checksum.to_s)}..#{StringUtil.checksumify(self.remote_checksum.to_s)}"
-      if File.exists?(self.file_path)
-        if force or self.remote_checksum != self.local_checksum
-          File.open(self.file_path) do |file|
+      display.push(file_path)
+      display.push "#{StringUtil.checksumify(local_checksum.to_s)}..#{StringUtil.checksumify(remote_checksum.to_s)}"
+      if File.exists?(file_path)
+        if force or remote_checksum != local_checksum
+          File.open(file_path) do |file|
             params = { 'file' => UploadIO.new(file, 'text/plain', file.path), 'merge' => merge, 'ignore_missing' => ignore_missing, 'label' => label, 'low_priority' => low_priority, 'minor_changes' => minor_changes }
             params['name'] = destination_path unless destination_path.nil?
             params['rename_others'] = rename_others
@@ -122,7 +122,7 @@ module WebTranslateIt
         end
         puts ArrayUtil.to_columns(display)
       else
-        puts StringUtil.failure("Can't push #{self.file_path}. File doesn't exist locally.")
+        puts StringUtil.failure("Can't push #{file_path}. File doesn't exist locally.")
       end
       success
     end
@@ -147,10 +147,10 @@ module WebTranslateIt
       tries ||= 3
       display = []
       display.push file_path
-      display.push "#{StringUtil.checksumify(self.local_checksum.to_s)}..[     ]"
-      if File.exists?(self.file_path)
-        File.open(self.file_path) do |file|
-          request = Net::HTTP::Post::Multipart.new(api_url_for_create, { 'name' => self.file_path, 'file' => UploadIO.new(file, 'text/plain', file.path), 'low_priority' => low_priority })
+      display.push "#{StringUtil.checksumify(local_checksum.to_s)}..[     ]"
+      if File.exists?(file_path)
+        File.open(file_path) do |file|
+          request = Net::HTTP::Post::Multipart.new(api_url_for_create, { 'name' => file_path, 'file' => UploadIO.new(file, 'text/plain', file.path), 'low_priority' => low_priority })
           WebTranslateIt::Util.add_fields(request)
           display.push Util.handle_response(http_connection.request(request))
           puts ArrayUtil.to_columns(display)
@@ -167,7 +167,7 @@ module WebTranslateIt
           success = false
         end
       else
-        puts StringUtil.failure("\nFile #{self.file_path} doesn't exist locally!")
+        puts StringUtil.failure("\nFile #{file_path} doesn't exist locally!")
       end
       success
     end
@@ -179,7 +179,7 @@ module WebTranslateIt
       tries ||= 3
       display = []
       display.push file_path
-      if File.exists?(self.file_path)
+      if File.exists?(file_path)
         begin
           request = Net::HTTP::Delete.new(api_url_for_delete)
           WebTranslateIt::Util.add_fields(request)
@@ -198,7 +198,7 @@ module WebTranslateIt
           success = false
         end
       else
-        puts StringUtil.failure("\nMaster file #{self.file_path} doesn't exist locally!")
+        puts StringUtil.failure("\nMaster file #{file_path} doesn't exist locally!")
       end
       success
     end
@@ -215,20 +215,20 @@ module WebTranslateIt
 
     # Convenience method which returns the date of last modification of a language file.
     def last_modification
-      File.mtime(File.new(self.file_path, 'r'))
+      File.mtime(File.new(file_path, 'r'))
     end
 
     # Convenience method which returns the URL of the API endpoint for a locale.
     def api_url
-      "/api/projects/#{self.api_key}/files/#{self.id}/locales/#{self.locale}"
+      "/api/projects/#{api_key}/files/#{id}/locales/#{locale}"
     end
 
     def api_url_for_create
-      "/api/projects/#{self.api_key}/files"
+      "/api/projects/#{api_key}/files"
     end
 
     def api_url_for_delete
-      "/api/projects/#{self.api_key}/files/#{self.id}"
+      "/api/projects/#{api_key}/files/#{id}"
     end
 
     def local_checksum

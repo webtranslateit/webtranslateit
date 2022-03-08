@@ -16,7 +16,7 @@ module WebTranslateIt
       self.path_to_config_file = path_to_config_file
       self.path           = root_path
       self.logger         = logger
-      if File.exists?(File.expand_path(path_to_config_file, self.path))
+      if File.exists?(File.expand_path(path_to_config_file, path))
         self.api_key        = ENV['WTI_PROJECT_API_KEY'] || configuration['api_key']
         self.before_pull    = configuration['before_pull']
         self.after_pull     = configuration['after_pull']
@@ -34,7 +34,7 @@ module WebTranslateIt
         WebTranslateIt::Connection.turn_silent_on if configuration['silence_errors']
         self.project_name = project_info['project']['name']
       else
-        puts StringUtil.failure("\nNo configuration file found in #{File.expand_path(path_to_config_file, self.path)}")
+        puts StringUtil.failure("\nNo configuration file found in #{File.expand_path(path_to_config_file, path)}")
         exit(1)
       end
     end
@@ -42,7 +42,7 @@ module WebTranslateIt
     # Reload project data
     #
     def reload # rubocop:todo Metrics/AbcSize
-      project_info = YAML.load WebTranslateIt::Project.fetch_info(self.api_key)
+      project_info = YAML.load WebTranslateIt::Project.fetch_info(api_key)
       set_locales_to_ignore(configuration)
       set_locales_needed(configuration)
       set_files(project_info['project'])
@@ -72,7 +72,7 @@ module WebTranslateIt
         if project_file['name'].nil? or project_file['name'].strip == ''
           puts "File #{project_file['id']} not set up"
         else
-          self.files.push TranslationFile.new(project_file['id'], project_file['name'], project_file['locale_code'], self.api_key, project_file['updated_at'], project_file['hash_file'], project_file['master_project_file_id'], project_file['fresh'])
+          files.push TranslationFile.new(project_file['id'], project_file['name'], project_file['locale_code'], api_key, project_file['updated_at'], project_file['hash_file'], project_file['master_project_file_id'], project_file['fresh'])
         end
       end
     end
@@ -108,7 +108,7 @@ module WebTranslateIt
     private
 
     def parse_erb_in_configuration
-      ERB.new(File.read(File.expand_path(path_to_config_file, self.path))).result
+      ERB.new(File.read(File.expand_path(path_to_config_file, path))).result
     end
   end
 end

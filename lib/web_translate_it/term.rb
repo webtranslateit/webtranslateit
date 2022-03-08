@@ -129,7 +129,7 @@ module WebTranslateIt
     #
 
     def save
-      self.new_record ? self.create : self.update
+      new_record ? create : update
     end
 
     # Delete a Term on WebTranslateIt.com
@@ -145,7 +145,7 @@ module WebTranslateIt
     def delete # rubocop:todo Metrics/MethodLength
       success = true
       tries ||= 3
-      request = Net::HTTP::Delete.new("/api/projects/#{Connection.api_key}/terms/#{self.id}")
+      request = Net::HTTP::Delete.new("/api/projects/#{Connection.api_key}/terms/#{id}")
       WebTranslateIt::Util.add_fields(request)
       begin
         Util.handle_response(Connection.http_connection.request(request), true, true)
@@ -174,11 +174,11 @@ module WebTranslateIt
     def translation_for(locale) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
       success = true
       tries ||= 3
-      translation = self.translations.detect { |t| t.locale == locale }
+      translation = translations.detect { |t| t.locale == locale }
       return translation if translation
-      return nil if self.new_record
+      return nil if new_record
 
-      request = Net::HTTP::Get.new("/api/projects/#{Connection.api_key}/terms/#{self.id}/locales/#{locale}/translations.yaml")
+      request = Net::HTTP::Get.new("/api/projects/#{Connection.api_key}/terms/#{id}/locales/#{locale}/translations.yaml")
       WebTranslateIt::Util.add_fields(request)
       begin
         response = Util.handle_response(Connection.http_connection.request(request), true, true)
@@ -208,12 +208,12 @@ module WebTranslateIt
     def update # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
       success = true
       tries ||= 3
-      request = Net::HTTP::Put.new("/api/projects/#{Connection.api_key}/terms/#{self.id}.yaml")
+      request = Net::HTTP::Put.new("/api/projects/#{Connection.api_key}/terms/#{id}.yaml")
       WebTranslateIt::Util.add_fields(request)
-      request.body = self.to_json
+      request.body = to_json
 
-      self.translations.each do |translation|
-        translation.term_id = self.id
+      translations.each do |translation|
+        translation.term_id = id
         translation.save
       end
 
@@ -236,7 +236,7 @@ module WebTranslateIt
       tries ||= 3
       request = Net::HTTP::Post.new("/api/projects/#{Connection.api_key}/terms")
       WebTranslateIt::Util.add_fields(request)
-      request.body = self.to_json(true)
+      request.body = to_json(true)
 
       begin
         response = YAML.load(Util.handle_response(Connection.http_connection.request(request), true, true))
@@ -261,7 +261,7 @@ module WebTranslateIt
         'text' => text,
         'description' => description
       }
-      if self.translations.any? && with_translations
+      if translations.any? && with_translations
         hash.update({ 'translations' => [] })
         translations.each do |translation|
           hash['translations'].push(translation.to_hash)

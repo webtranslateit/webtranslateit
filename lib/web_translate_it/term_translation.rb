@@ -36,7 +36,7 @@ module WebTranslateIt
     #
 
     def save
-      self.new_record ? self.create : self.update
+      new_record ? create : update
     end
 
     def to_hash
@@ -50,7 +50,7 @@ module WebTranslateIt
     end
 
     def to_json
-      MultiJson.dump(self.to_hash)
+      MultiJson.dump(to_hash)
     end
 
     protected
@@ -58,9 +58,9 @@ module WebTranslateIt
     def create # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
       success = true
       tries ||= 3
-      request = Net::HTTP::Post.new("/api/projects/#{Connection.api_key}/terms/#{self.term_id}/locales/#{self.locale}/translations")
+      request = Net::HTTP::Post.new("/api/projects/#{Connection.api_key}/terms/#{term_id}/locales/#{locale}/translations")
       WebTranslateIt::Util.add_fields(request)
-      request.body = self.to_json
+      request.body = to_json
 
       begin
         response = YAML.load(Util.handle_response(Connection.http_connection.request(request), true, true))
@@ -82,9 +82,9 @@ module WebTranslateIt
     def update # rubocop:todo Metrics/MethodLength
       success = true
       tries ||= 3
-      request = Net::HTTP::Put.new("/api/projects/#{Connection.api_key}/terms/#{self.id}/locales/#{self.locale}/translations/#{self.id}")
+      request = Net::HTTP::Put.new("/api/projects/#{Connection.api_key}/terms/#{id}/locales/#{locale}/translations/#{id}")
       WebTranslateIt::Util.add_fields(request)
-      request.body = self.to_json
+      request.body = to_json
       begin
         Util.handle_response(Connection.http_connection.request(request), true, true)
       rescue Timeout::Error

@@ -29,10 +29,10 @@ module WebTranslateIt
         throb do
           print "  #{message}"
           self.configuration = WebTranslateIt::Configuration.new(project_path, configuration_file_path)
-          print " #{message} on #{self.configuration.project_name}"
+          print " #{message} on #{configuration.project_name}"
         end
       end
-      success = self.send(command)
+      success = send(command)
       exit 1 unless success
     end
 
@@ -399,7 +399,7 @@ module WebTranslateIt
     end
 
     def configuration_file_path
-      return self.command_options.config if self.command_options.config
+      return command_options.config if command_options.config
 
       return '.wti' unless File.exists?('config/translation.yml')
 

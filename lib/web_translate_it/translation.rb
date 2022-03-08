@@ -38,9 +38,9 @@ module WebTranslateIt
 
     def save # rubocop:todo Metrics/MethodLength
       tries ||= 3
-      request = Net::HTTP::Post.new("/api/projects/#{Connection.api_key}/strings/#{self.string_id}/locales/#{self.locale}/translations")
+      request = Net::HTTP::Post.new("/api/projects/#{Connection.api_key}/strings/#{string_id}/locales/#{locale}/translations")
       WebTranslateIt::Util.add_fields(request)
-      request.body = self.to_json
+      request.body = to_json
       begin
         Util.handle_response(Connection.http_connection.request(request), true, true)
       rescue Timeout::Error
@@ -63,7 +63,7 @@ module WebTranslateIt
     end
 
     def to_json
-      MultiJson.dump(self.to_hash)
+      MultiJson.dump(to_hash)
     end
   end
 end
