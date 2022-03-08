@@ -31,7 +31,7 @@ module WebTranslateIt
         throb { print "  #{message}"; self.configuration = WebTranslateIt::Configuration.new(project_path, configuration_file_path); print " #{message} on #{self.configuration.project_name}"; }
       end
       success = self.send(command)
-      exit 1 if !success
+      exit 1 unless success
     end
 
     def pull # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
@@ -62,7 +62,7 @@ module WebTranslateIt
               WebTranslateIt::Connection.new(configuration.api_key) do |http|
                 file_array.each do |file|
                   success = file.fetch(http, command_options.force)
-                  complete_success = false if !success
+                  complete_success = false unless success
                 end
               end
             end
@@ -114,7 +114,7 @@ module WebTranslateIt
           else
             files.each do |file|
               success = file.upload(http, command_options[:merge], command_options.ignore_missing, command_options.label, command_options.low_priority, command_options[:minor], command_options.force)
-              complete_success = false if !success
+              complete_success = false unless success
             end
           end
         end
@@ -160,7 +160,7 @@ module WebTranslateIt
           to_add.each do |param|
             file = TranslationFile.new(nil, param.gsub(/ /, '\\ '), nil, configuration.api_key)
             success = file.create(http, command_options.low_priority)
-            complete_success = false if !success
+            complete_success = false unless success
           end
         else
           puts 'No new master file to add.'
@@ -189,7 +189,7 @@ module WebTranslateIt
                   success = File.delete(master_file.file_path)
                   puts StringUtil.success("Deleted master file #{master_file.file_path}.") if success # rubocop:todo Metrics/BlockNesting
                 end
-                complete_success = false if !success
+                complete_success = false unless success
                 configuration.files.find_all { |file| file.master_id == master_file.id }.each do |target_file|
                   if File.exists?(target_file.file_path)
                     success = File.delete(target_file.file_path)
@@ -197,7 +197,7 @@ module WebTranslateIt
                   else
                     puts StringUtil.failure("Target file #{target_file.file_path} doesn’t exist locally")
                   end
-                  complete_success = false if !success
+                  complete_success = false unless success
                 end
               end
               puts StringUtil.success('All done.') if complete_success
@@ -229,17 +229,17 @@ module WebTranslateIt
               success = File.rename(source, destination) if File.exists?(source)
               puts StringUtil.success("Moved master file #{master_file.file_path}.") if success
             end
-            complete_success = false if !success
+            complete_success = false unless success
             configuration.files.find_all { |file| file.master_id == master_file.id }.each do |target_file|
               if File.exists?(target_file.file_path)
                 success = File.delete(target_file.file_path)
-                complete_success = false if !success
+                complete_success = false unless success
               end
             end
             configuration.reload
             configuration.files.find_all { |file| file.master_id == master_file.id }.each do |target_file|
               success = target_file.fetch(http)
-              complete_success = false if !success
+              complete_success = false unless success
             end
             puts StringUtil.success('All done.') if complete_success
           end
@@ -357,8 +357,8 @@ module WebTranslateIt
         completely_proofread  = false if percent_completed  != 100
         puts "#{locale}: #{percent_translated}% translated, #{percent_completed}% completed."
       end
-      exit 100 if !completely_translated
-      exit 101 if !completely_proofread
+      exit 100 unless completely_translated
+      exit 101 unless completely_proofread
       return true
     end
 

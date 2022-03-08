@@ -300,14 +300,6 @@ Style/MutableConstant:
   Exclude:
     - 'bin/wti'
 
-# Offense count: 11
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: both, prefix, postfix
-Style/NegatedIf:
-  Exclude:
-    - 'lib/web_translate_it/command_line.rb'
-
 # Offense count: 2
 # Cop supports --auto-correct.
 Style/NegatedIfElseCondition:
