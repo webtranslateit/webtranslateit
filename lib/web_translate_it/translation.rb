@@ -1,11 +1,12 @@
 # encoding: utf-8
+
 module WebTranslateIt
   class Translation
     require 'net/https'
     require 'multi_json'
-    
+
     attr_accessor :id, :locale, :text, :status, :created_at, :updated_at, :version, :string_id
-    
+
     # Initialize a new WebTranslateIt::Translation
     #
     # Implementation Example:
@@ -14,7 +15,7 @@ module WebTranslateIt
     #
     # to instantiate a new Translation without any text.
     #
-    
+
     def initialize(params = {}) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
       params.stringify_keys!
       self.id         = params["id"] || nil
@@ -25,12 +26,12 @@ module WebTranslateIt
       self.updated_at = params["updated_at"] || nil
       self.version    = params["version"] || nil
       if params["string"]
-        self.string_id  = params["string"]["id"]
+        self.string_id = params["string"]["id"]
       else
         self.string_id = nil
       end
     end
-    
+
     # Save a WebTranslateIt::Translation
     #
     # Implementation Example:
@@ -40,7 +41,7 @@ module WebTranslateIt
     #     translation.save
     #   end
     #
-    
+
     def save # rubocop:todo Metrics/MethodLength
       tries ||= 3
       request = Net::HTTP::Post.new("/api/projects/#{Connection.api_key}/strings/#{self.string_id}/locales/#{self.locale}/translations")
@@ -58,7 +59,7 @@ module WebTranslateIt
         end
       end
     end
-    
+
     def to_hash
       {
         "locale" => locale,

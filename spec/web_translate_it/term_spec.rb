@@ -1,18 +1,17 @@
 require 'spec_helper'
 
 describe WebTranslateIt::Term do
-
   let(:api_key) { "proj_pvt_glzDR250FLXlMgJPZfEyHQ" }
 
   describe "#initialize" do
     it "should assign api_key and many parameters" do
-      term = WebTranslateIt::Term.new({ "id" => 1234, "text" => "bacon"})
+      term = WebTranslateIt::Term.new({ "id" => 1234, "text" => "bacon" })
       term.id.should == 1234
       term.text.should == "bacon"
     end
 
     it "should assign parameters using symbols" do
-      term = WebTranslateIt::Term.new({ :id => 1234, :text => "bacon"})
+      term = WebTranslateIt::Term.new({ :id => 1234, :text => "bacon" })
       term.id.should == 1234
       term.text.should == "bacon"
     end
@@ -102,7 +101,7 @@ describe WebTranslateIt::Term do
       WebTranslateIt::Connection.new(api_key) do
         terms = WebTranslateIt::Term.find_all
         count = terms.count
-        
+
         term1 = WebTranslateIt::Term.new({ "text" => "greeting 1" })
         term1.save
         term2 = WebTranslateIt::Term.new({ "text" => "greeting 2" })

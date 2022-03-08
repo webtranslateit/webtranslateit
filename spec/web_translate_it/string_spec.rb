@@ -1,18 +1,17 @@
 require 'spec_helper'
 
 describe WebTranslateIt::String do
-
   let(:api_key) { "proj_pvt_glzDR250FLXlMgJPZfEyHQ" }
 
   describe "#initialize" do
     it "should assign api_key and many parameters" do
-      string = WebTranslateIt::String.new({ "id" => 1234, "key" => "bacon"})
+      string = WebTranslateIt::String.new({ "id" => 1234, "key" => "bacon" })
       string.id.should == 1234
       string.key.should == "bacon"
     end
 
     it "should assign parameters using symbols" do
-      string = WebTranslateIt::String.new({ :id => 1234, :key => "bacon"})
+      string = WebTranslateIt::String.new({ :id => 1234, :key => "bacon" })
       string.id.should == 1234
       string.key.should == "bacon"
     end

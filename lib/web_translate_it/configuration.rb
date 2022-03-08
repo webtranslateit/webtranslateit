@@ -1,6 +1,6 @@
 # encoding: utf-8
+
 module WebTranslateIt
-  
   # Handles the configuration of your project, both via the the configuration file
   # and via the API.
   # Implementation example, assuming you have a valid .wti file:
@@ -13,7 +13,7 @@ module WebTranslateIt
     require 'erb'
     attr_accessor :path, :api_key, :source_locale, :target_locales, :files, :ignore_locales, :needed_locales
     attr_accessor :logger, :before_pull, :after_pull, :before_push, :after_push, :project_name, :path_to_config_file
-    
+
     # Load configuration file from the path.
     def initialize(root_path = Rails.root, path_to_config_file = ".wti") # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
       self.path_to_config_file = path_to_config_file
@@ -26,10 +26,10 @@ module WebTranslateIt
         self.before_push    = configuration['before_push']
         self.after_push     = configuration['after_push']
         project_info = if RUBY_VERSION >= '3.1.0'
-          YAML.safe_load WebTranslateIt::Project.fetch_info(api_key), permitted_classes: [Time]
-        else
-          YAML.load WebTranslateIt::Project.fetch_info(api_key)
-        end
+                         YAML.safe_load WebTranslateIt::Project.fetch_info(api_key), permitted_classes: [Time]
+                       else
+                         YAML.load WebTranslateIt::Project.fetch_info(api_key)
+                       end
         set_locales_to_ignore(configuration)
         set_locales_needed(configuration)
         set_files(project_info['project'])
@@ -41,7 +41,7 @@ module WebTranslateIt
         exit(1)
       end
     end
-    
+
     # Reload project data
     #
     def reload # rubocop:todo Metrics/AbcSize
@@ -53,7 +53,7 @@ module WebTranslateIt
       WebTranslateIt::Connection.turn_silent_on if configuration['silence_errors']
       self.project_name = project_info['project']['name']
     end
-    
+
     # Set the project locales from the Project API.
     # Implementation example:
     #
@@ -61,9 +61,9 @@ module WebTranslateIt
     #   locales = configuration.locales # returns an array of locales: ['en', 'fr', 'es', ...]
     def set_locales(project)
       self.source_locale  = project['source_locale']['code']
-      self.target_locales = project['target_locales'].map{|locale| locale['code']}
+      self.target_locales = project['target_locales'].map { |locale| locale['code'] }
     end
-    
+
     # Set the project files from the Project API.
     # Implementation example:
     #
@@ -79,22 +79,22 @@ module WebTranslateIt
         end
       end
     end
-    
+
     # Set locales to ignore from the configuration file, if set.
     def set_locales_to_ignore(configuration)
-      self.ignore_locales = Array(configuration['ignore_locales']).map{ |locale| locale.to_s }
+      self.ignore_locales = Array(configuration['ignore_locales']).map { |locale| locale.to_s }
     end
 
     # Set locales to specifically pull from the configuration file, if set
     def set_locales_needed(configuration)
-      self.needed_locales = Array(configuration['needed_locales']).map{ |locale| locale.to_s }
+      self.needed_locales = Array(configuration['needed_locales']).map { |locale| locale.to_s }
     end
-    
+
     # Convenience method which returns the endpoint for fetching a list of locales for a project.
     def api_url
       "/api/projects/#{api_key}.yaml"
     end
-        
+
     # Returns a logger. If RAILS_DEFAULT_LOGGER is defined, use it, else, define a new logger.
     def logger
       if defined?(Rails.logger)

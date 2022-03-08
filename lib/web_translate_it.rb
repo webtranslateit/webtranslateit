@@ -16,14 +16,14 @@ require 'web_translate_it/command_line'
 require 'web_translate_it/project'
 
 module WebTranslateIt
-
   def self.fetch_translations # rubocop:todo Metrics/AbcSize
     config = Configuration.new
     locale = I18n.locale.to_s
     return if config.ignore_locales.include?(locale)
+
     config.logger.debug { "   Fetching #{locale} language file(s) from WebTranslateIt" } if config.logger
     WebTranslateIt::Connection.new(config.api_key) do |http|
-      config.files.find_all{ |file| file.locale.in?([locale, I18n.locale]) }.each do |file|
+      config.files.find_all { |file| file.locale.in?([locale, I18n.locale]) }.each do |file|
         response = file.fetch(http)
       end
     end

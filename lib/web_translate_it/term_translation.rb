@@ -1,11 +1,12 @@
 # encoding: utf-8
+
 module WebTranslateIt
   class TermTranslation
     require 'net/https'
     require 'multi_json'
-    
+
     attr_accessor :id, :locale, :text, :description, :status, :new_record, :term_id
-    
+
     # Initialize a new WebTranslateIt::TermTranslation
     #
     # Implementation Example:
@@ -14,7 +15,7 @@ module WebTranslateIt
     #
     # to instantiate a new TermTranslation.
     #
-    
+
     def initialize(params = {})
       params.stringify_keys!
       self.id          = params["id"] || nil
@@ -25,7 +26,7 @@ module WebTranslateIt
       self.term_id     = params["term_id"] || nil
       self.new_record  = true
     end
-    
+
     # Update or Create a WebTranslateIt::TermTranslation
     #
     # Implementation Example:
@@ -35,11 +36,11 @@ module WebTranslateIt
     #     translation.save
     #   end
     #
-    
+
     def save
       self.new_record ? self.create : self.update
     end
-    
+
     def to_hash
       {
         "id" => id,
@@ -53,9 +54,9 @@ module WebTranslateIt
     def to_json
       MultiJson.dump(self.to_hash)
     end
-    
+
     protected
-    
+
     def create # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
       success = true
       tries ||= 3
@@ -68,7 +69,6 @@ module WebTranslateIt
         self.id = response["id"]
         self.new_record = false
         return true
-        
       rescue Timeout::Error
         puts "Request timeout. Will retry in 5 seconds."
         if (tries -= 1) > 0
@@ -88,7 +88,7 @@ module WebTranslateIt
       WebTranslateIt::Util.add_fields(request)
       request.body = self.to_json
       begin
-        Util.handle_response(Connection.http_connection.request(request), true, true)        
+        Util.handle_response(Connection.http_connection.request(request), true, true)
       rescue Timeout::Error
         puts "Request timeout. Will retry in 5 seconds."
         if (tries -= 1) > 0

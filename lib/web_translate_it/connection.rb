@@ -1,4 +1,5 @@
 # encoding: utf-8
+
 module WebTranslateIt
   class Connection
     require 'net/http'
@@ -6,12 +7,12 @@ module WebTranslateIt
     require 'openssl'
     require 'uri'
     require 'ostruct'
-    
+
     @@api_key = nil
     @@http_connection = nil
     @@debug = false
     @@silent = false
-    
+
     #
     # Initialize and yield a HTTPS Keep-Alive connection to WebTranslateIt.com
     #
@@ -51,7 +52,7 @@ module WebTranslateIt
         puts $!
       end
     end
-    
+
     def self.http_connection
       @@http_connection
     end
@@ -59,11 +60,11 @@ module WebTranslateIt
     def self.turn_debug_on
       @@debug = true
     end
-    
+
     def self.turn_silent_on
       @@silent = true
     end
-    
+
     def self.api_key
       @@api_key
     end

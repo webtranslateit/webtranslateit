@@ -1,7 +1,7 @@
 # encoding: utf-8
+
 module WebTranslateIt
   class Project
-    
     def self.fetch_info(api_key) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
       success = true
       tries ||= 3
@@ -31,7 +31,7 @@ module WebTranslateIt
       end
       success
     end
-    
+
     def self.fetch_stats(api_key) # rubocop:todo Metrics/MethodLength
       success = true
       tries ||= 3
@@ -52,7 +52,7 @@ module WebTranslateIt
       end
       success
     end
-    
+
     def self.create_locale(locale_code) # rubocop:todo Metrics/MethodLength
       success = true
       tries ||= 3
@@ -72,7 +72,7 @@ module WebTranslateIt
       end
       success
     end
-    
+
     def self.delete_locale(locale_code) # rubocop:todo Metrics/MethodLength
       success = true
       tries ||= 3

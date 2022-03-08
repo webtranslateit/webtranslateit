@@ -7,16 +7,16 @@ class ArrayUtil
     end
   end
 
-  def self.chunk(arr, pieces=2) # rubocop:todo Metrics/MethodLength
+  def self.chunk(arr, pieces = 2) # rubocop:todo Metrics/MethodLength
     len = arr.length;
-    mid = (len/pieces)
+    mid = (len / pieces)
     chunks = []
     start = 0
     1.upto(pieces) do |i|
-      last = start+mid
-      last = last-1 unless len%pieces >= i
+      last = start + mid
+      last = last - 1 unless len % pieces >= i
       chunks << arr[start..last] || []
-      start = last+1
+      start = last + 1
     end
     chunks
   end

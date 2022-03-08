@@ -1,4 +1,5 @@
 # encoding: utf-8
+
 module WebTranslateIt
   class CommandLine # rubocop:todo Metrics/ClassLength
     require 'fileutils'
@@ -32,7 +33,7 @@ module WebTranslateIt
       success = self.send(command)
       exit 1 if !success
     end
-    
+
     def pull # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
       complete_success = true
       STDOUT.sync = true
@@ -40,21 +41,21 @@ module WebTranslateIt
       # Selecting files to pull
       files = []
       fetch_locales_to_pull.each do |locale|
-        files |= configuration.files.find_all{ |file| file.locale == locale }
+        files |= configuration.files.find_all { |file| file.locale == locale }
       end
       found_files = []
       parameters.each do |parameter|
-        found_files += files.find_all{ |file| File.fnmatch(parameter, file.file_path) }
+        found_files += files.find_all { |file| File.fnmatch(parameter, file.file_path) }
       end
       files = found_files if parameters.any?
-      files = files.uniq.sort{ |a,b| a.file_path <=> b.file_path }
+      files = files.uniq.sort { |a, b| a.file_path <=> b.file_path }
       if files.size == 0
         puts "No files to pull."
       else
         # Now actually pulling files
         time = Time.now
         threads = []
-        n_threads = (files.size.to_f/3).ceil >= 10 ? 10 : (files.size.to_f/3).ceil
+        n_threads = (files.size.to_f / 3).ceil >= 10 ? 10 : (files.size.to_f / 3).ceil
         ArrayUtil.chunk(files, n_threads).each do |file_array|
           unless file_array.empty?
             threads << Thread.new(file_array) do |file_array|
@@ -69,7 +70,7 @@ module WebTranslateIt
         end
         threads.each { |thread| thread.join }
         time = Time.now - time
-        puts "Pulled #{files.size} files at #{(files.size/time).round} files/sec, using #{n_threads} threads."
+        puts "Pulled #{files.size} files at #{(files.size / time).round} files/sec, using #{n_threads} threads."
         after_pull_hook
         complete_success
       end
@@ -104,9 +105,9 @@ module WebTranslateIt
       WebTranslateIt::Connection.new(configuration.api_key) do |http|
         fetch_locales_to_push(configuration).each do |locale|
           if parameters.any?
-            files = configuration.files.find_all{ |file| parameters.include?(file.file_path) }.sort{|a,b| a.file_path <=> b.file_path}
+            files = configuration.files.find_all { |file| parameters.include?(file.file_path) }.sort { |a, b| a.file_path <=> b.file_path }
           else
-            files = configuration.files.find_all{ |file| file.locale == locale }.sort{|a,b| a.file_path <=> b.file_path}
+            files = configuration.files.find_all { |file| file.locale == locale }.sort { |a, b| a.file_path <=> b.file_path }
           end
           if files.size == 0
             puts "Couldn't find any local files registered on WebTranslateIt to push."
@@ -143,7 +144,7 @@ module WebTranslateIt
         end
       end
     end
-    
+
     def add # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
       complete_success = true
       STDOUT.sync = true
@@ -153,8 +154,8 @@ module WebTranslateIt
         exit
       end
       WebTranslateIt::Connection.new(configuration.api_key) do |http|
-	      added = configuration.files.find_all{ |file| file.locale == configuration.source_locale}.collect {|file| File.expand_path(file.file_path) }.to_set
-        to_add = parameters.reject{ |param| added.include?(File.expand_path(param))}
+        added = configuration.files.find_all { |file| file.locale == configuration.source_locale }.collect { |file| File.expand_path(file.file_path) }.to_set
+        to_add = parameters.reject { |param| added.include?(File.expand_path(param)) }
         if to_add.any?
           to_add.each do |param|
             file = TranslationFile.new(nil, param.gsub(/ /, "\\ "), nil, configuration.api_key)
@@ -179,7 +180,7 @@ module WebTranslateIt
       WebTranslateIt::Connection.new(configuration.api_key) do |http| # rubocop:todo Metrics/BlockLength
         parameters.each do |param|
           if Util.ask_yes_no("Are you sure you want to delete the master file #{param}?\nThis will also delete its target files and translations.", false)
-            files = configuration.files.find_all{ |file| file.file_path == param }
+            files = configuration.files.find_all { |file| file.file_path == param }
             if files.any?
               files.each do |master_file|
                 master_file.delete(http)
@@ -189,7 +190,7 @@ module WebTranslateIt
                   puts StringUtil.success("Deleted master file #{master_file.file_path}.") if success # rubocop:todo Metrics/BlockNesting
                 end
                 complete_success = false if !success
-                configuration.files.find_all{ |file| file.master_id == master_file.id }.each do |target_file|
+                configuration.files.find_all { |file| file.master_id == master_file.id }.each do |target_file|
                   if File.exists?(target_file.file_path)
                     success = File.delete(target_file.file_path)
                     puts StringUtil.success("Deleted target file #{target_file.file_path}.") if success # rubocop:todo Metrics/BlockNesting
@@ -208,7 +209,7 @@ module WebTranslateIt
       end
       complete_success
     end
-    
+
     def mv # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
       complete_success = true
       STDOUT.sync = true
@@ -221,7 +222,7 @@ module WebTranslateIt
       destination = parameters[1]
       WebTranslateIt::Connection.new(configuration.api_key) do |http|
         if Util.ask_yes_no("Are you sure you want to move the master file #{source} and its target files?", true)
-          configuration.files.find_all{ |file| file.file_path == source }.each do |master_file|
+          configuration.files.find_all { |file| file.file_path == source }.each do |master_file|
             master_file.upload(http, false, false, nil, false, false, true, true, destination)
             # move master file
             if File.exists?(source)
@@ -229,14 +230,14 @@ module WebTranslateIt
               puts StringUtil.success("Moved master file #{master_file.file_path}.") if success
             end
             complete_success = false if !success
-            configuration.files.find_all{ |file| file.master_id == master_file.id }.each do |target_file|
+            configuration.files.find_all { |file| file.master_id == master_file.id }.each do |target_file|
               if File.exists?(target_file.file_path)
                 success = File.delete(target_file.file_path)
                 complete_success = false if !success
               end
             end
             configuration.reload
-            configuration.files.find_all{ |file| file.master_id == master_file.id }.each do |target_file|
+            configuration.files.find_all { |file| file.master_id == master_file.id }.each do |target_file|
               success = target_file.fetch(http)
               complete_success = false if !success
             end
@@ -246,7 +247,7 @@ module WebTranslateIt
       end
       complete_success
     end
-    
+
     def addlocale # rubocop:todo Metrics/MethodLength
       STDOUT.sync = true
       if parameters == []
@@ -262,7 +263,7 @@ module WebTranslateIt
         puts "Done."
       end
     end
-    
+
     def rmlocale # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
       STDOUT.sync = true
       if parameters == []
@@ -280,7 +281,7 @@ module WebTranslateIt
         end
       end
     end
-        
+
     def init # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
       puts "# Initializing project"
       if parameters.any?
@@ -290,14 +291,14 @@ module WebTranslateIt
         api_key = Util.ask(" Project API Key:")
         path = Util.ask(" Path to configuration file:", '.wti')
       end
-      FileUtils.mkpath(path.split('/')[0..path.split('/').size-2].join('/')) unless path.split('/').size == 1
+      FileUtils.mkpath(path.split('/')[0..path.split('/').size - 2].join('/')) unless path.split('/').size == 1
       project = YAML.load WebTranslateIt::Project.fetch_info(api_key)
       project_info = project['project']
       if File.exists?(path) && !File.writable?(path)
         puts StringUtil.failure("Error: `#{path}` file is not writable.")
         exit 1
       end
-      File.open(path, 'w'){ |file| file << generate_configuration(api_key, project_info) }
+      File.open(path, 'w') { |file| file << generate_configuration(api_key, project_info) }
       puts ""
       puts " The project #{project_info['name']} was successfully initialized."
       puts ""
@@ -325,15 +326,15 @@ module WebTranslateIt
       puts "Check `wti --help` for help."
       return true
     end
-    
+
     def match # rubocop:todo Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
-      configuration.files.find_all{ |mf| mf.locale == configuration.source_locale }.each do |master_file|
+      configuration.files.find_all { |mf| mf.locale == configuration.source_locale }.each do |master_file|
         if !File.exists?(master_file.file_path)
           puts StringUtil.failure(master_file.file_path) + " (#{master_file.locale})"
         else
           puts StringUtil.important(master_file.file_path) + " (#{master_file.locale})"
         end
-        configuration.files.find_all{ |f| f.master_id == master_file.id }.each do |file|
+        configuration.files.find_all { |f| f.master_id == master_file.id }.each do |file|
           if !File.exists?(file.file_path)
             puts StringUtil.failure("- #{file.file_path}") + " (#{file.locale})"
           else
@@ -343,7 +344,7 @@ module WebTranslateIt
       end
       return true
     end
-        
+
     def status # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
       stats = YAML.load(Project.fetch_stats(configuration.api_key))
       stale = false
@@ -360,7 +361,7 @@ module WebTranslateIt
       exit 101 if !completely_proofread
       return true
     end
-                
+
     def fetch_locales_to_pull # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
       if command_options.locale
         command_options.locale.split.each do |locale|
@@ -373,14 +374,14 @@ module WebTranslateIt
         else
           locales = configuration.target_locales
           if configuration.ignore_locales.any?
-            configuration.ignore_locales.each{ |locale_to_delete| locales.delete(locale_to_delete) }
+            configuration.ignore_locales.each { |locale_to_delete| locales.delete(locale_to_delete) }
           end
         end
       end
       locales.push(configuration.source_locale) if command_options.all
       return locales.uniq
     end
-        
+
     def fetch_locales_to_push(configuration) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
       if command_options.locale
         command_options.locale.split.each do |locale|
@@ -394,11 +395,11 @@ module WebTranslateIt
         puts "`wti push --all` was deprecated in wti 2.3. Use `wti push --target` instead."
         return []
       elsif command_options.target
-        locales = configuration.target_locales.reject{ |locale| locale == configuration.source_locale }
+        locales = configuration.target_locales.reject { |locale| locale == configuration.source_locale }
       end
       return locales.uniq
     end
-    
+
     def configuration_file_path # rubocop:todo Metrics/MethodLength, Metrics/PerceivedComplexity
       if self.command_options.config
         return self.command_options.config
@@ -421,30 +422,30 @@ module WebTranslateIt
         end
       end
     end
-    
+
     def generate_configuration(api_key, project_info)
-      file = <<-FILE
-api_key: #{api_key}
+      file = <<~FILE
+        api_key: #{api_key}
 
-# Optional: locales not to sync with WebTranslateIt.
-# Takes a string, a symbol, or an array of string or symbol.
-# More information here: https://github.com/AtelierConvivialite/webtranslateit/wiki
-# ignore_locales: '#{project_info["source_locale"]["code"]}'
+        # Optional: locales not to sync with WebTranslateIt.
+        # Takes a string, a symbol, or an array of string or symbol.
+        # More information here: https://github.com/AtelierConvivialite/webtranslateit/wiki
+        # ignore_locales: '#{project_info["source_locale"]["code"]}'
 
-# Or if you prefer a list of locales to sync with WebTranslateIt:
-# needed_locales: #{project_info["target_locales"].map {|locale| locale["code"]}.to_s}
+        # Or if you prefer a list of locales to sync with WebTranslateIt:
+        # needed_locales: #{project_info["target_locales"].map { |locale| locale["code"] }.to_s}
 
-# Optional
-# before_pull: "echo 'some unix command'"   # Command executed before pulling files
-# after_pull:  "touch tmp/restart.txt"      # Command executed after pulling files
-#
-# before_push: "echo 'some unix command'"   # Command executed before pushing files
-# after_push:  "touch tmp/restart.txt"      # Command executed after pushing files
+        # Optional
+        # before_pull: "echo 'some unix command'"   # Command executed before pulling files
+        # after_pull:  "touch tmp/restart.txt"      # Command executed after pulling files
+        #
+        # before_push: "echo 'some unix command'"   # Command executed before pushing files
+        # after_push:  "touch tmp/restart.txt"      # Command executed after pushing files
 
-# Silence SSL errors
-# silence_errors: true
+        # Silence SSL errors
+        # silence_errors: true
 
-FILE
+      FILE
       return file
     end
 
@@ -462,11 +463,11 @@ FILE
         dot.call
       end
       yield
-      ensure
-        if thread
-          thread.kill
-          puts "\r\e[0G#\e[?25h"
-        end
+    ensure
+      if thread
+        thread.kill
+        puts "\r\e[0G#\e[?25h"
       end
     end
+  end
 end

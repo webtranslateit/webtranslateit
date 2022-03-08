@@ -1,22 +1,22 @@
 # encoding: utf-8
+
 module WebTranslateIt
-  
   # A few useful functions
   class Util
-    
     require 'multi_json'
-    
+
     # Return a string representing the gem version
     # For example "1.8.3"
     def self.version
       Gem.loaded_specs['web_translate_it'].version
     end
-            
+
     def self.calculate_percentage(processed, total)
       return 0 if total == 0
-      ((processed*10)/total).to_f.ceil*10
+
+      ((processed * 10) / total).to_f.ceil * 10
     end
-    
+
     # rubocop:todo Metrics/PerceivedComplexity
     # rubocop:todo Metrics/MethodLength
     # rubocop:todo Metrics/AbcSize
@@ -45,17 +45,17 @@ module WebTranslateIt
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/PerceivedComplexity
-    
+
     def self.add_fields(request)
       request.add_field("X-Client-Name", "web_translate_it")
       request.add_field("X-Client-Version", version)
       request.add_field("Content-Type", "application/json")
     end
-    
+
     ##
     # Ask a question. Returns a true for yes, false for no, default for nil.
-    
-    def self.ask_yes_no(question, default=nil) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/MethodLength
+
+    def self.ask_yes_no(question, default = nil) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/MethodLength
       qstr = case default
              when nil
                'yn'
@@ -70,25 +70,25 @@ module WebTranslateIt
       while result.nil?
         result = ask("#{question} [#{qstr}]")
         result = case result
-        when /^[Yy].*/
-          true
-        when /^[Nn].*/
-          false
-        when /^$/
-        when nil
-          default
-        else
-          nil
-        end
+                 when /^[Yy].*/
+                   true
+                 when /^[Nn].*/
+                   false
+                 when /^$/
+                 when nil
+                   default
+                 else
+                   nil
+                 end
       end
 
       return result
     end
-    
+
     ##
     # Ask a question. Returns an answer.
 
-    def self.ask(question, default=nil)
+    def self.ask(question, default = nil)
       question = question + " (Default: #{default})" unless default.nil?
       print(question + "  ")
       STDOUT.flush
@@ -98,10 +98,10 @@ module WebTranslateIt
       result = default if result.nil? or result == ''
       result
     end
-    
+
     ##
     # Returns whether a terminal can display ansi colors
-    
+
     def self.can_display_colors?
       !RUBY_PLATFORM.downcase.include?("mingw32")
     end
