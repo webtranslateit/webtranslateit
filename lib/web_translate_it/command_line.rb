@@ -274,7 +274,7 @@ module WebTranslateIt
       parameters.each do |param|
         if Util.ask_yes_no("Are you certain you want to delete the locale #{param.upcase}?\nThis will also delete its files and translations.", false)
           print StringUtil.success("Deleting locale #{param.upcase}... ")
-          WebTranslateIt::Connection.new(configuration.api_key) do |http|
+          WebTranslateIt::Connection.new(configuration.api_key) do
             WebTranslateIt::Project.delete_locale(param)
           end
           puts 'Done.'

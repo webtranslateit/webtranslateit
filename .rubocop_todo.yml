@@ -51,13 +51,6 @@ Lint/ToJSON:
 
 # Offense count: 1
 # Cop supports --auto-correct.
-# Configuration parameters: IgnoreEmptyBlocks, AllowUnusedKeywordArguments.
-Lint/UnusedBlockArgument:
-  Exclude:
-    - 'lib/web_translate_it/command_line.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
 # Configuration parameters: AllowUnusedKeywordArguments, IgnoreEmptyMethods, IgnoreNotImplementedMethods.
 Lint/UnusedMethodArgument:
   Exclude:
