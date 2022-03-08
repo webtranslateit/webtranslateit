@@ -102,12 +102,6 @@ Style/ClassVars:
   Exclude:
     - 'lib/web_translate_it/connection.rb'
 
-# Offense count: 12
-# Cop supports --auto-correct.
-Style/ColonMethodCall:
-  Exclude:
-    - 'bin/wti'
-
 # Offense count: 3
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, SingleLineConditionsOnly, IncludeTernaryExpressions.
