@@ -366,13 +366,11 @@ module WebTranslateIt
           puts "Locale #{locale} doesn't exist -- `wti addlocale #{locale}` to add it." unless configuration.target_locales.include?(locale)
         end
         locales = command_options.locale.split
+      elsif configuration.needed_locales.any?
+        locales = configuration.needed_locales
       else
-        if configuration.needed_locales.any?
-          locales = configuration.needed_locales
-        else
-          locales = configuration.target_locales
-          configuration.ignore_locales.each { |locale_to_delete| locales.delete(locale_to_delete) } if configuration.ignore_locales.any?
-        end
+        locales = configuration.target_locales
+        configuration.ignore_locales.each { |locale_to_delete| locales.delete(locale_to_delete) } if configuration.ignore_locales.any?
       end
       locales.push(configuration.source_locale) if command_options.all
       return locales.uniq
