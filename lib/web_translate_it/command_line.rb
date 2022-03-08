@@ -436,7 +436,7 @@ module WebTranslateIt
     end
 
     def throb # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
-      throb = %w(⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏)
+      throb = %w[⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏]
       throb.reverse! if rand > 0.5
       i = rand throb.length
 

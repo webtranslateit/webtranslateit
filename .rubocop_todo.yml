@@ -162,14 +162,6 @@ Style/OptionalBooleanParameter:
 
 # Offense count: 2
 # Cop supports --auto-correct.
-# Configuration parameters: PreferredDelimiters.
-Style/PercentLiteralDelimiters:
-  Exclude:
-    - 'bin/wti'
-    - 'lib/web_translate_it/command_line.rb'
-
-# Offense count: 2
-# Cop supports --auto-correct.
 Style/RedundantBegin:
   Exclude:
     - 'lib/web_translate_it/translation_file.rb'
