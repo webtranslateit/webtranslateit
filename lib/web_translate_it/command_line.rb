@@ -435,9 +435,6 @@ module WebTranslateIt
         # before_push: "echo 'some unix command'"   # Command executed before pushing files
         # after_push:  "touch tmp/restart.txt"      # Command executed after pushing files
 
-        # Silence SSL errors
-        # silence_errors: true
-
       FILE
     end
 

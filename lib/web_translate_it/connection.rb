@@ -11,7 +11,6 @@ module WebTranslateIt
     @api_key = nil
     @http_connection = nil
     @debug = false
-    @silent = false
 
     #
     # Initialize and yield a HTTPS Keep-Alive connection to WebTranslateIt.com
@@ -55,10 +54,6 @@ module WebTranslateIt
 
     def self.turn_debug_on
       @debug = true
-    end
-
-    def self.turn_silent_on
-      @silent = true
     end
   end
 end
