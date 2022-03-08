@@ -166,16 +166,6 @@ Style/RedundantBegin:
   Exclude:
     - 'lib/web_translate_it/translation_file.rb'
 
-# Offense count: 18
-# Cop supports --auto-correct.
-# Configuration parameters: AllowMultipleReturnValues.
-Style/RedundantReturn:
-  Exclude:
-    - 'lib/web_translate_it/command_line.rb'
-    - 'lib/web_translate_it/translation_file.rb'
-    - 'lib/web_translate_it/util.rb'
-    - 'lib/web_translate_it/util/string_util.rb'
-
 # Offense count: 85
 # Cop supports --auto-correct.
 Style/RedundantSelf:

@@ -4,7 +4,7 @@ class StringUtil
 
     spaces = ''
     (50 - str.length).times { spaces << ' ' }
-    return str.dup << spaces
+    str.dup << spaces
   end
 
   def self.success(str)

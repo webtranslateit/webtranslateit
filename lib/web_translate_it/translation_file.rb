@@ -72,7 +72,7 @@ module WebTranslateIt
         display.push StringUtil.success('Skipped')
       end
       print ArrayUtil.to_columns(display)
-      return success
+      success
     end
 
     # Update a language file to Web Translate It by performing a PUT Request.
@@ -126,7 +126,7 @@ module WebTranslateIt
       else
         puts StringUtil.failure("Can't push #{self.file_path}. File doesn't exist locally.")
       end
-      return success
+      success
     end
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/MethodLength
@@ -173,7 +173,7 @@ module WebTranslateIt
       else
         puts StringUtil.failure("\nFile #{self.file_path} doesn't exist locally!")
       end
-      return success
+      success
     end
 
     # Delete a master language file from Web Translate It by performing a DELETE Request.
@@ -204,7 +204,7 @@ module WebTranslateIt
       else
         puts StringUtil.failure("\nMaster file #{self.file_path} doesn't exist locally!")
       end
-      return success
+      success
     end
 
     def exists?

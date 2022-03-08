@@ -73,7 +73,7 @@ module WebTranslateIt
                  end
       end
 
-      return result
+      result
     end
 
     ##

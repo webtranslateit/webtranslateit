@@ -322,7 +322,7 @@ module WebTranslateIt
       end
       puts 'You can now use `wti` to push and pull your language files.'
       puts 'Check `wti --help` for help.'
-      return true
+      true
     end
 
     def match # rubocop:todo Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
@@ -340,7 +340,7 @@ module WebTranslateIt
           end
         end
       end
-      return true
+      true
     end
 
     def status # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
@@ -357,7 +357,7 @@ module WebTranslateIt
       end
       exit 100 unless completely_translated
       exit 101 unless completely_proofread
-      return true
+      true
     end
 
     def fetch_locales_to_pull # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
@@ -373,7 +373,7 @@ module WebTranslateIt
         configuration.ignore_locales.each { |locale_to_delete| locales.delete(locale_to_delete) } if configuration.ignore_locales.any?
       end
       locales.push(configuration.source_locale) if command_options.all
-      return locales.uniq
+      locales.uniq
     end
 
     def fetch_locales_to_push(configuration) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
@@ -391,7 +391,7 @@ module WebTranslateIt
       elsif command_options.target
         locales = configuration.target_locales.reject { |locale| locale == configuration.source_locale }
       end
-      return locales.uniq
+      locales.uniq
     end
 
     def configuration_file_path
@@ -406,11 +406,11 @@ module WebTranslateIt
       return '.wti' if FileUtils.mv('config/translation.yml', '.wti')
 
       puts 'Couldn’t move `config/translation.yml`.'
-      return false
+      false
     end
 
     def generate_configuration(api_key, project_info)
-      file = <<~FILE
+      <<~FILE
         api_key: #{api_key}
 
         # Optional: locales not to sync with WebTranslateIt.
@@ -432,7 +432,6 @@ module WebTranslateIt
         # silence_errors: true
 
       FILE
-      return file
     end
 
     def throb # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
