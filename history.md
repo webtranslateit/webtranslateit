@@ -1,4 +1,4 @@
-## Unreleased
+## Version 2.6.0 / 2022-03-08
 
 * Code cleaning using Rubocop.
 * Add ability to ignore files from pulls with a setting in the `.wti` file. Example:
