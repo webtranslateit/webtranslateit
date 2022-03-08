@@ -189,14 +189,6 @@ Style/Documentation:
 # Offense count: 1
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.
-# SupportedStyles: empty, nil, both
-Style/EmptyElse:
-  Exclude:
-    - 'lib/web_translate_it/util.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
 # SupportedStyles: compact, expanded
 Style/EmptyMethod:
   Exclude:

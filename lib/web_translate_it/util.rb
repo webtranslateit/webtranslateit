@@ -77,8 +77,6 @@ module WebTranslateIt
                  when /^$/
                  when nil
                    default
-                 else
-                   nil
                  end
       end
 
