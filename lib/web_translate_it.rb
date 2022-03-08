@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 require 'web_translate_it/connection'
 require 'web_translate_it/util'
 require 'web_translate_it/util/array_util'
@@ -16,15 +14,15 @@ require 'web_translate_it/command_line'
 require 'web_translate_it/project'
 
 module WebTranslateIt
-
-  def self.fetch_translations
+  def self.fetch_translations # rubocop:todo Metrics/AbcSize
     config = Configuration.new
     locale = I18n.locale.to_s
     return if config.ignore_locales.include?(locale)
-    config.logger.debug { "   Fetching #{locale} language file(s) from WebTranslateIt" } if config.logger
+
+    config.logger&.debug { "   Fetching #{locale} language file(s) from WebTranslateIt" }
     WebTranslateIt::Connection.new(config.api_key) do |http|
-      config.files.find_all{ |file| file.locale.in?([locale, I18n.locale]) }.each do |file|
-        response = file.fetch(http)
+      config.files.find_all { |file| file.locale.in?([locale, I18n.locale]) }.each do |file|
+        file.fetch(http)
       end
     end
   end

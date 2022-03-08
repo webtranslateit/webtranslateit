@@ -1,6 +1,4 @@
-# encoding: utf-8
 module WebTranslateIt
-
   # Class to automatically fetch the last translations from Web Translate It
   # for every page requested.
   # This can be used as a rack middleware.
@@ -19,7 +17,7 @@ module WebTranslateIt
       @app.call(env)
     end
 
-  private
+    private
 
     def update_translations
       WebTranslateIt.fetch_translations
@@ -27,7 +25,7 @@ module WebTranslateIt
     end
 
     def valid_request?(env)
-      !(env['PATH_INFO'] =~ /\.(js|css|jpeg|jpg|gif|png|woff)$/)
+      env['PATH_INFO'] !~ /\.(js|css|jpeg|jpg|gif|png|woff)$/
     end
   end
 end

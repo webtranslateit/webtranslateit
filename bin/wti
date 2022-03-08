@@ -5,28 +5,28 @@ $PROGRAM_NAME = 'wti'
 require 'optimist'
 require 'web_translate_it'
 
-show_commands = <<-EOS
-Usage: wti <command> [options]+ <filename>
+show_commands = <<~COMMANDS
+  Usage: wti <command> [options]+ <filename>
 
-The most commonly used wti commands are:
-   pull        Pull target language file(s)
-   push        Push master language file(s)
-   match       Display matching of local files with File Manager
-   add         Create and push a new master language file
-   rm          Delete a master language file from a project
-   mv          Moves a file both locally and from a project
-   addlocale   Add a new locale to the project
-   rmlocale    Delete a locale from a project
-   status      Fetch and display project statistics
-   init        Configure your project to sync
+  The most commonly used wti commands are:
+     pull        Pull target language file(s)
+     push        Push master language file(s)
+     match       Display matching of local files with File Manager
+     add         Create and push a new master language file
+     rm          Delete a master language file from a project
+     mv          Moves a file both locally and from a project
+     addlocale   Add a new locale to the project
+     rmlocale    Delete a locale from a project
+     status      Fetch and display project statistics
+     init        Configure your project to sync
 
-See `wti <command> --help` for more information on a specific command.
+  See `wti <command> --help` for more information on a specific command.
 
-[options] are:
-EOS
+  [options] are:
+COMMANDS
 
-SUB_COMMANDS = %w(pull push match add rm mv addlocale rmlocale status st init)
-global_options = Optimist::options do
+SUB_COMMANDS = %w[pull push match add rm mv addlocale rmlocale status st init].freeze
+global_options = Optimist.options do
   stop_on SUB_COMMANDS
   banner show_commands
   version "wti version #{WebTranslateIt::Util.version}"
@@ -34,98 +34,98 @@ end
 
 command = ARGV.shift # get the subcommand
 command_options = case command
-  when "pull"
-    Optimist::options do
-      banner <<-EOS
-wti pull [filename] - Pull target language file(s)
-[options] are:
-EOS
-      opt :locale, "ISO code of locale(s) to pull, space-separated", type: :string
-      opt :all,    "Pull all files"
-      opt :force,  "Force pull (bypass conditional requests to WTI)"
-      opt :config, "Path to a configuration file", short: "-c", default: ".wti"
-      opt :debug,  "Display debug information"
-    end
-  when "push"
-    Optimist::options do
-      banner <<-EOS
-wti push [filename] - Push master language file(s)
-[options] are:
-EOS
-      opt :locale, "ISO code of locale(s) to push, space-separated", type: :string
-      opt :target, "Upload all target files"
-      opt :force,  "Force push (bypass conditional requests to WTI)"
-      opt :low_priority, "WTI will process this file with a low priority"
-      opt :merge,  "Force WTI to merge this file"
-      opt :ignore_missing, "Force WTI to not obsolete missing strings"
-      opt :minor, "Minor Changes. When pushing a master file, prevents target translations to be flagged as `to_verify`."
-      opt :label,  "Apply a label to the changes", type: :string
-      opt :config, "Path to a configuration file", short: "-c", default: ".wti"
-      opt :all,    "DEPRECATED -- See `wti push --target` instead"
-      opt :debug,  "Display debug information"
-    end
-  when "add"
-    Optimist::options do
-      banner "wti add filename - Create and push a new master language file"
-      opt :low_priority, "WTI will process this file with a low priority"
-      opt :config, "Path to a configuration file", short: "-c", default: ".wti"
-      opt :debug,  "Display debug information"
-    end
-  when "rm"
-    Optimist::options do
-      banner "wti rm filename - Delete a master language file"
-      opt :config, "Path to a configuration file", short: "-c", default: ".wti"
-      opt :debug,  "Display debug information"
-    end
-  when "mv"
-    Optimist::options do
-      banner "wti mv filename - Moves a master language file and its target files"
-      opt :config, "Path to a configuration file", short: "-c", default: ".wti"
-      opt :debug, "Display debug information"
-    end
-  when "addlocale"
-    Optimist::options do
-      banner "wti addlocale localename - Add a new locale to the project"
-      opt :config, "Path to a configuration file", short: "-c", default: ".wti"
-      opt :debug,  "Display debug information"
-    end
-  when "rmlocale"
-    Optimist::options do
-      banner "wti rmlocale localename Delete a locale from the project"
-      opt :config, "Path to a configuration file", short: "-c", default: ".wti"
-      opt :debug,  "Display debug information"
-    end
-  when "status"
-    Optimist::options do
-      banner "wti status - Fetch and display project statistics.\nReturns 100 if untranslated segments exist in project\nReturns 101 if unproofread segments exist in project."
-      opt :config, "Path to a configuration file", short: "-c", default: ".wti"
-      opt :debug,  "Display debug information"
-    end
-  when "init"
-    Optimist::options do
-      banner "wti init [api_token] - Configure your project to sync"
-      opt :config, "Path to a configuration file", short: "-c", default: ".wti"
-      opt :debug,  "Display debug information"
-    end
-  when "match"
-    Optimist::options do
-      banner "wti match - Display matching of local files with File Manager"
-      opt :config, "Path to a configuration file", short: "-c", default: ".wti"
-      opt :debug,  "Display debug information"
-    end
-  else
-    if command.nil?
-      puts show_commands
-      exit
-    else
-      Optimist::die "Unknown subcommand #{command.inspect}"
-    end
-  end
+                  when 'pull'
+                    Optimist.options do
+                      banner <<~BANNER
+                        wti pull [filename] - Pull target language file(s)
+                        [options] are:
+                      BANNER
+                      opt :locale, 'ISO code of locale(s) to pull, space-separated', type: :string
+                      opt :all,    'Pull all files'
+                      opt :force,  'Force pull (bypass conditional requests to WTI)'
+                      opt :config, 'Path to a configuration file', short: '-c', default: '.wti'
+                      opt :debug,  'Display debug information'
+                    end
+                  when 'push'
+                    Optimist.options do
+                      banner <<~BANNER
+                        wti push [filename] - Push master language file(s)
+                        [options] are:
+                      BANNER
+                      opt :locale, 'ISO code of locale(s) to push, space-separated', type: :string
+                      opt :target, 'Upload all target files'
+                      opt :force,  'Force push (bypass conditional requests to WTI)'
+                      opt :low_priority, 'WTI will process this file with a low priority'
+                      opt :merge, 'Force WTI to merge this file'
+                      opt :ignore_missing, 'Force WTI to not obsolete missing strings'
+                      opt :minor, 'Minor Changes. When pushing a master file, prevents target translations to be flagged as `to_verify`.'
+                      opt :label,  'Apply a label to the changes', type: :string
+                      opt :config, 'Path to a configuration file', short: '-c', default: '.wti'
+                      opt :all,    'DEPRECATED -- See `wti push --target` instead'
+                      opt :debug,  'Display debug information'
+                    end
+                  when 'add'
+                    Optimist.options do
+                      banner 'wti add filename - Create and push a new master language file'
+                      opt :low_priority, 'WTI will process this file with a low priority'
+                      opt :config, 'Path to a configuration file', short: '-c', default: '.wti'
+                      opt :debug,  'Display debug information'
+                    end
+                  when 'rm'
+                    Optimist.options do
+                      banner 'wti rm filename - Delete a master language file'
+                      opt :config, 'Path to a configuration file', short: '-c', default: '.wti'
+                      opt :debug,  'Display debug information'
+                    end
+                  when 'mv'
+                    Optimist.options do
+                      banner 'wti mv filename - Moves a master language file and its target files'
+                      opt :config, 'Path to a configuration file', short: '-c', default: '.wti'
+                      opt :debug, 'Display debug information'
+                    end
+                  when 'addlocale'
+                    Optimist.options do
+                      banner 'wti addlocale localename - Add a new locale to the project'
+                      opt :config, 'Path to a configuration file', short: '-c', default: '.wti'
+                      opt :debug,  'Display debug information'
+                    end
+                  when 'rmlocale'
+                    Optimist.options do
+                      banner 'wti rmlocale localename Delete a locale from the project'
+                      opt :config, 'Path to a configuration file', short: '-c', default: '.wti'
+                      opt :debug,  'Display debug information'
+                    end
+                  when 'status'
+                    Optimist.options do
+                      banner "wti status - Fetch and display project statistics.\nReturns 100 if untranslated segments exist in project\nReturns 101 if unproofread segments exist in project."
+                      opt :config, 'Path to a configuration file', short: '-c', default: '.wti'
+                      opt :debug,  'Display debug information'
+                    end
+                  when 'init'
+                    Optimist.options do
+                      banner 'wti init [api_token] - Configure your project to sync'
+                      opt :config, 'Path to a configuration file', short: '-c', default: '.wti'
+                      opt :debug,  'Display debug information'
+                    end
+                  when 'match'
+                    Optimist.options do
+                      banner 'wti match - Display matching of local files with File Manager'
+                      opt :config, 'Path to a configuration file', short: '-c', default: '.wti'
+                      opt :debug,  'Display debug information'
+                    end
+                  else
+                    if command.nil?
+                      puts show_commands
+                      exit
+                    else
+                      Optimist.die "Unknown subcommand #{command.inspect}"
+                    end
+                  end
 
 begin
   WebTranslateIt::Connection.turn_debug_on if command_options.debug
-  WebTranslateIt::CommandLine.new(command, command_options, global_options, ARGV, File.expand_path("."))
-rescue Interrupt => e
+  WebTranslateIt::CommandLine.new(command, command_options, global_options, ARGV, File.expand_path('.'))
+rescue Interrupt
   puts StringUtil.failure("\nQuitting...")
   exit 1
 end

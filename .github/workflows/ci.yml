@@ -32,3 +32,21 @@ jobs:
 
     - name: Upload coverage results to Code Climate
       uses: paambaati/codeclimate-action@v3.0.0
+
+  linters:
+    name: Linters
+    runs-on: ubuntu-20.04
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2.3.5
+
+      - name: Install ruby and gems
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7.5
+          bundler-cache: true
+
+      - name: Run ruby linter
+        run: bundle exec rubocop --format github

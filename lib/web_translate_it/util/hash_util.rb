@@ -1,18 +1,18 @@
 class HashUtil
-  def self.to_params(hash)
+  def self.to_params(hash) # rubocop:todo Metrics/MethodLength
     params = ''
     stack = []
 
     hash.each do |k, v|
       if v.is_a?(Hash)
-        stack << [k,v]
+        stack << [k, v]
       else
         params << "#{k}=#{v}&"
       end
     end
 
-    stack.each do |parent, hash|
-      hash.each do |k, v|
+    stack.each do |parent, h|
+      h.each do |k, v|
         if v.is_a?(Hash)
           stack << ["#{parent}[#{k}]", v]
         else
