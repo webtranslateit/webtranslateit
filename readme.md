@@ -74,6 +74,10 @@ If you’d like to specify another path for your configuration file, you can use
 
 Now you’re all set and you can use the `wti` commands on your project.
 
+## Using on multiple projects
+
+Please refer to [our documentation about syncing multiple projects](https://github.com/webtranslateit/webtranslateit/wiki/Using-wti-with-multiple-projects).
+
 ## Usage
 
 Execute `wti --help` to see the usage:
