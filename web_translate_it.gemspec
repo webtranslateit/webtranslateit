@@ -21,6 +21,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rubocop"
   s.add_development_dependency 'simplecov'
   s.add_development_dependency "guard-rspec"
+  s.add_development_dependency 'guard-rubocop'
   s.rdoc_options     = ["--main", "readme.md"]
   s.extra_rdoc_files = ["history.md", "readme.md"]
 
