@@ -124,12 +124,6 @@ Style/Documentation:
 
 # Offense count: 1
 # Cop supports --auto-correct.
-Style/ExpandPathArguments:
-  Exclude:
-    - 'spec/spec_helper.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
 Style/FileRead:
   Exclude:
     - 'lib/web_translate_it/translation_file.rb'

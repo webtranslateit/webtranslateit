@@ -3,7 +3,7 @@ if ENV['COVERAGE']
   SimpleCov.start
 end
 
-require File.expand_path('../../lib/web_translate_it', __FILE__)
+require File.expand_path('../lib/web_translate_it', __dir__)
 require 'rspec'
 
 class I18n
