@@ -1,3 +1,7 @@
+## Unreleased
+
+* Code cleaning using Rubocop.
+
 ## Version 2.5.4 / 2022-03-08
 
 * Better support for `before_pull`, `after_pull`, `before_push`, `after_push` hooks. They now display the command output, and write an error message if the exit status of the command was not successful.
@@ -19,7 +23,7 @@
 * Display files that are being updated on WebTranslateIt but are not ready to be downloaded by a `*`.
 
 ``` bash
-~/Desktop/test% wti pull 
+~/Desktop/test% wti pull
 # Pulling files on test 3
 *cs-CZ.de.yml                                       | 65a7fc8..65a7fc8  Skipped
  en.yml                                             | ffd8096..ffd8096  Skipped
@@ -246,7 +250,7 @@
 
 ## Version 2.0.0.rc1 / 2012-04-16 (yanked)
 
-**Important**: This release candidate introduce breaking changes in the String, Translation, Term and TermTranslation APIs. See [Extras](https://github.com/AtelierConvivialite/webtranslateit/wiki/Extras) if you use the String, Translation, Term and TermTranslation APIs to programmatically manage strings, translations and terms. 
+**Important**: This release candidate introduce breaking changes in the String, Translation, Term and TermTranslation APIs. See [Extras](https://github.com/AtelierConvivialite/webtranslateit/wiki/Extras) if you use the String, Translation, Term and TermTranslation APIs to programmatically manage strings, translations and terms.
 
 * Remove undeclared dependency on ActiveSupport. ActiveSupport was required to use the `WebTranslateIt::String`, `Translation`, `Term` and `TermTranslation` classes. #84
 * Refactor `WebTranslateIt::String` and `WebTranslateIt::Translation` classes and add specs. #85
@@ -294,9 +298,9 @@
 * Fix `wti status` command.
 * Improvement: truncate `wti pull` performance statistics (`Pulled 10 files in 0.7 seconds at 13.4 files/sec`).
 * Fix: Configuration file lookup improvements. Configuration files can now be located in another directory, and `wti` commands don’t have to be executed in the root directory. It is now possible to execute:
-  
+
   ```
-  wti pull 
+  wti pull
   wti pull -c /Users/edouard/code/test/.wti
   wti pull -c ../.wti
   wti pull -c ~/code/.wti
@@ -311,7 +315,7 @@
 
 ## Version 1.9.0 / 2011-11-23
 
-* Deprecate `wti server`. This feature was introducing a hard dependency on Sinatra, which is not desirable when embedding `web_translate_it` on a Rails application. `wti server` now lives in a separate gem, `web_translate_it_server`, which depends on the `web_translate_it` gem. To keep using `wti server`, execute: `gem install web_translate_it_server` and run: `wti-server`. 
+* Deprecate `wti server`. This feature was introducing a hard dependency on Sinatra, which is not desirable when embedding `web_translate_it` on a Rails application. `wti server` now lives in a separate gem, `web_translate_it_server`, which depends on the `web_translate_it` gem. To keep using `wti server`, execute: `gem install web_translate_it_server` and run: `wti-server`.
 
 ## Version 1.8.4 / 2011-11-14
 
@@ -348,7 +352,7 @@
 ## Version 1.8.2.0 / 2011-09-12
 
 * `wti pull` downloads files in parallel, using up to 20 threads.
-  This makes syncing much faster for projects containing many files (up to 65 files/sec). 
+  This makes syncing much faster for projects containing many files (up to 65 files/sec).
 * Default configuration file was renamed `.wti`. #67.
   The upgrade process should be seamless. Config file will be renamed if a `config/translation.yml` file is detected.
 
@@ -597,7 +601,7 @@ Warning, some deprecations in this version.
 * Add deprecation warning for `wti --upload`, `wti -u`. These commands will be deprecated in favour of `wti push`.
 * Add -c parameter to specify a configuration file at a custom location.
 * Add -l parameter to specify a specific language file to pull or push (only works with `wti pull` and `wti push`).
-* Add --force parameter to force Web Translate It to send the language files again, regardless if the current 
+* Add --force parameter to force Web Translate It to send the language files again, regardless if the current
   language file version is current (this makes `wti pull` very much slower).
 * Add `wti autoconf` command to automatically configure your project for Web Translate It.
 
