@@ -68,11 +68,6 @@ Style/Documentation:
 Style/FrozenStringLiteralComment:
   Enabled: false
 
-# Offense count: 1
-Style/OpenStructUse:
-  Exclude:
-    - 'lib/web_translate_it/connection.rb'
-
 # Offense count: 12
 # Configuration parameters: AllowedMethods.
 # AllowedMethods: respond_to_missing?

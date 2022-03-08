@@ -7,7 +7,6 @@ module WebTranslateIt
     require 'net/https'
     require 'openssl'
     require 'uri'
-    require 'ostruct'
 
     @api_key = nil
     @http_connection = nil
@@ -31,7 +30,7 @@ module WebTranslateIt
     #
     def initialize(api_key) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength
       @api_key = api_key
-      proxy = ENV['http_proxy'] ? URI.parse(ENV['http_proxy']) : OpenStruct.new
+      proxy = ENV['http_proxy'] ? URI.parse(ENV['http_proxy']) : Struct.new(:host, :port, :user, :password).new
       http = Net::HTTP::Proxy(proxy.host, proxy.port, proxy.user, proxy.password).new('webtranslateit.com', 443)
       http.use_ssl      = true
       http.open_timeout = http.read_timeout = 60
