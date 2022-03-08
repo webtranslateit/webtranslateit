@@ -15,13 +15,6 @@ Gemspec/RequireMFA:
     - 'web_translate_it.gemspec'
 
 # Offense count: 1
-# Configuration parameters: Include.
-# Include: **/*.gemspec
-Gemspec/RequiredRubyVersion:
-  Exclude:
-    - 'web_translate_it.gemspec'
-
-# Offense count: 1
 # Cop supports --auto-correct.
 Lint/AmbiguousOperatorPrecedence:
   Exclude:
@@ -40,18 +33,6 @@ Lint/DeprecatedClassMethods:
 Lint/DuplicateMethods:
   Exclude:
     - 'lib/web_translate_it/configuration.rb'
-
-# Offense count: 1
-# Configuration parameters: AllowComments.
-Lint/EmptyWhen:
-  Exclude:
-    - 'lib/web_translate_it/util.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Lint/RedundantStringCoercion:
-  Exclude:
-    - 'lib/web_translate_it/command_line.rb'
 
 # Offense count: 4
 Lint/ShadowingOuterLocalVariable:
