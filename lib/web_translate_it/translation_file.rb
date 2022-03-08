@@ -99,25 +99,23 @@ module WebTranslateIt
       if File.exists?(self.file_path)
         if force or self.remote_checksum != self.local_checksum
           File.open(self.file_path) do |file|
-            begin
-              params = { 'file' => UploadIO.new(file, 'text/plain', file.path), 'merge' => merge, 'ignore_missing' => ignore_missing, 'label' => label, 'low_priority' => low_priority, 'minor_changes' => minor_changes }
-              params['name'] = destination_path unless destination_path.nil?
-              params['rename_others'] = rename_others
-              request = Net::HTTP::Put::Multipart.new(api_url, params)
-              WebTranslateIt::Util.add_fields(request)
-              display.push Util.handle_response(http_connection.request(request))
-            rescue Timeout::Error
-              puts StringUtil.failure('Request timeout. Will retry in 5 seconds.')
-              if (tries -= 1) > 0 # rubocop:todo Metrics/BlockNesting
-                sleep(5)
-                retry
-              else
-                success = false
-              end
-            rescue
-              display.push StringUtil.failure("An error occured: #{$!}")
+            params = { 'file' => UploadIO.new(file, 'text/plain', file.path), 'merge' => merge, 'ignore_missing' => ignore_missing, 'label' => label, 'low_priority' => low_priority, 'minor_changes' => minor_changes }
+            params['name'] = destination_path unless destination_path.nil?
+            params['rename_others'] = rename_others
+            request = Net::HTTP::Put::Multipart.new(api_url, params)
+            WebTranslateIt::Util.add_fields(request)
+            display.push Util.handle_response(http_connection.request(request))
+          rescue Timeout::Error
+            puts StringUtil.failure('Request timeout. Will retry in 5 seconds.')
+            if (tries -= 1) > 0 # rubocop:todo Metrics/BlockNesting
+              sleep(5)
+              retry
+            else
               success = false
             end
+          rescue
+            display.push StringUtil.failure("An error occured: #{$!}")
+            success = false
           end
         else
           display.push StringUtil.success('Skipped')
@@ -152,23 +150,21 @@ module WebTranslateIt
       display.push "#{StringUtil.checksumify(self.local_checksum.to_s)}..[     ]"
       if File.exists?(self.file_path)
         File.open(self.file_path) do |file|
-          begin
-            request = Net::HTTP::Post::Multipart.new(api_url_for_create, { 'name' => self.file_path, 'file' => UploadIO.new(file, 'text/plain', file.path), 'low_priority' => low_priority })
-            WebTranslateIt::Util.add_fields(request)
-            display.push Util.handle_response(http_connection.request(request))
-            puts ArrayUtil.to_columns(display)
-          rescue Timeout::Error
-            puts StringUtil.failure('Request timeout. Will retry in 5 seconds.')
-            if (tries -= 1) > 0
-              sleep(5)
-              retry
-            else
-              success = false
-            end
-          rescue
-            display.push StringUtil.failure("An error occured: #{$!}")
+          request = Net::HTTP::Post::Multipart.new(api_url_for_create, { 'name' => self.file_path, 'file' => UploadIO.new(file, 'text/plain', file.path), 'low_priority' => low_priority })
+          WebTranslateIt::Util.add_fields(request)
+          display.push Util.handle_response(http_connection.request(request))
+          puts ArrayUtil.to_columns(display)
+        rescue Timeout::Error
+          puts StringUtil.failure('Request timeout. Will retry in 5 seconds.')
+          if (tries -= 1) > 0
+            sleep(5)
+            retry
+          else
             success = false
           end
+        rescue
+          display.push StringUtil.failure("An error occured: #{$!}")
+          success = false
         end
       else
         puts StringUtil.failure("\nFile #{self.file_path} doesn't exist locally!")
