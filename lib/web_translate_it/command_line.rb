@@ -329,16 +329,16 @@ module WebTranslateIt
 
     def match # rubocop:todo Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
       configuration.files.find_all { |mf| mf.locale == configuration.source_locale }.each do |master_file|
-        if !File.exists?(master_file.file_path)
-          puts StringUtil.failure(master_file.file_path) + " (#{master_file.locale})"
-        else
+        if File.exists?(master_file.file_path)
           puts StringUtil.important(master_file.file_path) + " (#{master_file.locale})"
+        else
+          puts StringUtil.failure(master_file.file_path) + " (#{master_file.locale})"
         end
         configuration.files.find_all { |f| f.master_id == master_file.id }.each do |file|
-          if !File.exists?(file.file_path)
-            puts StringUtil.failure("- #{file.file_path}") + " (#{file.locale})"
-          else
+          if File.exists?(file.file_path)
             puts "- #{file.file_path}" + " (#{file.locale})"
+          else
+            puts StringUtil.failure("- #{file.file_path}") + " (#{file.locale})"
           end
         end
       end
