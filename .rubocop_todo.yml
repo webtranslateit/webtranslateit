@@ -122,12 +122,6 @@ Style/Documentation:
     - 'lib/web_translate_it/util/hash_util.rb'
     - 'lib/web_translate_it/util/string_util.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/FileRead:
-  Exclude:
-    - 'lib/web_translate_it/translation_file.rb'
-
 # Offense count: 27
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.

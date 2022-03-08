@@ -238,7 +238,7 @@ module WebTranslateIt
     def local_checksum
       require 'digest/sha1'
       begin
-        Digest::SHA1.hexdigest(File.open(file_path) { |f| f.read })
+        Digest::SHA1.hexdigest(File.read(file_path))
       rescue
         ''
       end
