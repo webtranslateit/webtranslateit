@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 require 'web_translate_it/connection'
 require 'web_translate_it/util'
 require 'web_translate_it/util/array_util'

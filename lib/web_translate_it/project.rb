@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 module WebTranslateIt
   class Project
     def self.fetch_info(api_key) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength

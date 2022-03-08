@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 module WebTranslateIt
   # Class to automatically fetch the last translations from Web Translate It
   # for every page requested.

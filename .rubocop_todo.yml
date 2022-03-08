@@ -122,26 +122,6 @@ Style/Documentation:
     - 'lib/web_translate_it/util/hash_util.rb'
     - 'lib/web_translate_it/util/string_util.rb'
 
-# Offense count: 15
-# Cop supports --auto-correct.
-Style/Encoding:
-  Exclude:
-    - 'Gemfile'
-    - 'Rakefile'
-    - 'lib/web_translate_it.rb'
-    - 'lib/web_translate_it/auto_fetch.rb'
-    - 'lib/web_translate_it/command_line.rb'
-    - 'lib/web_translate_it/configuration.rb'
-    - 'lib/web_translate_it/connection.rb'
-    - 'lib/web_translate_it/project.rb'
-    - 'lib/web_translate_it/string.rb'
-    - 'lib/web_translate_it/term.rb'
-    - 'lib/web_translate_it/term_translation.rb'
-    - 'lib/web_translate_it/translation.rb'
-    - 'lib/web_translate_it/translation_file.rb'
-    - 'lib/web_translate_it/util.rb'
-    - 'web_translate_it.gemspec'
-
 # Offense count: 1
 # Cop supports --auto-correct.
 Style/ExpandPathArguments:

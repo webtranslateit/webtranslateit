@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 module WebTranslateIt
   class CommandLine # rubocop:todo Metrics/ClassLength
     require 'fileutils'

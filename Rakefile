@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 require 'rake'
 require 'rake/rdoctask'
 require 'spec/rake/spectask'

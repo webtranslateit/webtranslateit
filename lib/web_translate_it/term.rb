@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 module WebTranslateIt
   class Term # rubocop:todo Metrics/ClassLength
     require 'net/https'

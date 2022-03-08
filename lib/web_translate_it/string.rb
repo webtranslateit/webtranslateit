@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 module WebTranslateIt
   class String # rubocop:todo Metrics/ClassLength
     require 'multi_json'

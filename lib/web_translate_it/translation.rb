@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 module WebTranslateIt
   class Translation
     require 'net/https'

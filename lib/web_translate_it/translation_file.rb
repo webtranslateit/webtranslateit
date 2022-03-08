@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 module WebTranslateIt
   # A TranslationFile is the representation of a master language file
   # on Web Translate It.
