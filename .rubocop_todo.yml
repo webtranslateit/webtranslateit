@@ -186,14 +186,6 @@ Style/Documentation:
     - 'lib/web_translate_it/util/hash_util.rb'
     - 'lib/web_translate_it/util/string_util.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: compact, expanded
-Style/EmptyMethod:
-  Exclude:
-    - 'spec/spec_helper.rb'
-
 # Offense count: 15
 # Cop supports --auto-correct.
 Style/Encoding:
