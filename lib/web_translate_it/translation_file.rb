@@ -64,7 +64,7 @@ module WebTranslateIt
               success = false
             end
           rescue
-            display.push StringUtil.failure("An error occured: #{$!}")
+            display.push StringUtil.failure("An error occured: #{$ERROR_INFO}")
             success = false
           end
         end
@@ -114,7 +114,7 @@ module WebTranslateIt
               success = false
             end
           rescue
-            display.push StringUtil.failure("An error occured: #{$!}")
+            display.push StringUtil.failure("An error occured: #{$ERROR_INFO}")
             success = false
           end
         else
@@ -163,7 +163,7 @@ module WebTranslateIt
             success = false
           end
         rescue
-          display.push StringUtil.failure("An error occured: #{$!}")
+          display.push StringUtil.failure("An error occured: #{$ERROR_INFO}")
           success = false
         end
       else
@@ -194,7 +194,7 @@ module WebTranslateIt
             success = false
           end
         rescue
-          display.push StringUtil.failure("An error occured: #{$!}")
+          display.push StringUtil.failure("An error occured: #{$ERROR_INFO}")
           success = false
         end
       else
