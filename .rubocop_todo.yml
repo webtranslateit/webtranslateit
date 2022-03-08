@@ -443,14 +443,6 @@ Style/StringConcatenation:
     - 'lib/web_translate_it/util.rb'
 
 # Offense count: 4
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: single_quotes, double_quotes
-Style/StringLiteralsInInterpolation:
-  Exclude:
-    - 'lib/web_translate_it/command_line.rb'
-
-# Offense count: 4
 # Cop supports --auto-correct-all.
 # Configuration parameters: AllowMethodsWithArguments, IgnoredMethods.
 # IgnoredMethods: respond_to, define_method

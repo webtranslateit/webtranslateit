@@ -430,10 +430,10 @@ module WebTranslateIt
         # Optional: locales not to sync with WebTranslateIt.
         # Takes a string, a symbol, or an array of string or symbol.
         # More information here: https://github.com/AtelierConvivialite/webtranslateit/wiki
-        # ignore_locales: '#{project_info["source_locale"]["code"]}'
+        # ignore_locales: '#{project_info['source_locale']['code']}'
 
         # Or if you prefer a list of locales to sync with WebTranslateIt:
-        # needed_locales: #{project_info["target_locales"].map { |locale| locale["code"] }.to_s}
+        # needed_locales: #{project_info['target_locales'].map { |locale| locale['code'] }.to_s}
 
         # Optional
         # before_pull: "echo 'some unix command'"   # Command executed before pulling files
