@@ -133,12 +133,6 @@ Style/RescueStandardError:
 Style/SpecialGlobalVars:
   EnforcedStyle: use_perl_names
 
-# Offense count: 2
-# Cop supports --auto-correct-all.
-Style/ZeroLengthPredicate:
-  Exclude:
-    - 'lib/web_translate_it/command_line.rb'
-
 # Offense count: 27
 # Cop supports --auto-correct.
 # Configuration parameters: AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.
