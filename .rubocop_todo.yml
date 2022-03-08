@@ -203,13 +203,6 @@ Style/SpecialGlobalVars:
   EnforcedStyle: use_perl_names
 
 # Offense count: 2
-# Cop supports --auto-correct.
-Style/WhileUntilDo:
-  Exclude:
-    - 'lib/web_translate_it/string.rb'
-    - 'lib/web_translate_it/term.rb'
-
-# Offense count: 2
 # Cop supports --auto-correct-all.
 Style/ZeroLengthPredicate:
   Exclude:

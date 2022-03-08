@@ -60,7 +60,7 @@ module WebTranslateIt
       WebTranslateIt::Util.add_fields(request)
       begin
         strings = []
-        while request do
+        while request
           response = Connection.http_connection.request(request)
           YAML.load(response.body).each do |string_response|
             string = WebTranslateIt::String.new(string_response)
