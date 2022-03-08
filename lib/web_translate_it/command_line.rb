@@ -70,7 +70,7 @@ module WebTranslateIt
             end
           end
         end
-        threads.each { |thread| thread.join }
+        threads.each(&:join)
         time = Time.now - time
         puts "Pulled #{files.size} files at #{(files.size / time).round} files/sec, using #{n_threads} threads."
         after_pull_hook

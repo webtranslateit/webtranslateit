@@ -79,12 +79,12 @@ module WebTranslateIt
 
     # Set locales to ignore from the configuration file, if set.
     def set_locales_to_ignore(configuration)
-      self.ignore_locales = Array(configuration['ignore_locales']).map { |locale| locale.to_s }
+      self.ignore_locales = Array(configuration['ignore_locales']).map(&:to_s)
     end
 
     # Set locales to specifically pull from the configuration file, if set
     def set_locales_needed(configuration)
-      self.needed_locales = Array(configuration['needed_locales']).map { |locale| locale.to_s }
+      self.needed_locales = Array(configuration['needed_locales']).map(&:to_s)
     end
 
     # Convenience method which returns the endpoint for fetching a list of locales for a project.
