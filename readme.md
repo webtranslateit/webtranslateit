@@ -2,8 +2,8 @@
 
 [RubyDoc](https://rubydoc.info/github/webtranslateit/webtranslateit/master) | 
 [Report a bug](https://github.com/webtranslateit/webtranslateit/issues) | 
-[Support](https://webtranslateit.com/en/support) |
-[WebTranslateIt.com Homepage](https://webtranslateit.com/en)
+[Support](https://webtranslateit.com/support) |
+[WebTranslateIt.com Homepage](https://webtranslateit.com)
 
 wti lets you easily sync your language files with [WebTranslateIt.com](https://webtranslateit.com), a web-based tool to translation software.
 
