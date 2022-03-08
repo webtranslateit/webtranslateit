@@ -48,8 +48,6 @@ module WebTranslateIt
         if (tries -= 1) > 0
           sleep(5)
           retry
-        else
-          success = false
         end
       end
     end

@@ -56,14 +56,6 @@ Lint/UnusedMethodArgument:
   Exclude:
     - 'lib/web_translate_it/command_line.rb'
 
-# Offense count: 4
-Lint/UselessAssignment:
-  Exclude:
-    - 'bin/wti'
-    - 'lib/web_translate_it.rb'
-    - 'lib/web_translate_it/command_line.rb'
-    - 'lib/web_translate_it/translation.rb'
-
 # Offense count: 27
 # Configuration parameters: CheckForMethodsWithNoSideEffects.
 Lint/Void:

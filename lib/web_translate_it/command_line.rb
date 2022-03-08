@@ -349,7 +349,6 @@ module WebTranslateIt
 
     def status # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
       stats = YAML.load(Project.fetch_stats(configuration.api_key))
-      stale = false
       completely_translated = true
       completely_proofread  = true
       stats.each do |locale, values|

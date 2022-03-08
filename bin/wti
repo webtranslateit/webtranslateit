@@ -125,7 +125,7 @@ command_options = case command
 begin
   WebTranslateIt::Connection.turn_debug_on if command_options.debug
   WebTranslateIt::CommandLine.new(command, command_options, global_options, ARGV, File.expand_path('.'))
-rescue Interrupt => e
+rescue Interrupt
   puts StringUtil.failure("\nQuitting...")
   exit 1
 end
