@@ -373,9 +373,7 @@ module WebTranslateIt
           locales = configuration.needed_locales
         else
           locales = configuration.target_locales
-          if configuration.ignore_locales.any?
-            configuration.ignore_locales.each { |locale_to_delete| locales.delete(locale_to_delete) }
-          end
+          configuration.ignore_locales.each { |locale_to_delete| locales.delete(locale_to_delete) } if configuration.ignore_locales.any?
         end
       end
       locales.push(configuration.source_locale) if command_options.all

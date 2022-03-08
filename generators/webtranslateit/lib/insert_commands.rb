@@ -21,9 +21,7 @@ end
 Rails::Generator::Commands::Destroy.class_eval do
   def append_to(file, line)
     logger.remove "#{line} removed from #{file}"
-    unless options[:pretend]
-      gsub_file file, "\n#{line}", ''
-    end
+    gsub_file file, "\n#{line}", '' unless options[:pretend]
   end
 end
 
