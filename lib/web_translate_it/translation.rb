@@ -45,7 +45,7 @@ module WebTranslateIt
         Util.handle_response(Connection.http_connection.request(request), true, true)
       rescue Timeout::Error
         puts 'Request timeout. Will retry in 5 seconds.'
-        if (tries -= 1) > 0
+        if (tries -= 1).positive?
           sleep(5)
           retry
         end

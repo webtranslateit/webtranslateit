@@ -57,7 +57,7 @@ module WebTranslateIt
             display.push Util.handle_response(response)
           rescue Timeout::Error
             puts StringUtil.failure('Request timeout. Will retry in 5 seconds.')
-            if (tries -= 1) > 0
+            if (tries -= 1).positive?
               sleep(5)
               retry
             else
@@ -107,7 +107,7 @@ module WebTranslateIt
             display.push Util.handle_response(http_connection.request(request))
           rescue Timeout::Error
             puts StringUtil.failure('Request timeout. Will retry in 5 seconds.')
-            if (tries -= 1) > 0 # rubocop:todo Metrics/BlockNesting
+            if (tries -= 1).positive? # rubocop:todo Metrics/BlockNesting
               sleep(5)
               retry
             else
@@ -156,7 +156,7 @@ module WebTranslateIt
           puts ArrayUtil.to_columns(display)
         rescue Timeout::Error
           puts StringUtil.failure('Request timeout. Will retry in 5 seconds.')
-          if (tries -= 1) > 0
+          if (tries -= 1).positive?
             sleep(5)
             retry
           else
@@ -187,7 +187,7 @@ module WebTranslateIt
           puts ArrayUtil.to_columns(display)
         rescue Timeout::Error
           puts StringUtil.failure('Request timeout. Will retry in 5 seconds.')
-          if (tries -= 1) > 0
+          if (tries -= 1).positive?
             sleep(5)
             retry
           else

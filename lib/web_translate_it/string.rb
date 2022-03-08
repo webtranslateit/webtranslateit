@@ -78,7 +78,7 @@ module WebTranslateIt
         return strings
       rescue Timeout::Error
         puts 'Request timeout. Will retry in 5 seconds.'
-        if (tries -= 1) > 0
+        if (tries -= 1).positive?
           sleep(5)
           retry
         else
@@ -102,7 +102,7 @@ module WebTranslateIt
     # to find and instantiate the String which ID is `1234`.
     #
 
-    def self.find(id) # rubocop:todo Metrics/MethodLength
+    def self.find(id) # rubocop:todo Metrics/MethodLength, Metrics/AbcSize
       success = true
       tries ||= 3
       request = Net::HTTP::Get.new("/api/projects/#{Connection.api_key}/strings/#{id}.yaml")
@@ -116,7 +116,7 @@ module WebTranslateIt
         return string
       rescue Timeout::Error
         puts 'Request timeout. Will retry in 5 seconds.'
-        if (tries -= 1) > 0
+        if (tries -= 1).positive?
           sleep(5)
           retry
         else
@@ -160,7 +160,7 @@ module WebTranslateIt
         Util.handle_response(Connection.http_connection.request(request), true, true)
       rescue Timeout::Error
         puts 'Request timeout. Will retry in 5 seconds.'
-        if (tries -= 1) > 0
+        if (tries -= 1).positive?
           sleep(5)
           retry
         else
@@ -198,7 +198,7 @@ module WebTranslateIt
         return translation
       rescue Timeout::Error
         puts 'Request timeout. Will retry in 5 seconds.'
-        if (tries -= 1) > 0
+        if (tries -= 1).positive?
           sleep(5)
           retry
         else
@@ -229,7 +229,7 @@ module WebTranslateIt
         Util.handle_response(Connection.http_connection.request(request), true, true)
       rescue Timeout::Error
         puts 'Request timeout. Will retry in 5 seconds.'
-        if (tries -= 1) > 0
+        if (tries -= 1).positive?
           sleep(5)
           retry
         else
@@ -255,7 +255,7 @@ module WebTranslateIt
         return true
       rescue Timeout::Error
         puts 'Request timeout. Will retry in 5 seconds.'
-        if (tries -= 1) > 0
+        if (tries -= 1).positive?
           sleep(5)
           retry
         else

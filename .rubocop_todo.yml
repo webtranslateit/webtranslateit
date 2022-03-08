@@ -68,22 +68,6 @@ Style/Documentation:
 Style/FrozenStringLiteralComment:
   Enabled: false
 
-# Offense count: 26
-# Cop supports --auto-correct-all.
-# Configuration parameters: EnforcedStyle, IgnoredMethods.
-# SupportedStyles: predicate, comparison
-Style/NumericPredicate:
-  Exclude:
-    - 'spec/**/*'
-    - 'lib/web_translate_it/command_line.rb'
-    - 'lib/web_translate_it/project.rb'
-    - 'lib/web_translate_it/string.rb'
-    - 'lib/web_translate_it/term.rb'
-    - 'lib/web_translate_it/term_translation.rb'
-    - 'lib/web_translate_it/translation.rb'
-    - 'lib/web_translate_it/translation_file.rb'
-    - 'lib/web_translate_it/util.rb'
-
 # Offense count: 1
 Style/OpenStructUse:
   Exclude:
