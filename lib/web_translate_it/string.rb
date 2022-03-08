@@ -23,19 +23,19 @@ module WebTranslateIt
 
     def initialize(params = {}) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
       params.stringify_keys!
-      self.id           = params["id"] || nil
-      self.key          = params["key"] || nil
-      self.plural       = params["plural"] || nil
-      self.type         = params["type"] || nil
-      self.dev_comment  = params["dev_comment"] || nil
-      self.word_count   = params["word_count"] || nil
-      self.status       = params["status"] || nil
-      self.category     = params["category"] || nil
-      self.labels       = params["labels"] || nil
-      self.file         = params["file"] || nil
-      self.created_at   = params["created_at"] || nil
-      self.updated_at   = params["updated_at"] || nil
-      self.translations = params["translations"] || []
+      self.id           = params['id'] || nil
+      self.key          = params['key'] || nil
+      self.plural       = params['plural'] || nil
+      self.type         = params['type'] || nil
+      self.dev_comment  = params['dev_comment'] || nil
+      self.word_count   = params['word_count'] || nil
+      self.status       = params['status'] || nil
+      self.category     = params['category'] || nil
+      self.labels       = params['labels'] || nil
+      self.file         = params['file'] || nil
+      self.created_at   = params['created_at'] || nil
+      self.updated_at   = params['updated_at'] || nil
+      self.translations = params['translations'] || []
       self.new_record   = true
     end
 
@@ -56,7 +56,7 @@ module WebTranslateIt
       tries ||= 3
       params.stringify_keys!
       url = "/api/projects/#{Connection.api_key}/strings.yaml"
-      url += '?' + HashUtil.to_params("filters" => params) unless params.empty?
+      url += '?' + HashUtil.to_params('filters' => params) unless params.empty?
 
       request = Net::HTTP::Get.new(url)
       WebTranslateIt::Util.add_fields(request)
@@ -69,8 +69,8 @@ module WebTranslateIt
             string.new_record = false
             strings.push(string)
           end
-          if response["Link"] && response["Link"].include?("rel=\"next\"")
-            url = response["Link"].match(/<(.*)>; rel="next"/)[1]
+          if response['Link'] && response['Link'].include?('rel="next"')
+            url = response['Link'].match(/<(.*)>; rel="next"/)[1]
             request = Net::HTTP::Get.new(url)
             WebTranslateIt::Util.add_fields(request)
           else
@@ -79,7 +79,7 @@ module WebTranslateIt
         end
         return strings
       rescue Timeout::Error
-        puts "Request timeout. Will retry in 5 seconds."
+        puts 'Request timeout. Will retry in 5 seconds.'
         if (tries -= 1) > 0
           sleep(5)
           retry
@@ -117,7 +117,7 @@ module WebTranslateIt
         string.new_record = false
         return string
       rescue Timeout::Error
-        puts "Request timeout. Will retry in 5 seconds."
+        puts 'Request timeout. Will retry in 5 seconds.'
         if (tries -= 1) > 0
           sleep(5)
           retry
@@ -161,7 +161,7 @@ module WebTranslateIt
       begin
         Util.handle_response(Connection.http_connection.request(request), true, true)
       rescue Timeout::Error
-        puts "Request timeout. Will retry in 5 seconds."
+        puts 'Request timeout. Will retry in 5 seconds.'
         if (tries -= 1) > 0
           sleep(5)
           retry
@@ -199,7 +199,7 @@ module WebTranslateIt
         translation = WebTranslateIt::Translation.new(hash)
         return translation
       rescue Timeout::Error
-        puts "Request timeout. Will retry in 5 seconds."
+        puts 'Request timeout. Will retry in 5 seconds.'
         if (tries -= 1) > 0
           sleep(5)
           retry
@@ -230,7 +230,7 @@ module WebTranslateIt
       begin
         Util.handle_response(Connection.http_connection.request(request), true, true)
       rescue Timeout::Error
-        puts "Request timeout. Will retry in 5 seconds."
+        puts 'Request timeout. Will retry in 5 seconds.'
         if (tries -= 1) > 0
           sleep(5)
           retry
@@ -252,11 +252,11 @@ module WebTranslateIt
       request.body = self.to_json(true)
       begin
         response = YAML.load(Util.handle_response(Connection.http_connection.request(request), true, true))
-        self.id = response["id"]
+        self.id = response['id']
         self.new_record = false
         return true
       rescue Timeout::Error
-        puts "Request timeout. Will retry in 5 seconds."
+        puts 'Request timeout. Will retry in 5 seconds.'
         if (tries -= 1) > 0
           sleep(5)
           retry
@@ -269,20 +269,20 @@ module WebTranslateIt
 
     def to_json(with_translations = false) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
       hash = {
-        "id" => id,
-        "key" => key,
-        "plural" => plural,
-        "type" => type,
-        "dev_comment" => dev_comment,
-        "status" => status,
-        "labels" => labels,
-        "category" => category,
-        "file" => file
+        'id' => id,
+        'key' => key,
+        'plural' => plural,
+        'type' => type,
+        'dev_comment' => dev_comment,
+        'status' => status,
+        'labels' => labels,
+        'category' => category,
+        'file' => file
       }
       if self.translations.any? && with_translations
-        hash.update({ "translations" => [] })
+        hash.update({ 'translations' => [] })
         translations.each do |translation|
-          hash["translations"].push(translation.to_hash)
+          hash['translations'].push(translation.to_hash)
         end
       end
       MultiJson.dump(hash)

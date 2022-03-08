@@ -12,21 +12,21 @@ module WebTranslateIt
       unless command == 'init'
         case command
         when 'pull'
-          message = "Pulling files"
+          message = 'Pulling files'
         when 'push'
-          message = "Pushing files"
+          message = 'Pushing files'
         when 'add'
-          message = "Creating master files"
+          message = 'Creating master files'
         when 'rm'
-          message = "Deleting files"
+          message = 'Deleting files'
         when 'mv'
-          message = "Moving files"
+          message = 'Moving files'
         when 'addlocale'
-          message = "Adding locale"
+          message = 'Adding locale'
         when 'rmlocale'
-          message = "Deleting locale"
+          message = 'Deleting locale'
         else
-          message = "Gathering information"
+          message = 'Gathering information'
         end
         throb { print "  #{message}"; self.configuration = WebTranslateIt::Configuration.new(project_path, configuration_file_path); print " #{message} on #{self.configuration.project_name}"; }
       end
@@ -50,7 +50,7 @@ module WebTranslateIt
       files = found_files if parameters.any?
       files = files.uniq.sort { |a, b| a.file_path <=> b.file_path }
       if files.size == 0
-        puts "No files to pull."
+        puts 'No files to pull.'
       else
         # Now actually pulling files
         time = Time.now
@@ -149,8 +149,8 @@ module WebTranslateIt
       complete_success = true
       STDOUT.sync = true
       if parameters == []
-        puts StringUtil.failure("Error: You must provide the path to the master file to add.")
-        puts "Usage: wti add path/to/master_file_1 path/to/master_file_2 ..."
+        puts StringUtil.failure('Error: You must provide the path to the master file to add.')
+        puts 'Usage: wti add path/to/master_file_1 path/to/master_file_2 ...'
         exit
       end
       WebTranslateIt::Connection.new(configuration.api_key) do |http|
@@ -158,12 +158,12 @@ module WebTranslateIt
         to_add = parameters.reject { |param| added.include?(File.expand_path(param)) }
         if to_add.any?
           to_add.each do |param|
-            file = TranslationFile.new(nil, param.gsub(/ /, "\\ "), nil, configuration.api_key)
+            file = TranslationFile.new(nil, param.gsub(/ /, '\\ '), nil, configuration.api_key)
             success = file.create(http, command_options.low_priority)
             complete_success = false if !success
           end
         else
-          puts "No new master file to add."
+          puts 'No new master file to add.'
         end
       end
       complete_success
@@ -173,8 +173,8 @@ module WebTranslateIt
       complete_success = true
       STDOUT.sync = true
       if parameters == []
-        puts StringUtil.failure("Error: You must provide the path to the master file to remove.")
-        puts "Usage: wti rm path/to/master_file_1 path/to/master_file_2 ..."
+        puts StringUtil.failure('Error: You must provide the path to the master file to remove.')
+        puts 'Usage: wti rm path/to/master_file_1 path/to/master_file_2 ...'
         exit
       end
       WebTranslateIt::Connection.new(configuration.api_key) do |http| # rubocop:todo Metrics/BlockLength
@@ -200,7 +200,7 @@ module WebTranslateIt
                   complete_success = false if !success
                 end
               end
-              puts StringUtil.success("All done.") if complete_success
+              puts StringUtil.success('All done.') if complete_success
             else
               puts StringUtil.failure("#{param}: File doesn’t exist on project.")
             end
@@ -214,8 +214,8 @@ module WebTranslateIt
       complete_success = true
       STDOUT.sync = true
       if parameters.count != 2
-        puts StringUtil.failure("Error: You must provide the source path and destination path of the master file to move.")
-        puts "Usage: wti mv path/to/master_file_old_path path/to/master_file_new_path ..."
+        puts StringUtil.failure('Error: You must provide the source path and destination path of the master file to move.')
+        puts 'Usage: wti mv path/to/master_file_old_path path/to/master_file_new_path ...'
         exit
       end
       source = parameters[0]
@@ -241,7 +241,7 @@ module WebTranslateIt
               success = target_file.fetch(http)
               complete_success = false if !success
             end
-            puts StringUtil.success("All done.") if complete_success
+            puts StringUtil.success('All done.') if complete_success
           end
         end
       end
@@ -251,8 +251,8 @@ module WebTranslateIt
     def addlocale # rubocop:todo Metrics/MethodLength
       STDOUT.sync = true
       if parameters == []
-        puts StringUtil.failure("Locale code missing.")
-        puts "Usage: wti addlocale fr es ..."
+        puts StringUtil.failure('Locale code missing.')
+        puts 'Usage: wti addlocale fr es ...'
         exit 1
       end
       parameters.each do |param|
@@ -260,15 +260,15 @@ module WebTranslateIt
         WebTranslateIt::Connection.new(configuration.api_key) do
           WebTranslateIt::Project.create_locale(param)
         end
-        puts "Done."
+        puts 'Done.'
       end
     end
 
     def rmlocale # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
       STDOUT.sync = true
       if parameters == []
-        puts StringUtil.failure("Error: You must provide the locale code to remove.")
-        puts "Usage: wti rmlocale fr es ..."
+        puts StringUtil.failure('Error: You must provide the locale code to remove.')
+        puts 'Usage: wti rmlocale fr es ...'
         exit 1
       end
       parameters.each do |param|
@@ -277,19 +277,19 @@ module WebTranslateIt
           WebTranslateIt::Connection.new(configuration.api_key) do |http|
             WebTranslateIt::Project.delete_locale(param)
           end
-          puts "Done."
+          puts 'Done.'
         end
       end
     end
 
     def init # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
-      puts "# Initializing project"
+      puts '# Initializing project'
       if parameters.any?
         api_key = parameters[0]
         path = '.wti'
       else
-        api_key = Util.ask(" Project API Key:")
-        path = Util.ask(" Path to configuration file:", '.wti')
+        api_key = Util.ask(' Project API Key:')
+        path = Util.ask(' Path to configuration file:', '.wti')
       end
       FileUtils.mkpath(path.split('/')[0..path.split('/').size - 2].join('/')) unless path.split('/').size == 1
       project = YAML.load WebTranslateIt::Project.fetch_info(api_key)
@@ -299,31 +299,31 @@ module WebTranslateIt
         exit 1
       end
       File.open(path, 'w') { |file| file << generate_configuration(api_key, project_info) }
-      puts ""
+      puts ''
       puts " The project #{project_info['name']} was successfully initialized."
-      puts ""
-      if project_info["source_locale"]["code"].nil? || project_info["target_locales"].size <= 1 || project_info["project_files"].none?
-        puts ""
-        puts " There are a few more things to set up:"
-        puts ""
+      puts ''
+      if project_info['source_locale']['code'].nil? || project_info['target_locales'].size <= 1 || project_info['project_files'].none?
+        puts ''
+        puts ' There are a few more things to set up:'
+        puts ''
       end
-      if project_info["source_locale"]["code"].nil?
+      if project_info['source_locale']['code'].nil?
         puts " *) You don't have a source locale setup."
-        puts "    Add the source locale with: `wti addlocale <locale_code>`"
-        puts ""
+        puts '    Add the source locale with: `wti addlocale <locale_code>`'
+        puts ''
       end
-      if project_info["target_locales"].size <= 1
+      if project_info['target_locales'].size <= 1
         puts " *) You don't have a target locale setup."
-        puts "    Add the first target locale with: `wti addlocale <locale_code>`"
-        puts ""
+        puts '    Add the first target locale with: `wti addlocale <locale_code>`'
+        puts ''
       end
-      if project_info["project_files"].none?
+      if project_info['project_files'].none?
         puts " *) You don't have linguistic files setup."
-        puts "    Add a master file with: `wti add <path/to/file.xml>`"
-        puts ""
+        puts '    Add a master file with: `wti add <path/to/file.xml>`'
+        puts ''
       end
-      puts "You can now use `wti` to push and pull your language files."
-      puts "Check `wti --help` for help."
+      puts 'You can now use `wti` to push and pull your language files.'
+      puts 'Check `wti --help` for help.'
       return true
     end
 
@@ -392,7 +392,7 @@ module WebTranslateIt
         locales = [configuration.source_locale]
       end
       if command_options.all
-        puts "`wti push --all` was deprecated in wti 2.3. Use `wti push --target` instead."
+        puts '`wti push --all` was deprecated in wti 2.3. Use `wti push --target` instead.'
         return []
       elsif command_options.target
         locales = configuration.target_locales.reject { |locale| locale == configuration.source_locale }
@@ -405,13 +405,13 @@ module WebTranslateIt
         return self.command_options.config
       else
         if File.exists?('config/translation.yml')
-          puts "Warning: `config/translation.yml` is deprecated in favour of a `.wti` file."
-          if Util.ask_yes_no("Would you like to migrate your configuration now?", true)
+          puts 'Warning: `config/translation.yml` is deprecated in favour of a `.wti` file.'
+          if Util.ask_yes_no('Would you like to migrate your configuration now?', true)
             require 'fileutils'
             if FileUtils.mv('config/translation.yml', '.wti') # rubocop:todo Metrics/BlockNesting
               return '.wti'
             else
-              puts "Couldn’t move `config/translation.yml`."
+              puts 'Couldn’t move `config/translation.yml`.'
               return false
             end
           else

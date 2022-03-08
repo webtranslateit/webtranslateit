@@ -29,16 +29,16 @@ module WebTranslateIt
         end
       elsif response.code.to_i == 500
         if raise_exception
-          raise "Error: Server temporarily unavailable (Error 500)."
+          raise 'Error: Server temporarily unavailable (Error 500).'
         else
-          puts StringUtil.failure("Error: Server temporarily unavailable (Error 500).")
+          puts StringUtil.failure('Error: Server temporarily unavailable (Error 500).')
         end
       else
         return response.body if return_response
-        return StringUtil.success("OK") if response.code.to_i == 200
-        return StringUtil.success("Created") if response.code.to_i == 201
-        return StringUtil.success("Accepted") if response.code.to_i == 202
-        return StringUtil.success("Not Modified") if response.code.to_i == 304
+        return StringUtil.success('OK') if response.code.to_i == 200
+        return StringUtil.success('Created') if response.code.to_i == 201
+        return StringUtil.success('Accepted') if response.code.to_i == 202
+        return StringUtil.success('Not Modified') if response.code.to_i == 304
         return StringUtil.failure("Locked\n                                                    (another import in progress)") if response.code.to_i == 503
       end
     end
@@ -47,9 +47,9 @@ module WebTranslateIt
     # rubocop:enable Metrics/PerceivedComplexity
 
     def self.add_fields(request)
-      request.add_field("X-Client-Name", "web_translate_it")
-      request.add_field("X-Client-Version", version)
-      request.add_field("Content-Type", "application/json")
+      request.add_field('X-Client-Name', 'web_translate_it')
+      request.add_field('X-Client-Version', version)
+      request.add_field('Content-Type', 'application/json')
     end
 
     ##
@@ -90,7 +90,7 @@ module WebTranslateIt
 
     def self.ask(question, default = nil)
       question = question + " (Default: #{default})" unless default.nil?
-      print(question + "  ")
+      print(question + '  ')
       STDOUT.flush
 
       result = STDIN.gets
@@ -103,7 +103,7 @@ module WebTranslateIt
     # Returns whether a terminal can display ansi colors
 
     def self.can_display_colors?
-      !RUBY_PLATFORM.downcase.include?("mingw32")
+      !RUBY_PLATFORM.downcase.include?('mingw32')
     end
   end
 end

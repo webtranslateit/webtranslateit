@@ -442,13 +442,6 @@ Style/StringConcatenation:
     - 'lib/web_translate_it/term.rb'
     - 'lib/web_translate_it/util.rb'
 
-# Offense count: 467
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, ConsistentQuotesInMultiline.
-# SupportedStyles: single_quotes, double_quotes
-Style/StringLiterals:
-  Enabled: false
-
 # Offense count: 4
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.

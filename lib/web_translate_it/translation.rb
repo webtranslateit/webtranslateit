@@ -18,15 +18,15 @@ module WebTranslateIt
 
     def initialize(params = {}) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
       params.stringify_keys!
-      self.id         = params["id"] || nil
-      self.locale     = params["locale"] || nil
-      self.text       = params["text"] || nil
-      self.status     = params["status"] || "status_unproofread"
-      self.created_at = params["created_at"] || nil
-      self.updated_at = params["updated_at"] || nil
-      self.version    = params["version"] || nil
-      if params["string"]
-        self.string_id = params["string"]["id"]
+      self.id         = params['id'] || nil
+      self.locale     = params['locale'] || nil
+      self.text       = params['text'] || nil
+      self.status     = params['status'] || 'status_unproofread'
+      self.created_at = params['created_at'] || nil
+      self.updated_at = params['updated_at'] || nil
+      self.version    = params['version'] || nil
+      if params['string']
+        self.string_id = params['string']['id']
       else
         self.string_id = nil
       end
@@ -50,7 +50,7 @@ module WebTranslateIt
       begin
         Util.handle_response(Connection.http_connection.request(request), true, true)
       rescue Timeout::Error
-        puts "Request timeout. Will retry in 5 seconds."
+        puts 'Request timeout. Will retry in 5 seconds.'
         if (tries -= 1) > 0
           sleep(5)
           retry
@@ -62,9 +62,9 @@ module WebTranslateIt
 
     def to_hash
       {
-        "locale" => locale,
-        "text" => text,
-        "status" => status
+        'locale' => locale,
+        'text' => text,
+        'status' => status
       }
     end
 

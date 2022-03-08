@@ -15,12 +15,12 @@ module WebTranslateIt
     attr_accessor :logger, :before_pull, :after_pull, :before_push, :after_push, :project_name, :path_to_config_file
 
     # Load configuration file from the path.
-    def initialize(root_path = Rails.root, path_to_config_file = ".wti") # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
+    def initialize(root_path = Rails.root, path_to_config_file = '.wti') # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
       self.path_to_config_file = path_to_config_file
       self.path           = root_path
       self.logger         = logger
       if File.exists?(File.expand_path(path_to_config_file, self.path))
-        self.api_key        = ENV["WTI_PROJECT_API_KEY"] || configuration['api_key']
+        self.api_key        = ENV['WTI_PROJECT_API_KEY'] || configuration['api_key']
         self.before_pull    = configuration['before_pull']
         self.after_pull     = configuration['after_pull']
         self.before_push    = configuration['before_push']

@@ -13,13 +13,13 @@ module WebTranslateIt
           if response.is_a?(Net::HTTPSuccess)
             return response.body
           else
-            puts "An error occured while fetching the project information:"
+            puts 'An error occured while fetching the project information:'
             puts StringUtil.failure(response.body)
             exit 1
           end
         end
       rescue Timeout::Error
-        puts "Request timeout. Will retry in 5 seconds."
+        puts 'Request timeout. Will retry in 5 seconds.'
         if (tries -= 1) > 0
           sleep(5)
           retry
@@ -42,7 +42,7 @@ module WebTranslateIt
           return Util.handle_response(http.request(request), true)
         end
       rescue Timeout::Error
-        puts "Request timeout. Will retry in 5 seconds."
+        puts 'Request timeout. Will retry in 5 seconds.'
         if (tries -= 1) > 0
           sleep(5)
           retry
@@ -62,7 +62,7 @@ module WebTranslateIt
         request.set_form_data({ 'id' => locale_code }, ';')
         Util.handle_response(Connection.http_connection.request(request), true)
       rescue Timeout::Error
-        puts "Request timeout. Will retry in 5 seconds."
+        puts 'Request timeout. Will retry in 5 seconds.'
         if (tries -= 1) > 0
           sleep(5)
           retry
@@ -81,7 +81,7 @@ module WebTranslateIt
         WebTranslateIt::Util.add_fields(request)
         Util.handle_response(Connection.http_connection.request(request), true)
       rescue Timeout::Error
-        puts "Request timeout. Will retry in 5 seconds."
+        puts 'Request timeout. Will retry in 5 seconds.'
         if (tries -= 1) > 0
           sleep(5)
           retry

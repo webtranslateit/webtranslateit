@@ -40,7 +40,7 @@ module WebTranslateIt
         @@http_connection = http.start
         yield @@http_connection if block_given?
       rescue OpenSSL::SSL::SSLError
-        puts "Unable to verify SSL certificate." unless @@silent
+        puts 'Unable to verify SSL certificate.' unless @@silent
         http = Net::HTTP::Proxy(proxy.host, proxy.port, proxy.user, proxy.password).new('webtranslateit.com', 443)
         http.set_debug_output($stderr) if @@debug
         http.use_ssl      = true

@@ -1,11 +1,11 @@
 class StringUtil
   def self.backward_truncate(str)
     if str.length <= 50
-      spaces = ""
-      (50 - str.length).times { spaces << " " }
+      spaces = ''
+      (50 - str.length).times { spaces << ' ' }
       return str.dup << spaces
     else
-      return "..." << str[str.length - 50 + 3..str.length]
+      return '...' << str[str.length - 50 + 3..str.length]
     end
   end
 

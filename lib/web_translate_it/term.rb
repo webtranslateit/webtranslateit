@@ -23,12 +23,12 @@ module WebTranslateIt
 
     def initialize(params = {})
       params.stringify_keys!
-      self.id           = params["id"] || nil
-      self.text         = params["text"] || nil
-      self.description  = params["description"] || nil
-      self.created_at   = params["created_at"] || nil
-      self.updated_at   = params["updated_at"] || nil
-      self.translations = params["translations"] || []
+      self.id           = params['id'] || nil
+      self.text         = params['text'] || nil
+      self.description  = params['description'] || nil
+      self.created_at   = params['created_at'] || nil
+      self.updated_at   = params['updated_at'] || nil
+      self.translations = params['translations'] || []
       self.new_record   = true
     end
 
@@ -60,8 +60,8 @@ module WebTranslateIt
             term.new_record = false
             terms.push(term)
           end
-          if response["Link"] && response["Link"].include?("rel=\"next\"")
-            url = response["Link"].match(/<(.*)>; rel="next"/)[1]
+          if response['Link'] && response['Link'].include?('rel="next"')
+            url = response['Link'].match(/<(.*)>; rel="next"/)[1]
             request = Net::HTTP::Get.new(url)
             WebTranslateIt::Util.add_fields(request)
           else
@@ -70,7 +70,7 @@ module WebTranslateIt
         end
         return terms
       rescue Timeout::Error
-        puts "Request timeout. Will retry in 5 seconds."
+        puts 'Request timeout. Will retry in 5 seconds.'
         if (tries -= 1) > 0
           sleep(5)
           retry
@@ -108,7 +108,7 @@ module WebTranslateIt
         term.new_record = false
         return term
       rescue Timeout::Error
-        puts "Request timeout. Will retry in 5 seconds."
+        puts 'Request timeout. Will retry in 5 seconds.'
         if (tries -= 1) > 0
           sleep(5)
           retry
@@ -152,7 +152,7 @@ module WebTranslateIt
       begin
         Util.handle_response(Connection.http_connection.request(request), true, true)
       rescue Timeout::Error
-        puts "Request timeout. Will retry in 5 seconds."
+        puts 'Request timeout. Will retry in 5 seconds.'
         if (tries -= 1) > 0
           sleep(5)
           retry
@@ -194,7 +194,7 @@ module WebTranslateIt
         end
         return translations
       rescue Timeout::Error
-        puts "Request timeout. Will retry in 5 seconds."
+        puts 'Request timeout. Will retry in 5 seconds.'
         if (tries -= 1) > 0
           sleep(5)
           retry
@@ -222,7 +222,7 @@ module WebTranslateIt
       begin
         Util.handle_response(Connection.http_connection.request(request), true, true)
       rescue Timeout::Error
-        puts "Request timeout. Will retry in 5 seconds."
+        puts 'Request timeout. Will retry in 5 seconds.'
         if (tries -= 1) > 0
           sleep(5)
           retry
@@ -242,11 +242,11 @@ module WebTranslateIt
 
       begin
         response = YAML.load(Util.handle_response(Connection.http_connection.request(request), true, true))
-        self.id = response["id"]
+        self.id = response['id']
         self.new_record = false
         return true
       rescue Timeout::Error
-        puts "Request timeout. Will retry in 5 seconds."
+        puts 'Request timeout. Will retry in 5 seconds.'
         if (tries -= 1) > 0
           sleep(5)
           retry
@@ -259,14 +259,14 @@ module WebTranslateIt
 
     def to_json(with_translations = false) # rubocop:todo Metrics/MethodLength
       hash = {
-        "id" => id,
-        "text" => text,
-        "description" => description
+        'id' => id,
+        'text' => text,
+        'description' => description
       }
       if self.translations.any? && with_translations
-        hash.update({ "translations" => [] })
+        hash.update({ 'translations' => [] })
         translations.each do |translation|
-          hash["translations"].push(translation.to_hash)
+          hash['translations'].push(translation.to_hash)
         end
       end
       MultiJson.dump(hash)

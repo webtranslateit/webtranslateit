@@ -18,12 +18,12 @@ module WebTranslateIt
 
     def initialize(params = {})
       params.stringify_keys!
-      self.id          = params["id"] || nil
-      self.locale      = params["locale"] || nil
-      self.text        = params["text"] || nil
-      self.description = params["description"] || nil
-      self.status      = params["status"] || nil
-      self.term_id     = params["term_id"] || nil
+      self.id          = params['id'] || nil
+      self.locale      = params['locale'] || nil
+      self.text        = params['text'] || nil
+      self.description = params['description'] || nil
+      self.status      = params['status'] || nil
+      self.term_id     = params['term_id'] || nil
       self.new_record  = true
     end
 
@@ -43,11 +43,11 @@ module WebTranslateIt
 
     def to_hash
       {
-        "id" => id,
-        "locale" => locale,
-        "text" => text,
-        "description" => description,
-        "status" => status
+        'id' => id,
+        'locale' => locale,
+        'text' => text,
+        'description' => description,
+        'status' => status
       }
     end
 
@@ -66,11 +66,11 @@ module WebTranslateIt
 
       begin
         response = YAML.load(Util.handle_response(Connection.http_connection.request(request), true, true))
-        self.id = response["id"]
+        self.id = response['id']
         self.new_record = false
         return true
       rescue Timeout::Error
-        puts "Request timeout. Will retry in 5 seconds."
+        puts 'Request timeout. Will retry in 5 seconds.'
         if (tries -= 1) > 0
           sleep(5)
           retry
@@ -90,7 +90,7 @@ module WebTranslateIt
       begin
         Util.handle_response(Connection.http_connection.request(request), true, true)
       rescue Timeout::Error
-        puts "Request timeout. Will retry in 5 seconds."
+        puts 'Request timeout. Will retry in 5 seconds.'
         if (tries -= 1) > 0
           sleep(5)
           retry

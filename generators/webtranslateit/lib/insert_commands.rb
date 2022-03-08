@@ -10,7 +10,7 @@ Rails::Generator::Commands::Create.class_eval do
   def append_to(file, line)
     logger.insert "#{line} appended to #{file}"
     unless options[:pretend] || file_contains?(file, line)
-      File.open(file, "a") do |file|
+      File.open(file, 'a') do |file|
         file.puts
         file.puts line
       end
