@@ -96,7 +96,7 @@ module WebTranslateIt
       display = []
       display.push(file_path)
       display.push "#{StringUtil.checksumify(local_checksum.to_s)}..#{StringUtil.checksumify(remote_checksum.to_s)}"
-      if File.exists?(file_path)
+      if File.exist?(file_path)
         if force or remote_checksum != local_checksum
           File.open(file_path) do |file|
             params = { 'file' => UploadIO.new(file, 'text/plain', file.path), 'merge' => merge, 'ignore_missing' => ignore_missing, 'label' => label, 'low_priority' => low_priority, 'minor_changes' => minor_changes }
@@ -148,7 +148,7 @@ module WebTranslateIt
       display = []
       display.push file_path
       display.push "#{StringUtil.checksumify(local_checksum.to_s)}..[     ]"
-      if File.exists?(file_path)
+      if File.exist?(file_path)
         File.open(file_path) do |file|
           request = Net::HTTP::Post::Multipart.new(api_url_for_create, { 'name' => file_path, 'file' => UploadIO.new(file, 'text/plain', file.path), 'low_priority' => low_priority })
           WebTranslateIt::Util.add_fields(request)
@@ -179,7 +179,7 @@ module WebTranslateIt
       tries ||= 3
       display = []
       display.push file_path
-      if File.exists?(file_path)
+      if File.exist?(file_path)
         begin
           request = Net::HTTP::Delete.new(api_url_for_delete)
           WebTranslateIt::Util.add_fields(request)
@@ -204,7 +204,7 @@ module WebTranslateIt
     end
 
     def exists?
-      File.exists?(file_path)
+      File.exist?(file_path)
     end
 
     def modified_remotely?

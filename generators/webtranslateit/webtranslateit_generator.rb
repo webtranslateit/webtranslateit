@@ -21,6 +21,6 @@ class WebtranslateitGenerator < Rails::Generator::Base
   end
 
   def api_key_configured?
-    File.exists?('config/translations.yml')
+    File.exist?('config/translations.yml')
   end
 end

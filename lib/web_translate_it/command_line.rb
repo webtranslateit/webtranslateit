@@ -188,13 +188,13 @@ module WebTranslateIt
             files.each do |master_file|
               master_file.delete(http)
               # delete files
-              if File.exists?(master_file.file_path)
+              if File.exist?(master_file.file_path)
                 success = File.delete(master_file.file_path)
                 puts StringUtil.success("Deleted master file #{master_file.file_path}.") if success
               end
               complete_success = false unless success
               configuration.files.find_all { |file| file.master_id == master_file.id }.each do |target_file|
-                if File.exists?(target_file.file_path)
+                if File.exist?(target_file.file_path)
                   success = File.delete(target_file.file_path)
                   puts StringUtil.success("Deleted target file #{target_file.file_path}.") if success
                 else
@@ -227,13 +227,13 @@ module WebTranslateIt
           configuration.files.find_all { |file| file.file_path == source }.each do |master_file|
             master_file.upload(http, false, false, nil, false, false, true, true, destination)
             # move master file
-            if File.exists?(source)
-              success = File.rename(source, destination) if File.exists?(source)
+            if File.exist?(source)
+              success = File.rename(source, destination) if File.exist?(source)
               puts StringUtil.success("Moved master file #{master_file.file_path}.") if success
             end
             complete_success = false unless success
             configuration.files.find_all { |file| file.master_id == master_file.id }.each do |target_file|
-              if File.exists?(target_file.file_path)
+              if File.exist?(target_file.file_path)
                 success = File.delete(target_file.file_path)
                 complete_success = false unless success
               end
@@ -296,7 +296,7 @@ module WebTranslateIt
       FileUtils.mkpath(path.split('/')[0..path.split('/').size - 2].join('/')) unless path.split('/').size == 1
       project = YAML.load WebTranslateIt::Project.fetch_info(api_key)
       project_info = project['project']
-      if File.exists?(path) && !File.writable?(path)
+      if File.exist?(path) && !File.writable?(path)
         puts StringUtil.failure("Error: `#{path}` file is not writable.")
         exit 1
       end
@@ -331,13 +331,13 @@ module WebTranslateIt
 
     def match # rubocop:todo Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
       configuration.files.find_all { |mf| mf.locale == configuration.source_locale }.each do |master_file|
-        if File.exists?(master_file.file_path)
+        if File.exist?(master_file.file_path)
           puts StringUtil.important(master_file.file_path) + " (#{master_file.locale})"
         else
           puts StringUtil.failure(master_file.file_path) + " (#{master_file.locale})"
         end
         configuration.files.find_all { |f| f.master_id == master_file.id }.each do |file|
-          if File.exists?(file.file_path)
+          if File.exist?(file.file_path)
             puts "- #{file.file_path}" + " (#{file.locale})"
           else
             puts StringUtil.failure("- #{file.file_path}") + " (#{file.locale})"
@@ -400,7 +400,7 @@ module WebTranslateIt
     def configuration_file_path
       return command_options.config if command_options.config
 
-      return '.wti' unless File.exists?('config/translation.yml')
+      return '.wti' unless File.exist?('config/translation.yml')
 
       puts 'Warning: `config/translation.yml` is deprecated in favour of a `.wti` file.'
       return 'config/translation.yml' unless Util.ask_yes_no('Would you like to migrate your configuration now?', true)
