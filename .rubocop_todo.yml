@@ -87,14 +87,6 @@ Security/YAMLLoad:
     - 'lib/web_translate_it/term.rb'
     - 'lib/web_translate_it/term_translation.rb'
 
-# Offense count: 2
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: separated, grouped
-Style/AccessorGrouping:
-  Exclude:
-    - 'lib/web_translate_it/configuration.rb'
-
 # Offense count: 7
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.
