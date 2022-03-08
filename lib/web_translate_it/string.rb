@@ -67,7 +67,7 @@ module WebTranslateIt
             string.new_record = false
             strings.push(string)
           end
-          if response['Link'] && response['Link'].include?('rel="next"')
+          if response['Link']&.include?('rel="next"')
             url = response['Link'].match(/<(.*)>; rel="next"/)[1]
             request = Net::HTTP::Get.new(url)
             WebTranslateIt::Util.add_fields(request)

@@ -85,7 +85,7 @@ module WebTranslateIt
       $stdout.flush
 
       result = $stdin.gets
-      result.chomp! if result
+      result&.chomp!
       result = default if result.nil? or result == ''
       result
     end
