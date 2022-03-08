@@ -11,7 +11,7 @@ describe WebTranslateIt::String do
     end
 
     it 'should assign parameters using symbols' do
-      string = WebTranslateIt::String.new({ :id => 1234, :key => 'bacon' })
+      string = WebTranslateIt::String.new({ id: 1234, key: 'bacon' })
       string.id.should == 1234
       string.key.should == 'bacon'
     end
@@ -112,7 +112,7 @@ describe WebTranslateIt::String do
         strings[0].key.should == 'four five six'
         strings[1].key.should == 'six seven eight'
 
-        strings = WebTranslateIt::String.find_all({ :key => 'six' })
+        strings = WebTranslateIt::String.find_all({ key: 'six' })
         strings.count.should == 2
         strings[0].key.should == 'four five six'
         strings[1].key.should == 'six seven eight'
@@ -143,8 +143,8 @@ describe WebTranslateIt::String do
     end
 
     it 'should not return a stale object' do
-      string = WebTranslateIt::String.new({ :key => 'greetings 2' })
-      translation = WebTranslateIt::Translation.new({ :locale => 'es', :text => 'text', :string_id => string.id })
+      string = WebTranslateIt::String.new({ key: 'greetings 2' })
+      translation = WebTranslateIt::Translation.new({ locale: 'es', text: 'text', string_id: string.id })
       string.translations << translation
       string.translation_for('fr').should be_nil
       string.translation_for('es').should_not be_nil

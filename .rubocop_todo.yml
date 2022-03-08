@@ -129,19 +129,6 @@ Style/Documentation:
 Style/FrozenStringLiteralComment:
   Enabled: false
 
-# Offense count: 14
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, EnforcedShorthandSyntax, UseHashRocketsWithSymbolValues, PreferHashRocketsForNonAlnumEndingSymbols.
-# SupportedStyles: ruby19, hash_rockets, no_mixed_keys, ruby19_no_mixed_keys
-# SupportedShorthandSyntax: always, never, either
-Style/HashSyntax:
-  Exclude:
-    - 'Rakefile'
-    - 'generators/webtranslateit/webtranslateit_generator.rb'
-    - 'spec/web_translate_it/auto_fetch_spec.rb'
-    - 'spec/web_translate_it/string_spec.rb'
-    - 'spec/web_translate_it/term_spec.rb'
-
 # Offense count: 2
 # Cop supports --auto-correct.
 # Configuration parameters: AllowIfModifier.

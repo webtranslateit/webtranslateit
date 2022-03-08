@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe WebTranslateIt::AutoFetch do
-  let(:application) { double(:application, :call => []) }
+  let(:application) { double(:application, call: []) }
 
   let(:env) do
     { 'PATH_INFO' => path }
