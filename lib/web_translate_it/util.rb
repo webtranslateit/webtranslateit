@@ -55,7 +55,7 @@ module WebTranslateIt
     ##
     # Ask a question. Returns a true for yes, false for no, default for nil.
 
-    def self.ask_yes_no(question, default = nil) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/MethodLength
+    def self.ask_yes_no(question, default = nil) # rubocop:todo Metrics/MethodLength
       qstr = case default
              when nil
                'yn'
@@ -74,8 +74,7 @@ module WebTranslateIt
                    true
                  when /^[Nn].*/
                    false
-                 when /^$/
-                 when nil
+                 when '', nil
                    default
                  end
       end
