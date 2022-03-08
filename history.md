@@ -1,3 +1,7 @@
+## Version 2.5.4 / 2022-03-08
+
+* Better support for `before_pull`, `after_pull`, `before_push`, `after_push` hooks. They now display the command output, and write an error message if the exit status of the command was not successful.
+
 ## Version 2.5.3 / 2022-02-04
 
 * Properly fix ruby compatibility issues.
