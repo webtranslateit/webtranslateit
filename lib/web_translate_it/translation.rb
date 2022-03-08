@@ -16,7 +16,7 @@ module WebTranslateIt
     # to instantiate a new Translation without any text.
     #
 
-    def initialize(params = {}) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
+    def initialize(params = {}) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/PerceivedComplexity
       params.stringify_keys!
       self.id         = params['id'] || nil
       self.locale     = params['locale'] || nil
@@ -25,11 +25,7 @@ module WebTranslateIt
       self.created_at = params['created_at'] || nil
       self.updated_at = params['updated_at'] || nil
       self.version    = params['version'] || nil
-      if params['string']
-        self.string_id = params['string']['id']
-      else
-        self.string_id = nil
-      end
+      self.string_id = (params['string']['id'] if params['string'])
     end
 
     # Save a WebTranslateIt::Translation

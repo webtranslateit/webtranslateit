@@ -102,15 +102,6 @@ Style/ClassVars:
   Exclude:
     - 'lib/web_translate_it/connection.rb'
 
-# Offense count: 3
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SingleLineConditionsOnly, IncludeTernaryExpressions.
-# SupportedStyles: assign_to_condition, assign_inside_condition
-Style/ConditionalAssignment:
-  Exclude:
-    - 'lib/web_translate_it/command_line.rb'
-    - 'lib/web_translate_it/translation.rb'
-
 # Offense count: 14
 # Configuration parameters: AllowedConstants.
 Style/Documentation:

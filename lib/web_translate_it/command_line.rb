@@ -6,28 +6,28 @@ module WebTranslateIt
     require 'set'
     attr_accessor :configuration, :global_options, :command_options, :parameters
 
-    def initialize(command, command_options, global_options, parameters, project_path) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength
+    def initialize(command, command_options, global_options, parameters, project_path) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/MethodLength
       self.command_options = command_options
       self.parameters = parameters
       unless command == 'init'
-        case command
-        when 'pull'
-          message = 'Pulling files'
-        when 'push'
-          message = 'Pushing files'
-        when 'add'
-          message = 'Creating master files'
-        when 'rm'
-          message = 'Deleting files'
-        when 'mv'
-          message = 'Moving files'
-        when 'addlocale'
-          message = 'Adding locale'
-        when 'rmlocale'
-          message = 'Deleting locale'
-        else
-          message = 'Gathering information'
-        end
+        message = case command
+                  when 'pull'
+                    'Pulling files'
+                  when 'push'
+                    'Pushing files'
+                  when 'add'
+                    'Creating master files'
+                  when 'rm'
+                    'Deleting files'
+                  when 'mv'
+                    'Moving files'
+                  when 'addlocale'
+                    'Adding locale'
+                  when 'rmlocale'
+                    'Deleting locale'
+                  else
+                    'Gathering information'
+                  end
         throb { print "  #{message}"; self.configuration = WebTranslateIt::Configuration.new(project_path, configuration_file_path); print " #{message} on #{self.configuration.project_name}"; }
       end
       success = self.send(command)
@@ -104,11 +104,11 @@ module WebTranslateIt
       before_push_hook
       WebTranslateIt::Connection.new(configuration.api_key) do |http|
         fetch_locales_to_push(configuration).each do |locale|
-          if parameters.any?
-            files = configuration.files.find_all { |file| parameters.include?(file.file_path) }.sort { |a, b| a.file_path <=> b.file_path }
-          else
-            files = configuration.files.find_all { |file| file.locale == locale }.sort { |a, b| a.file_path <=> b.file_path }
-          end
+          files = if parameters.any?
+                    configuration.files.find_all { |file| parameters.include?(file.file_path) }.sort { |a, b| a.file_path <=> b.file_path }
+                  else
+                    configuration.files.find_all { |file| file.locale == locale }.sort { |a, b| a.file_path <=> b.file_path }
+                  end
           if files.size == 0
             puts "Couldn't find any local files registered on WebTranslateIt to push."
           else
