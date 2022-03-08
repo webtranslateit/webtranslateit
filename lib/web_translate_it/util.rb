@@ -19,7 +19,7 @@ module WebTranslateIt
     # rubocop:todo Metrics/MethodLength
     # rubocop:todo Metrics/AbcSize
     def self.handle_response(response, return_response = false, raise_exception = false) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
-      if response.code.to_i >= 400 and response.code.to_i < 500
+      if (response.code.to_i >= 400) && (response.code.to_i < 500)
         raise "Error: #{MultiJson.load(response.body)['error']}" if raise_exception
 
         puts StringUtil.failure(MultiJson.load(response.body)['error'])
@@ -86,7 +86,7 @@ module WebTranslateIt
 
       result = $stdin.gets
       result&.chomp!
-      result = default if result.nil? or result == ''
+      result = default if result.nil? || (result == '')
       result
     end
 

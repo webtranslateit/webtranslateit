@@ -70,7 +70,7 @@ module WebTranslateIt
     def set_files(project) # rubocop:todo Metrics/AbcSize
       self.files = []
       project['project_files'].each do |project_file|
-        if project_file['name'].nil? or project_file['name'].strip == ''
+        if project_file['name'].nil? || (project_file['name'].strip == '')
           puts "File #{project_file['id']} not set up"
         elsif ignore_files&.any? { |glob| File.fnmatch(glob, project_file['name']) }
           puts "Ignoring #{project_file['name']}"

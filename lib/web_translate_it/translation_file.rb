@@ -46,11 +46,11 @@ module WebTranslateIt
         display.push("*#{file_path}")
       end
       display.push "#{StringUtil.checksumify(local_checksum.to_s)}..#{StringUtil.checksumify(remote_checksum.to_s)}"
-      if !File.exist?(file_path) or force or remote_checksum != local_checksum
+      if !File.exist?(file_path) || force || (remote_checksum != local_checksum)
         begin
           request = Net::HTTP::Get.new(api_url)
           WebTranslateIt::Util.add_fields(request)
-          FileUtils.mkpath(file_path.split('/')[0..-2].join('/')) unless File.exist?(file_path) or file_path.split('/')[0..-2].join('/') == ''
+          FileUtils.mkpath(file_path.split('/')[0..-2].join('/')) unless File.exist?(file_path) || (file_path.split('/')[0..-2].join('/') == '')
           begin
             response = http_connection.request(request)
             File.open(file_path, 'wb') { |file| file << response.body } if response.code.to_i == 200
@@ -97,7 +97,7 @@ module WebTranslateIt
       display.push(file_path)
       display.push "#{StringUtil.checksumify(local_checksum.to_s)}..#{StringUtil.checksumify(remote_checksum.to_s)}"
       if File.exist?(file_path)
-        if force or remote_checksum != local_checksum
+        if force || (remote_checksum != local_checksum)
           File.open(file_path) do |file|
             params = { 'file' => UploadIO.new(file, 'text/plain', file.path), 'merge' => merge, 'ignore_missing' => ignore_missing, 'label' => label, 'low_priority' => low_priority, 'minor_changes' => minor_changes }
             params['name'] = destination_path unless destination_path.nil?

@@ -31,6 +31,7 @@ Naming/AccessorMethodName:
     - 'lib/web_translate_it/configuration.rb'
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 # Offense count: 7
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.
@@ -41,6 +42,8 @@ Style/AndOr:
     - 'lib/web_translate_it/translation_file.rb'
     - 'lib/web_translate_it/util.rb'
 
+=======
+>>>>>>> a65ec25 (Fix Style/AndOr offences)
 # Offense count: 9
 Style/ClassVars:
   Exclude:
