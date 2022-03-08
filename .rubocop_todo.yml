@@ -42,13 +42,6 @@ Lint/ShadowingOuterLocalVariable:
     - 'lib/web_translate_it/term.rb'
     - 'lib/web_translate_it/util/hash_util.rb'
 
-# Offense count: 2
-# Cop supports --auto-correct.
-Lint/ToJSON:
-  Exclude:
-    - 'lib/web_translate_it/term_translation.rb'
-    - 'lib/web_translate_it/translation.rb'
-
 # Offense count: 1
 # Cop supports --auto-correct.
 # Configuration parameters: AllowUnusedKeywordArguments, IgnoreEmptyMethods, IgnoreNotImplementedMethods.

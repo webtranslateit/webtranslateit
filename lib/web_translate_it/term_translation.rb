@@ -49,7 +49,7 @@ module WebTranslateIt
       }
     end
 
-    def to_json
+    def to_json(*_args)
       MultiJson.dump(to_hash)
     end
 
