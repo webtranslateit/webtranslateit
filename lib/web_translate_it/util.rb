@@ -80,7 +80,7 @@ module WebTranslateIt
     # Ask a question. Returns an answer.
 
     def self.ask(question, default = nil)
-      question = question + " (Default: #{default})" unless default.nil?
+      question += " (Default: #{default})" unless default.nil?
       print("#{question}  ")
       $stdout.flush
 
