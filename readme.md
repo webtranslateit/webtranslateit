@@ -1,7 +1,7 @@
 # WebTranslateIt Synchronization Tool : wti
 
-[RubyDoc](https://rubydoc.info/github/webtranslateit/webtranslateit/master) | 
-[Report a bug](https://github.com/webtranslateit/webtranslateit/issues) | 
+[RubyDoc](https://rubydoc.info/github/webtranslateit/webtranslateit/master) |
+[Report a bug](https://github.com/webtranslateit/webtranslateit/issues) |
 [Support](https://webtranslateit.com/support) |
 [WebTranslateIt.com Homepage](https://webtranslateit.com)
 
@@ -32,7 +32,7 @@ Fetching: web_translate_it-2.1.3.gem (100%)
 Successfully installed web_translate_it-2.1.3
 1 gem installed
 ```
-    
+
 At this point you should have the `wti` executable working:
 
 ``` bash
@@ -83,9 +83,9 @@ Please refer to [our documentation about syncing multiple projects](https://gith
 Execute `wti --help` to see the usage:
 
     Usage: wti <command> [options]+
-  
+
     The most commonly used wti commands are:
-  
+
       pull        Pull target language file(s)
       push        Push master language file(s)
       match       Display matching of local files with File Manager
@@ -96,7 +96,7 @@ Execute `wti --help` to see the usage:
       init        Configure your project to sync      
 
     See `wti <command> --help` for more information on a specific command.
-  
+
     [options] are:
       --config, -c <s>:   Path to a translation.yml file (default: .wti)
          --version, -v:   Print version and exit
@@ -217,7 +217,7 @@ There are 4 hooks:
 * `before_push`
 * `after_push`
 
-Check the [sample `.wti`](https://github.com/webtranslateit/webtranslateit/blob/master/examples/.wti#L9..L13) file for implementation.
+Check the [sample `.wti`](https://github.com/webtranslateit/webtranslateit/blob/master/examples/.wti#L16-L21) file for implementation.
 
 ## Exit codes
 
