@@ -1,15 +1,17 @@
 module WebTranslateIt
   class Connection
+    attr_reader :api_key, :http_connection
+
     require 'net/http'
     require 'net/https'
     require 'openssl'
     require 'uri'
     require 'ostruct'
 
-    @@api_key = nil
-    @@http_connection = nil
-    @@debug = false
-    @@silent = false
+    @api_key = nil
+    @http_connection = nil
+    @debug = false
+    @silent = false
 
     #
     # Initialize and yield a HTTPS Keep-Alive connection to WebTranslateIt.com
@@ -27,44 +29,36 @@ module WebTranslateIt
     # end
     #
     def initialize(api_key) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength
-      @@api_key = api_key
+      @api_key = api_key
       proxy = ENV['http_proxy'] ? URI.parse(ENV['http_proxy']) : OpenStruct.new
       http = Net::HTTP::Proxy(proxy.host, proxy.port, proxy.user, proxy.password).new('webtranslateit.com', 443)
       http.use_ssl      = true
       http.open_timeout = http.read_timeout = 60
-      http.set_debug_output($stderr) if @@debug
+      http.set_debug_output($stderr) if @debug
       begin
-        http.verify_mode  = OpenSSL::SSL::VERIFY_PEER
-        @@http_connection = http.start
-        yield @@http_connection if block_given?
+        http.verify_mode = OpenSSL::SSL::VERIFY_PEER
+        @http_connection = http.start
+        yield @http_connection if block_given?
       rescue OpenSSL::SSL::SSLError
-        puts 'Unable to verify SSL certificate.' unless @@silent
+        puts 'Unable to verify SSL certificate.' unless @silent
         http = Net::HTTP::Proxy(proxy.host, proxy.port, proxy.user, proxy.password).new('webtranslateit.com', 443)
-        http.set_debug_output($stderr) if @@debug
+        http.set_debug_output($stderr) if @debug
         http.use_ssl      = true
         http.open_timeout = http.read_timeout = 60
-        http.verify_mode  = OpenSSL::SSL::VERIFY_NONE
-        @@http_connection = http.start
-        yield @@http_connection if block_given?
+        http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+        @http_connection = http.start
+        yield @http_connection if block_given?
       rescue
         puts $!
       end
     end
 
-    def self.http_connection
-      @@http_connection
-    end
-
     def self.turn_debug_on
-      @@debug = true
+      @debug = true
     end
 
     def self.turn_silent_on
-      @@silent = true
-    end
-
-    def self.api_key
-      @@api_key
+      @silent = true
     end
   end
 end
