@@ -431,7 +431,7 @@ module WebTranslateIt
         # ignore_locales: '#{project_info['source_locale']['code']}'
 
         # Or if you prefer a list of locales to sync with WebTranslateIt:
-        # needed_locales: #{project_info['target_locales'].map { |locale| locale['code'] }.to_s}
+        # needed_locales: #{project_info['target_locales'].map { |locale| locale['code'] }}
 
         # Optional
         # before_pull: "echo 'some unix command'"   # Command executed before pulling files
