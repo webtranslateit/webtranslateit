@@ -9,3 +9,4 @@ inherit_from: .rubocop_todo.yml
 Metrics/BlockLength:
   Exclude:
     - 'spec/**/*_spec.rb'
+    - '*.gemspec'
