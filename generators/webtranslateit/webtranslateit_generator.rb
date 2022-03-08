@@ -1,4 +1,4 @@
-require File.expand_path(File.dirname(__FILE__) + '/lib/insert_commands.rb')
+require File.expand_path("#{File.dirname(__FILE__)}/lib/insert_commands.rb")
 
 class WebtranslateitGenerator < Rails::Generator::Base
   def add_options!(opt)

@@ -204,16 +204,6 @@ Style/SpecialGlobalVars:
 
 # Offense count: 4
 # Cop supports --auto-correct-all.
-# Configuration parameters: Mode.
-Style/StringConcatenation:
-  Exclude:
-    - 'generators/webtranslateit/webtranslateit_generator.rb'
-    - 'lib/web_translate_it/string.rb'
-    - 'lib/web_translate_it/term.rb'
-    - 'lib/web_translate_it/util.rb'
-
-# Offense count: 4
-# Cop supports --auto-correct-all.
 # Configuration parameters: AllowMethodsWithArguments, IgnoredMethods.
 # IgnoredMethods: respond_to, define_method
 Style/SymbolProc:

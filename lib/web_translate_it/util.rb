@@ -81,7 +81,7 @@ module WebTranslateIt
 
     def self.ask(question, default = nil)
       question = question + " (Default: #{default})" unless default.nil?
-      print(question + '  ')
+      print("#{question}  ")
       $stdout.flush
 
       result = $stdin.gets

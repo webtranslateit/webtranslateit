@@ -54,7 +54,7 @@ module WebTranslateIt
       tries ||= 3
       params.stringify_keys!
       url = "/api/projects/#{Connection.api_key}/strings.yaml"
-      url += '?' + HashUtil.to_params('filters' => params) unless params.empty?
+      url += "?#{HashUtil.to_params('filters' => params)}" unless params.empty?
 
       request = Net::HTTP::Get.new(url)
       WebTranslateIt::Util.add_fields(request)
