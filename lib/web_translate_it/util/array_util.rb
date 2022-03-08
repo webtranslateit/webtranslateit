@@ -14,7 +14,7 @@ class ArrayUtil
     start = 0
     1.upto(pieces) do |i|
       last = start + mid
-      last = last - 1 unless len % pieces >= i
+      last -= 1 unless len % pieces >= i
       chunks << (arr[start..last] || [])
       start = last + 1
     end

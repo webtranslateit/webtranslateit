@@ -30,17 +30,7 @@ Naming/AccessorMethodName:
   Exclude:
     - 'lib/web_translate_it/configuration.rb'
 
-# Offense count: 15
-# Cop supports --auto-correct.
-Security/YAMLLoad:
-  Exclude:
-    - 'generators/webtranslateit/webtranslateit_generator.rb'
-    - 'lib/web_translate_it/command_line.rb'
-    - 'lib/web_translate_it/configuration.rb'
-    - 'lib/web_translate_it/string.rb'
-    - 'lib/web_translate_it/term.rb'
-    - 'lib/web_translate_it/term_translation.rb'
-
+<<<<<<< HEAD
 # Offense count: 7
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.
@@ -55,6 +45,18 @@ Style/AndOr:
 Style/ClassVars:
   Exclude:
     - 'lib/web_translate_it/connection.rb'
+=======
+# Offense count: 15
+# Cop supports --auto-correct.
+Security/YAMLLoad:
+  Exclude:
+    - 'generators/webtranslateit/webtranslateit_generator.rb'
+    - 'lib/web_translate_it/command_line.rb'
+    - 'lib/web_translate_it/configuration.rb'
+    - 'lib/web_translate_it/string.rb'
+    - 'lib/web_translate_it/term.rb'
+    - 'lib/web_translate_it/term_translation.rb'
+>>>>>>> 0768576 (Revert "Fix Security/YAMLLoad offences")
 
 # Offense count: 14
 # Configuration parameters: AllowedConstants.
@@ -123,13 +125,6 @@ Style/RescueStandardError:
     - 'lib/web_translate_it/connection.rb'
     - 'lib/web_translate_it/project.rb'
     - 'lib/web_translate_it/translation_file.rb'
-
-# Offense count: 2
-# Cop supports --auto-correct.
-Style/SelfAssignment:
-  Exclude:
-    - 'lib/web_translate_it/util.rb'
-    - 'lib/web_translate_it/util/array_util.rb'
 
 # Offense count: 6
 # Cop supports --auto-correct.
