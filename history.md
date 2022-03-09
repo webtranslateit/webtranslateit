@@ -1,3 +1,7 @@
+## Edge
+
+* Display error message for `before_pull`, `after_pull`, `before_push`, `after_push` hooks.
+
 ## Version 2.6.0 / 2022-03-08
 
 * Code cleaning using Rubocop.

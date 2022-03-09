@@ -85,7 +85,7 @@ module WebTranslateIt
       if $?.success?
         puts output
       else
-        abort 'Error: exit code for before_pull command is not zero'
+        abort "Error: before_pull command exited with: #{output}"
       end
     end
 
@@ -96,7 +96,7 @@ module WebTranslateIt
       if $?.success?
         puts output
       else
-        abort 'Error: exit code for after_pull command is not zero'
+        abort "Error: after_pull command exited with: #{output}"
       end
     end
 
@@ -132,7 +132,7 @@ module WebTranslateIt
       if $?.success?
         puts output
       else
-        abort 'Error: exit code for before_push command is not zero'
+        abort "Error: before_push command exited with: #{output}"
       end
     end
 
@@ -143,7 +143,7 @@ module WebTranslateIt
       if $?.success?
         puts output
       else
-        abort 'Error: exit code for after_push command is not zero'
+        abort "Error: after_push command exited with: #{output}"
       end
     end
 
