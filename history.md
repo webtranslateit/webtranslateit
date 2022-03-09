@@ -1,4 +1,4 @@
-## Edge
+## Version 2.6.1 / 2022-03-09
 
 * Display error message for `before_pull`, `after_pull`, `before_push`, `after_push` hooks.
 * Remove `silence_errors` option in configuration file. If SSL isn’t properly configured, it needs to be fixed by updating your cert chain.
