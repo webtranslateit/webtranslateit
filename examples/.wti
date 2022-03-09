@@ -1,21 +1,28 @@
-# The Project API Token from Web Translate It
+# Required - The Project API Token from WebTranslateIt.com
+# More information: https://github.com/webtranslateit/webtranslateit/wiki#configuration-file
+
 api_key: SECRET
 
-# Optional: locales not to sync with Web Translate It.
+# Optional - Locales not to sync with WebTranslateIt.
 # Takes a string, a symbol, or an array of string or symbol.
-# More information here: https://github.com/AtelierConvivialite/webtranslateit/wiki
-# ignore_locales: :en
 
-# Or if you prefer a list of locales to sync with WebTranslateIt:
+# ignore_locales: [en]
+
+# Optional - Locales to sync with WebTranslateIt.
+# Takes a string, a symbol, or an array of string or symbol.
+
 # needed_locales: [en, fr, it]
 
-# Optional: files not to sync with WebTranslateIt.
+# Optional - Files not to sync with WebTranslateIt.
 # Takes an array of globs.
+
 # ignore_files: ['**/fr.yml', 'config/locales/js/*.yml', 'config/locales/app/fr.yml']
 
-# Optional
+# Optional - Hooks
+# Takes a string containing a command to run.
+
 # before_pull: "echo 'some unix command'"   # Command executed before pulling files
 # after_pull:  "touch tmp/restart.txt"      # Command executed after pulling files
-#
+
 # before_push: "echo 'some unix command'"   # Command executed before pushing files
 # after_push:  "touch tmp/restart.txt"      # Command executed after pushing files

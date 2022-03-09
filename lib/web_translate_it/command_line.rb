@@ -414,24 +414,32 @@ module WebTranslateIt
 
     def generate_configuration(api_key, project_info)
       <<~FILE
+        # Required - The Project API Token from WebTranslateIt.com
+        # More information: https://github.com/webtranslateit/webtranslateit/wiki#configuration-file
+
         api_key: #{api_key}
 
-        # Optional: locales not to sync with WebTranslateIt.
+        # Optional - Locales not to sync with WebTranslateIt.
         # Takes a string, a symbol, or an array of string or symbol.
-        # More information here: https://github.com/AtelierConvivialite/webtranslateit/wiki
-        # ignore_locales: '#{project_info['source_locale']['code']}'
 
-        # Or if you prefer a list of locales to sync with WebTranslateIt:
+        # ignore_locales: [#{project_info['source_locale']['code']}]
+
+        # Optional - Locales to sync with WebTranslateIt.
+        # Takes a string, a symbol, or an array of string or symbol.
+
         # needed_locales: #{project_info['target_locales'].map { |locale| locale['code'] }}
 
         # Optional: files not to sync with WebTranslateIt.
         # Takes an array of globs.
+
         # ignore_files: ['somefile*.csv']
 
-        # Optional
+        # Optional - Hooks
+        # Takes a string containing a command to run.
+
         # before_pull: "echo 'some unix command'"   # Command executed before pulling files
         # after_pull:  "touch tmp/restart.txt"      # Command executed after pulling files
-        #
+
         # before_push: "echo 'some unix command'"   # Command executed before pushing files
         # after_push:  "touch tmp/restart.txt"      # Command executed after pushing files
 
