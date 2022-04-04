@@ -294,7 +294,11 @@ module WebTranslateIt
         path = Util.ask(' Path to configuration file:', '.wti')
       end
       FileUtils.mkpath(path.split('/')[0..path.split('/').size - 2].join('/')) unless path.split('/').size == 1
-      project = YAML.load WebTranslateIt::Project.fetch_info(api_key)
+      project = if RUBY_VERSION >= '3.1'
+                  YAML.safe_load WebTranslateIt::Project.fetch_info(api_key), permitted_classes: [Time]
+                else
+                  YAML.load WebTranslateIt::Project.fetch_info(api_key)
+                end
       project_info = project['project']
       if File.exist?(path) && !File.writable?(path)
         puts StringUtil.failure("Error: `#{path}` file is not writable.")
