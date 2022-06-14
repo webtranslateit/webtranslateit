@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'web_translate_it'
-  s.version     = '2.6.2'
+  s.version     = '2.6.3.pre1'
   s.required_ruby_version = '>= 2.6'
   s.summary     = 'A CLI tool to sync locale files with WebTranslateIt.com.'
   s.description = 'A Command Line Interface tool to push and pull language files to WebTranslateIt.com.'
