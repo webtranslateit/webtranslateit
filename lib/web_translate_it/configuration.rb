@@ -17,7 +17,7 @@ module WebTranslateIt
       self.path           = root_path
       self.logger         = logger
       if File.exist?(File.expand_path(path_to_config_file, path))
-        self.api_key        = ENV['WTI_PROJECT_API_KEY'] || configuration['api_key']
+        self.api_key        = ENV.fetch('WTI_PROJECT_API_KEY') { configuration['api_key'] }
         self.before_pull    = configuration['before_pull']
         self.after_pull     = configuration['after_pull']
         self.before_push    = configuration['before_push']
