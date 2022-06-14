@@ -1,4 +1,4 @@
-## Version 2.6.3.pre1 / 2022-06-14
+## Version 2.6.3 / 2022-06-14
 
 * Fix deprecation warning. #181
 * Set minimum ruby version to 2.6. It is [EOL since December 2018](https://endoflife.date/ruby), but it’s still the default ruby shipped with Mac OS Monterey.
