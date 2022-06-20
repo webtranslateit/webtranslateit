@@ -217,7 +217,7 @@ There are 4 hooks:
 * `before_push`
 * `after_push`
 
-Check the [sample `.wti`](https://github.com/webtranslateit/webtranslateit/blob/master/examples/.wti#L16-L21) file for implementation.
+Check the [sample `.wti`](https://github.com/webtranslateit/webtranslateit/blob/main/examples/.wti#L21-L28) file for implementation.
 
 ## Exit codes
 
