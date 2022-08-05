@@ -1,5 +1,85 @@
 # Common rubocop config for all WebTranslateIt ruby apps/gems
 # See https://docs.rubocop.org/rubocop/configuration.html#inheriting-configuration-from-a-remote-url
 
+require:
+  - rubocop-rspec
+
 AllCops:
   NewCops: enable
+
+
+# - Naming Cops -------------------------------------------------------------------------------------------------------
+
+Naming/VariableNumber:
+  AllowedIdentifiers: code_iso_639_3
+
+
+# - Layout Cops -------------------------------------------------------------------------------------------------------
+
+Layout/CaseIndentation:
+  EnforcedStyle: end
+
+Layout/EmptyLines:
+  Enabled: false
+
+Layout/EmptyLinesAroundBlockBody:
+  Enabled: false
+
+Layout/EmptyLinesAroundClassBody:
+  EnforcedStyle: empty_lines
+
+Layout/EmptyLinesAroundModuleBody:
+  EnforcedStyle: empty_lines
+
+Layout/EndAlignment:
+  EnforcedStyleAlignWith: variable # To play nice with Style/ConditionalAsssignment and not create huge indentations
+
+Layout/SpaceInsideHashLiteralBraces:
+  EnforcedStyle: no_space # To help differentiate between hashes and blocks
+
+
+# - Lint Cops ---------------------------------------------------------------------------------------------------------
+
+
+# - Metrics Cops ------------------------------------------------------------------------------------------------------
+
+Metrics/BlockLength:
+  CountAsOne: ['array', 'hash', 'heredoc']
+
+Metrics/ClassLength:
+  CountAsOne: ['array', 'hash', 'heredoc']
+
+Metrics/MethodLength:
+  CountAsOne: ['array', 'hash', 'heredoc']
+
+Metrics/ModuleLength:
+  CountAsOne: ['array', 'hash', 'heredoc']
+
+
+# - Style Cops --------------------------------------------------------------------------------------------------------
+
+Style/AsciiComments:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/EmptyMethod:
+  Enabled: false
+
+Style/FormatStringToken:
+  # %{foo}-style variables are used in translation strings, so disabling this one
+  Enabled: false
+
+Style/HashSyntax:
+  EnforcedShorthandSyntax: never
+
+
+# - RSpec Cops --------------------------------------------------------------------------------------------------------
+# N.B. In some future version of ruboco-rspec IgnoredMetadata can be used instead of Exclude
+
+RSpec/NamedSubject:
+  Enabled: false
