@@ -1,0 +1,5 @@
+# Common rubocop config for all WebTranslateIt ruby apps/gems
+# See https://docs.rubocop.org/rubocop/configuration.html#inheriting-configuration-from-a-remote-url
+
+AllCops:
+  NewCops: enable
