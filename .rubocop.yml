@@ -1,8 +1,11 @@
-AllCops:
-  NewCops: enable
-  TargetRubyVersion: 2.6
+# Gem-specific rubocop config
 
-inherit_from: .rubocop_todo.yml
+inherit_from:
+  - .rubocop_common.yml
+  - .rubocop_todo.yml
+
+AllCops:
+  TargetRubyVersion: 2.6
 
 
 # - Metrics Cops --------------------------------------------------------------
