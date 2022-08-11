@@ -14,12 +14,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'multipart-post', '~> 2.0'
   s.add_dependency 'optimist', '~> 3.0'
 
-  s.add_development_dependency 'guard-rspec'
-  s.add_development_dependency 'guard-rubocop'
-  s.add_development_dependency 'rspec', '>= 2.6.0'
-  s.add_development_dependency 'rubocop'
-  s.add_development_dependency 'rubocop-rspec'
-  s.add_development_dependency 'simplecov'
   s.rdoc_options     = ['--main', 'readme.md']
   s.extra_rdoc_files = ['history.md', 'readme.md']
 

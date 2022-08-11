@@ -1,3 +1,7 @@
+## Edge
+
+* Move development dependencies to Gemfile and commit Gemfile.lock to version control.
+
 ## Version 2.6.3 / 2022-06-14
 
 * Fix deprecation warning. #181
