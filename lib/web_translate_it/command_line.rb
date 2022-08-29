@@ -6,7 +6,7 @@ module WebTranslateIt
     require 'set'
     attr_accessor :configuration, :global_options, :command_options, :parameters
 
-    def initialize(command, command_options, global_options, parameters, project_path) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/MethodLength
+    def initialize(command, command_options, _global_options, parameters, project_path) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/MethodLength
       self.command_options = command_options
       self.parameters = parameters
       unless command == 'init'
