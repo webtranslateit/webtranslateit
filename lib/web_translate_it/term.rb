@@ -264,7 +264,7 @@ module WebTranslateIt
         'description' => description
       }
       if translations.any? && with_translations
-        hash.update({ 'translations' => [] })
+        hash.update({'translations' => []})
         translations.each do |translation|
           hash['translations'].push(translation.to_hash)
         end

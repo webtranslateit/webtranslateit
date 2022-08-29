@@ -58,7 +58,7 @@ module WebTranslateIt
       begin
         request = Net::HTTP::Post.new("/api/projects/#{Connection.api_key}/locales")
         WebTranslateIt::Util.add_fields(request)
-        request.set_form_data({ 'id' => locale_code }, ';')
+        request.set_form_data({'id' => locale_code}, ';')
         Util.handle_response(Connection.http_connection.request(request), true)
       rescue Timeout::Error
         puts 'Request timeout. Will retry in 5 seconds.'

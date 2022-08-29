@@ -6,22 +6,6 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 86
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, EnforcedStyleForEmptyBraces.
-# SupportedStyles: space, no_space, compact
-# SupportedStylesForEmptyBraces: space, no_space
-Layout/SpaceInsideHashLiteralBraces:
-  Exclude:
-    - 'generators/webtranslateit/webtranslateit_generator.rb'
-    - 'lib/web_translate_it/project.rb'
-    - 'lib/web_translate_it/string.rb'
-    - 'lib/web_translate_it/term.rb'
-    - 'lib/web_translate_it/translation_file.rb'
-    - 'spec/web_translate_it/auto_fetch_spec.rb'
-    - 'spec/web_translate_it/string_spec.rb'
-    - 'spec/web_translate_it/term_spec.rb'
-
 # Offense count: 1
 Lint/DuplicateMethods:
   Exclude:

@@ -4,7 +4,7 @@ describe WebTranslateIt::AutoFetch do
   let(:application) { double(:application, call: []) }
 
   let(:env) do
-    { 'PATH_INFO' => path }
+    {'PATH_INFO' => path}
   end
 
   subject { described_class.new(application) }
