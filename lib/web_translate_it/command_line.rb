@@ -12,21 +12,21 @@ module WebTranslateIt
       unless command == 'init'
         message = case command
         when 'pull'
-                    'Pulling files'
+          'Pulling files'
         when 'push'
-                    'Pushing files'
+          'Pushing files'
         when 'add'
-                    'Creating master files'
+          'Creating master files'
         when 'rm'
-                    'Deleting files'
+          'Deleting files'
         when 'mv'
-                    'Moving files'
+          'Moving files'
         when 'addlocale'
-                    'Adding locale'
+          'Adding locale'
         when 'rmlocale'
-                    'Deleting locale'
+          'Deleting locale'
         else
-                    'Gathering information'
+          'Gathering information'
         end
         throb do
           print "  #{message}"
@@ -109,9 +109,9 @@ module WebTranslateIt
       WebTranslateIt::Connection.new(configuration.api_key) do |http|
         fetch_locales_to_push(configuration).each do |locale|
           files = if parameters.any?
-                    configuration.files.find_all { |file| parameters.include?(file.file_path) }.sort { |a, b| a.file_path <=> b.file_path }
+            configuration.files.find_all { |file| parameters.include?(file.file_path) }.sort { |a, b| a.file_path <=> b.file_path }
           else
-                    configuration.files.find_all { |file| file.locale == locale }.sort { |a, b| a.file_path <=> b.file_path }
+            configuration.files.find_all { |file| file.locale == locale }.sort { |a, b| a.file_path <=> b.file_path }
           end
           if files.empty?
             puts "Couldn't find any local files registered on WebTranslateIt to push."
@@ -297,9 +297,9 @@ module WebTranslateIt
       end
       FileUtils.mkpath(path.split('/')[0..path.split('/').size - 2].join('/')) unless path.split('/').size == 1
       project = if RUBY_VERSION >= '3.1'
-                  YAML.safe_load WebTranslateIt::Project.fetch_info(api_key), permitted_classes: [Time]
+        YAML.safe_load WebTranslateIt::Project.fetch_info(api_key), permitted_classes: [Time]
       else
-                  YAML.load WebTranslateIt::Project.fetch_info(api_key)
+        YAML.load WebTranslateIt::Project.fetch_info(api_key)
       end
       project_info = project['project']
       if File.exist?(path) && !File.writable?(path)

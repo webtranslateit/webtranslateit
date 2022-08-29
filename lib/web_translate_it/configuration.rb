@@ -26,9 +26,9 @@ module WebTranslateIt
         self.after_push     = configuration['after_push']
         self.ignore_files   = configuration['ignore_files']
         project_info = if RUBY_VERSION >= '3.1.0'
-                         YAML.safe_load WebTranslateIt::Project.fetch_info(api_key), permitted_classes: [Time]
+          YAML.safe_load WebTranslateIt::Project.fetch_info(api_key), permitted_classes: [Time]
         else
-                         YAML.load WebTranslateIt::Project.fetch_info(api_key)
+          YAML.load WebTranslateIt::Project.fetch_info(api_key)
         end
         set_locales_to_ignore(configuration)
         set_locales_needed(configuration)
