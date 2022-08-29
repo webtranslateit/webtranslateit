@@ -257,7 +257,7 @@ module WebTranslateIt
       success
     end
 
-    def to_json(with_translations = false) # rubocop:todo Metrics/MethodLength
+    def to_json(with_translations = false)
       hash = {
         'id' => id,
         'text' => text,

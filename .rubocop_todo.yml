@@ -11,14 +11,6 @@ Lint/DuplicateMethods:
   Exclude:
     - 'lib/web_translate_it/configuration.rb'
 
-# Offense count: 3
-# Cop supports --auto-correct.
-Lint/RedundantCopDisableDirective:
-  Exclude:
-    - 'generators/webtranslateit/webtranslateit_generator.rb'
-    - 'lib/web_translate_it/string.rb'
-    - 'lib/web_translate_it/term.rb'
-
 # Offense count: 1
 # Cop supports --auto-correct.
 # Configuration parameters: AllowUnusedKeywordArguments, IgnoreEmptyMethods, IgnoreNotImplementedMethods.
