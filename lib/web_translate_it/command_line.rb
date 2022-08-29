@@ -108,7 +108,7 @@ module WebTranslateIt
         fetch_locales_to_push(configuration).each do |locale|
           files = if parameters.any?
                     configuration.files.find_all { |file| parameters.include?(file.file_path) }.sort { |a, b| a.file_path <=> b.file_path }
-                  else
+          else
                     configuration.files.find_all { |file| file.locale == locale }.sort { |a, b| a.file_path <=> b.file_path }
                   end
           if files.empty?
@@ -296,7 +296,7 @@ module WebTranslateIt
       FileUtils.mkpath(path.split('/')[0..path.split('/').size - 2].join('/')) unless path.split('/').size == 1
       project = if RUBY_VERSION >= '3.1'
                   YAML.safe_load WebTranslateIt::Project.fetch_info(api_key), permitted_classes: [Time]
-                else
+      else
                   YAML.load WebTranslateIt::Project.fetch_info(api_key)
                 end
       project_info = project['project']
