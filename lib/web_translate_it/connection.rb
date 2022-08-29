@@ -1,5 +1,6 @@
 require 'English'
 module WebTranslateIt
+
   class Connection
 
     attr_reader :api_key, :http_connection
@@ -58,4 +59,5 @@ module WebTranslateIt
     end
 
   end
+
 end

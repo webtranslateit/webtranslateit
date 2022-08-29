@@ -1,5 +1,6 @@
 require 'English'
 module WebTranslateIt
+
   class Project
 
     def self.fetch_info(api_key) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
@@ -91,4 +92,5 @@ module WebTranslateIt
     end
 
   end
+
 end

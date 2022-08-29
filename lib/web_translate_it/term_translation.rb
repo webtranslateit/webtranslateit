@@ -1,4 +1,5 @@
 module WebTranslateIt
+
   class TermTranslation
 
     require 'net/https'
@@ -101,4 +102,5 @@ module WebTranslateIt
     end
 
   end
+
 end

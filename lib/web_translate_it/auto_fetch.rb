@@ -1,4 +1,5 @@
 module WebTranslateIt
+
   # Class to automatically fetch the last translations from Web Translate It
   # for every page requested.
   # This can be used as a rack middleware.
@@ -30,4 +31,5 @@ module WebTranslateIt
     end
 
   end
+
 end

@@ -1,4 +1,5 @@
 module WebTranslateIt
+
   # A few useful functions
   class Util
 
@@ -99,4 +100,5 @@ module WebTranslateIt
     end
 
   end
+
 end

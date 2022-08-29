@@ -1,4 +1,5 @@
 module WebTranslateIt
+
   # A TranslationFile is the representation of a master language file
   # on Web Translate It.
   #
@@ -242,4 +243,5 @@ module WebTranslateIt
     end
 
   end
+
 end

@@ -1,4 +1,5 @@
 module WebTranslateIt
+
   # Handles the configuration of your project, both via the the configuration file
   # and via the API.
   # Implementation example, assuming you have a valid .wti file:
@@ -119,4 +120,5 @@ module WebTranslateIt
     end
 
   end
+
 end

@@ -1,4 +1,5 @@
 module WebTranslateIt
+
   class Term # rubocop:todo Metrics/ClassLength
 
     require 'net/https'
@@ -272,4 +273,5 @@ module WebTranslateIt
     end
 
   end
+
 end

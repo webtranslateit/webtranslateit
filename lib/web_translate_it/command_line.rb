@@ -1,4 +1,5 @@
 module WebTranslateIt
+
   class CommandLine # rubocop:todo Metrics/ClassLength
 
     require 'fileutils'
@@ -473,4 +474,5 @@ module WebTranslateIt
     end
 
   end
+
 end

@@ -1,4 +1,5 @@
 module WebTranslateIt
+
   class Translation
 
     require 'net/https'
@@ -66,4 +67,5 @@ module WebTranslateIt
     end
 
   end
+
 end

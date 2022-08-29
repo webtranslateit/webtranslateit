@@ -1,4 +1,5 @@
 module WebTranslateIt
+
   class String # rubocop:todo Metrics/ClassLength
 
     require 'multi_json'
@@ -288,4 +289,5 @@ module WebTranslateIt
     end
 
   end
+
 end
