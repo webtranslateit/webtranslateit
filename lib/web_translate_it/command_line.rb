@@ -11,23 +11,23 @@ module WebTranslateIt
       self.parameters = parameters
       unless command == 'init'
         message = case command
-                  when 'pull'
+        when 'pull'
                     'Pulling files'
-                  when 'push'
+        when 'push'
                     'Pushing files'
-                  when 'add'
+        when 'add'
                     'Creating master files'
-                  when 'rm'
+        when 'rm'
                     'Deleting files'
-                  when 'mv'
+        when 'mv'
                     'Moving files'
-                  when 'addlocale'
+        when 'addlocale'
                     'Adding locale'
-                  when 'rmlocale'
+        when 'rmlocale'
                     'Deleting locale'
-                  else
+        else
                     'Gathering information'
-                  end
+        end
         throb do
           print "  #{message}"
           self.configuration = WebTranslateIt::Configuration.new(project_path, configuration_file_path)
@@ -112,7 +112,7 @@ module WebTranslateIt
                     configuration.files.find_all { |file| parameters.include?(file.file_path) }.sort { |a, b| a.file_path <=> b.file_path }
           else
                     configuration.files.find_all { |file| file.locale == locale }.sort { |a, b| a.file_path <=> b.file_path }
-                  end
+          end
           if files.empty?
             puts "Couldn't find any local files registered on WebTranslateIt to push."
           else
@@ -300,7 +300,7 @@ module WebTranslateIt
                   YAML.safe_load WebTranslateIt::Project.fetch_info(api_key), permitted_classes: [Time]
       else
                   YAML.load WebTranslateIt::Project.fetch_info(api_key)
-                end
+      end
       project_info = project['project']
       if File.exist?(path) && !File.writable?(path)
         puts StringUtil.failure("Error: `#{path}` file is not writable.")

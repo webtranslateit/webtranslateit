@@ -53,26 +53,26 @@ module WebTranslateIt
 
     def self.ask_yes_no(question, default = nil) # rubocop:todo Metrics/MethodLength
       qstr = case default
-             when nil
-               'yn'
-             when true
-               'Yn'
-             else
-               'yN'
-             end
+      when nil
+        'yn'
+      when true
+        'Yn'
+      else
+        'yN'
+      end
 
       result = nil
 
       while result.nil?
         result = ask("#{question} [#{qstr}]")
         result = case result
-                 when /^[Yy].*/
-                   true
-                 when /^[Nn].*/
-                   false
-                 when '', nil
-                   default
-                 end
+        when /^[Yy].*/
+          true
+        when /^[Nn].*/
+          false
+        when '', nil
+          default
+        end
       end
 
       result

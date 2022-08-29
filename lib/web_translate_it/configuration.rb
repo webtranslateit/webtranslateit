@@ -29,7 +29,7 @@ module WebTranslateIt
                          YAML.safe_load WebTranslateIt::Project.fetch_info(api_key), permitted_classes: [Time]
         else
                          YAML.load WebTranslateIt::Project.fetch_info(api_key)
-                       end
+        end
         set_locales_to_ignore(configuration)
         set_locales_needed(configuration)
         set_files(project_info['project'])

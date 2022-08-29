@@ -6,17 +6,6 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 7
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyleAlignWith, Severity.
-# SupportedStylesAlignWith: keyword, variable, start_of_line
-Layout/EndAlignment:
-  Exclude:
-    - 'bin/wti'
-    - 'lib/web_translate_it/command_line.rb'
-    - 'lib/web_translate_it/configuration.rb'
-    - 'lib/web_translate_it/util.rb'
-
 # Offense count: 3
 # Cop supports --auto-correct.
 # Configuration parameters: Width, IgnoredPatterns.
