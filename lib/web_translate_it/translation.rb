@@ -1,5 +1,6 @@
 module WebTranslateIt
   class Translation
+
     require 'net/https'
     require 'multi_json'
 
@@ -63,5 +64,6 @@ module WebTranslateIt
     def to_json(*_args)
       MultiJson.dump(to_hash)
     end
+
   end
 end

@@ -6,6 +6,7 @@ module WebTranslateIt
   #   configuration = WebTranslateIt::Configuration.new
   #
   class Configuration
+
     require 'yaml'
     require 'fileutils'
     require 'erb'
@@ -116,5 +117,6 @@ module WebTranslateIt
     def parse_erb_in_configuration
       ERB.new(File.read(File.expand_path(path_to_config_file, path))).result
     end
+
   end
 end

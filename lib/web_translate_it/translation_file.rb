@@ -6,6 +6,7 @@ module WebTranslateIt
   # If you pass a Locale to the master language file you will be able to
   # manipulate a _target_ language file.
   class TranslationFile # rubocop:todo Metrics/ClassLength
+
     require 'net/https'
     require 'net/http/post/multipart'
     require 'time'
@@ -239,5 +240,6 @@ module WebTranslateIt
         ''
       end
     end
+
   end
 end

@@ -1,6 +1,7 @@
 module WebTranslateIt
   # A few useful functions
   class Util
+
     require 'multi_json'
 
     # Return a string representing the gem version
@@ -96,5 +97,6 @@ module WebTranslateIt
     def self.can_display_colors?
       !RUBY_PLATFORM.downcase.include?('mingw32')
     end
+
   end
 end

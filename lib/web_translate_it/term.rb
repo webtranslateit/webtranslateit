@@ -1,5 +1,6 @@
 module WebTranslateIt
   class Term # rubocop:todo Metrics/ClassLength
+
     require 'net/https'
     require 'multi_json'
 
@@ -269,5 +270,6 @@ module WebTranslateIt
       end
       MultiJson.dump(hash)
     end
+
   end
 end

@@ -1,5 +1,6 @@
 module WebTranslateIt
   class CommandLine # rubocop:todo Metrics/ClassLength
+
     require 'fileutils'
     require 'set'
     attr_accessor :configuration, :global_options, :command_options, :parameters
@@ -470,5 +471,6 @@ module WebTranslateIt
         puts "\r\e[0G#\e[?25h"
       end
     end
+
   end
 end

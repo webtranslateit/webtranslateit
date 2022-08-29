@@ -1,6 +1,7 @@
 require File.expand_path("#{File.dirname(__FILE__)}/lib/insert_commands.rb")
 
 class WebtranslateitGenerator < Rails::Generator::Base
+
   def add_options!(opt)
     opt.on('-k', '--api-key=key', String, 'Your Web Translate It API key') { |v| options[:api_key] = v }
   end
@@ -23,4 +24,5 @@ class WebtranslateitGenerator < Rails::Generator::Base
   def api_key_configured?
     File.exist?('config/translations.yml')
   end
+
 end

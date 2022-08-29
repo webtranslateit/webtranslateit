@@ -1,4 +1,5 @@
 class Locale
+
   def initialize(app)
     @app = app
   end
@@ -9,4 +10,5 @@ class Locale
     status, headers, response = @app.call(env)
     [status, headers, response]
   end
+
 end
