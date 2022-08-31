@@ -1,4 +1,5 @@
 class StringUtil
+
   def self.backward_truncate(str)
     return '...' << str[str.length - 50 + 3..str.length] if str.length > 50
 
@@ -26,4 +27,5 @@ class StringUtil
   def self.important(str)
     WebTranslateIt::Util.can_display_colors? ? "\e[1m#{str}\e[0m" : str
   end
+
 end

@@ -1,4 +1,5 @@
 module WebTranslateIt
+
   # Class to automatically fetch the last translations from Web Translate It
   # for every page requested.
   # This can be used as a rack middleware.
@@ -8,6 +9,7 @@ module WebTranslateIt
   #   config.middleware.use "WebTranslateIt::AutoFetch"
   #
   class AutoFetch
+
     def initialize(app)
       @app = app
     end
@@ -27,5 +29,7 @@ module WebTranslateIt
     def valid_request?(env)
       env['PATH_INFO'] !~ /\.(js|css|jpeg|jpg|gif|png|woff)$/
     end
+
   end
+
 end

@@ -1,5 +1,7 @@
 module WebTranslateIt
+
   class String # rubocop:todo Metrics/ClassLength
+
     require 'multi_json'
 
     attr_accessor :id, :key, :plural, :type, :dev_comment, :word_count, :status, :category, :labels, :file,
@@ -265,7 +267,7 @@ module WebTranslateIt
       success
     end
 
-    def to_json(with_translations = false) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
+    def to_json(with_translations = false) # rubocop:todo Metrics/AbcSize
       hash = {
         'id' => id,
         'key' => key,
@@ -278,12 +280,14 @@ module WebTranslateIt
         'file' => file
       }
       if translations.any? && with_translations
-        hash.update({ 'translations' => [] })
+        hash.update({'translations' => []})
         translations.each do |translation|
           hash['translations'].push(translation.to_hash)
         end
       end
       MultiJson.dump(hash)
     end
+
   end
+
 end

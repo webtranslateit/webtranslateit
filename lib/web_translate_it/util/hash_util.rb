@@ -1,4 +1,5 @@
 class HashUtil
+
   def self.to_params(hash) # rubocop:todo Metrics/MethodLength
     params = ''
     stack = []
@@ -24,9 +25,11 @@ class HashUtil
     params.chop! # trailing &
     params
   end
+
 end
 
 class Hash
+
   # Destructively convert all keys to strings.
   def stringify_keys!
     keys.each do |key|
@@ -34,4 +37,5 @@ class Hash
     end
     self
   end
+
 end

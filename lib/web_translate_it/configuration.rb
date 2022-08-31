@@ -1,4 +1,5 @@
 module WebTranslateIt
+
   # Handles the configuration of your project, both via the the configuration file
   # and via the API.
   # Implementation example, assuming you have a valid .wti file:
@@ -6,6 +7,7 @@ module WebTranslateIt
   #   configuration = WebTranslateIt::Configuration.new
   #
   class Configuration
+
     require 'yaml'
     require 'fileutils'
     require 'erb'
@@ -24,10 +26,10 @@ module WebTranslateIt
         self.after_push     = configuration['after_push']
         self.ignore_files   = configuration['ignore_files']
         project_info = if RUBY_VERSION >= '3.1.0'
-                         YAML.safe_load WebTranslateIt::Project.fetch_info(api_key), permitted_classes: [Time]
-                       else
-                         YAML.load WebTranslateIt::Project.fetch_info(api_key)
-                       end
+          YAML.safe_load WebTranslateIt::Project.fetch_info(api_key), permitted_classes: [Time]
+        else
+          YAML.load WebTranslateIt::Project.fetch_info(api_key)
+        end
         set_locales_to_ignore(configuration)
         set_locales_needed(configuration)
         set_files(project_info['project'])
@@ -116,5 +118,7 @@ module WebTranslateIt
     def parse_erb_in_configuration
       ERB.new(File.read(File.expand_path(path_to_config_file, path))).result
     end
+
   end
+
 end

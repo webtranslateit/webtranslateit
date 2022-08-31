@@ -1,5 +1,7 @@
 module WebTranslateIt
+
   class TermTranslation
+
     require 'net/https'
     require 'multi_json'
 
@@ -98,5 +100,7 @@ module WebTranslateIt
       end
       success
     end
+
   end
+
 end

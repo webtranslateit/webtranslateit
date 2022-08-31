@@ -5,13 +5,13 @@ describe WebTranslateIt::String do
 
   describe '#initialize' do
     it 'should assign api_key and many parameters' do
-      string = WebTranslateIt::String.new({ 'id' => 1234, 'key' => 'bacon' })
+      string = WebTranslateIt::String.new({'id' => 1234, 'key' => 'bacon'})
       string.id.should == 1234
       string.key.should == 'bacon'
     end
 
     it 'should assign parameters using symbols' do
-      string = WebTranslateIt::String.new({ id: 1234, key: 'bacon' })
+      string = WebTranslateIt::String.new({id: 1234, key: 'bacon'})
       string.id.should == 1234
       string.key.should == 'bacon'
     end
@@ -20,7 +20,7 @@ describe WebTranslateIt::String do
   describe '#save' do
     it 'should create a new String' do
       WebTranslateIt::Connection.new(api_key) do
-        string = WebTranslateIt::String.new({ 'key' => 'bacon' })
+        string = WebTranslateIt::String.new({'key' => 'bacon'})
         string.save
         string.id.should_not be_nil
         string_fetched = WebTranslateIt::String.find(string.id)
@@ -33,7 +33,7 @@ describe WebTranslateIt::String do
 
     it 'should update an existing String' do
       WebTranslateIt::Connection.new(api_key) do
-        string = WebTranslateIt::String.new({ 'key' => 'bacony' })
+        string = WebTranslateIt::String.new({'key' => 'bacony'})
         string.save
         string.key = 'bacon changed'
         string.save
@@ -44,10 +44,10 @@ describe WebTranslateIt::String do
     end
 
     it 'should create a new String with Translation' do
-      translation1 = WebTranslateIt::Translation.new({ 'locale' => 'en', 'text' => 'Hello' })
-      translation2 = WebTranslateIt::Translation.new({ 'locale' => 'fr', 'text' => 'Bonjour' })
+      translation1 = WebTranslateIt::Translation.new({'locale' => 'en', 'text' => 'Hello'})
+      translation2 = WebTranslateIt::Translation.new({'locale' => 'fr', 'text' => 'Bonjour'})
 
-      string = WebTranslateIt::String.new({ 'key' => 'bacon', 'translations' => [translation1, translation2] })
+      string = WebTranslateIt::String.new({'key' => 'bacon', 'translations' => [translation1, translation2]})
       WebTranslateIt::Connection.new(api_key) do
         string.save
         string_fetched = WebTranslateIt::String.find(string.id)
@@ -61,10 +61,10 @@ describe WebTranslateIt::String do
     end
 
     it 'should update a String and save its Translation' do
-      translation1 = WebTranslateIt::Translation.new({ 'locale' => 'en', 'text' => 'Hello' })
-      translation2 = WebTranslateIt::Translation.new({ 'locale' => 'fr', 'text' => 'Bonjour' })
+      translation1 = WebTranslateIt::Translation.new({'locale' => 'en', 'text' => 'Hello'})
+      translation2 = WebTranslateIt::Translation.new({'locale' => 'fr', 'text' => 'Bonjour'})
 
-      string = WebTranslateIt::String.new({ 'key' => 'bacon' })
+      string = WebTranslateIt::String.new({'key' => 'bacon'})
       WebTranslateIt::Connection.new(api_key) do
         string.save
         string_fetched = WebTranslateIt::String.find(string.id)
@@ -85,7 +85,7 @@ describe WebTranslateIt::String do
 
   describe '#delete' do
     it 'should delete a String' do
-      string = WebTranslateIt::String.new({ 'key' => 'bacon' })
+      string = WebTranslateIt::String.new({'key' => 'bacon'})
       WebTranslateIt::Connection.new(api_key) do
         string.save
         string_fetched = WebTranslateIt::String.find(string.id)
@@ -100,28 +100,28 @@ describe WebTranslateIt::String do
   describe '#find_all' do
     it 'should find many strings' do
       WebTranslateIt::Connection.new(api_key) do
-        string1 = WebTranslateIt::String.new({ 'key' => 'one two three' })
+        string1 = WebTranslateIt::String.new({'key' => 'one two three'})
         string1.save
-        string2 = WebTranslateIt::String.new({ 'key' => 'four five six' })
+        string2 = WebTranslateIt::String.new({'key' => 'four five six'})
         string2.save
-        string3 = WebTranslateIt::String.new({ 'key' => 'six seven eight' })
+        string3 = WebTranslateIt::String.new({'key' => 'six seven eight'})
         string3.save
 
-        strings = WebTranslateIt::String.find_all({ 'key' => 'six' })
+        strings = WebTranslateIt::String.find_all({'key' => 'six'})
         strings.count.should == 2
         strings[0].key.should == 'four five six'
         strings[1].key.should == 'six seven eight'
 
-        strings = WebTranslateIt::String.find_all({ key: 'six' })
+        strings = WebTranslateIt::String.find_all({key: 'six'})
         strings.count.should == 2
         strings[0].key.should == 'four five six'
         strings[1].key.should == 'six seven eight'
 
-        strings = WebTranslateIt::String.find_all({ 'key' => 'eight' })
+        strings = WebTranslateIt::String.find_all({'key' => 'eight'})
         strings.count.should == 1
         strings[0].key.should == 'six seven eight'
 
-        strings = WebTranslateIt::String.find_all({ 'key' => 'three' })
+        strings = WebTranslateIt::String.find_all({'key' => 'three'})
         strings.count.should == 1
         strings[0].key.should == 'one two three'
       end
@@ -130,8 +130,8 @@ describe WebTranslateIt::String do
 
   describe '#translation_for' do
     it 'should fetch translations' do
-      translation = WebTranslateIt::Translation.new({ 'locale' => 'en', 'text' => 'Hello' })
-      string = WebTranslateIt::String.new({ 'key' => 'greetings', 'translations' => [translation] })
+      translation = WebTranslateIt::Translation.new({'locale' => 'en', 'text' => 'Hello'})
+      string = WebTranslateIt::String.new({'key' => 'greetings', 'translations' => [translation]})
       WebTranslateIt::Connection.new(api_key) do
         string.save
         string_fetched = WebTranslateIt::String.find(string.id)
@@ -143,8 +143,8 @@ describe WebTranslateIt::String do
     end
 
     it 'should not return a stale object' do
-      string = WebTranslateIt::String.new({ key: 'greetings 2' })
-      translation = WebTranslateIt::Translation.new({ locale: 'es', text: 'text', string_id: string.id })
+      string = WebTranslateIt::String.new({key: 'greetings 2'})
+      translation = WebTranslateIt::Translation.new({locale: 'es', text: 'text', string_id: string.id})
       string.translations << translation
       string.translation_for('fr').should be_nil
       string.translation_for('es').should_not be_nil

@@ -1,5 +1,7 @@
 module WebTranslateIt
+
   class Term # rubocop:todo Metrics/ClassLength
+
     require 'net/https'
     require 'multi_json'
 
@@ -255,19 +257,21 @@ module WebTranslateIt
       success
     end
 
-    def to_json(with_translations = false) # rubocop:todo Metrics/MethodLength
+    def to_json(with_translations = false)
       hash = {
         'id' => id,
         'text' => text,
         'description' => description
       }
       if translations.any? && with_translations
-        hash.update({ 'translations' => [] })
+        hash.update({'translations' => []})
         translations.each do |translation|
           hash['translations'].push(translation.to_hash)
         end
       end
       MultiJson.dump(hash)
     end
+
   end
+
 end

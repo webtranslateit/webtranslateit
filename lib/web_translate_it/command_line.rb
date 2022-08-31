@@ -1,31 +1,33 @@
 module WebTranslateIt
+
   class CommandLine # rubocop:todo Metrics/ClassLength
+
     require 'fileutils'
     require 'set'
     attr_accessor :configuration, :global_options, :command_options, :parameters
 
-    def initialize(command, command_options, global_options, parameters, project_path) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/MethodLength
+    def initialize(command, command_options, _global_options, parameters, project_path) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/MethodLength
       self.command_options = command_options
       self.parameters = parameters
       unless command == 'init'
         message = case command
-                  when 'pull'
-                    'Pulling files'
-                  when 'push'
-                    'Pushing files'
-                  when 'add'
-                    'Creating master files'
-                  when 'rm'
-                    'Deleting files'
-                  when 'mv'
-                    'Moving files'
-                  when 'addlocale'
-                    'Adding locale'
-                  when 'rmlocale'
-                    'Deleting locale'
-                  else
-                    'Gathering information'
-                  end
+        when 'pull'
+          'Pulling files'
+        when 'push'
+          'Pushing files'
+        when 'add'
+          'Creating master files'
+        when 'rm'
+          'Deleting files'
+        when 'mv'
+          'Moving files'
+        when 'addlocale'
+          'Adding locale'
+        when 'rmlocale'
+          'Deleting locale'
+        else
+          'Gathering information'
+        end
         throb do
           print "  #{message}"
           self.configuration = WebTranslateIt::Configuration.new(project_path, configuration_file_path)
@@ -107,10 +109,10 @@ module WebTranslateIt
       WebTranslateIt::Connection.new(configuration.api_key) do |http|
         fetch_locales_to_push(configuration).each do |locale|
           files = if parameters.any?
-                    configuration.files.find_all { |file| parameters.include?(file.file_path) }.sort { |a, b| a.file_path <=> b.file_path }
-                  else
-                    configuration.files.find_all { |file| file.locale == locale }.sort { |a, b| a.file_path <=> b.file_path }
-                  end
+            configuration.files.find_all { |file| parameters.include?(file.file_path) }.sort { |a, b| a.file_path <=> b.file_path }
+          else
+            configuration.files.find_all { |file| file.locale == locale }.sort { |a, b| a.file_path <=> b.file_path }
+          end
           if files.empty?
             puts "Couldn't find any local files registered on WebTranslateIt to push."
           else
@@ -295,10 +297,10 @@ module WebTranslateIt
       end
       FileUtils.mkpath(path.split('/')[0..path.split('/').size - 2].join('/')) unless path.split('/').size == 1
       project = if RUBY_VERSION >= '3.1'
-                  YAML.safe_load WebTranslateIt::Project.fetch_info(api_key), permitted_classes: [Time]
-                else
-                  YAML.load WebTranslateIt::Project.fetch_info(api_key)
-                end
+        YAML.safe_load WebTranslateIt::Project.fetch_info(api_key), permitted_classes: [Time]
+      else
+        YAML.load WebTranslateIt::Project.fetch_info(api_key)
+      end
       project_info = project['project']
       if File.exist?(path) && !File.writable?(path)
         puts StringUtil.failure("Error: `#{path}` file is not writable.")
@@ -470,5 +472,7 @@ module WebTranslateIt
         puts "\r\e[0G#\e[?25h"
       end
     end
+
   end
+
 end

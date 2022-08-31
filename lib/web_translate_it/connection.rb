@@ -1,6 +1,8 @@
 require 'English'
 module WebTranslateIt
+
   class Connection
+
     attr_reader :api_key, :http_connection
 
     require 'net/http'
@@ -55,5 +57,7 @@ module WebTranslateIt
     def self.turn_debug_on
       @debug = true
     end
+
   end
+
 end
