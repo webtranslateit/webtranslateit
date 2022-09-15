@@ -83,3 +83,6 @@ Style/HashSyntax:
 
 RSpec/NamedSubject:
   Enabled: false
+
+RSpec/Capybara/SpecificFinders:
+  Enabled: false
