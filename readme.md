@@ -3,7 +3,8 @@
 [RubyDoc](https://www.rubydoc.info/gems/web_translate_it/) |
 [Report a bug](https://github.com/webtranslateit/webtranslateit/issues) |
 [Support](https://webtranslateit.com/support) |
-[WebTranslateIt.com Homepage](https://webtranslateit.com)
+[WebTranslateIt.com Homepage](https://webtranslateit.com) |
+[Docker Package](https://github.com/webtranslateit/wti-docker/pkgs/container/wti-docker)
 
 wti lets you easily sync your language files with [WebTranslateIt.com](https://webtranslateit.com), a web-based tool to translation software.
 
@@ -11,7 +12,7 @@ wti lets you easily sync your language files with [WebTranslateIt.com](https://w
 
 ### wti...
 
-* wti is a **command-line tool**. It works on all operating systems: Windows, Linux, MacOS X...
+* wti is a **command-line tool**. It works on all operating systems: Windows, Linux, MacOS X, ... It is also available as a [Docker package](https://github.com/webtranslateit/wti-docker/pkgs/container/wti-docker).
 * wti is really easy to use. It was inspired by git. Use `wti push` and `wti pull` to sync your language files with WebTranslateIt.com.
 
 ### Optionally, wti does...
@@ -53,6 +54,8 @@ The reason is that the wti file is named in another way: `/usr/bin/wti.ruby2.1` 
 ``` bash
 # ln -s /usr/bin/wti.ruby2.1 /usr/bin/wti
 ```
+
+We also provide `wti` as a Docker packages. [See our packages and instructions to install](https://github.com/webtranslateit/wti-docker/pkgs/container/wti-docker).
 
 ## Configuration
 
