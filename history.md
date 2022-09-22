@@ -1,6 +1,7 @@
 ## Edge
 
 * Move development dependencies to Gemfile and commit Gemfile.lock to version control.
+* wti now sends a `User-Agent` header.
 
 ## Version 2.6.3 / 2022-06-14
 
