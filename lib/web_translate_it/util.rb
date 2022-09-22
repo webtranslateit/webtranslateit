@@ -43,8 +43,7 @@ module WebTranslateIt
     # rubocop:enable Metrics/PerceivedComplexity
 
     def self.add_fields(request)
-      request.add_field('X-Client-Name', 'web_translate_it')
-      request.add_field('X-Client-Version', version)
+      request.add_field('User-Agent', "wti v#{version}")
       request.add_field('Content-Type', 'application/json')
     end
 
