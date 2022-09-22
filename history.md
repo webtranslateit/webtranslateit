@@ -1,3 +1,7 @@
+## Edge
+
+* Readme file updates (installation instructions and add link to Docker package).
+
 ## Version 2.6.4 / 2022-09-22
 
 * Move development dependencies to Gemfile and commit Gemfile.lock to version control.

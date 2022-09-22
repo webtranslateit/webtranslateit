@@ -25,12 +25,12 @@ wti lets you easily sync your language files with [WebTranslateIt.com](https://w
 
 ## Installation
 
-You will also need ruby to run `wti`. On Linux or a Mac, it’s already installed. Install [RubyInstaller](http://rubyinstaller.org/) if you’re using Windows. [See detailed installation instructions for Windows users](https://github.com/webtranslateit/webtranslateit/wiki/Install-wti-on-Windows).
+You will also need ruby to run `wti`. We require ruby version 2.6 or newer. On Linux or a Mac, it’s already installed. Install [RubyInstaller](http://rubyinstaller.org/) if you’re using Windows. [See detailed installation instructions for Windows users](https://github.com/webtranslateit/webtranslateit/wiki/Install-wti-on-Windows).
 
 ``` bash
 $ gem install web_translate_it
-Fetching: web_translate_it-2.1.3.gem (100%)
-Successfully installed web_translate_it-2.1.3
+Fetching: web_translate_it-2.6.4.gem (100%)
+Successfully installed web_translate_it-2.6.4
 1 gem installed
 ```
 
@@ -38,28 +38,14 @@ At this point you should have the `wti` executable working:
 
 ``` bash
 $ wti -v
-wti version 2.2.1
-```
-
-On some Linux distributions you may get the following error:
-
-``` bash
-$ wti
-If 'wti' is not a typo you can use command-not-found to lookup the package that contains it, like this:
-    cnf wti
-```
-
-The reason is that the wti file is named in another way: `/usr/bin/wti.ruby2.1` so you will have to create a symlink to make wti run.
-
-``` bash
-# ln -s /usr/bin/wti.ruby2.1 /usr/bin/wti
+wti version 2.6.4
 ```
 
 We also provide `wti` as a Docker packages. [See our packages and instructions to install](https://github.com/webtranslateit/wti-docker/pkgs/container/wti-docker).
 
 ## Configuration
 
-Now that the tool is installed, you’ll have to configure your project. Basically, `wti` is to be run on a project root directory, and looks for a `.wti` file containing your project information. The command `wti init` lets your create your `.wti` file.
+Now that `wti` is installed, you’ll have to configure your project. Basically, `wti` is to be run on a project root directory, and looks for a `.wti` file containing your project information. The command `wti init` lets your create your `.wti` file.
 
 ``` bash
 $ wti init proj_pvt_V8skdjsdDDA4
