@@ -1,4 +1,4 @@
-## Edge
+## Version 2.7.0 / 2022-10-10
 
 * New: Ability to see translation statistics per file.
   - `wti status` gives the whole translation project statistics.
