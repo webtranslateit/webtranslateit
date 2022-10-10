@@ -1,9 +1,10 @@
 ## Edge
 
-* Update readme file (installation instructions and add link to Docker package).
 * New: Ability to see translation statistics per file.
-  `wti status` gives the whole translation project statistics.
-  `wti status path/to/file` gives the file translation statistics.
+  - `wti status` gives the whole translation project statistics.
+  - `wti status path/to/file` gives the file translation statistics.
+* Update readme file (installation instructions and add link to Docker package).
+* Fix Rspec ExampleWording offences.
 
 ## Version 2.6.4 / 2022-09-22
 

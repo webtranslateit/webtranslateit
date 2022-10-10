@@ -44,15 +44,6 @@ RSpec/DescribedClass:
 RSpec/ExampleLength:
   Max: 22
 
-# Offense count: 24
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: CustomTransform, IgnoredWords.
-RSpec/ExampleWording:
-  Exclude:
-    - 'spec/web_translate_it/auto_fetch_spec.rb'
-    - 'spec/web_translate_it/string_spec.rb'
-    - 'spec/web_translate_it/term_spec.rb'
-
 # Offense count: 1
 # This cop supports safe autocorrection (--autocorrect).
 RSpec/LeadingSubject:

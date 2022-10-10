@@ -4,13 +4,13 @@ describe WebTranslateIt::Term do
   let(:api_key) { 'proj_pvt_glzDR250FLXlMgJPZfEyHQ' }
 
   describe '#initialize' do
-    it 'should assign api_key and many parameters' do
+    it 'assigns api_key and many parameters' do
       term = WebTranslateIt::Term.new({'id' => 1234, 'text' => 'bacon'})
       term.id.should == 1234
       term.text.should == 'bacon'
     end
 
-    it 'should assign parameters using symbols' do
+    it 'assigns parameters using symbols' do
       term = WebTranslateIt::Term.new({id: 1234, text: 'bacon'})
       term.id.should == 1234
       term.text.should == 'bacon'
@@ -18,7 +18,7 @@ describe WebTranslateIt::Term do
   end
 
   describe '#save' do
-    it 'should create a new Term' do
+    it 'creates a new Term' do
       WebTranslateIt::Connection.new(api_key) do
         term = WebTranslateIt::Term.new({'text' => 'Term', 'description' => 'A description'})
         term.save
@@ -31,7 +31,7 @@ describe WebTranslateIt::Term do
       end
     end
 
-    it 'should update an existing Term' do
+    it 'updates an existing Term' do
       WebTranslateIt::Connection.new(api_key) do
         term = WebTranslateIt::Term.new({'text' => 'Term 2', 'description' => 'A description'})
         term.save
@@ -43,7 +43,7 @@ describe WebTranslateIt::Term do
       end
     end
 
-    it 'should create a new Term with a TermTranslation' do
+    it 'creates a new Term with a TermTranslation' do
       translation1 = WebTranslateIt::TermTranslation.new({'locale' => 'fr', 'text' => 'Bonjour'})
       translation2 = WebTranslateIt::TermTranslation.new({'locale' => 'fr', 'text' => 'Salut'})
 
@@ -59,7 +59,7 @@ describe WebTranslateIt::Term do
       end
     end
 
-    it 'should update a Term and save its Translation' do
+    it 'updates a Term and save its Translation' do
       translation1 = WebTranslateIt::TermTranslation.new({'locale' => 'fr', 'text' => 'Bonjour'})
       translation2 = WebTranslateIt::TermTranslation.new({'locale' => 'fr', 'text' => 'Salut'})
 
@@ -82,7 +82,7 @@ describe WebTranslateIt::Term do
   end
 
   describe '#delete' do
-    it 'should delete a Term' do
+    it 'deletes a Term' do
       term = WebTranslateIt::Term.new({'text' => 'bacon'})
       WebTranslateIt::Connection.new(api_key) do
         term.save
@@ -97,7 +97,7 @@ describe WebTranslateIt::Term do
   end
 
   describe '#find_all' do
-    it 'should fetch many terms' do
+    it 'fetches many terms' do
       WebTranslateIt::Connection.new(api_key) do
         terms = WebTranslateIt::Term.find_all
         count = terms.count
