@@ -16,15 +16,15 @@ describe WebTranslateIt::AutoFetch do
   context 'path is /' do
     let(:path) { '/' }
 
-    it 'should call the application' do
+    it 'calls the application' do
       application.should_receive(:call).with(env)
     end
 
-    it 'should update the translations' do
+    it 'updates the translations' do
       WebTranslateIt.should_receive(:fetch_translations)
     end
 
-    it 'should reload the I18n definitions' do
+    it 'reloads the I18n definitions' do
       I18n.should_receive(:reload!)
     end
   end
@@ -32,15 +32,15 @@ describe WebTranslateIt::AutoFetch do
   context 'path is /assets/application.js' do
     let(:path) { '/assets/application.js' }
 
-    it 'should call the application' do
+    it 'calls the application' do
       application.should_receive(:call).with(env)
     end
 
-    it 'should not update the translations' do
+    it 'does not update the translations' do
       WebTranslateIt.should_not_receive(:fetch_translations)
     end
 
-    it 'should not reload the I18n definitions' do
+    it 'does not reload the I18n definitions' do
       I18n.should_not_receive(:reload!)
     end
   end

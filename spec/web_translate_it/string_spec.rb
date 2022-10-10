@@ -4,13 +4,13 @@ describe WebTranslateIt::String do
   let(:api_key) { 'proj_pvt_glzDR250FLXlMgJPZfEyHQ' }
 
   describe '#initialize' do
-    it 'should assign api_key and many parameters' do
+    it 'assigns api_key and many parameters' do
       string = WebTranslateIt::String.new({'id' => 1234, 'key' => 'bacon'})
       string.id.should == 1234
       string.key.should == 'bacon'
     end
 
-    it 'should assign parameters using symbols' do
+    it 'assigns parameters using symbols' do
       string = WebTranslateIt::String.new({id: 1234, key: 'bacon'})
       string.id.should == 1234
       string.key.should == 'bacon'
@@ -18,7 +18,7 @@ describe WebTranslateIt::String do
   end
 
   describe '#save' do
-    it 'should create a new String' do
+    it 'creates a new String' do
       WebTranslateIt::Connection.new(api_key) do
         string = WebTranslateIt::String.new({'key' => 'bacon'})
         string.save
@@ -31,7 +31,7 @@ describe WebTranslateIt::String do
       end
     end
 
-    it 'should update an existing String' do
+    it 'updates an existing String' do
       WebTranslateIt::Connection.new(api_key) do
         string = WebTranslateIt::String.new({'key' => 'bacony'})
         string.save
@@ -43,7 +43,7 @@ describe WebTranslateIt::String do
       end
     end
 
-    it 'should create a new String with Translation' do
+    it 'creates a new String with Translation' do
       translation1 = WebTranslateIt::Translation.new({'locale' => 'en', 'text' => 'Hello'})
       translation2 = WebTranslateIt::Translation.new({'locale' => 'fr', 'text' => 'Bonjour'})
 
@@ -60,7 +60,7 @@ describe WebTranslateIt::String do
       end
     end
 
-    it 'should update a String and save its Translation' do
+    it 'updates a String and save its Translation' do
       translation1 = WebTranslateIt::Translation.new({'locale' => 'en', 'text' => 'Hello'})
       translation2 = WebTranslateIt::Translation.new({'locale' => 'fr', 'text' => 'Bonjour'})
 
@@ -84,7 +84,7 @@ describe WebTranslateIt::String do
   end
 
   describe '#delete' do
-    it 'should delete a String' do
+    it 'deletes a String' do
       string = WebTranslateIt::String.new({'key' => 'bacon'})
       WebTranslateIt::Connection.new(api_key) do
         string.save
@@ -98,7 +98,7 @@ describe WebTranslateIt::String do
   end
 
   describe '#find_all' do
-    it 'should find many strings' do
+    it 'finds many strings' do
       WebTranslateIt::Connection.new(api_key) do
         string1 = WebTranslateIt::String.new({'key' => 'one two three'})
         string1.save
@@ -129,7 +129,7 @@ describe WebTranslateIt::String do
   end
 
   describe '#translation_for' do
-    it 'should fetch translations' do
+    it 'fetches translations' do
       translation = WebTranslateIt::Translation.new({'locale' => 'en', 'text' => 'Hello'})
       string = WebTranslateIt::String.new({'key' => 'greetings', 'translations' => [translation]})
       WebTranslateIt::Connection.new(api_key) do
@@ -142,7 +142,7 @@ describe WebTranslateIt::String do
       end
     end
 
-    it 'should not return a stale object' do
+    it 'does not return a stale object' do
       string = WebTranslateIt::String.new({key: 'greetings 2'})
       translation = WebTranslateIt::Translation.new({locale: 'es', text: 'text', string_id: string.id})
       string.translations << translation
