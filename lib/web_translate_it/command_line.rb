@@ -353,8 +353,15 @@ module WebTranslateIt
       true
     end
 
-    def status # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
-      stats = YAML.load(Project.fetch_stats(configuration.api_key))
+    def status # rubocop:todo Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+      if parameters.any?
+        file = configuration.files.find { |f| parameters.first.strip == f.file_path }
+        abort "File '#{parameters.first}' not found." unless file
+
+        file_id = file.master_id || file.id
+        puts "Statistics for '#{parameters.first}':"
+      end
+      stats = YAML.load(Project.fetch_stats(configuration.api_key, file_id))
       completely_translated = true
       completely_proofread  = true
       stats.each do |locale, values|
