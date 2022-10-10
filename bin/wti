@@ -97,7 +97,7 @@ when 'rmlocale'
   end
 when 'status'
   Optimist.options do
-    banner "wti status - Fetch and display project statistics.\nReturns 100 if untranslated segments exist in project\nReturns 101 if unproofread segments exist in project."
+    banner "wti status [filename] - Fetch and display project statistics.\nReturns 100 if untranslated segments exist in project\nReturns 101 if unproofread segments exist in project."
     opt :config, 'Path to a configuration file', short: '-c', default: '.wti'
     opt :debug,  'Display debug information'
   end

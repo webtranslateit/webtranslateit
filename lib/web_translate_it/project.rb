@@ -31,12 +31,13 @@ module WebTranslateIt
       success
     end
 
-    def self.fetch_stats(api_key) # rubocop:todo Metrics/MethodLength
+    def self.fetch_stats(api_key, file_id = nil) # rubocop:todo Metrics/MethodLength
+      url = file_id.nil? ? "/api/projects/#{api_key}/stats.yaml" : "/api/projects/#{api_key}/stats.yaml?file=#{file_id}"
       success = true
       tries ||= 3
       begin
         WebTranslateIt::Connection.new(api_key) do |http|
-          request = Net::HTTP::Get.new("/api/projects/#{api_key}/stats.yaml")
+          request = Net::HTTP::Get.new(url)
           WebTranslateIt::Util.add_fields(request)
           return Util.handle_response(http.request(request), true)
         end
