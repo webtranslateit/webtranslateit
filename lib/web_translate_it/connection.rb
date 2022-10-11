@@ -49,7 +49,7 @@ module WebTranslateIt
         http.verify_mode = OpenSSL::SSL::VERIFY_NONE
         @http_connection = http.start
         yield @http_connection if block_given?
-      rescue
+      rescue StandardError
         puts $ERROR_INFO
       end
     end

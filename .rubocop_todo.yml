@@ -89,16 +89,6 @@ Style/OptionalBooleanParameter:
     - 'lib/web_translate_it/translation_file.rb'
     - 'lib/web_translate_it/util.rb'
 
-# Offense count: 7
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: implicit, explicit
-Style/RescueStandardError:
-  Exclude:
-    - 'lib/web_translate_it/connection.rb'
-    - 'lib/web_translate_it/project.rb'
-    - 'lib/web_translate_it/translation_file.rb'
-
 # Offense count: 25
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, AllowedPatterns, IgnoredPatterns.

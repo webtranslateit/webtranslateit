@@ -25,7 +25,7 @@ module WebTranslateIt
         else
           success = false
         end
-      rescue
+      rescue StandardError
         puts $ERROR_INFO.inspect
       end
       success

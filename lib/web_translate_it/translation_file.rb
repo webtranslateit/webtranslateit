@@ -65,7 +65,7 @@ module WebTranslateIt
             else
               success = false
             end
-          rescue
+          rescue StandardError
             display.push StringUtil.failure("An error occured: #{$ERROR_INFO}")
             success = false
           end
@@ -115,7 +115,7 @@ module WebTranslateIt
             else
               success = false
             end
-          rescue
+          rescue StandardError
             display.push StringUtil.failure("An error occured: #{$ERROR_INFO}")
             success = false
           end
@@ -164,7 +164,7 @@ module WebTranslateIt
           else
             success = false
           end
-        rescue
+        rescue StandardError
           display.push StringUtil.failure("An error occured: #{$ERROR_INFO}")
           success = false
         end
@@ -195,7 +195,7 @@ module WebTranslateIt
           else
             success = false
           end
-        rescue
+        rescue StandardError
           display.push StringUtil.failure("An error occured: #{$ERROR_INFO}")
           success = false
         end
@@ -237,7 +237,7 @@ module WebTranslateIt
       require 'digest/sha1'
       begin
         Digest::SHA1.hexdigest(File.read(file_path))
-      rescue
+      rescue StandardError
         ''
       end
     end
