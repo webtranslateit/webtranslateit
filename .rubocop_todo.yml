@@ -21,12 +21,6 @@ Naming/AccessorMethodName:
 RSpec/ExampleLength:
   Max: 22
 
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-RSpec/LeadingSubject:
-  Exclude:
-    - 'spec/web_translate_it/auto_fetch_spec.rb'
-
 # Offense count: 24
 RSpec/NoExpectationExample:
   Exclude:

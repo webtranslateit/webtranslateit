@@ -1,13 +1,14 @@
 require 'spec_helper'
 
 describe WebTranslateIt::AutoFetch do
+  subject { described_class.new(application) }
+
   let(:application) { double(:application, call: []) }
 
   let(:env) do
     {'PATH_INFO' => path}
   end
 
-  subject { described_class.new(application) }
 
   before { WebTranslateIt.stub(:fetch_translations) }
 
