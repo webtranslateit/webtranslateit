@@ -13,7 +13,7 @@ describe WebTranslateIt::AutoFetch do
 
   after { subject.call(env) }
 
-  context 'path is /' do
+  context 'when path is /' do
     let(:path) { '/' }
 
     it 'calls the application' do
@@ -29,7 +29,7 @@ describe WebTranslateIt::AutoFetch do
     end
   end
 
-  context 'path is /assets/application.js' do
+  context 'when path is /assets/application.js' do
     let(:path) { '/assets/application.js' }
 
     it 'calls the application' do
