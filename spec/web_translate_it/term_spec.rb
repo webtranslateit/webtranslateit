@@ -6,14 +6,14 @@ describe WebTranslateIt::Term do
   describe '#initialize' do
     it 'assigns api_key and many parameters' do
       term = WebTranslateIt::Term.new({'id' => 1234, 'text' => 'bacon'})
-      term.id.should == 1234
-      term.text.should == 'bacon'
+      expect(term.id).to be 1234
+      expect(term.text).to eql 'bacon'
     end
 
     it 'assigns parameters using symbols' do
       term = WebTranslateIt::Term.new({id: 1234, text: 'bacon'})
-      term.id.should == 1234
-      term.text.should == 'bacon'
+      expect(term.id).to be 1234
+      expect(term.text).to eql 'bacon'
     end
   end
 
@@ -26,7 +26,7 @@ describe WebTranslateIt::Term do
         term_fetched = WebTranslateIt::Term.find(term.id)
         term_fetched.should_not be_nil
         term_fetched.should be_a(WebTranslateIt::Term)
-        term_fetched.id.should == term.id
+        expect(term_fetched.id).to eql term.id
         term.delete
       end
     end
@@ -38,12 +38,12 @@ describe WebTranslateIt::Term do
         term.text = 'A Term'
         term.save
         term_fetched = WebTranslateIt::Term.find(term.id)
-        term_fetched.text.should == 'A Term'
+        expect(term_fetched.text).to eql 'A Term'
         term.delete
       end
     end
 
-    it 'creates a new Term with a TermTranslation' do
+    it 'creates a new Term with a TermTranslation' do # rubocop:todo RSpec/MultipleExpectations
       translation1 = WebTranslateIt::TermTranslation.new({'locale' => 'fr', 'text' => 'Bonjour'})
       translation2 = WebTranslateIt::TermTranslation.new({'locale' => 'fr', 'text' => 'Salut'})
 
@@ -51,15 +51,15 @@ describe WebTranslateIt::Term do
       WebTranslateIt::Connection.new(api_key) do
         term.save
         term_fetched = WebTranslateIt::Term.find(term.id)
-        term_fetched.translation_for('fr').should_not be_nil
-        term_fetched.translation_for('fr')[0].text.should == 'Salut'
-        term_fetched.translation_for('fr')[1].text.should == 'Bonjour'
-        term_fetched.translation_for('es').should be_nil
+        expect(term_fetched.translation_for('fr')).not_to be_nil
+        expect(term_fetched.translation_for('fr')[0].text).to eql 'Salut'
+        expect(term_fetched.translation_for('fr')[1].text).to eql 'Bonjour'
+        expect(term_fetched.translation_for('es')).to be_nil
         term.delete
       end
     end
 
-    it 'updates a Term and save its Translation' do
+    it 'updates a Term and save its Translation' do # rubocop:todo RSpec/MultipleExpectations
       translation1 = WebTranslateIt::TermTranslation.new({'locale' => 'fr', 'text' => 'Bonjour'})
       translation2 = WebTranslateIt::TermTranslation.new({'locale' => 'fr', 'text' => 'Salut'})
 
@@ -67,15 +67,15 @@ describe WebTranslateIt::Term do
       WebTranslateIt::Connection.new(api_key) do
         term.save
         term_fetched = WebTranslateIt::Term.find(term.id)
-        term_fetched.translation_for('fr').should be_nil
+        expect(term_fetched.translation_for('fr')).to be_nil
 
         term_fetched.translations = [translation1, translation2]
         term_fetched.save
 
         term_fetched = WebTranslateIt::Term.find(term.id)
-        term_fetched.translation_for('fr').should_not be_nil
-        term_fetched.translation_for('fr')[0].text.should == 'Salut'
-        term_fetched.translation_for('fr')[1].text.should == 'Bonjour'
+        expect(term_fetched.translation_for('fr')).not_to be_nil
+        expect(term_fetched.translation_for('fr')[0].text).to eql 'Salut'
+        expect(term_fetched.translation_for('fr')[1].text).to eql 'Bonjour'
         term.delete
       end
     end
@@ -87,11 +87,11 @@ describe WebTranslateIt::Term do
       WebTranslateIt::Connection.new(api_key) do
         term.save
         term_fetched = WebTranslateIt::Term.find(term.id)
-        term_fetched.should_not be_nil
+        expect(term_fetched).not_to be_nil
 
         term_fetched.delete
         term_fetched = WebTranslateIt::Term.find(term.id)
-        term_fetched.should be_nil
+        expect(term_fetched).to be_nil
       end
     end
   end
@@ -110,7 +110,7 @@ describe WebTranslateIt::Term do
         term3.save
 
         terms = WebTranslateIt::Term.find_all
-        count - terms.count.should == 3
+        expect(count - terms.count).to be 3
 
         term1.delete
         term2.delete

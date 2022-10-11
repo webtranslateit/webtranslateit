@@ -6,27 +6,27 @@ describe WebTranslateIt::String do
   describe '#initialize' do
     it 'assigns api_key and many parameters' do
       string = WebTranslateIt::String.new({'id' => 1234, 'key' => 'bacon'})
-      string.id.should == 1234
-      string.key.should == 'bacon'
+      expect(string.id).to be 1234
+      expect(string.key).to eql 'bacon'
     end
 
     it 'assigns parameters using symbols' do
       string = WebTranslateIt::String.new({id: 1234, key: 'bacon'})
-      string.id.should == 1234
-      string.key.should == 'bacon'
+      expect(string.id).to be 1234
+      expect(string.key).to eql 'bacon'
     end
   end
 
   describe '#save' do
-    it 'creates a new String' do
+    it 'creates a new String' do # rubocop:todo RSpec/MultipleExpectations
       WebTranslateIt::Connection.new(api_key) do
         string = WebTranslateIt::String.new({'key' => 'bacon'})
         string.save
-        string.id.should_not be_nil
+        expect(string.id).not_to be_nil
         string_fetched = WebTranslateIt::String.find(string.id)
-        string_fetched.should_not be_nil
-        string_fetched.should be_a(WebTranslateIt::String)
-        string_fetched.id.should == string.id
+        expect(string_fetched).not_to be_nil
+        expect(string_fetched).to be_a(WebTranslateIt::String)
+        expect(string_fetched.id).to eql string.id
         string.delete
       end
     end
@@ -38,12 +38,12 @@ describe WebTranslateIt::String do
         string.key = 'bacon changed'
         string.save
         string_fetched = WebTranslateIt::String.find(string.id)
-        string_fetched.key.should == 'bacon changed'
+        expect(string_fetched.key).to eql 'bacon changed'
         string.delete
       end
     end
 
-    it 'creates a new String with Translation' do
+    it 'creates a new String with Translation' do # rubocop:todo RSpec/MultipleExpectations
       translation1 = WebTranslateIt::Translation.new({'locale' => 'en', 'text' => 'Hello'})
       translation2 = WebTranslateIt::Translation.new({'locale' => 'fr', 'text' => 'Bonjour'})
 
@@ -51,16 +51,16 @@ describe WebTranslateIt::String do
       WebTranslateIt::Connection.new(api_key) do
         string.save
         string_fetched = WebTranslateIt::String.find(string.id)
-        string_fetched.translation_for('en').should_not be_nil
-        string_fetched.translation_for('en').text.should == 'Hello'
-        string_fetched.translation_for('fr').should_not be_nil
-        string_fetched.translation_for('fr').text.should == 'Bonjour'
-        string_fetched.translation_for('es').should be_nil
+        expect(string_fetched.translation_for('en')).not_to be_nil
+        expect(string_fetched.translation_for('en').text).to eql 'Hello'
+        expect(string_fetched.translation_for('fr')).not_to be_nil
+        expect(string_fetched.translation_for('fr').text).to eql 'Bonjour'
+        expect(string_fetched.translation_for('es')).to be_nil
         string.delete
       end
     end
 
-    it 'updates a String and save its Translation' do
+    it 'updates a String and save its Translation' do # rubocop:todo RSpec/MultipleExpectations
       translation1 = WebTranslateIt::Translation.new({'locale' => 'en', 'text' => 'Hello'})
       translation2 = WebTranslateIt::Translation.new({'locale' => 'fr', 'text' => 'Bonjour'})
 
@@ -68,16 +68,16 @@ describe WebTranslateIt::String do
       WebTranslateIt::Connection.new(api_key) do
         string.save
         string_fetched = WebTranslateIt::String.find(string.id)
-        string_fetched.translation_for('fr').should be_nil
+        expect(string_fetched.translation_for('fr')).to be_nil
 
         string_fetched.translations = [translation1, translation2]
         string_fetched.save
 
         string_fetched = WebTranslateIt::String.find(string.id)
-        string_fetched.translation_for('en').should_not be_nil
-        string_fetched.translation_for('en').text.should == 'Hello'
-        string_fetched.translation_for('fr').should_not be_nil
-        string_fetched.translation_for('fr').text.should == 'Bonjour'
+        expect(string_fetched.translation_for('en')).not_to be_nil
+        expect(string_fetched.translation_for('en').text).to eql 'Hello'
+        expect(string_fetched.translation_for('fr')).not_to be_nil
+        expect(string_fetched.translation_for('fr').text).to eql 'Bonjour'
         string.delete
       end
     end
@@ -89,16 +89,16 @@ describe WebTranslateIt::String do
       WebTranslateIt::Connection.new(api_key) do
         string.save
         string_fetched = WebTranslateIt::String.find(string.id)
-        string_fetched.should_not be_nil
+        expect(string_fetched).not_to be_nil
 
         string_fetched.delete
-        WebTranslateIt::String.find(string.id).should be_nil
+        expect(WebTranslateIt::String.find(string.id)).to be_nil
       end
     end
   end
 
   describe '#find_all' do
-    it 'finds many strings' do
+    it 'finds many strings' do # rubocop:todo RSpec/MultipleExpectations
       WebTranslateIt::Connection.new(api_key) do
         string1 = WebTranslateIt::String.new({'key' => 'one two three'})
         string1.save
@@ -108,36 +108,36 @@ describe WebTranslateIt::String do
         string3.save
 
         strings = WebTranslateIt::String.find_all({'key' => 'six'})
-        strings.count.should == 2
-        strings[0].key.should == 'four five six'
-        strings[1].key.should == 'six seven eight'
+        expect(strings.count).to be 2
+        expect(strings[0].key).to eql 'four five six'
+        expect(strings[1].key).to eql 'six seven eight'
 
         strings = WebTranslateIt::String.find_all({key: 'six'})
-        strings.count.should == 2
-        strings[0].key.should == 'four five six'
-        strings[1].key.should == 'six seven eight'
+        expect(strings.count).to be 2
+        expect(strings[0].key).to eql 'four five six'
+        expect(strings[1].key).to eql 'six seven eight'
 
         strings = WebTranslateIt::String.find_all({'key' => 'eight'})
-        strings.count.should == 1
-        strings[0].key.should == 'six seven eight'
+        expect(strings.count).to be 1
+        expect(strings[0].key).to eql 'six seven eight'
 
         strings = WebTranslateIt::String.find_all({'key' => 'three'})
-        strings.count.should == 1
-        strings[0].key.should == 'one two three'
+        expect(strings.count).to be 1
+        expect(strings[0].key).to eql 'one two three'
       end
     end
   end
 
   describe '#translation_for' do
-    it 'fetches translations' do
+    it 'fetches translations' do # rubocop:todo RSpec/MultipleExpectations
       translation = WebTranslateIt::Translation.new({'locale' => 'en', 'text' => 'Hello'})
       string = WebTranslateIt::String.new({'key' => 'greetings', 'translations' => [translation]})
       WebTranslateIt::Connection.new(api_key) do
         string.save
         string_fetched = WebTranslateIt::String.find(string.id)
-        string_fetched.translation_for('en').should_not be_nil
-        string_fetched.translation_for('en').text.should == 'Hello'
-        string_fetched.translation_for('fr').should be_nil
+        expect(string_fetched.translation_for('en')).not_to be_nil
+        expect(string_fetched.translation_for('en').text).to eql 'Hello'
+        expect(string_fetched.translation_for('fr')).to be_nil
         string.delete
       end
     end
@@ -146,8 +146,8 @@ describe WebTranslateIt::String do
       string = WebTranslateIt::String.new({key: 'greetings 2'})
       translation = WebTranslateIt::Translation.new({locale: 'es', text: 'text', string_id: string.id})
       string.translations << translation
-      string.translation_for('fr').should be_nil
-      string.translation_for('es').should_not be_nil
+      expect(string.translation_for('fr')).to be_nil
+      expect(string.translation_for('es')).not_to be_nil
     end
   end
 end

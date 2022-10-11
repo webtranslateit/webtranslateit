@@ -11,13 +11,6 @@ Lint/DuplicateMethods:
   Exclude:
     - 'lib/web_translate_it/configuration.rb'
 
-# Offense count: 27
-# Configuration parameters: CheckForMethodsWithNoSideEffects.
-Lint/Void:
-  Exclude:
-    - 'spec/web_translate_it/string_spec.rb'
-    - 'spec/web_translate_it/term_spec.rb'
-
 # Offense count: 5
 Naming/AccessorMethodName:
   Exclude:
