@@ -30,10 +30,11 @@ module WebTranslateIt
         else
           YAML.load WebTranslateIt::Project.fetch_info(api_key)
         end
-        set_locales_to_ignore(configuration)
-        set_locales_needed(configuration)
-        set_files(project_info['project'])
-        set_locales(project_info['project'])
+        self.ignore_locales = locales_to_ignore(configuration)
+        self.needed_locales = locales_needed(configuration)
+        self.files = files_from_project(project_info['project'])
+        self.source_locale = source_locale_from_project(project_info['project'])
+        self.target_locales = target_locales_from_project(project_info['project'])
         self.project_name = project_info['project']['name']
       else
         puts StringUtil.failure("\nNo configuration file found in #{File.expand_path(path_to_config_file, path)}")
@@ -43,23 +44,24 @@ module WebTranslateIt
 
     # Reload project data
     #
-    def reload
+    def reload # rubocop:todo Metrics/AbcSize
       project_info = YAML.load WebTranslateIt::Project.fetch_info(api_key)
-      set_locales_to_ignore(configuration)
-      set_locales_needed(configuration)
-      set_files(project_info['project'])
-      set_locales(project_info['project'])
+      self.ignore_locales = locales_to_ignore(configuration)
+      self.needed_locales = locales_needed(configuration)
+      self.files = files_from_project(project_info['project'])
+      self.source_locale = source_locale_from_project(project_info['project'])
+      self.target_locales = target_locales_from_project(project_info['project'])
       self.project_name = project_info['project']['name']
     end
 
-    # Set the project locales from the Project API.
-    # Implementation example:
-    #
-    #   configuration = WebTranslateIt::Configuration.new
-    #   locales = configuration.locales # returns an array of locales: ['en', 'fr', 'es', ...]
-    def set_locales(project)
-      self.source_locale  = project['source_locale']['code']
-      self.target_locales = project['target_locales'].map { |locale| locale['code'] }
+    # Returns the source locale from the Project API.
+    def source_locale_from_project(project)
+      project['source_locale']['code']
+    end
+
+    # Returns the target locales from the Project API.
+    def target_locales_from_project(project)
+      project['target_locales'].map { |locale| locale['code'] }
     end
 
     # Set the project files from the Project API.
@@ -67,33 +69,34 @@ module WebTranslateIt
     #
     #   configuration = WebTranslateIt::Configuration.new
     #   files = configuration.files # returns an array of TranslationFile
-    def set_files(project) # rubocop:todo Metrics/AbcSize
-      self.files = []
+    def files_from_project(project) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
+      array_files = []
       project['project_files'].each do |project_file|
         if project_file['name'].nil? || (project_file['name'].strip == '')
           puts "File #{project_file['id']} not set up"
         elsif ignore_files&.any? { |glob| File.fnmatch(glob, project_file['name']) }
           puts "Ignoring #{project_file['name']}"
         else
-          files.push TranslationFile.new(project_file['id'], project_file['name'], project_file['locale_code'], api_key, project_file['updated_at'], project_file['hash_file'], project_file['master_project_file_id'], project_file['fresh'])
+          array_files.push TranslationFile.new(project_file['id'], project_file['name'], project_file['locale_code'], api_key, project_file['updated_at'], project_file['hash_file'], project_file['master_project_file_id'], project_file['fresh'])
         end
       end
+      array_files
     end
 
-    # Set locales to ignore from the configuration file, if set.
-    def set_locales_to_ignore(configuration)
-      self.ignore_locales = Array(configuration['ignore_locales']).map(&:to_s)
+    # Returns an array of locales to ignore from the configuration file, if set.
+    def locales_to_ignore(configuration)
+      Array(configuration['ignore_locales']).map(&:to_s)
     end
 
-    # Set locales to specifically pull from the configuration file, if set
-    def set_locales_needed(configuration)
-      self.needed_locales = Array(configuration['needed_locales']).map(&:to_s)
+    # Returns an array of locales to specifically pull from the configuration file, if set
+    def locales_needed(configuration)
+      Array(configuration['needed_locales']).map(&:to_s)
     end
 
-    # Set files to ignore from the configuration file, if set.
-    def set_ignore_files(configuration)
-      self.ignore_files = Array(configuration['ignore_files']).map(&:to_s)
-    end
+    # # Set files to ignore from the configuration file, if set.
+    # def ignore_files(configuration)
+    #   Array(configuration['ignore_files']).map(&:to_s)
+    # end
 
     # Convenience method which returns the endpoint for fetching a list of locales for a project.
     def api_url
