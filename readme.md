@@ -187,7 +187,11 @@ Append `--help` for each command for more information. For instance:
   </tr>
   <tr>
     <td>wti status</td>
-    <td>View project statistics</td>
+    <td>View project translation statistics</td>
+  </tr>
+  <tr>
+    <td>wti status config/locales/app/en.yml</td>
+    <td>View translation statistics on file config/locales/app/en.yml</td>
   </tr>
   <tr>
     <td>wti match</td>
@@ -210,7 +214,7 @@ Check the [sample `.wti`](https://github.com/webtranslateit/webtranslateit/blob/
 
 ## Exit codes
 
-Since version 1.4.0 `wti` returns exit codes on failure. The exit code is `0` if the command executed successfully and `1` if the command executed but encountered at least one error. This is useful to act upon errors if you use `wti` to pull files in an automated build process.
+`wti` returns exit codes on failure. The exit code is `0` if the command executed successfully and `1` if the command executed but encountered at least one error. This is useful to act upon errors if you use `wti` to pull files in an automated build process.
 
 ``` zsh
 ~/code/webtranslateit.com[master]% wti pull
@@ -239,7 +243,7 @@ Pulled 3 files at 3 files/sec, using 3 threads.
 1
 ```
 
-Since version 2.4.1 the `wti status` command also returns meaningful codes. It will exit with `0` if the project is 100% translated and proofread, `100` if the project is not 100% translated and `101` if the project is not 100% proofread. This could allow you to check if a project is 100% translated or completed before deploying a project.
+`wti status` command also returns meaningful codes. It will exit with `0` if the project is 100% translated and proofread, `100` if the project is not 100% translated and `101` if the project is not 100% proofread. This could allow you to check if a project is 100% translated or completed before deploying a project.
 
 ``` zsh
 ~/Desktop/test% wti status
