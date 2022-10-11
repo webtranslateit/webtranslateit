@@ -14,3 +14,20 @@ Metrics/BlockLength:
   Exclude:
     - 'spec/**/*_spec.rb'
     - '*.gemspec'
+
+# - RSpec Cops --------------------------------------------------------------------------------------------------------
+# N.B. In some future version of ruboco-rspec IgnoredMetadata can be used instead of Exclude
+
+RSpec/ContextWording:
+  Prefixes:
+    - when    # default
+    - with    # default
+    - without # default
+    - using
+    - via
+
+RSpec/MultipleExpectations:
+  Max: 2
+
+RSpec/NestedGroups:
+  Max: 4
