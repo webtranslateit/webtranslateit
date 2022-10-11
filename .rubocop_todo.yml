@@ -11,11 +11,6 @@ Lint/DuplicateMethods:
   Exclude:
     - 'lib/web_translate_it/configuration.rb'
 
-# Offense count: 5
-Naming/AccessorMethodName:
-  Exclude:
-    - 'lib/web_translate_it/configuration.rb'
-
 # Offense count: 13
 # Configuration parameters: CountAsOne.
 RSpec/ExampleLength:
