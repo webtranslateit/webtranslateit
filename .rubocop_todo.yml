@@ -16,13 +16,6 @@ Naming/AccessorMethodName:
   Exclude:
     - 'lib/web_translate_it/configuration.rb'
 
-# Offense count: 2
-# Configuration parameters: Prefixes, AllowedPatterns.
-# Prefixes: when, with, without
-RSpec/ContextWording:
-  Exclude:
-    - 'spec/web_translate_it/auto_fetch_spec.rb'
-
 # Offense count: 45
 # This cop supports unsafe autocorrection (--autocorrect-all).
 # Configuration parameters: SkipBlocks, EnforcedStyle.
