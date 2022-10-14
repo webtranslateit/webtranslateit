@@ -3,7 +3,7 @@ PATH
   specs:
     web_translate_it (2.7.1)
       multi_json
-      multipart-post (~> 2.0)
+      multipart-post (~> 2.2)
       optimist (~> 3.0)
 
 GEM

@@ -1,3 +1,7 @@
+## Edge
+
+* Specify a minimum version for dependency `multipart_post`.
+
 ## Version 2.7.1 / 2022-10-14
 
 * Potential fix potential for issue `uninitialized constant WebTranslateIt::TranslationFile::Multipart`.
