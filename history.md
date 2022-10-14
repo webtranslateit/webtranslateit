@@ -1,4 +1,4 @@
-## Edge
+## Version 2.7.2 / 2022-10-14
 
 * Specify a minimum version for dependency `multipart_post`.
 
