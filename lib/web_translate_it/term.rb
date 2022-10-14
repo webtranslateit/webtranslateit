@@ -2,9 +2,6 @@ module WebTranslateIt
 
   class Term # rubocop:todo Metrics/ClassLength
 
-    require 'net/https'
-    require 'multi_json'
-
     attr_accessor :id, :text, :description, :created_at, :updated_at, :translations, :new_record
 
     # Initialize a new WebTranslateIt::Term

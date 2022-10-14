@@ -2,9 +2,6 @@ module WebTranslateIt
 
   class TermTranslation
 
-    require 'net/https'
-    require 'multi_json'
-
     attr_accessor :id, :locale, :text, :description, :status, :new_record, :term_id
 
     # Initialize a new WebTranslateIt::TermTranslation

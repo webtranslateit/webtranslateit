@@ -2,8 +2,6 @@ module WebTranslateIt
 
   class CommandLine # rubocop:todo Metrics/ClassLength
 
-    require 'fileutils'
-    require 'set'
     attr_accessor :configuration, :global_options, :command_options, :parameters
 
     def initialize(command, command_options, _global_options, parameters, project_path) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/MethodLength
@@ -418,7 +416,6 @@ module WebTranslateIt
       puts 'Warning: `config/translation.yml` is deprecated in favour of a `.wti` file.'
       return 'config/translation.yml' unless Util.ask_yes_no('Would you like to migrate your configuration now?', true)
 
-      require 'fileutils'
       return '.wti' if FileUtils.mv('config/translation.yml', '.wti')
 
       puts 'Couldn’t move `config/translation.yml`.'

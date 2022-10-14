@@ -3,8 +3,6 @@ module WebTranslateIt
   # A few useful functions
   class Util
 
-    require 'multi_json'
-
     # Return a string representing the gem version
     # For example "1.8.3"
     def self.version

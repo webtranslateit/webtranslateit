@@ -2,8 +2,6 @@ module WebTranslateIt
 
   class String # rubocop:todo Metrics/ClassLength
 
-    require 'multi_json'
-
     attr_accessor :id, :key, :plural, :type, :dev_comment, :word_count, :status, :category, :labels, :file,
                   :created_at, :updated_at, :translations, :new_record
 
