@@ -8,9 +8,6 @@ module WebTranslateIt
   #
   class Configuration
 
-    require 'yaml'
-    require 'fileutils'
-    require 'erb'
     attr_accessor :path, :api_key, :source_locale, :target_locales, :files, :ignore_locales, :needed_locales, :logger, :before_pull, :after_pull, :before_push, :after_push, :project_name, :path_to_config_file, :ignore_files
 
     # Load configuration file from the path.

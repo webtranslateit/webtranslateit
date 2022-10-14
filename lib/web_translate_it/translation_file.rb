@@ -8,11 +8,6 @@ module WebTranslateIt
   # manipulate a _target_ language file.
   class TranslationFile # rubocop:todo Metrics/ClassLength
 
-    require 'net/https'
-    require 'net/http/post/multipart'
-    require 'time'
-    require 'fileutils'
-
     attr_accessor :id, :file_path, :locale, :api_key, :updated_at, :remote_checksum, :master_id, :fresh
 
     def initialize(id, file_path, locale, api_key, updated_at = nil, remote_checksum = '', master_id = nil, fresh = nil) # rubocop:todo Metrics/ParameterLists
@@ -234,7 +229,6 @@ module WebTranslateIt
     end
 
     def local_checksum
-      require 'digest/sha1'
       begin
         Digest::SHA1.hexdigest(File.read(file_path))
       rescue StandardError

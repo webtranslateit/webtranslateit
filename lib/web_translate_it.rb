@@ -1,3 +1,17 @@
+require 'fileutils'
+require 'set'
+require 'yaml'
+require 'erb'
+require 'net/http'
+require 'net/https'
+require 'openssl'
+require 'uri'
+require 'multi_json'
+require 'net/http/post/multipart'
+require 'time'
+require 'digest/sha1'
+require 'English'
+
 require 'web_translate_it/connection'
 require 'web_translate_it/util'
 require 'web_translate_it/util/array_util'
@@ -12,8 +26,6 @@ require 'web_translate_it/term_translation'
 require 'web_translate_it/auto_fetch'
 require 'web_translate_it/command_line'
 require 'web_translate_it/project'
-
-require 'English'
 
 module WebTranslateIt
 

@@ -1,14 +1,8 @@
-require 'English'
 module WebTranslateIt
 
   class Connection
 
     attr_reader :api_key, :http_connection
-
-    require 'net/http'
-    require 'net/https'
-    require 'openssl'
-    require 'uri'
 
     @api_key = nil
     @http_connection = nil
