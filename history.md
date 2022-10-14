@@ -1,3 +1,8 @@
+## Version 2.7.1 / 2022-10-14
+
+* Potential fix potential for issue `uninitialized constant WebTranslateIt::TranslationFile::Multipart`.
+* Code refactoring.
+
 ## Version 2.7.0 / 2022-10-10
 
 * New: Ability to see translation statistics per file.
