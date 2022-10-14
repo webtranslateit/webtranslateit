@@ -229,11 +229,9 @@ module WebTranslateIt
     end
 
     def local_checksum
-      begin
-        Digest::SHA1.hexdigest(File.read(file_path))
-      rescue StandardError
-        ''
-      end
+      Digest::SHA1.hexdigest(File.read(file_path))
+    rescue StandardError
+      ''
     end
 
   end
