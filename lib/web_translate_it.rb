@@ -1,4 +1,5 @@
 require 'fileutils'
+require 'multipart/post'
 require 'yaml'
 require 'erb'
 require 'net/http'
