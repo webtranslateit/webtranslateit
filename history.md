@@ -1,3 +1,7 @@
+## Version 2.7.3 / 2022-10-28
+
+* Relax dependency on `multipart_post`. Also made sure that wti works with `multipart_post >= 2.0.0 and < 2.3`.
+
 ## Version 2.7.2 / 2022-10-14
 
 * Specify a minimum version for dependency `multipart_post`.
