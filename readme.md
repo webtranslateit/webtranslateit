@@ -99,7 +99,6 @@ Append `--help` for each command for more information. For instance:
       -l, --locale=<s>        ISO code of locale(s) to push
       -t, --target            Upload all target files
       -f, --force             Force push (bypass conditional requests to WTI)
-      -o, --low-priority      WTI will process this file with a low priority
       -m, --merge             Force WTI to merge this file
       -i, --ignore-missing    Force WTI to not obsolete missing strings
       -n, --minor             Minor Changes. When pushing a master file, prevents
