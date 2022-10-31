@@ -55,7 +55,7 @@ when 'push'
     opt :locale, 'ISO code of locale(s) to push, space-separated', type: :string
     opt :target, 'Upload all target files'
     opt :force,  'Force push (bypass conditional requests to WTI)'
-    opt :low_priority, 'WTI will process this file with a low priority'
+    opt :low_priority, 'Deprecated: option to process this file with a low priority'
     opt :merge, 'Force WTI to merge this file'
     opt :ignore_missing, 'Force WTI to not obsolete missing strings'
     opt :minor, 'Minor Changes. When pushing a master file, prevents target translations to be flagged as `to_verify`.'
@@ -67,7 +67,7 @@ when 'push'
 when 'add'
   Optimist.options do
     banner 'wti add filename - Create and push a new master language file'
-    opt :low_priority, 'WTI will process this file with a low priority'
+    opt :low_priority, 'Deprecated: option to process this file with a low priority'
     opt :config, 'Path to a configuration file', short: '-c', default: '.wti'
     opt :debug,  'Display debug information'
   end

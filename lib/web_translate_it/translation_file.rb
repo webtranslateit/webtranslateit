@@ -87,7 +87,7 @@ module WebTranslateIt
     # rubocop:todo Metrics/ParameterLists
     # rubocop:todo Metrics/MethodLength
     # rubocop:todo Metrics/AbcSize
-    def upload(http_connection, merge = false, ignore_missing = false, label = nil, low_priority = false, minor_changes = false, force = false, rename_others = false, destination_path = nil) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/ParameterLists, Metrics/PerceivedComplexity
+    def upload(http_connection, merge = false, ignore_missing = false, label = nil, minor_changes = false, force = false, rename_others = false, destination_path = nil) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/ParameterLists, Metrics/PerceivedComplexity
       success = true
       tries ||= 3
       display = []
@@ -96,7 +96,7 @@ module WebTranslateIt
       if File.exist?(file_path)
         if force || (remote_checksum != local_checksum)
           File.open(file_path) do |file|
-            params = {'file' => ::Multipart::Post::UploadIO.new(file, 'text/plain', file.path), 'merge' => merge, 'ignore_missing' => ignore_missing, 'label' => label, 'low_priority' => low_priority, 'minor_changes' => minor_changes}
+            params = {'file' => ::Multipart::Post::UploadIO.new(file, 'text/plain', file.path), 'merge' => merge, 'ignore_missing' => ignore_missing, 'label' => label, 'minor_changes' => minor_changes}
             params['name'] = destination_path unless destination_path.nil?
             params['rename_others'] = rename_others
             request = Net::HTTP::Put::Multipart.new(api_url, params)
@@ -139,7 +139,7 @@ module WebTranslateIt
     # Note that the request might or might not eventually be acted upon, as it might be disallowed when processing
     # actually takes place. This is due to the fact that language file imports are handled by background processing.
     #
-    def create(http_connection, low_priority = false) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
+    def create(http_connection) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
       success = true
       tries ||= 3
       display = []
@@ -147,7 +147,7 @@ module WebTranslateIt
       display.push "#{StringUtil.checksumify(local_checksum.to_s)}..[     ]"
       if File.exist?(file_path)
         File.open(file_path) do |file|
-          request = Net::HTTP::Post::Multipart.new(api_url_for_create, {'name' => file_path, 'file' => Multipart::Post::UploadIO.new(file, 'text/plain', file.path), 'low_priority' => low_priority})
+          request = Net::HTTP::Post::Multipart.new(api_url_for_create, {'name' => file_path, 'file' => Multipart::Post::UploadIO.new(file, 'text/plain', file.path)})
           WebTranslateIt::Util.add_fields(request)
           display.push Util.handle_response(http_connection.request(request))
           puts ArrayUtil.to_columns(display)

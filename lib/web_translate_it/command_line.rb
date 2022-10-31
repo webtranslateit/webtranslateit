@@ -101,6 +101,7 @@ module WebTranslateIt
     end
 
     def push # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
+      puts 'The `--low-priority` option in `wti push --low-priority` was removed and does nothing' if command_options.low_priority
       complete_success = true
       $stdout.sync = true
       before_push_hook
@@ -115,7 +116,7 @@ module WebTranslateIt
             puts "Couldn't find any local files registered on WebTranslateIt to push."
           else
             files.each do |file|
-              success = file.upload(http, command_options[:merge], command_options.ignore_missing, command_options.label, command_options.low_priority, command_options[:minor], command_options.force)
+              success = file.upload(http, command_options[:merge], command_options.ignore_missing, command_options.label, command_options[:minor], command_options.force)
               complete_success = false unless success
             end
           end
@@ -161,7 +162,7 @@ module WebTranslateIt
         if to_add.any?
           to_add.each do |param|
             file = TranslationFile.new(nil, param.gsub(/ /, '\\ '), nil, configuration.api_key)
-            success = file.create(http, command_options.low_priority)
+            success = file.create(http)
             complete_success = false unless success
           end
         else
