@@ -1,3 +1,7 @@
+## Version 2.7.4 / 2022-11-01
+
+* Remove `low-priority` argument as in `wti push --low-priority` and `wti add --low-priority`. All the file imports in WebTranslateIt.com are now top priority.
+
 ## Version 2.7.3 / 2022-10-28
 
 * Relax dependency on `multipart_post`. Also made sure that wti works with `multipart_post >= 2.0.0 and < 2.3`.
