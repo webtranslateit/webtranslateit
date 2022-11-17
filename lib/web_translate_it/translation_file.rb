@@ -147,7 +147,7 @@ module WebTranslateIt
       display.push "#{StringUtil.checksumify(local_checksum.to_s)}..[     ]"
       if File.exist?(file_path)
         File.open(file_path) do |file|
-          request = Net::HTTP::Post::Multipart.new(api_url_for_create, {'name' => file_path, 'file' => Multipart::Post::UploadIO.new(file, 'text/plain', file.path)})
+          request = ::Net::HTTP::Post::Multipart.new(api_url_for_create, {'name' => file_path, 'file' => Multipart::Post::UploadIO.new(file, 'text/plain', file.path)})
           WebTranslateIt::Util.add_fields(request)
           display.push Util.handle_response(http_connection.request(request))
           puts ArrayUtil.to_columns(display)
