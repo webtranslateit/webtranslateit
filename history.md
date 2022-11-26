@@ -1,3 +1,7 @@
+## Edge
+
+* Add ruby 3.2 to CI matrix.
+
 ## Version 2.7.5 / 2022-11-17
 
 * wti now works with `multipart_post = 2.0.0` AND `multipart_post >= 2.2.0`.
