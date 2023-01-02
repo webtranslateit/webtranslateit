@@ -57,7 +57,7 @@ module WebTranslateIt
         # Now actually pulling files
         time = Time.now
         threads = []
-        n_threads = (files.size.to_f / 3).ceil >= 10 ? 10 : (files.size.to_f / 3).ceil
+        n_threads = [(files.size.to_f / 3).ceil, 10].min
         ArrayUtil.chunk(files, n_threads).each do |file_array|
           next if file_array.empty?
 
@@ -148,7 +148,7 @@ module WebTranslateIt
       end
     end
 
-    def add # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
+    def add # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
       complete_success = true
       $stdout.sync = true
       if parameters == []
@@ -157,7 +157,7 @@ module WebTranslateIt
         exit
       end
       WebTranslateIt::Connection.new(configuration.api_key) do |http|
-        added = configuration.files.find_all { |file| file.locale == configuration.source_locale }.collect { |file| File.expand_path(file.file_path) }.to_set
+        added = configuration.files.find_all { |file| file.locale == configuration.source_locale }.to_set { |file| File.expand_path(file.file_path) }
         to_add = parameters.reject { |param| added.include?(File.expand_path(param)) }
         if to_add.any?
           to_add.each do |param|
