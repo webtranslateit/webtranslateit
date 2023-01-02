@@ -1,6 +1,7 @@
-## Edge
+## Version 2.7.6 / 2023-01-02
 
 * Add ruby 3.2 to CI matrix.
+* Dependencies upgrade and code refactoring.
 
 ## Version 2.7.5 / 2022-11-17
 
