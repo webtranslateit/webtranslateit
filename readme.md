@@ -272,4 +272,4 @@ fr: 100% translated, 100% completed.
 
 # License
 
-Copyright (c) 2009-2022 [WebTranslateIt Software S.L](https://webtranslateit.com), released under the MIT License.
+Copyright (c) 2009-2023 [WebTranslateIt Software S.L](https://webtranslateit.com), released under the MIT License.
