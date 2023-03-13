@@ -1,6 +1,6 @@
-## Unreleased
+## Version 2.8.0 / 2023-03-13
 
-* Replace YAML API calls with JSON API calls.
+* Replace YAML API calls with JSON API calls. (#242)
 
 ## Version 2.7.6 / 2023-01-02
 
