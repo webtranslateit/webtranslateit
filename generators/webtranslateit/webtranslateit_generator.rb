@@ -13,7 +13,7 @@ class WebtranslateitGenerator < Rails::Generator::Base
     end
     record do |m|
       if options[:api_key]
-        project_details = YAML.load WebTranslateIt::Project.fetch_info(options[:api_key])
+        project_details = YAML.safe_load WebTranslateIt::Project.fetch_info(options[:api_key])
         m.template '.wti', '.wti',
                    assigns: {api_key: options[:api_key], project: project_details['project']}
         m.append_to 'Rakefile', "require 'web_translate_it' rescue LoadError"

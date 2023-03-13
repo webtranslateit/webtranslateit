@@ -106,7 +106,7 @@ module WebTranslateIt
     end
 
     def configuration
-      @configuration ||= YAML.load(parse_erb_in_configuration)
+      @configuration ||= YAML.safe_load(parse_erb_in_configuration)
     end
 
     private
