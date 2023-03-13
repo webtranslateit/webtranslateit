@@ -1,3 +1,7 @@
+## Unreleased
+
+* Replace YAML API calls with JSON API calls.
+
 ## Version 2.7.6 / 2023-01-02
 
 * Add ruby 3.2 to CI matrix.
