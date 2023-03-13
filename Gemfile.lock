@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    web_translate_it (2.8.0)
+    web_translate_it (2.8.1)
       multi_json
       multipart-post (~> 2.0)
       optimist (~> 3.0)
