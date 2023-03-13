@@ -35,7 +35,7 @@ jobs:
 
   linters:
     name: Linters
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     timeout-minutes: 10
 
     steps:
@@ -45,7 +45,7 @@ jobs:
       - name: Install ruby and gems
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.7.5
+          ruby-version: 3.2
           bundler-cache: true
 
       - name: Run ruby linter
