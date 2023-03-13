@@ -7,7 +7,7 @@ module WebTranslateIt
       tries ||= 3
       begin
         WebTranslateIt::Connection.new(api_key) do |http|
-          request = Net::HTTP::Get.new("/api/projects/#{api_key}.yaml")
+          request = Net::HTTP::Get.new("/api/projects/#{api_key}")
           WebTranslateIt::Util.add_fields(request)
           response = http.request(request)
           return response.body if response.is_a?(Net::HTTPSuccess)
@@ -31,7 +31,7 @@ module WebTranslateIt
     end
 
     def self.fetch_stats(api_key, file_id = nil) # rubocop:todo Metrics/MethodLength
-      url = file_id.nil? ? "/api/projects/#{api_key}/stats.yaml" : "/api/projects/#{api_key}/stats.yaml?file=#{file_id}"
+      url = file_id.nil? ? "/api/projects/#{api_key}/stats" : "/api/projects/#{api_key}/stats?file=#{file_id}"
       success = true
       tries ||= 3
       begin

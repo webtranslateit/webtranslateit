@@ -22,11 +22,7 @@ module WebTranslateIt
         self.before_push    = configuration['before_push']
         self.after_push     = configuration['after_push']
         self.ignore_files   = configuration['ignore_files']
-        project_info = if RUBY_VERSION >= '3.1.0'
-          YAML.safe_load WebTranslateIt::Project.fetch_info(api_key), permitted_classes: [Time]
-        else
-          YAML.load WebTranslateIt::Project.fetch_info(api_key)
-        end
+        project_info = JSON.parse WebTranslateIt::Project.fetch_info(api_key)
         self.ignore_locales = locales_to_ignore(configuration)
         self.needed_locales = locales_needed(configuration)
         self.files = files_from_project(project_info['project'])
@@ -42,7 +38,7 @@ module WebTranslateIt
     # Reload project data
     #
     def reload # rubocop:todo Metrics/AbcSize
-      project_info = YAML.load WebTranslateIt::Project.fetch_info(api_key)
+      project_info = JSON.parse WebTranslateIt::Project.fetch_info(api_key)
       self.ignore_locales = locales_to_ignore(configuration)
       self.needed_locales = locales_needed(configuration)
       self.files = files_from_project(project_info['project'])
@@ -97,7 +93,7 @@ module WebTranslateIt
 
     # Convenience method which returns the endpoint for fetching a list of locales for a project.
     def api_url
-      "/api/projects/#{api_key}.yaml"
+      "/api/projects/#{api_key}"
     end
 
     # Returns a logger. If RAILS_DEFAULT_LOGGER is defined, use it, else, define a new logger.

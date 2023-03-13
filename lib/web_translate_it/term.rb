@@ -43,7 +43,7 @@ module WebTranslateIt
       success = true
       tries ||= 3
       params.stringify_keys!
-      url = "/api/projects/#{Connection.api_key}/terms.yaml"
+      url = "/api/projects/#{Connection.api_key}/terms"
       url += "?#{HashUtil.to_params(params)}" unless params.empty?
 
       request = Net::HTTP::Get.new(url)
@@ -52,7 +52,7 @@ module WebTranslateIt
         terms = []
         while request
           response = Connection.http_connection.request(request)
-          YAML.load(response.body).each do |term_response|
+          JSON.parse(response.body).each do |term_response|
             term = WebTranslateIt::Term.new(term_response)
             term.new_record = false
             terms.push(term)
@@ -95,13 +95,13 @@ module WebTranslateIt
     def self.find(term_id) # rubocop:todo Metrics/MethodLength, Metrics/AbcSize
       success = true
       tries ||= 3
-      request = Net::HTTP::Get.new("/api/projects/#{Connection.api_key}/terms/#{term_id}.yaml")
+      request = Net::HTTP::Get.new("/api/projects/#{Connection.api_key}/terms/#{term_id}")
       WebTranslateIt::Util.add_fields(request)
       begin
         response = Connection.http_connection.request(request)
         return nil if response.code.to_i == 404
 
-        term = WebTranslateIt::Term.new(YAML.load(response.body))
+        term = WebTranslateIt::Term.new(JSON.parse(response.body))
         term.new_record = false
         return term
       rescue Timeout::Error
@@ -177,11 +177,11 @@ module WebTranslateIt
       return translation if translation
       return nil if new_record
 
-      request = Net::HTTP::Get.new("/api/projects/#{Connection.api_key}/terms/#{id}/locales/#{locale}/translations.yaml")
+      request = Net::HTTP::Get.new("/api/projects/#{Connection.api_key}/terms/#{id}/locales/#{locale}/translations")
       WebTranslateIt::Util.add_fields(request)
       begin
         response = Util.handle_response(Connection.http_connection.request(request), true, true)
-        array = YAML.load(response)
+        array = JSON.parse(response)
         return nil if array.empty?
 
         translations = []
@@ -207,7 +207,7 @@ module WebTranslateIt
     def update # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
       success = true
       tries ||= 3
-      request = Net::HTTP::Put.new("/api/projects/#{Connection.api_key}/terms/#{id}.yaml")
+      request = Net::HTTP::Put.new("/api/projects/#{Connection.api_key}/terms/#{id}")
       WebTranslateIt::Util.add_fields(request)
       request.body = to_json
 
@@ -238,7 +238,7 @@ module WebTranslateIt
       request.body = to_json(true)
 
       begin
-        response = YAML.load(Util.handle_response(Connection.http_connection.request(request), true, true))
+        response = JSON.parse(Util.handle_response(Connection.http_connection.request(request), true, true))
         self.id = response['id']
         self.new_record = false
         return true

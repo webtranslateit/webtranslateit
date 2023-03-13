@@ -62,7 +62,7 @@ module WebTranslateIt
       request.body = to_json
 
       begin
-        response = YAML.load(Util.handle_response(Connection.http_connection.request(request), true, true))
+        response = JSON.parse(Util.handle_response(Connection.http_connection.request(request), true, true))
         self.id = response['id']
         self.new_record = false
         return true
