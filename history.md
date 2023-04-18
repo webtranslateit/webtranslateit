@@ -1,3 +1,8 @@
+## Edge
+
+* Fix crash caused by use of API from older Multipart versions. #246 (@rogerluan)
+* Relax dependency to `multipart_post` to `>=0`.
+
 ## Version 2.8.1 / 2023-03-13
 
 * Replace YAML API calls with JSON API calls. (#242)
