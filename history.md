@@ -1,4 +1,4 @@
-## Edge
+## Version 2.8.2 / 2023-04-18
 
 * Fix crash caused by use of API from older Multipart versions. #246 (@rogerluan)
 * Relax dependency to `multipart_post` to `>=0`.
