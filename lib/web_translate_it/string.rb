@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module WebTranslateIt
 
   class String # rubocop:todo Metrics/ClassLength

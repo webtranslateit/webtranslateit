@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ArrayUtil
 
   def self.to_columns(arr)

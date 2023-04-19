@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module WebTranslateIt
 
   # Handles the configuration of your project, both via the the configuration file

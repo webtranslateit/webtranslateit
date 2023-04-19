@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module WebTranslateIt
 
   # A TranslationFile is the representation of a master language file

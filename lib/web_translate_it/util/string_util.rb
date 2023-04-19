@@ -1,11 +1,13 @@
+# frozen_string_literal: true
+
 class StringUtil
 
   def self.backward_truncate(str)
     return '...' << str[str.length - 50 + 3..str.length] if str.length > 50
 
     spaces = ''
-    (50 - str.length).times { spaces << ' ' }
-    str.dup << spaces
+    (50 - str.length).times { spaces += ' ' }
+    str + spaces
   end
 
   def self.success(str)

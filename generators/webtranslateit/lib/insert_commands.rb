@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Mostly pinched from http://github.com/ryanb/nifty-generators/tree/master
 
 Rails::Generator::Commands::Base.class_eval do

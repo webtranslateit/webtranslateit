@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module WebTranslateIt
 
   # Class to automatically fetch the last translations from Web Translate It
