@@ -1,4 +1,4 @@
-## Edge
+## Version 2.8.3 / 2023-04-19
 
 * Fix `wti addlocale` and `wti rmlocale` commands. #253
 
