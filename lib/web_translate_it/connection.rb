@@ -23,7 +23,7 @@ module WebTranslateIt
     #   http_connection.request(request)
     # end
     #
-    def initialize(api_key) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength
+    def initialize(api_key) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
       @api_key = api_key
       proxy = ENV['http_proxy'] ? URI.parse(ENV['http_proxy']) : Struct.new(:host, :port, :user, :password).new
       http = Net::HTTP::Proxy(proxy.host, proxy.port, proxy.user, proxy.password).new('webtranslateit.com', 443)
@@ -35,7 +35,7 @@ module WebTranslateIt
         @http_connection = http.start
         yield @http_connection if block_given?
       rescue OpenSSL::SSL::SSLError
-        puts 'Unable to verify SSL certificate.' unless @silent
+        puts 'Unable to verify SSL certificate.'
         http = Net::HTTP::Proxy(proxy.host, proxy.port, proxy.user, proxy.password).new('webtranslateit.com', 443)
         http.set_debug_output($stderr) if @debug
         http.use_ssl      = true
