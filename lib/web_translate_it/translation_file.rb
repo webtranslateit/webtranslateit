@@ -70,7 +70,7 @@ module WebTranslateIt
       else
         display.push StringUtil.success('Skipped')
       end
-      print ArrayUtil.to_columns(display)
+      print StringUtil.array_to_columns(display)
       success
     end
 
@@ -126,7 +126,7 @@ module WebTranslateIt
         else
           display.push StringUtil.success('Skipped')
         end
-        puts ArrayUtil.to_columns(display)
+        puts StringUtil.array_to_columns(display)
       else
         puts StringUtil.failure("Can't push #{file_path}. File doesn't exist locally.")
       end
@@ -162,7 +162,7 @@ module WebTranslateIt
           WebTranslateIt::Util.add_fields(request)
           request.set_form params, 'multipart/form-data'
           display.push Util.handle_response(http_connection.request(request))
-          puts ArrayUtil.to_columns(display)
+          puts StringUtil.array_to_columns(display)
         rescue Timeout::Error
           puts StringUtil.failure('Request timeout. Will retry in 5 seconds.')
           if (tries -= 1).positive?
@@ -193,7 +193,7 @@ module WebTranslateIt
           request = Net::HTTP::Delete.new(api_url_for_delete)
           WebTranslateIt::Util.add_fields(request)
           display.push Util.handle_response(http_connection.request(request))
-          puts ArrayUtil.to_columns(display)
+          puts StringUtil.array_to_columns(display)
         rescue Timeout::Error
           puts StringUtil.failure('Request timeout. Will retry in 5 seconds.')
           if (tries -= 1).positive?
