@@ -30,4 +30,12 @@ class StringUtil
     WebTranslateIt::Util.can_display_colors? ? "\e[1m#{str}\e[0m" : str
   end
 
+  def self.array_to_columns(array)
+    if array[0][0] == '*'
+      "*#{backward_truncate(array[0][1..])} | #{array[1]}  #{array[2]}\n"
+    else
+      " #{backward_truncate(array[0])} | #{array[1]}  #{array[2]}\n"
+    end
+  end
+
 end
