@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class HashUtil
 
   def self.to_params(hash) # rubocop:todo Metrics/MethodLength
