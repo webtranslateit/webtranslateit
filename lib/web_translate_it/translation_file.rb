@@ -96,11 +96,18 @@ module WebTranslateIt
       if File.exist?(file_path)
         if force || (remote_checksum != local_checksum)
           File.open(file_path) do |file|
-            params = {'file' => UploadIO.new(file, 'text/plain', file.path), 'merge' => merge, 'ignore_missing' => ignore_missing, 'label' => label, 'minor_changes' => minor_changes}
-            params['name'] = destination_path unless destination_path.nil?
-            params['rename_others'] = rename_others
-            request = Net::HTTP::Put::Multipart.new(api_url, params)
+            params = [
+              ['merge', merge.to_s],
+              ['ignore_missing', ignore_missing.to_s],
+              ['label', label.to_s],
+              ['minor_changes', minor_changes.to_s],
+              ['rename_others', rename_others.to_s],
+              ['file', file]
+            ]
+            params += [['name', destination_path]] unless destination_path.nil?
+            request = Net::HTTP::Put.new(api_url)
             WebTranslateIt::Util.add_fields(request)
+            request.set_form params, 'multipart/form-data'
             display.push Util.handle_response(http_connection.request(request))
           rescue Timeout::Error
             puts StringUtil.failure('Request timeout. Will retry in 5 seconds.')
@@ -147,8 +154,11 @@ module WebTranslateIt
       display.push "#{StringUtil.checksumify(local_checksum.to_s)}..[     ]"
       if File.exist?(file_path)
         File.open(file_path) do |file|
-          request = Net::HTTP::Post::Multipart.new(api_url_for_create, {'name' => file_path, 'file' => UploadIO.new(file, 'text/plain', file.path)})
+          params = [['name', file_path]]
+          params += [['file', file]]
+          request = Net::HTTP::Post.new(api_url_for_create)
           WebTranslateIt::Util.add_fields(request)
+          request.set_form params, 'multipart/form-data'
           display.push Util.handle_response(http_connection.request(request))
           puts ArrayUtil.to_columns(display)
         rescue Timeout::Error
