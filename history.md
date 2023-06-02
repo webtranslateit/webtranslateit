@@ -2,6 +2,7 @@
 
 * Remove dependency on `multipart_post`. #255
 * Add frozen string litteral comments. #251
+* Bump minimum ruby version to ruby 2.7.
 
 ## Version 2.8.3 / 2023-04-19
 
