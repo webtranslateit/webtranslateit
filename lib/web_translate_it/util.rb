@@ -35,7 +35,8 @@ module WebTranslateIt
         return StringUtil.success('Created') if response.code.to_i == 201
         return StringUtil.success('Accepted') if response.code.to_i == 202
         return StringUtil.success('Not Modified') if response.code.to_i == 304
-        return StringUtil.failure("Locked\n                                                    (another import in progress)") if response.code.to_i == 503
+
+        StringUtil.failure("Locked\n                                                    (another import in progress)") if response.code.to_i == 503
       end
     end
     # rubocop:enable Metrics/AbcSize
