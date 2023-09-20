@@ -1,4 +1,4 @@
-## Edge
+## Version 3.0.0.beta1 / 2023-09-20
 
 * Remove dependency on `multipart_post`. #255
 * Add frozen string litteral comments. #251
