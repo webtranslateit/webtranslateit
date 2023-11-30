@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    web_translate_it (3.0.0)
+    web_translate_it (3.0.1)
       multi_json
       optimist (~> 3.0)
 
@@ -106,6 +106,7 @@ GEM
 PLATFORMS
   arm64-darwin-21
   arm64-darwin-22
+  arm64-darwin-23
   x86_64-darwin-21
   x86_64-darwin-22
   x86_64-linux
