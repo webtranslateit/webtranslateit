@@ -1,3 +1,7 @@
+## Version 3.0.1 / 2023-11-30
+
+Fix frozen string literal bug happening when pulling long files names needing truncation. #288
+
 ## Version 3.0.0 / 2023-09-20
 
 * Remove dependency on `multipart_post`. #255
