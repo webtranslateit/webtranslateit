@@ -60,7 +60,7 @@ module WebTranslateIt
         time = Time.now
         threads = []
         n_threads = [(files.size.to_f / 3).ceil, 10].min
-        files.each_slice(n_threads).each do |file_array|
+        files.each_slice((files.size.to_f / n_threads).round).each do |file_array|
           next if file_array.empty?
 
           threads << Thread.new(file_array) do |f_array|
