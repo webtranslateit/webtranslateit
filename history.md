@@ -1,3 +1,7 @@
+## Version 3.0.2 / 2024-01-08
+
+* Fix: Limit the amount of threads used. #294
+
 ## Version 3.0.1 / 2023-11-30
 
 Fix frozen string literal bug happening when pulling long files names needing truncation. #288
