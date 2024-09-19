@@ -1,6 +1,6 @@
-## Edge
+## Version 3.1.0 / 2024-09-19
 
-* Remove support for ruby 2.7. #328
+* Remove support for ruby 2.7. Minimum supported ruby version is 3.0. #328
 * Dependency updates.
 
 ## Version 3.0.2 / 2024-01-08
