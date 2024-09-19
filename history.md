@@ -1,3 +1,8 @@
+## Edge
+
+* Remove support for ruby 2.7. #328
+* Dependency updates.
+
 ## Version 3.0.2 / 2024-01-08
 
 * Fix: Limit the amount of threads used. #294
