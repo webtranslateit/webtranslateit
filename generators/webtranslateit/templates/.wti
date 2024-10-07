@@ -1,6 +1,0 @@
-# The Project API Token from Web Translate It
-api_key: '<%= api_key %>'
-
-# Optional: locales not to sync with Web Translate It.
-# eg. [:en, :fr] or just 'en'
-# ignore_locales: '<%= project["source_locale"]["code"] %>'
