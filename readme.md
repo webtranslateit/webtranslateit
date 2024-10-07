@@ -1,6 +1,6 @@
 # WebTranslateIt Synchronization Tool : wti
 
-[RubyDoc](https://www.rubydoc.info/gems/web_translate_it/) |
+[![Gem Downloads](https://img.shields.io/gem/dt/web_translate_it.svg)](https://rubygems.org/gems/web_translate_it/) |
 [Report a bug](https://github.com/webtranslateit/webtranslateit/issues) |
 [Support](https://webtranslateit.com/support) |
 [WebTranslateIt.com Homepage](https://webtranslateit.com) |
