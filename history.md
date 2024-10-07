@@ -1,4 +1,4 @@
-## Edge
+## Version 3.1.1 / 2024-10-07
 
 * Remove unused rake generators. Use `wti init` command instead.
 
