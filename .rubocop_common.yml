@@ -79,7 +79,7 @@ Style/HashSyntax:
 
 
 # - RSpec Cops --------------------------------------------------------------------------------------------------------
-# N.B. In some future version of ruboco-rspec IgnoredMetadata can be used instead of Exclude
+# N.B. In some future version of rubocop-rspec IgnoredMetadata can be used instead of Exclude
 
 RSpec/NamedSubject:
   Enabled: false
