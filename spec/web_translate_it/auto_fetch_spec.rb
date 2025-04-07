@@ -11,24 +11,26 @@ describe WebTranslateIt::AutoFetch do
     {'PATH_INFO' => path}
   end
 
+  before do
+    allow(WebTranslateIt).to receive(:fetch_translations)
+    allow(I18n).to receive(:reload!)
 
-  before { WebTranslateIt.stub(:fetch_translations) }
-
-  after { subject.call(env) }
+    subject.call(env)
+  end
 
   context 'when path is /' do
     let(:path) { '/' }
 
     it 'calls the application' do
-      application.should_receive(:call).with(env)
+      expect(application).to have_received(:call).with(env)
     end
 
     it 'updates the translations' do
-      WebTranslateIt.should_receive(:fetch_translations)
+      expect(WebTranslateIt).to have_received(:fetch_translations)
     end
 
     it 'reloads the I18n definitions' do
-      I18n.should_receive(:reload!)
+      expect(I18n).to have_received(:reload!)
     end
   end
 
@@ -36,15 +38,15 @@ describe WebTranslateIt::AutoFetch do
     let(:path) { '/assets/application.js' }
 
     it 'calls the application' do
-      application.should_receive(:call).with(env)
+      expect(application).to have_received(:call).with(env)
     end
 
     it 'does not update the translations' do
-      WebTranslateIt.should_not_receive(:fetch_translations)
+      expect(WebTranslateIt).not_to have_received(:fetch_translations)
     end
 
     it 'does not reload the I18n definitions' do
-      I18n.should_not_receive(:reload!)
+      expect(I18n).not_to have_received(:reload!)
     end
   end
 end
