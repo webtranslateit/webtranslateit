@@ -228,7 +228,7 @@ module WebTranslateIt
       WebTranslateIt::Connection.new(configuration.api_key) do |http|
         if Util.ask_yes_no("Are you sure you want to move the master file #{source} and its target files?", true)
           configuration.files.find_all { |file| file.file_path == source }.each do |master_file|
-            master_file.upload(http, false, false, nil, false, false, true, true, destination)
+            master_file.upload(http, false, false, nil, false, true, true, destination)
             # move master file
             if File.exist?(source)
               success = File.rename(source, destination) if File.exist?(source)
