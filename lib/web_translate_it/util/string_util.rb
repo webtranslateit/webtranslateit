@@ -3,7 +3,7 @@
 class StringUtil
 
   def self.backward_truncate(str)
-    return "...#{str[str.length - 50 + 3..str.length]}" if str.length > 50
+    return "...#{str[(str.length - 50 + 3)..str.length]}" if str.length > 50
 
     spaces = ''
     (50 - str.length).times { spaces += ' ' }
