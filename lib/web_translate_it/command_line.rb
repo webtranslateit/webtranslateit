@@ -296,7 +296,7 @@ module WebTranslateIt
         api_key = Util.ask(' Project API Key:')
         path = Util.ask(' Path to configuration file:', '.wti')
       end
-      FileUtils.mkpath(path.split('/')[0..path.split('/').size - 2].join('/')) unless path.split('/').size == 1
+      FileUtils.mkpath(path.split('/')[0..(path.split('/').size - 2)].join('/')) unless path.split('/').size == 1
       project = JSON.parse WebTranslateIt::Project.fetch_info(api_key)
       project_info = project['project']
       if File.exist?(path) && !File.writable?(path)
