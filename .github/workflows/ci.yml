@@ -13,7 +13,6 @@ jobs:
   test:
     env:
       COVERAGE: Y
-      CC_TEST_REPORTER_ID: 7d0ac637b336a4cf4f90b8392b205500ef7b2a3a4a65f32557abe93a6f7ffb25
 
     runs-on: ubuntu-latest
     strategy:
@@ -29,9 +28,6 @@ jobs:
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
     - name: Run tests
       run: bundle exec rspec
-
-    - name: Upload coverage results to Code Climate
-      uses: paambaati/codeclimate-action@v9.0.0
 
   linters:
     name: Linters
