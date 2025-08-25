@@ -46,27 +46,27 @@ module WebTranslateIt
       end
       display.push "#{StringUtil.checksumify(local_checksum.to_s)}..#{StringUtil.checksumify(remote_checksum.to_s)}"
       if !File.exist?(file_path) || force || (remote_checksum != local_checksum)
+
+        request = Net::HTTP::Get.new(api_url)
+        WebTranslateIt::Util.add_fields(request)
+        FileUtils.mkpath(file_path.split('/')[0..-2].join('/')) unless File.exist?(file_path) || (file_path.split('/')[0..-2].join('/') == '')
         begin
-          request = Net::HTTP::Get.new(api_url)
-          WebTranslateIt::Util.add_fields(request)
-          FileUtils.mkpath(file_path.split('/')[0..-2].join('/')) unless File.exist?(file_path) || (file_path.split('/')[0..-2].join('/') == '')
-          begin
-            response = http_connection.request(request)
-            File.open(file_path, 'wb') { |file| file << response.body } if response.code.to_i == 200
-            display.push Util.handle_response(response)
-          rescue Timeout::Error
-            puts StringUtil.failure('Request timeout. Will retry in 5 seconds.')
-            if (tries -= 1).positive?
-              sleep(5)
-              retry
-            else
-              success = false
-            end
-          rescue StandardError
-            display.push StringUtil.failure("An error occured: #{$ERROR_INFO}")
+          response = http_connection.request(request)
+          File.open(file_path, 'wb') { |file| file << response.body } if response.code.to_i == 200
+          display.push Util.handle_response(response)
+        rescue Timeout::Error
+          puts StringUtil.failure('Request timeout. Will retry in 5 seconds.')
+          if (tries -= 1).positive?
+            sleep(5)
+            retry
+          else
             success = false
           end
+        rescue StandardError
+          display.push StringUtil.failure("An error occured: #{$ERROR_INFO}")
+          success = false
         end
+
       else
         display.push StringUtil.success('Skipped')
       end
