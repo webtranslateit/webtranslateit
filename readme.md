@@ -12,7 +12,7 @@ wti lets you easily sync your language files with [WebTranslateIt.com](https://w
 
 ### wti...
 
-* wti is a **command-line tool**. It works on all operating systems: Windows, Linux, MacOS X, ... It is also available as a [Docker package](https://github.com/webtranslateit/wti-docker/pkgs/container/wti-docker).
+* wti is a **command-line tool**. It works on all operating systems: Windows, Linux, macOS, ... It is also available as a [Docker package](https://github.com/webtranslateit/wti-docker/pkgs/container/wti-docker).
 * wti is really easy to use. It was inspired by git. Use `wti push` and `wti pull` to sync your language files with WebTranslateIt.com.
 
 ### Optionally, wti does...
@@ -29,8 +29,8 @@ You will also need ruby to run `wti`. We require ruby version 3.0 or newer. On L
 
 ``` bash
 $ gem install web_translate_it
-Fetching: web_translate_it-3.0.2.gem (100%)
-Successfully installed web_translate_it-3.0.2
+Fetching: web_translate_it-3.1.2.gem (100%)
+Successfully installed web_translate_it-3.1.2
 1 gem installed
 ```
 
@@ -38,7 +38,7 @@ At this point you should have the `wti` executable working:
 
 ``` bash
 $ wti -v
-wti version 3.0.2
+wti version 3.1.2
 ```
 
 We also provide `wti` as a Docker packages. [See our packages and instructions to install](https://github.com/webtranslateit/wti-docker/pkgs/container/wti-docker).
@@ -272,4 +272,4 @@ fr: 100% translated, 100% completed.
 
 # License
 
-Copyright (c) 2009-2024 [WebTranslateIt Software S.L](https://webtranslateit.com), released under the MIT License.
+Copyright (c) 2009-2026 [WebTranslateIt Software S.L](https://webtranslateit.com), released under the MIT License.
