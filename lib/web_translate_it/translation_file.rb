@@ -74,6 +74,13 @@ module WebTranslateIt
       success
     end
 
+    def fetch_remote_content(http_connection)
+      request = Net::HTTP::Get.new(api_url)
+      WebTranslateIt::Util.add_fields(request)
+      response = http_connection.request(request)
+      response.body if response.code.to_i == 200
+    end
+
     # Update a language file to Web Translate It by performing a PUT Request.
     #
     # Example of implementation:

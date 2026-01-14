@@ -13,6 +13,7 @@ show_commands = <<~COMMANDS
      pull        Pull target language file(s)
      push        Push master language file(s)
      match       Display matching of local files with File Manager
+     diff        Display a diff between local and remote files
      add         Create and push a new master language file
      rm          Delete a master language file from a project
      mv          Moves a file both locally and from a project
@@ -26,7 +27,7 @@ show_commands = <<~COMMANDS
   [options] are:
 COMMANDS
 
-SUB_COMMANDS = %w[pull push match add rm mv addlocale rmlocale status st init].freeze
+SUB_COMMANDS = %w[pull push match diff add rm mv addlocale rmlocale status st init].freeze
 global_options = Optimist.options do
   stop_on SUB_COMMANDS
   banner show_commands
@@ -63,6 +64,15 @@ when 'push'
     opt :label,  'Apply a label to the changes', type: :string
     opt :config, 'Path to a configuration file', short: '-c', default: '.wti'
     opt :all,    'DEPRECATED -- See `wti push --target` instead'
+    opt :debug,  'Display debug information'
+  end
+when 'diff'
+  Optimist.options do
+    banner <<~BANNER
+      wti diff [filename] - Display a diff between local and remote files
+      [options] are:
+    BANNER
+    opt :config, 'Path to a configuration file', short: '-c', default: '.wti'
     opt :debug,  'Display debug information'
   end
 when 'add'

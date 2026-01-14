@@ -29,8 +29,8 @@ You will also need ruby to run `wti`. We require ruby version 3.0 or newer. On L
 
 ``` bash
 $ gem install web_translate_it
-Fetching: web_translate_it-3.1.2.gem (100%)
-Successfully installed web_translate_it-3.1.2
+Fetching: web_translate_it-3.2.0.gem (100%)
+Successfully installed web_translate_it-3.2.0
 1 gem installed
 ```
 
@@ -38,7 +38,7 @@ At this point you should have the `wti` executable working:
 
 ``` bash
 $ wti -v
-wti version 3.1.2
+wti version 3.2.0
 ```
 
 We also provide `wti` as a Docker packages. [See our packages and instructions to install](https://github.com/webtranslateit/wti-docker/pkgs/container/wti-docker).
@@ -78,6 +78,7 @@ Execute `wti --help` to see the usage:
       pull        Pull target language file(s)
       push        Push master language file(s)
       match       Display matching of local files with File Manager
+      diff        Display a diff between local and remote files
       add         Create and push a new master language file
       addlocale   Add a new locale to the project
       server      Start a synchronisation server
@@ -195,6 +196,10 @@ Append `--help` for each command for more information. For instance:
   <tr>
     <td>wti match</td>
     <td>Show matching between files on local computer and the ones in WebTranslateIt’s File Manager</td>
+  </tr>
+  <tr>
+    <td>wti diff config/locales/app/en.yml</td>
+    <td>View diff between local and remote file config/locales/app/en.yml</td>
   </tr>
 </table>
 
