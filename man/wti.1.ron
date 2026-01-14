@@ -9,6 +9,8 @@ wti(1) -- WebTranslateIt.com from the command line
 
 `wti pull` [`-l`] <OPTIONS>
 
+`wti diff` <OPTIONS>
+
 ## DESCRIPTION
  
 `wti` is an utility to help you sync language files between the
@@ -19,6 +21,8 @@ update the strings hosted at Web Translate It by the strings from the file you p
 
 `wti pull` will pull the target language files from Web Translate It. It will download
 and update your file with the latest translations from Web Translate It.
+
+`wti diff` will show a difference between your local file and the file hosted at Web Translate It.
 
 `wti status` fetch and display translation statistics from Web Translate It.
 

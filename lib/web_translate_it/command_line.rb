@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'tempfile'
+
 module WebTranslateIt
 
   class CommandLine # rubocop:todo Metrics/ClassLength
@@ -15,6 +17,8 @@ module WebTranslateIt
           'Pulling files'
         when 'push'
           'Pushing files'
+        when 'diff'
+          'Diffing files'
         when 'add'
           'Creating master files'
         when 'rm'
@@ -148,6 +152,42 @@ module WebTranslateIt
       else
         abort "Error: after_push command exited with: #{output}"
       end
+    end
+
+    def diff # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
+      complete_success = true
+      $stdout.sync = true
+      WebTranslateIt::Connection.new(configuration.api_key) do |http|
+        files = if parameters.any?
+                  configuration.files.find_all { |file| parameters.include?(file.file_path) }.sort { |a, b| a.file_path <=> b.file_path }
+                else
+                  configuration.files.find_all { |file| file.locale == configuration.source_locale }.sort { |a, b| a.file_path <=> b.file_path }
+                end
+        if files.empty?
+          puts "Couldn't find any local files registered on WebTranslateIt to diff."
+        else
+          files.each do |file|
+            if File.exist?(file.file_path)
+              remote_content = file.fetch_remote_content(http)
+              if remote_content
+                temp_file = Tempfile.new('wti')
+                temp_file.write(remote_content)
+                temp_file.close
+                puts "Diff for #{file.file_path}:"
+                system "diff #{temp_file.path} #{file.file_path}"
+                temp_file.unlink
+              else
+                puts StringUtil.failure("Couldn't fetch remote file #{file.file_path}")
+                complete_success = false
+              end
+            else
+              puts StringUtil.failure("Can't diff #{file.file_path}. File doesn't exist locally.")
+              complete_success = false
+            end
+          end
+        end
+      end
+      complete_success
     end
 
     def add # rubocop:todo Metrics/AbcSize, Metrics/MethodLength

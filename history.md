@@ -1,3 +1,7 @@
+## Version 3.2.0 / 2026-01-14
+
+* Add `wti diff` command.
+
 ## Version 3.1.2 / 2025-06-06
 
 * Fix `wti mv` command. #366
