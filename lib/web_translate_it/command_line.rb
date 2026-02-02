@@ -8,7 +8,7 @@ module WebTranslateIt
 
     attr_accessor :configuration, :global_options, :command_options, :parameters
 
-    def initialize(command, command_options, _global_options, parameters, project_path) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/MethodLength
+    def initialize(command, command_options, _global_options, parameters, project_path) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/AbcSize
       self.command_options = command_options
       self.parameters = parameters
       unless command == 'init'
@@ -154,15 +154,15 @@ module WebTranslateIt
       end
     end
 
-    def diff # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
+    def diff # rubocop:todo Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
       complete_success = true
       $stdout.sync = true
-      WebTranslateIt::Connection.new(configuration.api_key) do |http|
+      WebTranslateIt::Connection.new(configuration.api_key) do |http| # rubocop:todo Metrics/BlockLength
         files = if parameters.any?
-                  configuration.files.find_all { |file| parameters.include?(file.file_path) }.sort { |a, b| a.file_path <=> b.file_path }
-                else
-                  configuration.files.find_all { |file| file.locale == configuration.source_locale }.sort { |a, b| a.file_path <=> b.file_path }
-                end
+          configuration.files.find_all { |file| parameters.include?(file.file_path) }.sort { |a, b| a.file_path <=> b.file_path }
+        else
+          configuration.files.find_all { |file| file.locale == configuration.source_locale }.sort { |a, b| a.file_path <=> b.file_path }
+        end
         if files.empty?
           puts "Couldn't find any local files registered on WebTranslateIt to diff."
         else
