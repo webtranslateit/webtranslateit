@@ -5,7 +5,7 @@ module WebTranslateIt
   class String # rubocop:todo Metrics/ClassLength
 
     attr_accessor :id, :key, :plural, :type, :dev_comment, :word_count, :status, :category, :labels, :file,
-                  :created_at, :updated_at, :translations, :new_record
+                  :created_at, :updated_at, :translations, :new_record, :connection
 
     # Initialize a new WebTranslateIt::String
     #
@@ -21,8 +21,9 @@ module WebTranslateIt
     #
     # to instantiate a new String with a source and target translation.
 
-    def initialize(params = {}) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
+    def initialize(params = {}, connection: nil) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
       params.stringify_keys!
+      self.connection   = connection
       self.id           = params['id'] || nil
       self.key          = params['key'] || nil
       self.plural       = params['plural'] || nil
@@ -51,11 +52,11 @@ module WebTranslateIt
     #
     # to find and instantiate an array of String which key is like `product_name_123`.
 
-    def self.find_all(params = {}) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
+    def self.find_all(connection, params = {}) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
       success = true
       tries ||= 3
       params.stringify_keys!
-      url = "/api/projects/#{Connection.api_key}/strings"
+      url = "/api/projects/#{connection.api_key}/strings"
       url += "?#{HashUtil.to_params('filters' => params)}" unless params.empty?
 
       request = Net::HTTP::Get.new(url)
@@ -63,11 +64,11 @@ module WebTranslateIt
       begin
         strings = []
         while request
-          response = Connection.http_connection.request(request)
+          response = connection.http_connection.request(request)
           return [] unless response.code.to_i < 400
 
           JSON.parse(response.body).each do |string_response|
-            string = WebTranslateIt::String.new(string_response)
+            string = WebTranslateIt::String.new(string_response, connection: connection)
             string.new_record = false
             strings.push(string)
           end
@@ -106,16 +107,16 @@ module WebTranslateIt
     # to find and instantiate the String which ID is `1234`.
     #
 
-    def self.find(id) # rubocop:todo Metrics/MethodLength, Metrics/AbcSize
+    def self.find(connection, id) # rubocop:todo Metrics/MethodLength, Metrics/AbcSize
       success = true
       tries ||= 3
-      request = Net::HTTP::Get.new("/api/projects/#{Connection.api_key}/strings/#{id}")
+      request = Net::HTTP::Get.new("/api/projects/#{connection.api_key}/strings/#{id}")
       WebTranslateIt::Util.add_fields(request)
       begin
-        response = Connection.http_connection.request(request)
+        response = connection.http_connection.request(request)
         return nil if response.code.to_i == 404
 
-        string = WebTranslateIt::String.new(JSON.parse(response.body))
+        string = WebTranslateIt::String.new(JSON.parse(response.body), connection: connection)
         string.new_record = false
         return string
       rescue Timeout::Error
@@ -158,10 +159,10 @@ module WebTranslateIt
     def delete # rubocop:todo Metrics/MethodLength
       success = true
       tries ||= 3
-      request = Net::HTTP::Delete.new("/api/projects/#{Connection.api_key}/strings/#{id}")
+      request = Net::HTTP::Delete.new("/api/projects/#{connection.api_key}/strings/#{id}")
       WebTranslateIt::Util.add_fields(request)
       begin
-        Util.handle_response(Connection.http_connection.request(request), true, true)
+        Util.handle_response(connection.http_connection.request(request), true, true)
       rescue Timeout::Error
         puts 'Request timeout. Will retry in 5 seconds.'
         if (tries -= 1).positive?
@@ -191,14 +192,15 @@ module WebTranslateIt
       return translation if translation
       return nil if new_record
 
-      request = Net::HTTP::Get.new("/api/projects/#{Connection.api_key}/strings/#{id}/locales/#{locale}/translations")
+      request = Net::HTTP::Get.new("/api/projects/#{connection.api_key}/strings/#{id}/locales/#{locale}/translations")
       WebTranslateIt::Util.add_fields(request)
       begin
-        response = Util.handle_response(Connection.http_connection.request(request), true, true)
+        response = Util.handle_response(connection.http_connection.request(request), true, true)
         hash = JSON.parse(response)
         return nil if hash.empty?
 
         translation = WebTranslateIt::Translation.new(hash)
+        translation.connection = connection
         return translation
       rescue Timeout::Error
         puts 'Request timeout. Will retry in 5 seconds.'
@@ -220,17 +222,18 @@ module WebTranslateIt
     def update # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
       success = true
       tries ||= 3
-      request = Net::HTTP::Put.new("/api/projects/#{Connection.api_key}/strings/#{id}")
+      request = Net::HTTP::Put.new("/api/projects/#{connection.api_key}/strings/#{id}")
       WebTranslateIt::Util.add_fields(request)
       request.body = to_json
 
       translations.each do |translation|
         translation.string_id = id
+        translation.connection = connection
         translation.save
       end
 
       begin
-        Util.handle_response(Connection.http_connection.request(request), true, true)
+        Util.handle_response(connection.http_connection.request(request), true, true)
       rescue Timeout::Error
         puts 'Request timeout. Will retry in 5 seconds.'
         if (tries -= 1).positive?
@@ -249,11 +252,11 @@ module WebTranslateIt
     def create # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
       success = true
       tries ||= 3
-      request = Net::HTTP::Post.new("/api/projects/#{Connection.api_key}/strings")
+      request = Net::HTTP::Post.new("/api/projects/#{connection.api_key}/strings")
       WebTranslateIt::Util.add_fields(request)
       request.body = to_json(true)
       begin
-        response = JSON.parse(Util.handle_response(Connection.http_connection.request(request), true, true))
+        response = JSON.parse(Util.handle_response(connection.http_connection.request(request), true, true))
         self.id = response['id']
         self.new_record = false
         return true

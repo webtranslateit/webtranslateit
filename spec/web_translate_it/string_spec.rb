@@ -5,10 +5,7 @@ require 'spec_helper'
 describe WebTranslateIt::String do
   let(:api_key) { 'test_api_key' }
   let(:api_url) { "https://webtranslateit.com/api/projects/#{api_key}" }
-
-  before do
-    WebTranslateIt::Connection.new(api_key)
-  end
+  let!(:connection) { WebTranslateIt::Connection.new(api_key) }
 
   describe '#initialize' do
     it 'assigns api_key and many parameters' do
@@ -33,10 +30,10 @@ describe WebTranslateIt::String do
       stub_request(:delete, "#{api_url}/strings/1")
         .to_return(status: 200, body: '{"id": 1}')
 
-      string = described_class.new({'key' => 'bacon'})
+      string = described_class.new({'key' => 'bacon'}, connection: connection)
       string.save
       expect(string.id).not_to be_nil
-      string_fetched = described_class.find(string.id)
+      string_fetched = described_class.find(connection, string.id)
       expect(string_fetched).not_to be_nil
       expect(string_fetched).to be_a(described_class)
       expect(string_fetched.id).to eql string.id
@@ -53,11 +50,11 @@ describe WebTranslateIt::String do
       stub_request(:delete, "#{api_url}/strings/2")
         .to_return(status: 200, body: '{"id": 2}')
 
-      string = described_class.new({'key' => 'bacony'})
+      string = described_class.new({'key' => 'bacony'}, connection: connection)
       string.save
       string.key = 'bacon changed'
       string.save
-      string_fetched = described_class.find(string.id)
+      string_fetched = described_class.find(connection, string.id)
       expect(string_fetched.key).to eql 'bacon changed'
       string.delete
     end
@@ -85,9 +82,9 @@ describe WebTranslateIt::String do
       it 'creates a new String with Translation' do # rubocop:todo RSpec/MultipleExpectations
         translation1 = WebTranslateIt::Translation.new({'locale' => 'en', 'text' => 'Hello'})
         translation2 = WebTranslateIt::Translation.new({'locale' => 'fr', 'text' => 'Bonjour'})
-        string = described_class.new({'key' => 'bacon', 'translations' => [translation1, translation2]})
+        string = described_class.new({'key' => 'bacon', 'translations' => [translation1, translation2]}, connection: connection)
         string.save
-        string_fetched = described_class.find(string.id)
+        string_fetched = described_class.find(connection, string.id)
         expect(string_fetched.translation_for('en')).not_to be_nil
         expect(string_fetched.translation_for('en').text).to eql 'Hello'
         expect(string_fetched.translation_for('fr')).not_to be_nil
@@ -122,14 +119,14 @@ describe WebTranslateIt::String do
       it 'updates a String and save its Translation' do # rubocop:todo RSpec/MultipleExpectations
         translation1 = WebTranslateIt::Translation.new({'locale' => 'en', 'text' => 'Hello'})
         translation2 = WebTranslateIt::Translation.new({'locale' => 'fr', 'text' => 'Bonjour'})
-        string = described_class.new({'key' => 'bacon'})
+        string = described_class.new({'key' => 'bacon'}, connection: connection)
         string.save
-        string_fetched = described_class.find(string.id)
+        string_fetched = described_class.find(connection, string.id)
         expect(string_fetched.translation_for('fr')).to be_nil
 
         string_fetched.translations = [translation1, translation2]
         string_fetched.save
-        string_fetched = described_class.find(string.id)
+        string_fetched = described_class.find(connection, string.id)
         expect(string_fetched.translation_for('en')).not_to be_nil
         expect(string_fetched.translation_for('en').text).to eql 'Hello'
         expect(string_fetched.translation_for('fr')).not_to be_nil
@@ -149,13 +146,13 @@ describe WebTranslateIt::String do
       stub_request(:delete, "#{api_url}/strings/5")
         .to_return(status: 200, body: '{"id": 5}')
 
-      string = described_class.new({'key' => 'bacon'})
+      string = described_class.new({'key' => 'bacon'}, connection: connection)
       string.save
-      string_fetched = described_class.find(string.id)
+      string_fetched = described_class.find(connection, string.id)
       expect(string_fetched).not_to be_nil
 
       string_fetched.delete
-      expect(described_class.find(string.id)).to be_nil
+      expect(described_class.find(connection, string.id)).to be_nil
     end
   end
 
@@ -171,12 +168,12 @@ describe WebTranslateIt::String do
         .with(query: {'filters[key]' => 'three'})
         .to_return(status: 200, body: '[{"id": 1, "key": "one two three"}]')
 
-      strings = described_class.find_all({'key' => 'six'})
+      strings = described_class.find_all(connection, {'key' => 'six'})
       expect(strings.count).to be 2
       expect(strings[0].key).to eql 'four five six'
       expect(strings[1].key).to eql 'six seven eight'
 
-      strings = described_class.find_all({key: 'six'})
+      strings = described_class.find_all(connection, {key: 'six'})
       expect(strings.count).to be 2
       expect(strings[0].key).to eql 'four five six'
       expect(strings[1].key).to eql 'six seven eight'
@@ -190,11 +187,11 @@ describe WebTranslateIt::String do
         .with(query: {'filters[key]' => 'three'})
         .to_return(status: 200, body: '[{"id": 1, "key": "one two three"}]')
 
-      strings = described_class.find_all({'key' => 'eight'})
+      strings = described_class.find_all(connection, {'key' => 'eight'})
       expect(strings.count).to be 1
       expect(strings[0].key).to eql 'six seven eight'
 
-      strings = described_class.find_all({'key' => 'three'})
+      strings = described_class.find_all(connection, {'key' => 'three'})
       expect(strings.count).to be 1
       expect(strings[0].key).to eql 'one two three'
     end
@@ -206,7 +203,7 @@ describe WebTranslateIt::String do
           body: '["error", "No project found for this API token"]'
         )
 
-      strings = described_class.find_all
+      strings = described_class.find_all(connection)
       expect(strings).to eq([])
     end
   end
@@ -227,9 +224,9 @@ describe WebTranslateIt::String do
         .to_return(status: 200, body: '{"id": 6}')
 
       translation = WebTranslateIt::Translation.new({'locale' => 'en', 'text' => 'Hello'})
-      string = described_class.new({'key' => 'greetings', 'translations' => [translation]})
+      string = described_class.new({'key' => 'greetings', 'translations' => [translation]}, connection: connection)
       string.save
-      string_fetched = described_class.find(string.id)
+      string_fetched = described_class.find(connection, string.id)
       expect(string_fetched.translation_for('en')).not_to be_nil
       expect(string_fetched.translation_for('en').text).to eql 'Hello'
       expect(string_fetched.translation_for('fr')).to be_nil

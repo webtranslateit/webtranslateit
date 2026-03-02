@@ -1,3 +1,8 @@
+## Version 3.2.1 / 2026-03-02
+
+* Refactor `Connection` class to eliminate class variables. #254
+* Fix `find_all` to guard against non-2xx API responses. #355
+
 ## Version 3.2.0 / 2026-01-14
 
 * Add `wti diff` command.
