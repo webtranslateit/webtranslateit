@@ -1,5 +1,6 @@
 ## Edge (unreleased)
 
+* Replace fragile path splitting with `File.dirname` in `TranslationFile#fetch`. Add specs. #408
 * Decompose `CommandLine` god class into 11 focused command classes under `Commands::` namespace, rename to `Runner`. #404
 * Extract `ApiResource` base class from `String` and `Term` to remove duplicated CRUD logic. #403
 * Fix generic `rescue` blocks to capture and re-raise `StandardError`. #406
