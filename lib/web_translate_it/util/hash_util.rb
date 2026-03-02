@@ -3,7 +3,7 @@
 class HashUtil
 
   def self.to_params(hash) # rubocop:todo Metrics/MethodLength
-    params = ''
+    params = +''
     stack = []
 
     hash.each do |k, v|
