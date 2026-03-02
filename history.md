@@ -1,5 +1,8 @@
 ## Version 3.2.1 / 2026-03-02
 
+* Extract `ApiResource` base class from `String` and `Term` to remove duplicated CRUD logic. #403
+* Fix generic `rescue` blocks to capture and re-raise `StandardError`. #406
+* Extract `Util.with_retries` helper to deduplicate retry logic. #402
 * Refactor `Connection` class to eliminate class variables. #254
 * Fix `find_all` to guard against non-2xx API responses. #355
 
