@@ -48,6 +48,19 @@ module WebTranslateIt
       request.add_field('Content-Type', 'application/json')
     end
 
+    # Execute a block with automatic retry on Timeout::Error.
+    # Returns the block's return value on success, or false after retries are exhausted.
+    def self.with_retries(retries: 3, delay: 5)
+      yield
+    rescue Timeout::Error
+      puts 'Request timeout. Will retry in 5 seconds.'
+      if (retries -= 1).positive?
+        sleep(delay)
+        retry
+      end
+      false
+    end
+
     ##
     # Ask a question. Returns a true for yes, false for no, default for nil.
 

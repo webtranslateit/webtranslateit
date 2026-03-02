@@ -37,19 +37,12 @@ module WebTranslateIt
     #   end
     #
 
-    def save # rubocop:todo Metrics/MethodLength
-      tries ||= 3
+    def save
       request = Net::HTTP::Post.new("/api/projects/#{connection.api_key}/strings/#{string_id}/locales/#{locale}/translations")
       WebTranslateIt::Util.add_fields(request)
       request.body = to_json
-      begin
+      Util.with_retries do
         Util.handle_response(connection.http_connection.request(request), true, true)
-      rescue Timeout::Error
-        puts 'Request timeout. Will retry in 5 seconds.'
-        if (tries -= 1).positive?
-          sleep(5)
-          retry
-        end
       end
     end
 

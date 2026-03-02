@@ -4,10 +4,8 @@ module WebTranslateIt
 
   class Project
 
-    def self.fetch_info(api_key) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
-      success = true
-      tries ||= 3
-      begin
+    def self.fetch_info(api_key) # rubocop:todo Metrics/MethodLength
+      Util.with_retries do
         WebTranslateIt::Connection.new(api_key) do |conn|
           request = Net::HTTP::Get.new("/api/projects/#{api_key}")
           WebTranslateIt::Util.add_fields(request)
@@ -18,79 +16,37 @@ module WebTranslateIt
           puts StringUtil.failure(response.body)
           exit 1
         end
-      rescue Timeout::Error
-        puts 'Request timeout. Will retry in 5 seconds.'
-        if (tries -= 1).positive?
-          sleep(5)
-          retry
-        else
-          success = false
-        end
-      rescue StandardError
-        puts $ERROR_INFO.inspect
       end
-      success
+    rescue StandardError
+      puts $ERROR_INFO.inspect
     end
 
-    def self.fetch_stats(api_key, file_id = nil) # rubocop:todo Metrics/MethodLength
+    def self.fetch_stats(api_key, file_id = nil)
       url = file_id.nil? ? "/api/projects/#{api_key}/stats" : "/api/projects/#{api_key}/stats?file=#{file_id}"
-      success = true
-      tries ||= 3
-      begin
+      Util.with_retries do
         WebTranslateIt::Connection.new(api_key) do |conn|
           request = Net::HTTP::Get.new(url)
           WebTranslateIt::Util.add_fields(request)
           return Util.handle_response(conn.http_connection.request(request), true)
         end
-      rescue Timeout::Error
-        puts 'Request timeout. Will retry in 5 seconds.'
-        if (tries -= 1).positive?
-          sleep(5)
-          retry
-        else
-          success = false
-        end
       end
-      success
     end
 
-    def self.create_locale(connection, locale_code) # rubocop:todo Metrics/MethodLength
-      success = true
-      tries ||= 3
-      begin
+    def self.create_locale(connection, locale_code)
+      Util.with_retries do
         request = Net::HTTP::Post.new("/api/projects/#{connection.api_key}/locales")
         WebTranslateIt::Util.add_fields(request)
         request.set_form_data({'id' => locale_code}, ';')
         Util.handle_response(connection.http_connection.request(request), true)
-      rescue Timeout::Error
-        puts 'Request timeout. Will retry in 5 seconds.'
-        if (tries -= 1).positive?
-          sleep(5)
-          retry
-        else
-          success = false
-        end
       end
-      success
     end
 
-    def self.delete_locale(connection, locale_code) # rubocop:todo Metrics/MethodLength
-      success = true
-      tries ||= 3
-      begin
+    def self.delete_locale(connection, locale_code)
+      Util.with_retries do
         request = Net::HTTP::Delete.new("/api/projects/#{connection.api_key}/locales/#{locale_code}")
         WebTranslateIt::Util.add_fields(request)
         Util.handle_response(connection.http_connection.request(request), true)
-      rescue Timeout::Error
-        puts 'Request timeout. Will retry in 5 seconds.'
-        if (tries -= 1).positive?
-          sleep(5)
-          retry
-        else
-          success = false
-        end
       end
-      success
     end
 
   end
