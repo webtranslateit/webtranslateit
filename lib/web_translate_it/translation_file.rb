@@ -48,7 +48,8 @@ module WebTranslateIt
 
         request = Net::HTTP::Get.new(api_url)
         WebTranslateIt::Util.add_fields(request)
-        FileUtils.mkpath(file_path.split('/')[0..-2].join('/')) unless File.exist?(file_path) || (file_path.split('/')[0..-2].join('/') == '')
+        dir = File.dirname(file_path)
+        FileUtils.mkpath(dir) unless File.exist?(file_path) || dir == '.'
         begin
           result = Util.with_retries do
             response = http_connection.request(request)
