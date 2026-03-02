@@ -57,8 +57,8 @@ module WebTranslateIt
             true
           end
           success = false if result == false
-        rescue StandardError
-          display.push StringUtil.failure("An error occured: #{$ERROR_INFO}")
+        rescue StandardError => e
+          display.push StringUtil.failure("An error occured: #{e.message}")
           success = false
         end
 
@@ -116,8 +116,8 @@ module WebTranslateIt
               true
             end
             success = false if result == false
-          rescue StandardError
-            display.push StringUtil.failure("An error occured: #{$ERROR_INFO}")
+          rescue StandardError => e
+            display.push StringUtil.failure("An error occured: #{e.message}")
             success = false
           end
         else
@@ -163,8 +163,8 @@ module WebTranslateIt
             true
           end
           success = false if result == false
-        rescue StandardError
-          display.push StringUtil.failure("An error occured: #{$ERROR_INFO}")
+        rescue StandardError => e
+          display.push StringUtil.failure("An error occured: #{e.message}")
           success = false
         end
       else
@@ -189,8 +189,8 @@ module WebTranslateIt
             true
           end
           success = false if result == false
-        rescue StandardError
-          display.push StringUtil.failure("An error occured: #{$ERROR_INFO}")
+        rescue StandardError => e
+          display.push StringUtil.failure("An error occured: #{e.message}")
           success = false
         end
       else
@@ -229,7 +229,7 @@ module WebTranslateIt
 
     def local_checksum
       Digest::SHA1.hexdigest(File.read(file_path))
-    rescue StandardError
+    rescue StandardError => _e
       ''
     end
 
