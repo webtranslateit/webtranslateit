@@ -33,13 +33,14 @@ module WebTranslateIt
       begin
         http.verify_mode = OpenSSL::SSL::VERIFY_PEER
         @http_connection = http.start
-        yield self if block_given?
       rescue OpenSSL::SSL::SSLError
         puts 'Error: Unable to verify SSL certificate.'
         exit 1
-      rescue StandardError
-        puts $ERROR_INFO
+      rescue StandardError => e
+        puts e.message
+        raise
       end
+      yield self if block_given?
     end
 
     def self.turn_debug_on

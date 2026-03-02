@@ -17,8 +17,9 @@ module WebTranslateIt
           exit 1
         end
       end
-    rescue StandardError
-      puts $ERROR_INFO.inspect
+    rescue StandardError => e
+      puts e.inspect
+      raise
     end
 
     def self.fetch_stats(api_key, file_id = nil)
