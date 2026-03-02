@@ -68,9 +68,9 @@ module WebTranslateIt
           next if file_array.empty?
 
           threads << Thread.new(file_array) do |f_array|
-            WebTranslateIt::Connection.new(configuration.api_key) do |http|
+            WebTranslateIt::Connection.new(configuration.api_key) do |conn|
               f_array.each do |file|
-                success = file.fetch(http, command_options.force)
+                success = file.fetch(conn.http_connection, command_options.force)
                 complete_success = false unless success
               end
             end
@@ -111,7 +111,7 @@ module WebTranslateIt
       complete_success = true
       $stdout.sync = true
       before_push_hook
-      WebTranslateIt::Connection.new(configuration.api_key) do |http|
+      WebTranslateIt::Connection.new(configuration.api_key) do |conn|
         fetch_locales_to_push(configuration).each do |locale|
           files = if parameters.any?
             configuration.files.find_all { |file| parameters.include?(file.file_path) }.sort { |a, b| a.file_path <=> b.file_path }
@@ -122,7 +122,7 @@ module WebTranslateIt
             puts "Couldn't find any local files registered on WebTranslateIt to push."
           else
             files.each do |file|
-              success = file.upload(http, command_options[:merge], command_options.ignore_missing, command_options.label, command_options[:minor], command_options.force)
+              success = file.upload(conn.http_connection, command_options[:merge], command_options.ignore_missing, command_options.label, command_options[:minor], command_options.force)
               complete_success = false unless success
             end
           end
@@ -157,7 +157,7 @@ module WebTranslateIt
     def diff # rubocop:todo Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
       complete_success = true
       $stdout.sync = true
-      WebTranslateIt::Connection.new(configuration.api_key) do |http| # rubocop:todo Metrics/BlockLength
+      WebTranslateIt::Connection.new(configuration.api_key) do |conn| # rubocop:todo Metrics/BlockLength
         files = if parameters.any?
           configuration.files.find_all { |file| parameters.include?(file.file_path) }.sort { |a, b| a.file_path <=> b.file_path }
         else
@@ -168,7 +168,7 @@ module WebTranslateIt
         else
           files.each do |file|
             if File.exist?(file.file_path)
-              remote_content = file.fetch_remote_content(http)
+              remote_content = file.fetch_remote_content(conn.http_connection)
               if remote_content
                 temp_file = Tempfile.new('wti')
                 temp_file.write(remote_content)
@@ -198,13 +198,13 @@ module WebTranslateIt
         puts 'Usage: wti add path/to/master_file_1 path/to/master_file_2 ...'
         exit
       end
-      WebTranslateIt::Connection.new(configuration.api_key) do |http|
+      WebTranslateIt::Connection.new(configuration.api_key) do |conn|
         added = configuration.files.find_all { |file| file.locale == configuration.source_locale }.to_set { |file| File.expand_path(file.file_path) }
         to_add = parameters.reject { |param| added.include?(File.expand_path(param)) }
         if to_add.any?
           to_add.each do |param|
             file = TranslationFile.new(nil, param.gsub(/ /, '\\ '), nil, configuration.api_key)
-            success = file.create(http)
+            success = file.create(conn.http_connection)
             complete_success = false unless success
           end
         else
@@ -222,14 +222,14 @@ module WebTranslateIt
         puts 'Usage: wti rm path/to/master_file_1 path/to/master_file_2 ...'
         exit
       end
-      WebTranslateIt::Connection.new(configuration.api_key) do |http| # rubocop:todo Metrics/BlockLength
+      WebTranslateIt::Connection.new(configuration.api_key) do |conn| # rubocop:todo Metrics/BlockLength
         parameters.each do |param|
           next unless Util.ask_yes_no("Are you sure you want to delete the master file #{param}?\nThis will also delete its target files and translations.", false)
 
           files = configuration.files.find_all { |file| file.file_path == param }
           if files.any?
             files.each do |master_file|
-              master_file.delete(http)
+              master_file.delete(conn.http_connection)
               # delete files
               if File.exist?(master_file.file_path)
                 success = File.delete(master_file.file_path)
@@ -265,10 +265,10 @@ module WebTranslateIt
       end
       source = parameters[0]
       destination = parameters[1]
-      WebTranslateIt::Connection.new(configuration.api_key) do |http|
+      WebTranslateIt::Connection.new(configuration.api_key) do |conn|
         if Util.ask_yes_no("Are you sure you want to move the master file #{source} and its target files?", true)
           configuration.files.find_all { |file| file.file_path == source }.each do |master_file|
-            master_file.upload(http, false, false, nil, false, true, true, destination)
+            master_file.upload(conn.http_connection, false, false, nil, false, true, true, destination)
             # move master file
             if File.exist?(source)
               success = File.rename(source, destination) if File.exist?(source)
@@ -283,7 +283,7 @@ module WebTranslateIt
             end
             configuration.reload
             configuration.files.find_all { |file| file.master_id == master_file.id }.each do |target_file|
-              success = target_file.fetch(http)
+              success = target_file.fetch(conn.http_connection)
               complete_success = false unless success
             end
             puts StringUtil.success('All done.') if complete_success
@@ -302,8 +302,8 @@ module WebTranslateIt
       end
       parameters.each do |param|
         print StringUtil.success("Adding locale #{param.upcase}... ")
-        WebTranslateIt::Connection.new(configuration.api_key) do
-          WebTranslateIt::Project.create_locale(param)
+        WebTranslateIt::Connection.new(configuration.api_key) do |conn|
+          WebTranslateIt::Project.create_locale(conn, param)
         end
         puts 'Done.'
       end
@@ -320,8 +320,8 @@ module WebTranslateIt
         next unless Util.ask_yes_no("Are you certain you want to delete the locale #{param.upcase}?\nThis will also delete its files and translations.", false)
 
         print StringUtil.success("Deleting locale #{param.upcase}... ")
-        WebTranslateIt::Connection.new(configuration.api_key) do
-          WebTranslateIt::Project.delete_locale(param)
+        WebTranslateIt::Connection.new(configuration.api_key) do |conn|
+          WebTranslateIt::Project.delete_locale(conn, param)
         end
         puts 'Done.'
       end

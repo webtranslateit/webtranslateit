@@ -5,10 +5,7 @@ require 'spec_helper'
 describe WebTranslateIt::Term do
   let(:api_key) { 'test_api_key' }
   let(:api_url) { "https://webtranslateit.com/api/projects/#{api_key}" }
-
-  before do
-    WebTranslateIt::Connection.new(api_key)
-  end
+  let!(:connection) { WebTranslateIt::Connection.new(api_key) }
 
   describe '#initialize' do
     it 'assigns api_key and many parameters' do
@@ -33,10 +30,10 @@ describe WebTranslateIt::Term do
       stub_request(:delete, "#{api_url}/terms/1")
         .to_return(status: 200, body: '{"id": 1}')
 
-      term = described_class.new({'text' => 'Term', 'description' => 'A description'})
+      term = described_class.new({'text' => 'Term', 'description' => 'A description'}, connection: connection)
       term.save
       expect(term.id).not_to be_nil
-      term_fetched = described_class.find(term.id)
+      term_fetched = described_class.find(connection, term.id)
       expect(term_fetched).not_to be_nil
       expect(term_fetched).to be_a(described_class)
       expect(term_fetched.id).to eql term.id
@@ -53,11 +50,11 @@ describe WebTranslateIt::Term do
       stub_request(:delete, "#{api_url}/terms/2")
         .to_return(status: 200, body: '{"id": 2}')
 
-      term = described_class.new({'text' => 'Term 2', 'description' => 'A description'})
+      term = described_class.new({'text' => 'Term 2', 'description' => 'A description'}, connection: connection)
       term.save
       term.text = 'A Term'
       term.save
-      term_fetched = described_class.find(term.id)
+      term_fetched = described_class.find(connection, term.id)
       expect(term_fetched.text).to eql 'A Term'
       term.delete
     end
@@ -82,9 +79,9 @@ describe WebTranslateIt::Term do
         translation1 = WebTranslateIt::TermTranslation.new({'locale' => 'fr', 'text' => 'Bonjour'})
         translation2 = WebTranslateIt::TermTranslation.new({'locale' => 'fr', 'text' => 'Salut'})
 
-        term = described_class.new({'text' => 'Hello', 'translations' => [translation1, translation2]})
+        term = described_class.new({'text' => 'Hello', 'translations' => [translation1, translation2]}, connection: connection)
         term.save
-        term_fetched = described_class.find(term.id)
+        term_fetched = described_class.find(connection, term.id)
         expect(term_fetched.translation_for('fr')).not_to be_nil
         expect(term_fetched.translation_for('fr')[0].text).to eql 'Salut'
         expect(term_fetched.translation_for('fr')[1].text).to eql 'Bonjour'
@@ -114,14 +111,14 @@ describe WebTranslateIt::Term do
       it 'updates a Term and save its Translation' do # rubocop:todo RSpec/MultipleExpectations
         translation1 = WebTranslateIt::TermTranslation.new({'locale' => 'fr', 'text' => 'Bonjour'})
         translation2 = WebTranslateIt::TermTranslation.new({'locale' => 'fr', 'text' => 'Salut'})
-        term = described_class.new({'text' => 'Hi!'})
+        term = described_class.new({'text' => 'Hi!'}, connection: connection)
         term.save
-        term_fetched = described_class.find(term.id)
+        term_fetched = described_class.find(connection, term.id)
         expect(term_fetched.translation_for('fr')).to be_nil
 
         term_fetched.translations = [translation1, translation2]
         term_fetched.save
-        term_fetched = described_class.find(term.id)
+        term_fetched = described_class.find(connection, term.id)
         expect(term_fetched.translation_for('fr')).not_to be_nil
         expect(term_fetched.translation_for('fr')[0].text).to eql 'Salut'
         expect(term_fetched.translation_for('fr')[1].text).to eql 'Bonjour'
@@ -140,13 +137,13 @@ describe WebTranslateIt::Term do
       stub_request(:delete, "#{api_url}/terms/5")
         .to_return(status: 200, body: '{"id": 5}')
 
-      term = described_class.new({'text' => 'bacon'})
+      term = described_class.new({'text' => 'bacon'}, connection: connection)
       term.save
-      term_fetched = described_class.find(term.id)
+      term_fetched = described_class.find(connection, term.id)
       expect(term_fetched).not_to be_nil
 
       term_fetched.delete
-      term_fetched = described_class.find(term.id)
+      term_fetched = described_class.find(connection, term.id)
       expect(term_fetched).to be_nil
     end
   end
@@ -159,7 +156,7 @@ describe WebTranslateIt::Term do
           body: '[{"id": 10, "text": "greeting 1"}, {"id": 11, "text": "greeting 2"}, {"id": 12, "text": "greeting 3"}]'
         )
 
-      terms = described_class.find_all
+      terms = described_class.find_all(connection)
       expect(terms.count).to be 3
       expect(terms[0].text).to eql 'greeting 1'
       expect(terms[1].text).to eql 'greeting 2'
@@ -173,7 +170,7 @@ describe WebTranslateIt::Term do
           body: '["error", "No project found for this API token"]'
         )
 
-      terms = described_class.find_all
+      terms = described_class.find_all(connection)
       expect(terms).to eq([])
     end
   end

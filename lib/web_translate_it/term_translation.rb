@@ -4,7 +4,7 @@ module WebTranslateIt
 
   class TermTranslation
 
-    attr_accessor :id, :locale, :text, :description, :status, :new_record, :term_id
+    attr_accessor :id, :locale, :text, :description, :status, :new_record, :term_id, :connection
 
     # Initialize a new WebTranslateIt::TermTranslation
     #
@@ -59,12 +59,12 @@ module WebTranslateIt
     def create # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
       success = true
       tries ||= 3
-      request = Net::HTTP::Post.new("/api/projects/#{Connection.api_key}/terms/#{term_id}/locales/#{locale}/translations")
+      request = Net::HTTP::Post.new("/api/projects/#{connection.api_key}/terms/#{term_id}/locales/#{locale}/translations")
       WebTranslateIt::Util.add_fields(request)
       request.body = to_json
 
       begin
-        response = JSON.parse(Util.handle_response(Connection.http_connection.request(request), true, true))
+        response = JSON.parse(Util.handle_response(connection.http_connection.request(request), true, true))
         self.id = response['id']
         self.new_record = false
         return true
@@ -80,14 +80,14 @@ module WebTranslateIt
       success
     end
 
-    def update # rubocop:todo Metrics/MethodLength
+    def update # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
       success = true
       tries ||= 3
-      request = Net::HTTP::Put.new("/api/projects/#{Connection.api_key}/terms/#{id}/locales/#{locale}/translations/#{id}")
+      request = Net::HTTP::Put.new("/api/projects/#{connection.api_key}/terms/#{id}/locales/#{locale}/translations/#{id}")
       WebTranslateIt::Util.add_fields(request)
       request.body = to_json
       begin
-        Util.handle_response(Connection.http_connection.request(request), true, true)
+        Util.handle_response(connection.http_connection.request(request), true, true)
       rescue Timeout::Error
         puts 'Request timeout. Will retry in 5 seconds.'
         if (tries -= 1).positive?

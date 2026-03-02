@@ -34,9 +34,9 @@ module WebTranslateIt
     return if config.ignore_locales.include?(locale)
 
     config.logger&.debug { "   Fetching #{locale} language file(s) from WebTranslateIt" }
-    WebTranslateIt::Connection.new(config.api_key) do |http|
+    WebTranslateIt::Connection.new(config.api_key) do |conn|
       config.files.find_all { |file| file.locale.in?([locale, I18n.locale]) }.each do |file|
-        file.fetch(http)
+        file.fetch(conn.http_connection)
       end
     end
   end
