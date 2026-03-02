@@ -52,16 +52,14 @@ module WebTranslateIt
     #
     # to find and instantiate an array of String which key is like `product_name_123`.
 
-    def self.find_all(connection, params = {}) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
-      success = true
-      tries ||= 3
+    def self.find_all(connection, params = {}) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
       params.stringify_keys!
       url = "/api/projects/#{connection.api_key}/strings"
       url += "?#{HashUtil.to_params('filters' => params)}" unless params.empty?
 
       request = Net::HTTP::Get.new(url)
       WebTranslateIt::Util.add_fields(request)
-      begin
+      Util.with_retries do
         strings = []
         while request
           response = connection.http_connection.request(request)
@@ -81,16 +79,7 @@ module WebTranslateIt
           end
         end
         return strings
-      rescue Timeout::Error
-        puts 'Request timeout. Will retry in 5 seconds.'
-        if (tries -= 1).positive?
-          sleep(5)
-          retry
-        else
-          success = false
-        end
       end
-      success
     end
 
     # Find a String based on its ID
@@ -107,28 +96,17 @@ module WebTranslateIt
     # to find and instantiate the String which ID is `1234`.
     #
 
-    def self.find(connection, id) # rubocop:todo Metrics/MethodLength, Metrics/AbcSize
-      success = true
-      tries ||= 3
+    def self.find(connection, id)
       request = Net::HTTP::Get.new("/api/projects/#{connection.api_key}/strings/#{id}")
       WebTranslateIt::Util.add_fields(request)
-      begin
+      Util.with_retries do
         response = connection.http_connection.request(request)
         return nil if response.code.to_i == 404
 
         string = WebTranslateIt::String.new(JSON.parse(response.body), connection: connection)
         string.new_record = false
         return string
-      rescue Timeout::Error
-        puts 'Request timeout. Will retry in 5 seconds.'
-        if (tries -= 1).positive?
-          sleep(5)
-          retry
-        else
-          success = false
-        end
       end
-      success
     end
 
     # Update or create a String to WebTranslateIt.com
@@ -156,23 +134,12 @@ module WebTranslateIt
     #   end
     #
 
-    def delete # rubocop:todo Metrics/MethodLength
-      success = true
-      tries ||= 3
+    def delete
       request = Net::HTTP::Delete.new("/api/projects/#{connection.api_key}/strings/#{id}")
       WebTranslateIt::Util.add_fields(request)
-      begin
+      Util.with_retries do
         Util.handle_response(connection.http_connection.request(request), true, true)
-      rescue Timeout::Error
-        puts 'Request timeout. Will retry in 5 seconds.'
-        if (tries -= 1).positive?
-          sleep(5)
-          retry
-        else
-          success = false
-        end
       end
-      success
     end
 
     # Gets a Translation for a String
@@ -185,16 +152,14 @@ module WebTranslateIt
     #   end
     #
 
-    def translation_for(locale) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
-      success = true
-      tries ||= 3
+    def translation_for(locale) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
       translation = translations.detect { |t| t.locale == locale }
       return translation if translation
       return nil if new_record
 
       request = Net::HTTP::Get.new("/api/projects/#{connection.api_key}/strings/#{id}/locales/#{locale}/translations")
       WebTranslateIt::Util.add_fields(request)
-      begin
+      Util.with_retries do
         response = Util.handle_response(connection.http_connection.request(request), true, true)
         hash = JSON.parse(response)
         return nil if hash.empty?
@@ -202,16 +167,7 @@ module WebTranslateIt
         translation = WebTranslateIt::Translation.new(hash)
         translation.connection = connection
         return translation
-      rescue Timeout::Error
-        puts 'Request timeout. Will retry in 5 seconds.'
-        if (tries -= 1).positive?
-          sleep(5)
-          retry
-        else
-          success = false
-        end
       end
-      success
     end
 
     protected
@@ -220,8 +176,6 @@ module WebTranslateIt
     #
 
     def update # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
-      success = true
-      tries ||= 3
       request = Net::HTTP::Put.new("/api/projects/#{connection.api_key}/strings/#{id}")
       WebTranslateIt::Util.add_fields(request)
       request.body = to_json
@@ -232,44 +186,24 @@ module WebTranslateIt
         translation.save
       end
 
-      begin
+      Util.with_retries do
         Util.handle_response(connection.http_connection.request(request), true, true)
-      rescue Timeout::Error
-        puts 'Request timeout. Will retry in 5 seconds.'
-        if (tries -= 1).positive?
-          sleep(5)
-          retry
-        else
-          success = false
-        end
       end
-      success
     end
 
     # Create a new String to WebTranslateIt.com
     #
 
-    def create # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
-      success = true
-      tries ||= 3
+    def create
       request = Net::HTTP::Post.new("/api/projects/#{connection.api_key}/strings")
       WebTranslateIt::Util.add_fields(request)
       request.body = to_json(true)
-      begin
+      Util.with_retries do
         response = JSON.parse(Util.handle_response(connection.http_connection.request(request), true, true))
         self.id = response['id']
         self.new_record = false
         return true
-      rescue Timeout::Error
-        puts 'Request timeout. Will retry in 5 seconds.'
-        if (tries -= 1).positive?
-          sleep(5)
-          retry
-        else
-          success = false
-        end
       end
-      success
     end
 
     def to_json(with_translations = false) # rubocop:todo Metrics/AbcSize

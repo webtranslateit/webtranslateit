@@ -37,7 +37,6 @@ module WebTranslateIt
     #
     def fetch(http_connection, force = false) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
       success = true
-      tries ||= 3
       display = []
       if fresh
         display.push(file_path)
@@ -51,17 +50,13 @@ module WebTranslateIt
         WebTranslateIt::Util.add_fields(request)
         FileUtils.mkpath(file_path.split('/')[0..-2].join('/')) unless File.exist?(file_path) || (file_path.split('/')[0..-2].join('/') == '')
         begin
-          response = http_connection.request(request)
-          File.open(file_path, 'wb') { |file| file << response.body } if response.code.to_i == 200
-          display.push Util.handle_response(response)
-        rescue Timeout::Error
-          puts StringUtil.failure('Request timeout. Will retry in 5 seconds.')
-          if (tries -= 1).positive?
-            sleep(5)
-            retry
-          else
-            success = false
+          result = Util.with_retries do
+            response = http_connection.request(request)
+            File.open(file_path, 'wb') { |file| file << response.body } if response.code.to_i == 200
+            display.push Util.handle_response(response)
+            true
           end
+          success = false if result == false
         rescue StandardError
           display.push StringUtil.failure("An error occured: #{$ERROR_INFO}")
           success = false
@@ -96,9 +91,8 @@ module WebTranslateIt
     # rubocop:todo Metrics/ParameterLists
     # rubocop:todo Metrics/MethodLength
     # rubocop:todo Metrics/AbcSize
-    def upload(http_connection, merge = false, ignore_missing = false, label = nil, minor_changes = false, force = false, rename_others = false, destination_path = nil) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/ParameterLists, Metrics/PerceivedComplexity
+    def upload(http_connection, merge = false, ignore_missing = false, label = nil, minor_changes = false, force = false, rename_others = false, destination_path = nil) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength, Metrics/ParameterLists, Metrics/PerceivedComplexity
       success = true
-      tries ||= 3
       display = []
       display.push(file_path)
       display.push "#{StringUtil.checksumify(local_checksum.to_s)}..#{StringUtil.checksumify(remote_checksum.to_s)}"
@@ -117,15 +111,11 @@ module WebTranslateIt
             request = Net::HTTP::Put.new(api_url)
             WebTranslateIt::Util.add_fields(request)
             request.set_form params, 'multipart/form-data'
-            display.push Util.handle_response(http_connection.request(request))
-          rescue Timeout::Error
-            puts StringUtil.failure('Request timeout. Will retry in 5 seconds.')
-            if (tries -= 1).positive? # rubocop:todo Metrics/BlockNesting
-              sleep(5)
-              retry
-            else
-              success = false
+            result = Util.with_retries do
+              display.push Util.handle_response(http_connection.request(request))
+              true
             end
+            success = false if result == false
           rescue StandardError
             display.push StringUtil.failure("An error occured: #{$ERROR_INFO}")
             success = false
@@ -157,7 +147,6 @@ module WebTranslateIt
     #
     def create(http_connection) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
       success = true
-      tries ||= 3
       display = []
       display.push file_path
       display.push "#{StringUtil.checksumify(local_checksum.to_s)}..[     ]"
@@ -168,16 +157,12 @@ module WebTranslateIt
           request = Net::HTTP::Post.new(api_url_for_create)
           WebTranslateIt::Util.add_fields(request)
           request.set_form params, 'multipart/form-data'
-          display.push Util.handle_response(http_connection.request(request))
-          puts StringUtil.array_to_columns(display)
-        rescue Timeout::Error
-          puts StringUtil.failure('Request timeout. Will retry in 5 seconds.')
-          if (tries -= 1).positive?
-            sleep(5)
-            retry
-          else
-            success = false
+          result = Util.with_retries do
+            display.push Util.handle_response(http_connection.request(request))
+            puts StringUtil.array_to_columns(display)
+            true
           end
+          success = false if result == false
         rescue StandardError
           display.push StringUtil.failure("An error occured: #{$ERROR_INFO}")
           success = false
@@ -192,23 +177,18 @@ module WebTranslateIt
     #
     def delete(http_connection) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
       success = true
-      tries ||= 3
       display = []
       display.push file_path
       if File.exist?(file_path)
         begin
           request = Net::HTTP::Delete.new(api_url_for_delete)
           WebTranslateIt::Util.add_fields(request)
-          display.push Util.handle_response(http_connection.request(request))
-          puts StringUtil.array_to_columns(display)
-        rescue Timeout::Error
-          puts StringUtil.failure('Request timeout. Will retry in 5 seconds.')
-          if (tries -= 1).positive?
-            sleep(5)
-            retry
-          else
-            success = false
+          result = Util.with_retries do
+            display.push Util.handle_response(http_connection.request(request))
+            puts StringUtil.array_to_columns(display)
+            true
           end
+          success = false if result == false
         rescue StandardError
           display.push StringUtil.failure("An error occured: #{$ERROR_INFO}")
           success = false

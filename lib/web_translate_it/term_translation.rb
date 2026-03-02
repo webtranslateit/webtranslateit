@@ -56,48 +56,26 @@ module WebTranslateIt
 
     protected
 
-    def create # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
-      success = true
-      tries ||= 3
+    def create # rubocop:todo Metrics/AbcSize
       request = Net::HTTP::Post.new("/api/projects/#{connection.api_key}/terms/#{term_id}/locales/#{locale}/translations")
       WebTranslateIt::Util.add_fields(request)
       request.body = to_json
 
-      begin
+      Util.with_retries do
         response = JSON.parse(Util.handle_response(connection.http_connection.request(request), true, true))
         self.id = response['id']
         self.new_record = false
         return true
-      rescue Timeout::Error
-        puts 'Request timeout. Will retry in 5 seconds.'
-        if (tries -= 1).positive?
-          sleep(5)
-          retry
-        else
-          success = false
-        end
       end
-      success
     end
 
-    def update # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
-      success = true
-      tries ||= 3
+    def update
       request = Net::HTTP::Put.new("/api/projects/#{connection.api_key}/terms/#{id}/locales/#{locale}/translations/#{id}")
       WebTranslateIt::Util.add_fields(request)
       request.body = to_json
-      begin
+      Util.with_retries do
         Util.handle_response(connection.http_connection.request(request), true, true)
-      rescue Timeout::Error
-        puts 'Request timeout. Will retry in 5 seconds.'
-        if (tries -= 1).positive?
-          sleep(5)
-          retry
-        else
-          success = false
-        end
       end
-      success
     end
 
   end

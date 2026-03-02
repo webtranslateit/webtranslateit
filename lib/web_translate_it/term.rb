@@ -42,16 +42,14 @@ module WebTranslateIt
     #
     #  puts terms.inspect #=> An array of WebTranslateIt::Term objects
 
-    def self.find_all(connection, params = {}) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
-      success = true
-      tries ||= 3
+    def self.find_all(connection, params = {}) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
       params.stringify_keys!
       url = "/api/projects/#{connection.api_key}/terms"
       url += "?#{HashUtil.to_params(params)}" unless params.empty?
 
       request = Net::HTTP::Get.new(url)
       WebTranslateIt::Util.add_fields(request)
-      begin
+      Util.with_retries do
         terms = []
         while request
           response = connection.http_connection.request(request)
@@ -71,16 +69,7 @@ module WebTranslateIt
           end
         end
         return terms
-      rescue Timeout::Error
-        puts 'Request timeout. Will retry in 5 seconds.'
-        if (tries -= 1).positive?
-          sleep(5)
-          retry
-        else
-          success = false
-        end
       end
-      success
     end
 
     # Find a Term based on its ID
@@ -97,28 +86,17 @@ module WebTranslateIt
     # to find and instantiate the Term which ID is `1234`.
     #
 
-    def self.find(connection, term_id) # rubocop:todo Metrics/MethodLength, Metrics/AbcSize
-      success = true
-      tries ||= 3
+    def self.find(connection, term_id)
       request = Net::HTTP::Get.new("/api/projects/#{connection.api_key}/terms/#{term_id}")
       WebTranslateIt::Util.add_fields(request)
-      begin
+      Util.with_retries do
         response = connection.http_connection.request(request)
         return nil if response.code.to_i == 404
 
         term = WebTranslateIt::Term.new(JSON.parse(response.body), connection: connection)
         term.new_record = false
         return term
-      rescue Timeout::Error
-        puts 'Request timeout. Will retry in 5 seconds.'
-        if (tries -= 1).positive?
-          sleep(5)
-          retry
-        else
-          success = false
-        end
       end
-      success
     end
 
     # Update or create a Term to WebTranslateIt.com
@@ -146,23 +124,12 @@ module WebTranslateIt
     #   end
     #
 
-    def delete # rubocop:todo Metrics/MethodLength
-      success = true
-      tries ||= 3
+    def delete
       request = Net::HTTP::Delete.new("/api/projects/#{connection.api_key}/terms/#{id}")
       WebTranslateIt::Util.add_fields(request)
-      begin
+      Util.with_retries do
         Util.handle_response(connection.http_connection.request(request), true, true)
-      rescue Timeout::Error
-        puts 'Request timeout. Will retry in 5 seconds.'
-        if (tries -= 1).positive?
-          sleep(5)
-          retry
-        else
-          success = false
-        end
       end
-      success
     end
 
     # Gets a Translation for a Term
@@ -175,16 +142,14 @@ module WebTranslateIt
     #   end
     #
 
-    def translation_for(locale) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
-      success = true
-      tries ||= 3
+    def translation_for(locale) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
       translation = translations.detect { |t| t.locale == locale }
       return translation if translation
       return nil if new_record
 
       request = Net::HTTP::Get.new("/api/projects/#{connection.api_key}/terms/#{id}/locales/#{locale}/translations")
       WebTranslateIt::Util.add_fields(request)
-      begin
+      Util.with_retries do
         response = Util.handle_response(connection.http_connection.request(request), true, true)
         array = JSON.parse(response)
         return nil if array.empty?
@@ -195,23 +160,12 @@ module WebTranslateIt
           translations.push(term_translation)
         end
         return translations
-      rescue Timeout::Error
-        puts 'Request timeout. Will retry in 5 seconds.'
-        if (tries -= 1).positive?
-          sleep(5)
-          retry
-        else
-          success = false
-        end
       end
-      success
     end
 
     protected
 
     def update # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
-      success = true
-      tries ||= 3
       request = Net::HTTP::Put.new("/api/projects/#{connection.api_key}/terms/#{id}")
       WebTranslateIt::Util.add_fields(request)
       request.body = to_json
@@ -222,42 +176,22 @@ module WebTranslateIt
         translation.save
       end
 
-      begin
+      Util.with_retries do
         Util.handle_response(connection.http_connection.request(request), true, true)
-      rescue Timeout::Error
-        puts 'Request timeout. Will retry in 5 seconds.'
-        if (tries -= 1).positive?
-          sleep(5)
-          retry
-        else
-          success = false
-        end
       end
-      success
     end
 
-    def create # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
-      success = true
-      tries ||= 3
+    def create
       request = Net::HTTP::Post.new("/api/projects/#{connection.api_key}/terms")
       WebTranslateIt::Util.add_fields(request)
       request.body = to_json(true)
 
-      begin
+      Util.with_retries do
         response = JSON.parse(Util.handle_response(connection.http_connection.request(request), true, true))
         self.id = response['id']
         self.new_record = false
         return true
-      rescue Timeout::Error
-        puts 'Request timeout. Will retry in 5 seconds.'
-        if (tries -= 1).positive?
-          sleep(5)
-          retry
-        else
-          success = false
-        end
       end
-      success
     end
 
     def to_json(with_translations = false)
