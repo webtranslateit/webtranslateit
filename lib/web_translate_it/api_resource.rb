@@ -1,0 +1,153 @@
+# frozen_string_literal: true
+
+module WebTranslateIt
+
+  class ApiResource # rubocop:todo Metrics/ClassLength
+
+    attr_accessor :id, :created_at, :updated_at, :translations, :new_record, :connection
+
+    def initialize(params = {}, connection: nil)
+      params.stringify_keys!
+      self.connection   = connection
+      self.id           = params['id'] || nil
+      self.created_at   = params['created_at'] || nil
+      self.updated_at   = params['updated_at'] || nil
+      self.translations = params['translations'] || []
+      self.new_record   = true
+      assign_attributes(params)
+    end
+
+    def self.find_all(connection, params = {}) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
+      params.stringify_keys!
+      url = "/api/projects/#{connection.api_key}/#{resource_path}"
+      url += "?#{HashUtil.to_params(filter_params(params))}" unless params.empty?
+
+      request = Net::HTTP::Get.new(url)
+      WebTranslateIt::Util.add_fields(request)
+      Util.with_retries do
+        records = []
+        while request
+          response = connection.http_connection.request(request)
+          return [] unless response.code.to_i < 400
+
+          JSON.parse(response.body).each do |record_response|
+            record = new(record_response, connection: connection)
+            record.new_record = false
+            records.push(record)
+          end
+          if response['Link']&.include?('rel="next"')
+            url = response['Link'].match(/<(.*)>; rel="next"/)[1]
+            request = Net::HTTP::Get.new(url)
+            WebTranslateIt::Util.add_fields(request)
+          else
+            request = nil
+          end
+        end
+        return records
+      end
+    end
+
+    def self.find(connection, id)
+      request = Net::HTTP::Get.new("/api/projects/#{connection.api_key}/#{resource_path}/#{id}")
+      WebTranslateIt::Util.add_fields(request)
+      Util.with_retries do
+        response = connection.http_connection.request(request)
+        return nil if response.code.to_i == 404
+
+        record = new(JSON.parse(response.body), connection: connection)
+        record.new_record = false
+        return record
+      end
+    end
+
+    def self.resource_path
+      raise NotImplementedError, "#{name} must implement self.resource_path"
+    end
+
+    def self.filter_params(params)
+      params
+    end
+
+    def save
+      new_record ? create : update
+    end
+
+    def delete
+      request = Net::HTTP::Delete.new("/api/projects/#{connection.api_key}/#{self.class.resource_path}/#{id}")
+      WebTranslateIt::Util.add_fields(request)
+      Util.with_retries do
+        Util.handle_response(connection.http_connection.request(request), true, true)
+      end
+    end
+
+    def translation_for(locale) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
+      translation = translations.detect { |t| t.locale == locale }
+      return translation if translation
+      return nil if new_record
+
+      request = Net::HTTP::Get.new("/api/projects/#{connection.api_key}/#{self.class.resource_path}/#{id}/locales/#{locale}/translations")
+      WebTranslateIt::Util.add_fields(request)
+      Util.with_retries do
+        response = Util.handle_response(connection.http_connection.request(request), true, true)
+        json = JSON.parse(response)
+        return nil if json.empty?
+
+        parse_translation_response(json)
+      end
+    end
+
+    protected
+
+    def assign_attributes(_params)
+      # Override in subclasses to set resource-specific attributes
+    end
+
+    def parse_translation_response(_json)
+      raise NotImplementedError, "#{self.class.name} must implement parse_translation_response"
+    end
+
+    def assign_translation_parent_id(_translation)
+      raise NotImplementedError, "#{self.class.name} must implement assign_translation_parent_id"
+    end
+
+    def update # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
+      request = Net::HTTP::Put.new("/api/projects/#{connection.api_key}/#{self.class.resource_path}/#{id}")
+      WebTranslateIt::Util.add_fields(request)
+      request.body = to_json
+
+      translations.each do |translation|
+        assign_translation_parent_id(translation)
+        translation.connection = connection
+        translation.save
+      end
+
+      Util.with_retries do
+        Util.handle_response(connection.http_connection.request(request), true, true)
+      end
+    end
+
+    def create # rubocop:todo Metrics/AbcSize
+      request = Net::HTTP::Post.new("/api/projects/#{connection.api_key}/#{self.class.resource_path}")
+      WebTranslateIt::Util.add_fields(request)
+      request.body = to_json(true)
+      Util.with_retries do
+        response = JSON.parse(Util.handle_response(connection.http_connection.request(request), true, true))
+        self.id = response['id']
+        self.new_record = false
+        return true
+      end
+    end
+
+    def to_json_hash
+      {'id' => id}
+    end
+
+    def to_json(with_translations = false) # rubocop:todo Style/OptionalBooleanParameter
+      hash = to_json_hash
+      hash['translations'] = translations.map(&:to_hash) if translations.any? && with_translations
+      MultiJson.dump(hash)
+    end
+
+  end
+
+end
