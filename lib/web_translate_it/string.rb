@@ -64,6 +64,8 @@ module WebTranslateIt
         strings = []
         while request
           response = Connection.http_connection.request(request)
+          return [] unless response.code.to_i < 400
+
           JSON.parse(response.body).each do |string_response|
             string = WebTranslateIt::String.new(string_response)
             string.new_record = false

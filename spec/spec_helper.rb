@@ -7,6 +7,9 @@ end
 
 require File.expand_path('../lib/web_translate_it', __dir__)
 require 'rspec'
+require 'webmock/rspec'
+
+WebMock.disable_net_connect!
 
 class I18n
 
