@@ -25,7 +25,7 @@ module WebTranslateIt
       private
 
       def remove_file(param, conn) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
-        return true unless Util.ask_yes_no("Are you sure you want to delete the master file #{param}?\nThis will also delete its target files and translations.", false)
+        return true unless Prompt.ask_yes_no("Are you sure you want to delete the master file #{param}?\nThis will also delete its target files and translations.", false)
 
         files = configuration.files.find_all { |file| file.file_path == param }
         unless files.any?

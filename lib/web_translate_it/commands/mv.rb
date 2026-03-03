@@ -25,7 +25,7 @@ module WebTranslateIt
       private
 
       def move_file(source, destination, conn) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
-        return true unless Util.ask_yes_no("Are you sure you want to move the master file #{source} and its target files?", true)
+        return true unless Prompt.ask_yes_no("Are you sure you want to move the master file #{source} and its target files?", true)
 
         complete_success = true
         configuration.files.find_all { |file| file.file_path == source }.each do |master_file|

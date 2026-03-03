@@ -22,7 +22,7 @@ module WebTranslateIt
       url = "/api/projects/#{connection.api_key}/#{resource_path}"
       url += "?#{HashUtil.to_params(filter_params(params))}" unless params.empty?
 
-      Util.with_retries do
+      Concurrency.with_retries do
         records = []
         loop do
           response = connection.get(url)
@@ -42,7 +42,7 @@ module WebTranslateIt
     end
 
     def self.find(connection, id)
-      Util.with_retries do
+      Concurrency.with_retries do
         response = connection.get("/api/projects/#{connection.api_key}/#{resource_path}/#{id}")
         return nil if response.code.to_i == 404
 
@@ -65,8 +65,8 @@ module WebTranslateIt
     end
 
     def delete
-      Util.with_retries do
-        Util.handle_response(connection.delete("/api/projects/#{connection.api_key}/#{self.class.resource_path}/#{id}"))
+      Concurrency.with_retries do
+        HttpResponse.handle_response(connection.delete("/api/projects/#{connection.api_key}/#{self.class.resource_path}/#{id}"))
       end
     end
 
@@ -75,8 +75,8 @@ module WebTranslateIt
       return translation if translation
       return nil if new_record
 
-      Util.with_retries do
-        response = Util.handle_response(connection.get("/api/projects/#{connection.api_key}/#{self.class.resource_path}/#{id}/locales/#{locale}/translations"))
+      Concurrency.with_retries do
+        response = HttpResponse.handle_response(connection.get("/api/projects/#{connection.api_key}/#{self.class.resource_path}/#{id}/locales/#{locale}/translations"))
         json = JSON.parse(response)
         return nil if json.empty?
 
@@ -105,15 +105,15 @@ module WebTranslateIt
         translation.save
       end
 
-      Util.with_retries do
-        Util.handle_response(connection.put("/api/projects/#{connection.api_key}/#{self.class.resource_path}/#{id}", body: to_json))
+      Concurrency.with_retries do
+        HttpResponse.handle_response(connection.put("/api/projects/#{connection.api_key}/#{self.class.resource_path}/#{id}", body: to_json))
       end
     end
 
     def create
-      Util.with_retries do
+      Concurrency.with_retries do
         raw = connection.post("/api/projects/#{connection.api_key}/#{self.class.resource_path}", body: to_json(with_translations: true))
-        response = JSON.parse(Util.handle_response(raw))
+        response = JSON.parse(HttpResponse.handle_response(raw))
         self.id = response['id']
         self.new_record = false
         return true

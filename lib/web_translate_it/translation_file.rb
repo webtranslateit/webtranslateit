@@ -197,9 +197,9 @@ module WebTranslateIt
     private
 
     def with_display(display)
-      Util.with_retries do
+      Concurrency.with_retries do
         response = yield
-        display.push Util.status_label(response)
+        display.push HttpResponse.status_label(response)
       end
       Result.new(true, display)
     rescue StandardError => e
