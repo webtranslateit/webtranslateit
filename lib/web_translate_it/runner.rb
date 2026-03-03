@@ -63,25 +63,8 @@ module WebTranslateIt
       false
     end
 
-    def throb # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
-      throb = %w[⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏]
-      throb.reverse! if rand > 0.5
-      i = rand throb.length
-
-      thread = Thread.new do
-        dot = lambda do
-          print "\r#{throb[i]}\e[?25l"
-          i = (i + 1) % throb.length
-          sleep 0.1 and dot.call
-        end
-        dot.call
-      end
-      yield
-    ensure
-      if thread
-        thread.kill
-        puts "\r\e[0G#\e[?25h"
-      end
+    def throb(&block)
+      Spinner.new.run(&block)
     end
 
   end
