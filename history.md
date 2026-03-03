@@ -1,5 +1,6 @@
 ## Edge (unreleased)
 
+* Replace O(n²) string concatenation loop in `StringUtil#backward_truncate` with `String#ljust`.
 * Move `$stdout.sync = true` and parameter validation into `Base`. Add `Base#require_parameters!` helper, replacing 5 duplicate `validate_parameters!` methods. Drop `Metrics/MethodLength` `rubocop:todo` from Pull.
 * Refactor all command classes for consistency: extract small private methods, use guard clauses, and drop all `rubocop:todo` annotations for `Metrics/AbcSize`, `Metrics/MethodLength`, `Metrics/CyclomaticComplexity`, and `Metrics/PerceivedComplexity` across Add, Addlocale, Diff, Init, Match, Mv, Rm, Rmlocale, and Status. Add `Configuration#target_files_for` to centralize `master_id` lookups.
 * Ensure `Addlocale#call` and `Rmlocale#call` return `true` on success. Previously they returned `nil`, causing `Runner` to `exit 1` even after successful operations.
