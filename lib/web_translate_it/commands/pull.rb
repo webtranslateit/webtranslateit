@@ -40,7 +40,7 @@ module WebTranslateIt
         results, n_threads = Util.concurrent_batch(files) do |batch|
           with_connection do |conn|
             batch.map do |file|
-              result = file.fetch(conn.http_connection, command_options.force)
+              result = file.fetch(conn, command_options.force)
               print StringUtil.array_to_columns(result.output)
               result.success
             end

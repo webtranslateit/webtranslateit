@@ -32,12 +32,9 @@ module WebTranslateIt
     end
 
     def create
-      request = Net::HTTP::Post.new(translation_path)
-      WebTranslateIt::Util.add_fields(request)
-      request.body = to_json
-
       Util.with_retries do
-        response = JSON.parse(Util.handle_response(connection.http_connection.request(request), true, true))
+        raw = connection.post(translation_path, body: to_json)
+        response = JSON.parse(Util.handle_response(raw, true, true))
         self.id = response['id']
         self.new_record = false
         return true
@@ -45,11 +42,8 @@ module WebTranslateIt
     end
 
     def update
-      request = Net::HTTP::Put.new("/api/projects/#{connection.api_key}/terms/#{id}/locales/#{locale}/translations/#{id}")
-      WebTranslateIt::Util.add_fields(request)
-      request.body = to_json
       Util.with_retries do
-        Util.handle_response(connection.http_connection.request(request), true, true)
+        Util.handle_response(connection.put("/api/projects/#{connection.api_key}/terms/#{id}/locales/#{locale}/translations/#{id}", body: to_json), true, true)
       end
     end
 

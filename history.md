@@ -1,5 +1,7 @@
 ## Edge (unreleased)
 
+* Add `Connection#get`, `#post`, `#put`, `#delete` wrappers to eliminate repeated `Net::HTTP::*.new` / `Util.add_fields` / `http_connection.request` boilerplate across all API call sites. #424
+
 * Simplify `fetch_locales` in `Pull` and `Push` commands. Extract `warn_unknown_locales` helper. Remove deprecated `--all` and `--low-priority` options from `push` and `add` commands. #422
 
 * Extract `TranslationBase` base class from `Translation` and `TermTranslation` to share `initialize`, `save`, `to_json`, and API path logic. #425

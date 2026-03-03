@@ -20,7 +20,7 @@ module WebTranslateIt
           if to_add.any?
             to_add.each do |param|
               file = TranslationFile.new(nil, param.gsub(/ /, '\\ '), nil, configuration.api_key)
-              result = file.create(conn.http_connection)
+              result = file.create(conn)
               puts StringUtil.array_to_columns(result.output)
               complete_success = false unless result.success
             end

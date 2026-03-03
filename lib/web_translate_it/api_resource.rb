@@ -22,12 +22,10 @@ module WebTranslateIt
       url = "/api/projects/#{connection.api_key}/#{resource_path}"
       url += "?#{HashUtil.to_params(filter_params(params))}" unless params.empty?
 
-      request = Net::HTTP::Get.new(url)
-      WebTranslateIt::Util.add_fields(request)
       Util.with_retries do
         records = []
-        while request
-          response = connection.http_connection.request(request)
+        loop do
+          response = connection.get(url)
           return [] unless response.code.to_i < 400
 
           JSON.parse(response.body).each do |record_response|
@@ -35,23 +33,17 @@ module WebTranslateIt
             record.new_record = false
             records.push(record)
           end
-          if response['Link']&.include?('rel="next"')
-            url = response['Link'].match(/<(.*)>; rel="next"/)[1]
-            request = Net::HTTP::Get.new(url)
-            WebTranslateIt::Util.add_fields(request)
-          else
-            request = nil
-          end
+          break unless response['Link']&.include?('rel="next"')
+
+          url = response['Link'].match(/<(.*)>; rel="next"/)[1]
         end
-        return records
+        records
       end
     end
 
     def self.find(connection, id)
-      request = Net::HTTP::Get.new("/api/projects/#{connection.api_key}/#{resource_path}/#{id}")
-      WebTranslateIt::Util.add_fields(request)
       Util.with_retries do
-        response = connection.http_connection.request(request)
+        response = connection.get("/api/projects/#{connection.api_key}/#{resource_path}/#{id}")
         return nil if response.code.to_i == 404
 
         record = new(JSON.parse(response.body), connection: connection)
@@ -73,22 +65,18 @@ module WebTranslateIt
     end
 
     def delete
-      request = Net::HTTP::Delete.new("/api/projects/#{connection.api_key}/#{self.class.resource_path}/#{id}")
-      WebTranslateIt::Util.add_fields(request)
       Util.with_retries do
-        Util.handle_response(connection.http_connection.request(request), true, true)
+        Util.handle_response(connection.delete("/api/projects/#{connection.api_key}/#{self.class.resource_path}/#{id}"), true, true)
       end
     end
 
-    def translation_for(locale) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
+    def translation_for(locale) # rubocop:todo Metrics/AbcSize
       translation = translations.detect { |t| t.locale == locale }
       return translation if translation
       return nil if new_record
 
-      request = Net::HTTP::Get.new("/api/projects/#{connection.api_key}/#{self.class.resource_path}/#{id}/locales/#{locale}/translations")
-      WebTranslateIt::Util.add_fields(request)
       Util.with_retries do
-        response = Util.handle_response(connection.http_connection.request(request), true, true)
+        response = Util.handle_response(connection.get("/api/projects/#{connection.api_key}/#{self.class.resource_path}/#{id}/locales/#{locale}/translations"), true, true)
         json = JSON.parse(response)
         return nil if json.empty?
 
@@ -110,11 +98,7 @@ module WebTranslateIt
       raise NotImplementedError, "#{self.class.name} must implement assign_translation_parent_id"
     end
 
-    def update # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
-      request = Net::HTTP::Put.new("/api/projects/#{connection.api_key}/#{self.class.resource_path}/#{id}")
-      WebTranslateIt::Util.add_fields(request)
-      request.body = to_json
-
+    def update
       translations.each do |translation|
         assign_translation_parent_id(translation)
         translation.connection = connection
@@ -122,16 +106,14 @@ module WebTranslateIt
       end
 
       Util.with_retries do
-        Util.handle_response(connection.http_connection.request(request), true, true)
+        Util.handle_response(connection.put("/api/projects/#{connection.api_key}/#{self.class.resource_path}/#{id}", body: to_json), true, true)
       end
     end
 
-    def create # rubocop:todo Metrics/AbcSize
-      request = Net::HTTP::Post.new("/api/projects/#{connection.api_key}/#{self.class.resource_path}")
-      WebTranslateIt::Util.add_fields(request)
-      request.body = to_json(with_translations: true)
+    def create
       Util.with_retries do
-        response = JSON.parse(Util.handle_response(connection.http_connection.request(request), true, true))
+        raw = connection.post("/api/projects/#{connection.api_key}/#{self.class.resource_path}", body: to_json(with_translations: true))
+        response = JSON.parse(Util.handle_response(raw, true, true))
         self.id = response['id']
         self.new_record = false
         return true

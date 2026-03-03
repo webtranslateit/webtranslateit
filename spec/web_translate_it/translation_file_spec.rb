@@ -4,13 +4,13 @@ require 'spec_helper'
 
 describe WebTranslateIt::TranslationFile do
   let(:api_key) { 'test_api_key' }
-  let(:http_connection) { instance_double(Net::HTTP) }
+  let(:connection) { instance_double(WebTranslateIt::Connection) }
   let(:ok_response) do
     instance_double(Net::HTTPSuccess, code: '200', body: 'file content', :[] => nil)
   end
 
   before do
-    allow(http_connection).to receive(:request).and_return(ok_response)
+    allow(connection).to receive(:get).and_return(ok_response)
   end
 
   describe '#fetch' do
@@ -23,7 +23,7 @@ describe WebTranslateIt::TranslationFile do
         allow(File).to receive(:open).with('config/locales/app/en.yml', 'wb').and_yield(StringIO.new)
         allow(FileUtils).to receive(:mkpath)
 
-        file.fetch(http_connection, true)
+        file.fetch(connection, true)
 
         expect(FileUtils).to have_received(:mkpath).with('config/locales/app')
       end
@@ -38,7 +38,7 @@ describe WebTranslateIt::TranslationFile do
         allow(File).to receive(:open).with('en.yml', 'wb').and_yield(StringIO.new)
         allow(FileUtils).to receive(:mkpath)
 
-        file.fetch(http_connection, true)
+        file.fetch(connection, true)
 
         expect(FileUtils).not_to have_received(:mkpath)
       end
@@ -53,7 +53,7 @@ describe WebTranslateIt::TranslationFile do
         allow(File).to receive(:open).with('config/locales/en.yml', 'wb').and_yield(StringIO.new)
         allow(FileUtils).to receive(:mkpath)
 
-        file.fetch(http_connection, true)
+        file.fetch(connection, true)
 
         expect(FileUtils).not_to have_received(:mkpath)
       end

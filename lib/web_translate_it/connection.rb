@@ -47,6 +47,32 @@ module WebTranslateIt
       @debug = true
     end
 
+    def get(path)
+      api_request(Net::HTTP::Get, path)
+    end
+
+    def post(path, body: nil, &block)
+      api_request(Net::HTTP::Post, path, body: body, &block)
+    end
+
+    def put(path, body: nil, &block)
+      api_request(Net::HTTP::Put, path, body: body, &block)
+    end
+
+    def delete(path)
+      api_request(Net::HTTP::Delete, path)
+    end
+
+    private
+
+    def api_request(method_class, path, body: nil)
+      request = method_class.new(path)
+      Util.add_fields(request)
+      request.body = body if body
+      yield request if block_given?
+      http_connection.request(request)
+    end
+
   end
 
 end

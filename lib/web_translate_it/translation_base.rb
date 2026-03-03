@@ -16,11 +16,8 @@ module WebTranslateIt
     end
 
     def save
-      request = Net::HTTP::Post.new(translation_path)
-      WebTranslateIt::Util.add_fields(request)
-      request.body = to_json
       Util.with_retries do
-        Util.handle_response(connection.http_connection.request(request), true, true)
+        Util.handle_response(connection.post(translation_path, body: to_json), true, true)
       end
     end
 
