@@ -76,11 +76,6 @@ module WebTranslateIt
       Array(configuration['needed_locales']).map(&:to_s)
     end
 
-    # # Set files to ignore from the configuration file, if set.
-    # def ignore_files(configuration)
-    #   Array(configuration['ignore_files']).map(&:to_s)
-    # end
-
     # Return files filtered by locale or exact paths, sorted by file_path.
     def files_for(locale: nil, paths: [])
       result = if paths.any?

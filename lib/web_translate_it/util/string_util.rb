@@ -22,10 +22,6 @@ class StringUtil
     WebTranslateIt::Util.can_display_colors? ? "\e[33m#{str[0..6]}\e[0m" : str[0..6]
   end
 
-  def self.titleize(str)
-    WebTranslateIt::Util.can_display_colors? ? "\e[1m#{str}\e[0m\n\n" : str
-  end
-
   def self.important(str)
     WebTranslateIt::Util.can_display_colors? ? "\e[1m#{str}\e[0m" : str
   end
