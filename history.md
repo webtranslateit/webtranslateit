@@ -1,4 +1,4 @@
-## Edge (unreleased)
+## Version 3.2.2 / 2026-03-03
 
 * Replace O(n²) string concatenation loop in `StringUtil#backward_truncate` with `String#ljust`.
 * Move `$stdout.sync = true` and parameter validation into `Base`. Add `Base#require_parameters!` helper, replacing 5 duplicate `validate_parameters!` methods. Drop `Metrics/MethodLength` `rubocop:todo` from Pull.
