@@ -29,5 +29,3 @@ class HashUtil
   end
 
 end
-
-require_relative 'hash_extensions'
