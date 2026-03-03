@@ -13,7 +13,7 @@ module WebTranslateIt
     attr_accessor :path, :api_key, :source_locale, :target_locales, :files, :ignore_locales, :needed_locales, :logger, :before_pull, :after_pull, :before_push, :after_push, :project_name, :path_to_config_file, :ignore_files
 
     # Load configuration file from the path.
-    def initialize(root_path = Rails.root, path_to_config_file = '.wti') # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
+    def initialize(root_path = Dir.pwd, path_to_config_file = '.wti') # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
       self.path_to_config_file = path_to_config_file
       self.path           = root_path
       self.logger         = logger
