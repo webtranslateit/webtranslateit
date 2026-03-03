@@ -66,13 +66,11 @@ module WebTranslateIt
         dir = File.dirname(file_path)
         FileUtils.mkpath(dir) unless File.exist?(file_path) || dir == '.'
         begin
-          result = Util.with_retries do
+          Util.with_retries do
             response = http_connection.request(request)
             File.open(file_path, 'wb') { |file| file << response.body } if response.code.to_i == 200
             display.push Util.handle_response(response)
-            true
           end
-          success = false if result == false
         rescue StandardError => e
           display.push StringUtil.failure("An error occured: #{e.message}")
           success = false
@@ -102,10 +100,9 @@ module WebTranslateIt
     #
     # Note that the request might or might not eventually be acted upon, as it might be disallowed when processing
     # actually takes place. This is due to the fact that language file imports are handled by background processing.
-    # rubocop:todo Metrics/PerceivedComplexity
     # rubocop:todo Metrics/MethodLength
     # rubocop:todo Metrics/AbcSize
-    def upload(http_connection, merge: false, ignore_missing: false, label: nil, minor_changes: false, force: false, rename_others: false, destination_path: nil) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
+    def upload(http_connection, merge: false, ignore_missing: false, label: nil, minor_changes: false, force: false, rename_others: false, destination_path: nil) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
       success = true
       display = []
       display.push(file_path)
@@ -125,11 +122,9 @@ module WebTranslateIt
             request = Net::HTTP::Put.new(api_url)
             WebTranslateIt::Util.add_fields(request)
             request.set_form params, 'multipart/form-data'
-            result = Util.with_retries do
+            Util.with_retries do
               display.push Util.handle_response(http_connection.request(request))
-              true
             end
-            success = false if result == false
           rescue StandardError => e
             display.push StringUtil.failure("An error occured: #{e.message}")
             success = false
@@ -142,10 +137,9 @@ module WebTranslateIt
       end
       Result.new(success, display)
     end
+
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/MethodLength
-    # rubocop:enable Metrics/PerceivedComplexity
-
     # Create a master language file to Web Translate It by performing a POST Request.
     #
     # Example of implementation:
@@ -169,11 +163,9 @@ module WebTranslateIt
           request = Net::HTTP::Post.new(api_url_for_create)
           WebTranslateIt::Util.add_fields(request)
           request.set_form params, 'multipart/form-data'
-          result = Util.with_retries do
+          Util.with_retries do
             display.push Util.handle_response(http_connection.request(request))
-            true
           end
-          success = false if result == false
         rescue StandardError => e
           display.push StringUtil.failure("An error occured: #{e.message}")
           success = false
@@ -194,11 +186,9 @@ module WebTranslateIt
         begin
           request = Net::HTTP::Delete.new(api_url_for_delete)
           WebTranslateIt::Util.add_fields(request)
-          result = Util.with_retries do
+          Util.with_retries do
             display.push Util.handle_response(http_connection.request(request))
-            true
           end
-          success = false if result == false
         rescue StandardError => e
           display.push StringUtil.failure("An error occured: #{e.message}")
           success = false

@@ -49,7 +49,7 @@ module WebTranslateIt
     end
 
     # Execute a block with automatic retry on Timeout::Error.
-    # Returns the block's return value on success, or false after retries are exhausted.
+    # Returns the block's return value on success, or re-raises after retries are exhausted.
     def self.with_retries(retries: 3, delay: 5)
       yield
     rescue Timeout::Error
@@ -58,7 +58,7 @@ module WebTranslateIt
         sleep(delay)
         retry
       end
-      false
+      raise
     end
 
     # Process items in parallel using a thread pool.

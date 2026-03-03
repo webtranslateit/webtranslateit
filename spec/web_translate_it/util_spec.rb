@@ -21,13 +21,14 @@ describe WebTranslateIt::Util do
       expect(attempts).to eq 3
     end
 
-    it 'returns false after exhausting retries' do
+    it 'raises Timeout::Error after exhausting retries' do
       attempts = 0
-      result = described_class.with_retries(retries: 2, delay: 0) do
-        attempts += 1
-        raise Timeout::Error
-      end
-      expect(result).to be false
+      expect do
+        described_class.with_retries(retries: 2, delay: 0) do
+          attempts += 1
+          raise Timeout::Error
+        end
+      end.to raise_error(Timeout::Error)
       expect(attempts).to eq 2
     end
 
@@ -40,14 +41,20 @@ describe WebTranslateIt::Util do
     it 'prints a timeout message on each retry' do
       expect do
         described_class.with_retries(retries: 2, delay: 0) { raise Timeout::Error }
+      rescue Timeout::Error
+        # expected
       end.to output("Request timeout. Will retry in 5 seconds.\n" * 2).to_stdout
     end
 
     it 'defaults to 3 retries' do
       attempts = 0
-      described_class.with_retries(delay: 0) do
-        attempts += 1
-        raise Timeout::Error
+      begin
+        described_class.with_retries(delay: 0) do
+          attempts += 1
+          raise Timeout::Error
+        end
+      rescue Timeout::Error
+        # expected
       end
       expect(attempts).to eq 3
     end
