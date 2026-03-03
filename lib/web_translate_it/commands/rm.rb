@@ -7,8 +7,11 @@ module WebTranslateIt
     class Rm < Base
 
       def call
-        $stdout.sync = true
-        validate_parameters!
+        require_parameters!(
+          min: 1,
+          error: 'Error: You must provide the path to the master file to remove.',
+          usage: 'wti rm path/to/master_file_1 path/to/master_file_2 ...'
+        )
         complete_success = true
         with_connection do |conn|
           parameters.each do |param|
@@ -19,14 +22,6 @@ module WebTranslateIt
       end
 
       private
-
-      def validate_parameters!
-        return unless parameters == []
-
-        puts StringUtil.failure('Error: You must provide the path to the master file to remove.')
-        puts 'Usage: wti rm path/to/master_file_1 path/to/master_file_2 ...'
-        exit
-      end
 
       def remove_file(param, conn) # rubocop:todo Metrics/MethodLength
         return true unless Prompt.ask_yes_no("Are you sure you want to delete the master file #{param}?\nThis will also delete its target files and translations.", false)

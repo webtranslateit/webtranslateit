@@ -9,7 +9,6 @@ module WebTranslateIt
     class Diff < Base
 
       def call
-        $stdout.sync = true
         complete_success = true
         with_connection do |conn|
           complete_success = diff_all_files(conn)

@@ -6,9 +6,8 @@ module WebTranslateIt
 
     class Pull < Base
 
-      def call # rubocop:todo Metrics/MethodLength
+      def call
         complete_success = true
-        $stdout.sync = true
         run_hook(configuration.before_pull, 'before_pull')
         files = select_files
         if files.empty?

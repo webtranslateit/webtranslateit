@@ -7,8 +7,11 @@ module WebTranslateIt
     class Rmlocale < Base
 
       def call
-        $stdout.sync = true
-        validate_parameters!
+        require_parameters!(
+          min: 1,
+          error: 'Error: You must provide the locale code to remove.',
+          usage: 'wti rmlocale fr es ...'
+        )
         parameters.each { |param| remove_locale(param) }
         true
       end

@@ -7,8 +7,11 @@ module WebTranslateIt
     class Mv < Base
 
       def call
-        $stdout.sync = true
-        validate_parameters!
+        require_parameters!(
+          min: 2, max: 2,
+          error: 'Error: You must provide the source path and destination path of the master file to move.',
+          usage: 'wti mv path/to/master_file_old_path path/to/master_file_new_path'
+        )
         source = parameters[0]
         destination = parameters[1]
         complete_success = true
@@ -19,14 +22,6 @@ module WebTranslateIt
       end
 
       private
-
-      def validate_parameters!
-        return if parameters.count == 2
-
-        puts StringUtil.failure('Error: You must provide the source path and destination path of the master file to move.')
-        puts 'Usage: wti mv path/to/master_file_old_path path/to/master_file_new_path ...'
-        exit
-      end
 
       def move_file(source, destination, conn)
         return true unless Prompt.ask_yes_no("Are you sure you want to move the master file #{source} and its target files?", true)

@@ -8,7 +8,6 @@ module WebTranslateIt
 
       def call # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
         complete_success = true
-        $stdout.sync = true
         run_hook(configuration.before_push, 'before_push')
         with_connection do |conn|
           fetch_locales.each do |locale|
