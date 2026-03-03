@@ -35,6 +35,13 @@ module WebTranslateIt
         end
       end
 
+      def warn_unknown_locales(locales)
+        locales.each do |locale|
+          puts "Locale #{locale} doesn't exist -- `wti addlocale #{locale}` to add it." unless configuration.target_locales.include?(locale)
+        end
+        locales
+      end
+
     end
 
   end
