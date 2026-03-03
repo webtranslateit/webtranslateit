@@ -1,5 +1,6 @@
 ## Edge (unreleased)
 
+* Ensure `Addlocale#call` and `Rmlocale#call` return `true` on success. Previously they returned `nil`, causing `Runner` to `exit 1` even after successful operations.
 * Remove dead code: commented-out `ignore_files` method in `Configuration`, unused `last_modification` in `TranslationFile`, unused `titleize` in `StringUtil`.
 * Replace `Object#in?` (ActiveSupport) with `Array#include?` in `fetch_translations`. #435
 * `Configuration#initialize` now defaults to `Dir.pwd` instead of `Rails.root`, removing the hard Rails dependency. #435
