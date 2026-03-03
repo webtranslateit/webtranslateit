@@ -1,5 +1,9 @@
 ## Edge (unreleased)
 
+* Split `Util` class into focused modules: `HttpResponse`, `Concurrency`, and `Prompt`. `Util` retains only `version`, `calculate_percentage`, and `can_display_colors?`. #434
+* Extract `Configuration#load_project_data` to eliminate duplicated logic between `initialize` and `reload`. #433
+* Refactor `Util.handle_response` to return response body consistently and let callers decide what to print. Extract `status_label` for display formatting. #423
+* Remove `Hash#stringify_keys!` monkey-patch in favour of `Hash#transform_keys(&:to_s)`. #432
 * Extract `Spinner` class from `Runner#throb`. Thread management, ANSI codes, and frame animation are now testable and reusable. #426
 
 * Add `Connection#get`, `#post`, `#put`, `#delete` wrappers to eliminate repeated `Net::HTTP::*.new` / `Util.add_fields` / `http_connection.request` boilerplate across all API call sites. #424

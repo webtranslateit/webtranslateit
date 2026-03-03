@@ -24,13 +24,7 @@ module WebTranslateIt
         self.before_push    = configuration['before_push']
         self.after_push     = configuration['after_push']
         self.ignore_files   = configuration['ignore_files']
-        project_info = JSON.parse WebTranslateIt::Project.fetch_info(api_key)
-        self.ignore_locales = locales_to_ignore(configuration)
-        self.needed_locales = locales_needed(configuration)
-        self.files = files_from_project(project_info['project'])
-        self.source_locale = source_locale_from_project(project_info['project'])
-        self.target_locales = target_locales_from_project(project_info['project'])
-        self.project_name = project_info['project']['name']
+        load_project_data
       else
         puts StringUtil.failure("\nNo configuration file found in #{File.expand_path(path_to_config_file, path)}")
         exit(1)
@@ -39,14 +33,8 @@ module WebTranslateIt
 
     # Reload project data
     #
-    def reload # rubocop:todo Metrics/AbcSize
-      project_info = JSON.parse WebTranslateIt::Project.fetch_info(api_key)
-      self.ignore_locales = locales_to_ignore(configuration)
-      self.needed_locales = locales_needed(configuration)
-      self.files = files_from_project(project_info['project'])
-      self.source_locale = source_locale_from_project(project_info['project'])
-      self.target_locales = target_locales_from_project(project_info['project'])
-      self.project_name = project_info['project']['name']
+    def reload
+      load_project_data
     end
 
     # Returns the source locale from the Project API.
@@ -112,6 +100,16 @@ module WebTranslateIt
     end
 
     private
+
+    def load_project_data # rubocop:todo Metrics/AbcSize
+      project = JSON.parse(WebTranslateIt::Project.fetch_info(api_key))['project']
+      self.ignore_locales = locales_to_ignore(configuration)
+      self.needed_locales = locales_needed(configuration)
+      self.files          = files_from_project(project)
+      self.source_locale  = source_locale_from_project(project)
+      self.target_locales = target_locales_from_project(project)
+      self.project_name   = project['name']
+    end
 
     def parse_erb_in_configuration
       ERB.new(File.read(File.expand_path(path_to_config_file, path))).result
