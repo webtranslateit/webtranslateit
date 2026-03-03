@@ -35,28 +35,20 @@ module WebTranslateIt
         files.uniq.sort { |a, b| a.file_path <=> b.file_path }
       end
 
-      def pull_files(files) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
-        complete_success = true
+      def pull_files(files) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength, Naming/PredicateMethod
         time = Time.now
-        threads = []
-        n_threads = [(files.size.to_f / 3).ceil, 10].min
-        files.each_slice((files.size.to_f / n_threads).round).each do |file_array|
-          next if file_array.empty?
-
-          threads << Thread.new(file_array) do |f_array|
-            with_connection do |conn|
-              f_array.each do |file|
-                result = file.fetch(conn.http_connection, command_options.force)
-                print StringUtil.array_to_columns(result.output)
-                complete_success = false unless result.success
-              end
+        results, n_threads = Util.concurrent_batch(files) do |batch|
+          with_connection do |conn|
+            batch.map do |file|
+              result = file.fetch(conn.http_connection, command_options.force)
+              print StringUtil.array_to_columns(result.output)
+              result.success
             end
           end
         end
-        threads.each(&:join)
         time = Time.now - time
         puts "Pulled #{files.size} files at #{(files.size / time).round} files/sec, using #{n_threads} threads."
-        complete_success
+        results.all?
       end
 
       def fetch_locales # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
