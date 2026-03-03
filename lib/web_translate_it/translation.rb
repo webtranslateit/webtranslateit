@@ -2,49 +2,12 @@
 
 module WebTranslateIt
 
-  class Translation
+  class Translation < TranslationBase
 
-    attr_accessor :id, :locale, :text, :status, :created_at, :updated_at, :version, :string_id, :connection
+    attr_accessor :created_at, :updated_at, :version, :string_id
 
-    # Initialize a new WebTranslateIt::Translation
-    #
-    # Implementation Example:
-    #
-    #   WebTranslateIt::Translation.new({ :string_id => "1234", :text => "Super!" })
-    #
-    # to instantiate a new Translation without any text.
-    #
-
-    def initialize(params = {}) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/PerceivedComplexity
-      params.stringify_keys!
-      self.id         = params['id'] || nil
-      self.locale     = params['locale'] || nil
-      self.text       = params['text'] || nil
-      self.status     = params['status'] || 'status_unproofread'
-      self.created_at = params['created_at'] || nil
-      self.updated_at = params['updated_at'] || nil
-      self.version    = params['version'] || nil
-      self.string_id = (params['string']['id'] if params['string'])
-    end
-
-    # Save a WebTranslateIt::Translation
-    #
-    # Implementation Example:
-    #
-    #   translation = WebTranslateIt::Translation.new({ :string_id => "1234", :text => "Super!" })
-    #   WebTranslateIt::Connection.new('secret_api_token') do
-    #     translation.save
-    #   end
-    #
-
-    def save
-      request = Net::HTTP::Post.new("/api/projects/#{connection.api_key}/strings/#{string_id}/locales/#{locale}/translations")
-      WebTranslateIt::Util.add_fields(request)
-      request.body = to_json
-      Util.with_retries do
-        Util.handle_response(connection.http_connection.request(request), true, true)
-      end
-    end
+    def self.parent_resource_path = 'strings'
+    def parent_id = string_id
 
     def to_hash
       {
@@ -54,10 +17,15 @@ module WebTranslateIt
       }
     end
 
-    def to_json(*_args)
-      MultiJson.dump(to_hash)
-    end
+    protected
 
+    def assign_attributes(params)
+      self.status   ||= 'status_unproofread'
+      self.created_at = params['created_at']
+      self.updated_at = params['updated_at']
+      self.version    = params['version']
+      self.string_id  = params['string']['id'] if params['string']
+    end
 
   end
 
