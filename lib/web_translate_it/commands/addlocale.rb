@@ -20,6 +20,7 @@ module WebTranslateIt
           end
           puts 'Done.'
         end
+        true
       end
 
     end
