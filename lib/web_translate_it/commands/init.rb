@@ -6,33 +6,47 @@ module WebTranslateIt
 
     class Init < Base
 
-      def call # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
+      def call
         puts '# Initializing project'
+        api_key, path = read_parameters
+        ensure_directory_exists(path)
+        project_info = JSON.parse(WebTranslateIt::Project.fetch_info(api_key))['project']
+        write_configuration(path, api_key, project_info)
+        print_success(project_info)
+        true
+      end
+
+      private
+
+      def read_parameters
         if parameters.any?
-          api_key = parameters[0]
-          path = '.wti'
+          [parameters[0], '.wti']
         else
-          api_key = Prompt.ask(' Project API Key:')
-          path = Prompt.ask(' Path to configuration file:', '.wti')
+          [Prompt.ask(' Project API Key:'), Prompt.ask(' Path to configuration file:', '.wti')]
         end
-        FileUtils.mkpath(path.split('/')[0..(path.split('/').size - 2)].join('/')) unless path.split('/').size == 1
-        project = JSON.parse WebTranslateIt::Project.fetch_info(api_key)
-        project_info = project['project']
-        if File.exist?(path) && !File.writable?(path)
-          puts StringUtil.failure("Error: `#{path}` file is not writable.")
-          exit 1
-        end
-        File.open(path, 'w') { |file| file << generate_configuration(api_key, project_info) }
+      end
+
+      def print_success(project_info)
         puts ''
         puts " The project #{project_info['name']} was successfully initialized."
         puts ''
         print_setup_hints(project_info)
         puts 'You can now use `wti` to push and pull your language files.'
         puts 'Check `wti --help` for help.'
-        true
       end
 
-      private
+      def ensure_directory_exists(path)
+        dir = File.dirname(path)
+        FileUtils.mkpath(dir) unless dir == '.'
+      end
+
+      def write_configuration(path, api_key, project_info)
+        if File.exist?(path) && !File.writable?(path)
+          puts StringUtil.failure("Error: `#{path}` file is not writable.")
+          exit 1
+        end
+        File.open(path, 'w') { |file| file << generate_configuration(api_key, project_info) }
+      end
 
       def print_setup_hints(project_info) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
         if project_info['source_locale']['code'].nil? || project_info['target_locales'].size <= 1 || project_info['project_files'].none?

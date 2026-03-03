@@ -6,14 +6,10 @@ module WebTranslateIt
 
     class Rm < Base
 
-      def call # rubocop:todo Metrics/MethodLength
-        complete_success = true
+      def call
         $stdout.sync = true
-        if parameters == []
-          puts StringUtil.failure('Error: You must provide the path to the master file to remove.')
-          puts 'Usage: wti rm path/to/master_file_1 path/to/master_file_2 ...'
-          exit
-        end
+        validate_parameters!
+        complete_success = true
         with_connection do |conn|
           parameters.each do |param|
             complete_success = remove_file(param, conn) && complete_success
@@ -24,35 +20,49 @@ module WebTranslateIt
 
       private
 
-      def remove_file(param, conn) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+      def validate_parameters!
+        return unless parameters == []
+
+        puts StringUtil.failure('Error: You must provide the path to the master file to remove.')
+        puts 'Usage: wti rm path/to/master_file_1 path/to/master_file_2 ...'
+        exit
+      end
+
+      def remove_file(param, conn) # rubocop:todo Metrics/MethodLength
         return true unless Prompt.ask_yes_no("Are you sure you want to delete the master file #{param}?\nThis will also delete its target files and translations.", false)
 
-        files = configuration.files.find_all { |file| file.file_path == param }
-        unless files.any?
+        master_files = configuration.files_for(paths: [param])
+        unless master_files.any?
           puts StringUtil.failure("#{param}: File doesn't exist on project.")
           return true
         end
 
-        complete_success = true
-        files.each do |master_file|
-          result = master_file.delete(conn)
-          puts StringUtil.array_to_columns(result.output)
-          if File.exist?(master_file.file_path)
-            File.delete(master_file.file_path)
-            puts StringUtil.success("Deleted master file #{master_file.file_path}.")
-          end
-          configuration.files.find_all { |file| file.master_id == master_file.id }.each do |target_file|
-            if File.exist?(target_file.file_path)
-              File.delete(target_file.file_path)
-              puts StringUtil.success("Deleted target file #{target_file.file_path}.")
-            else
-              puts StringUtil.failure("Target file #{target_file.file_path} doesn't exist locally")
-              complete_success = false
-            end
-          end
+        master_files.all? do |master_file|
+          result = delete_remote(master_file, conn)
+          delete_local_tree(master_file) if result
+          result
         end
-        puts StringUtil.success('All done.') if complete_success
-        complete_success
+      end
+
+      def delete_remote(master_file, conn)
+        result = master_file.delete(conn)
+        puts StringUtil.array_to_columns(result.output)
+        result.success
+      end
+
+      def delete_local_tree(master_file)
+        remove_local_file(master_file.file_path)
+        configuration.target_files_for(master_file).each do |target_file|
+          remove_local_file(target_file.file_path)
+        end
+        puts StringUtil.success('All done.')
+      end
+
+      def remove_local_file(path)
+        return unless File.exist?(path)
+
+        File.delete(path)
+        puts StringUtil.success("Deleted #{path}.")
       end
 
     end

@@ -6,13 +6,9 @@ module WebTranslateIt
 
     class Addlocale < Base
 
-      def call # rubocop:todo Metrics/MethodLength
+      def call
         $stdout.sync = true
-        if parameters == []
-          puts StringUtil.failure('Locale code missing.')
-          puts 'Usage: wti addlocale fr es ...'
-          exit 1
-        end
+        validate_parameters!
         parameters.each do |param|
           print StringUtil.success("Adding locale #{param.upcase}... ")
           with_connection do |conn|
@@ -21,6 +17,16 @@ module WebTranslateIt
           puts 'Done.'
         end
         true
+      end
+
+      private
+
+      def validate_parameters!
+        return unless parameters == []
+
+        puts StringUtil.failure('Locale code missing.')
+        puts 'Usage: wti addlocale fr es ...'
+        exit 1
       end
 
     end

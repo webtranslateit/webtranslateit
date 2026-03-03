@@ -88,6 +88,11 @@ module WebTranslateIt
       result.sort_by(&:file_path)
     end
 
+    # Return target files that belong to a given master file.
+    def target_files_for(master_file)
+      files.select { |f| f.master_id == master_file.id }
+    end
+
     # Convenience method which returns the endpoint for fetching a list of locales for a project.
     def api_url
       "/api/projects/#{api_key}"

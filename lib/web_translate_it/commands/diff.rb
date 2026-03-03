@@ -8,46 +8,60 @@ module WebTranslateIt
 
     class Diff < Base
 
-      def call # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
-        complete_success = true
+      def call
         $stdout.sync = true
+        complete_success = true
         with_connection do |conn|
-          files = if parameters.any?
-            configuration.files_for(paths: parameters)
-          else
-            configuration.files_for(locale: configuration.source_locale)
-          end
-          if files.empty?
-            puts "Couldn't find any local files registered on WebTranslateIt to diff."
-          else
-            files.each do |file|
-              complete_success = diff_file(file, conn) && complete_success
-            end
-          end
+          complete_success = diff_all_files(conn)
         end
         complete_success
       end
 
       private
 
-      def diff_file(file, conn) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
-        unless File.exist?(file.file_path)
-          puts StringUtil.failure("Can't diff #{file.file_path}. File doesn't exist locally.")
-          return false
+      def diff_all_files(conn)
+        files = select_files
+        if files.empty?
+          puts "Couldn't find any local files registered on WebTranslateIt to diff."
+          return true
         end
+        files.all? { |file| diff_file(file, conn) }
+      end
+
+      def select_files
+        if parameters.any?
+          configuration.files_for(paths: parameters)
+        else
+          configuration.files_for(locale: configuration.source_locale)
+        end
+      end
+
+      def diff_file(file, conn)
+        return local_missing(file) unless File.exist?(file.file_path)
 
         remote_content = file.fetch_remote_content(conn)
-        unless remote_content
-          puts StringUtil.failure("Couldn't fetch remote file #{file.file_path}")
-          return false
-        end
+        return remote_missing(file) unless remote_content
 
-        temp_file = Tempfile.new('wti')
-        temp_file.write(remote_content)
-        temp_file.close
-        puts "Diff for #{file.file_path}:"
-        system "diff #{temp_file.path} #{file.file_path}"
-        temp_file.unlink
+        run_diff(file, remote_content)
+      end
+
+      def local_missing(file)
+        puts StringUtil.failure("Can't diff #{file.file_path}. File doesn't exist locally.")
+        false
+      end
+
+      def remote_missing(file)
+        puts StringUtil.failure("Couldn't fetch remote file #{file.file_path}")
+        false
+      end
+
+      def run_diff(file, remote_content)
+        Tempfile.create('wti') do |temp_file|
+          temp_file.write(remote_content)
+          temp_file.close
+          puts "Diff for #{file.file_path}:"
+          system "diff #{temp_file.path} #{file.file_path}"
+        end
         true
       end
 
