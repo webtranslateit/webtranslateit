@@ -7,7 +7,7 @@ module WebTranslateIt
     attr_accessor :id, :created_at, :updated_at, :translations, :new_record, :connection
 
     def initialize(params = {}, connection: nil)
-      params.stringify_keys!
+      params = params.transform_keys(&:to_s)
       self.connection   = connection
       self.id           = params['id'] || nil
       self.created_at   = params['created_at'] || nil
@@ -18,7 +18,7 @@ module WebTranslateIt
     end
 
     def self.find_all(connection, params = {}) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
-      params.stringify_keys!
+      params = params.transform_keys(&:to_s)
       url = "/api/projects/#{connection.api_key}/#{resource_path}"
       url += "?#{HashUtil.to_params(filter_params(params))}" unless params.empty?
 
