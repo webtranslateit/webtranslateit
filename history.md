@@ -1,5 +1,7 @@
 ## Edge (unreleased)
 
+* Extract `Spinner` class from `Runner#throb`. Thread management, ANSI codes, and frame animation are now testable and reusable. #426
+
 * Add `Connection#get`, `#post`, `#put`, `#delete` wrappers to eliminate repeated `Net::HTTP::*.new` / `Util.add_fields` / `http_connection.request` boilerplate across all API call sites. #424
 
 * Simplify `fetch_locales` in `Pull` and `Push` commands. Extract `warn_unknown_locales` helper. Remove deprecated `--all` and `--low-priority` options from `push` and `add` commands. #422
