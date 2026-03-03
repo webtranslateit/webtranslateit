@@ -170,11 +170,6 @@ module WebTranslateIt
 
     protected
 
-    # Convenience method which returns the date of last modification of a language file.
-    def last_modification
-      File.mtime(File.new(file_path, 'r'))
-    end
-
     # Convenience method which returns the URL of the API endpoint for a locale.
     def api_url
       "/api/projects/#{api_key}/files/#{id}/locales/#{locale}"
