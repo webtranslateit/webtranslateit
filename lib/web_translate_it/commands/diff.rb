@@ -36,7 +36,7 @@ module WebTranslateIt
           return false
         end
 
-        remote_content = file.fetch_remote_content(conn.http_connection)
+        remote_content = file.fetch_remote_content(conn)
         unless remote_content
           puts StringUtil.failure("Couldn't fetch remote file #{file.file_path}")
           return false

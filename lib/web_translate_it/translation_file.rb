@@ -50,7 +50,7 @@ module WebTranslateIt
     #   file.fetch # returns nothing, with a status 304 Not Modified
     #   file.fetch(true) # force to re-download the file, will return the content of the file with a 200 OK
     #
-    def fetch(http_connection, force = false) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
+    def fetch(connection, force = false) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
       success = true
       display = []
       if fresh
@@ -61,13 +61,11 @@ module WebTranslateIt
       display.push "#{StringUtil.checksumify(local_checksum.to_s)}..#{StringUtil.checksumify(remote_checksum.to_s)}"
       if !File.exist?(file_path) || force || (remote_checksum != local_checksum)
 
-        request = Net::HTTP::Get.new(api_url)
-        WebTranslateIt::Util.add_fields(request)
         dir = File.dirname(file_path)
         FileUtils.mkpath(dir) unless File.exist?(file_path) || dir == '.'
         begin
           Util.with_retries do
-            response = http_connection.request(request)
+            response = connection.get(api_url)
             File.open(file_path, 'wb') { |file| file << response.body } if response.code.to_i == 200
             display.push Util.handle_response(response)
           end
@@ -82,10 +80,8 @@ module WebTranslateIt
       Result.new(success, display)
     end
 
-    def fetch_remote_content(http_connection)
-      request = Net::HTTP::Get.new(api_url)
-      WebTranslateIt::Util.add_fields(request)
-      response = http_connection.request(request)
+    def fetch_remote_content(connection)
+      response = connection.get(api_url)
       response.body if response.code.to_i == 200
     end
 
@@ -102,7 +98,7 @@ module WebTranslateIt
     # actually takes place. This is due to the fact that language file imports are handled by background processing.
     # rubocop:todo Metrics/MethodLength
     # rubocop:todo Metrics/AbcSize
-    def upload(http_connection, merge: false, ignore_missing: false, label: nil, minor_changes: false, force: false, rename_others: false, destination_path: nil) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
+    def upload(connection, merge: false, ignore_missing: false, label: nil, minor_changes: false, force: false, rename_others: false, destination_path: nil) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
       success = true
       display = []
       display.push(file_path)
@@ -119,11 +115,8 @@ module WebTranslateIt
               ['file', file]
             ]
             params += [['name', destination_path]] unless destination_path.nil?
-            request = Net::HTTP::Put.new(api_url)
-            WebTranslateIt::Util.add_fields(request)
-            request.set_form params, 'multipart/form-data'
             Util.with_retries do
-              display.push Util.handle_response(http_connection.request(request))
+              display.push Util.handle_response(connection.put(api_url) { |req| req.set_form params, 'multipart/form-data' })
             end
           rescue StandardError => e
             display.push StringUtil.failure("An error occured: #{e.message}")
@@ -151,20 +144,16 @@ module WebTranslateIt
     # Note that the request might or might not eventually be acted upon, as it might be disallowed when processing
     # actually takes place. This is due to the fact that language file imports are handled by background processing.
     #
-    def create(http_connection) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
+    def create(connection) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
       success = true
       display = []
       display.push file_path
       display.push "#{StringUtil.checksumify(local_checksum.to_s)}..[     ]"
       if File.exist?(file_path)
         File.open(file_path) do |file|
-          params = [['name', file_path]]
-          params += [['file', file]]
-          request = Net::HTTP::Post.new(api_url_for_create)
-          WebTranslateIt::Util.add_fields(request)
-          request.set_form params, 'multipart/form-data'
+          params = [['name', file_path], ['file', file]]
           Util.with_retries do
-            display.push Util.handle_response(http_connection.request(request))
+            display.push Util.handle_response(connection.post(api_url_for_create) { |req| req.set_form params, 'multipart/form-data' })
           end
         rescue StandardError => e
           display.push StringUtil.failure("An error occured: #{e.message}")
@@ -178,16 +167,14 @@ module WebTranslateIt
 
     # Delete a master language file from Web Translate It by performing a DELETE Request.
     #
-    def delete(http_connection) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
+    def delete(connection) # rubocop:todo Metrics/MethodLength
       success = true
       display = []
       display.push file_path
       if File.exist?(file_path)
         begin
-          request = Net::HTTP::Delete.new(api_url_for_delete)
-          WebTranslateIt::Util.add_fields(request)
           Util.with_retries do
-            display.push Util.handle_response(http_connection.request(request))
+            display.push Util.handle_response(connection.delete(api_url_for_delete))
           end
         rescue StandardError => e
           display.push StringUtil.failure("An error occured: #{e.message}")

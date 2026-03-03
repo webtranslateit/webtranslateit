@@ -29,7 +29,7 @@ module WebTranslateIt
 
         complete_success = true
         configuration.files.find_all { |file| file.file_path == source }.each do |master_file|
-          result = master_file.upload(conn.http_connection, force: true, rename_others: true, destination_path: destination)
+          result = master_file.upload(conn, force: true, rename_others: true, destination_path: destination)
           puts StringUtil.array_to_columns(result.output)
           if File.exist?(source)
             File.rename(source, destination)
@@ -43,7 +43,7 @@ module WebTranslateIt
           end
           configuration.reload
           configuration.files.find_all { |file| file.master_id == master_file.id }.each do |target_file|
-            result = target_file.fetch(conn.http_connection)
+            result = target_file.fetch(conn)
             print StringUtil.array_to_columns(result.output)
             complete_success = false unless result.success
           end
