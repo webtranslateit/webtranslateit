@@ -17,31 +17,37 @@ module WebTranslateIt
       ((processed * 10) / total).to_f.ceil * 10
     end
 
-    # rubocop:todo Metrics/PerceivedComplexity
-    # rubocop:todo Metrics/MethodLength
-    # rubocop:todo Metrics/AbcSize
-    def self.handle_response(response, return_response = false, raise_exception = false) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
-      if (response.code.to_i >= 400) && (response.code.to_i < 500)
-        raise "Error: #{MultiJson.load(response.body)['error']}" if raise_exception
+    def self.handle_response(response)
+      raise_on_error!(response)
+      response.body
+    end
 
-        puts StringUtil.failure(MultiJson.load(response.body)['error'])
-      elsif response.code.to_i == 500
-        raise 'Error: Server temporarily unavailable (Error 500).' if raise_exception
+    STATUS_LABELS = {
+      200 => 'OK',
+      201 => 'Created',
+      202 => 'Accepted',
+      304 => 'Not Modified'
+    }.freeze
 
-        puts StringUtil.failure('Error: Server temporarily unavailable (Error 500).')
-      else
-        return response.body if return_response
-        return StringUtil.success('OK') if response.code.to_i == 200
-        return StringUtil.success('Created') if response.code.to_i == 201
-        return StringUtil.success('Accepted') if response.code.to_i == 202
-        return StringUtil.success('Not Modified') if response.code.to_i == 304
+    def self.status_label(response)
+      raise_on_error!(response)
+      label = STATUS_LABELS[response.code.to_i]
+      StringUtil.success(label || 'OK')
+    rescue RuntimeError => e
+      StringUtil.failure(e.message)
+    end
 
-        StringUtil.failure("Locked\n                                                    (another import in progress)") if response.code.to_i == 503
+    def self.raise_on_error!(response)
+      code = response.code.to_i
+      if code >= 400 && code < 500
+        raise "Error: #{MultiJson.load(response.body)['error']}"
+      elsif code == 500
+        raise 'Error: Server temporarily unavailable (Error 500).'
+      elsif code == 503
+        raise 'Error: Locked (another import in progress)'
       end
     end
-    # rubocop:enable Metrics/AbcSize
-    # rubocop:enable Metrics/MethodLength
-    # rubocop:enable Metrics/PerceivedComplexity
+    private_class_method :raise_on_error!
 
     def self.add_fields(request)
       request.add_field('User-Agent', "wti v#{version}")
@@ -53,7 +59,7 @@ module WebTranslateIt
     def self.with_retries(retries: 3, delay: 5)
       yield
     rescue Timeout::Error
-      puts 'Request timeout. Will retry in 5 seconds.'
+      puts "Request timeout. Will retry in #{delay} seconds."
       if (retries -= 1).positive?
         sleep(delay)
         retry

@@ -34,7 +34,7 @@ module WebTranslateIt
     def create
       Util.with_retries do
         raw = connection.post(translation_path, body: to_json)
-        response = JSON.parse(Util.handle_response(raw, true, true))
+        response = JSON.parse(Util.handle_response(raw))
         self.id = response['id']
         self.new_record = false
         return true
@@ -43,7 +43,7 @@ module WebTranslateIt
 
     def update
       Util.with_retries do
-        Util.handle_response(connection.put("/api/projects/#{connection.api_key}/terms/#{id}/locales/#{locale}/translations/#{id}", body: to_json), true, true)
+        Util.handle_response(connection.put("/api/projects/#{connection.api_key}/terms/#{id}/locales/#{locale}/translations/#{id}", body: to_json))
       end
     end
 
