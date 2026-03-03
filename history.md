@@ -1,5 +1,6 @@
 ## Edge (unreleased)
 
+* Standardize `to_hash`/`to_json` pattern across all model classes. Make `to_hash` private in `ApiResource`, `String`, and `Term`. Convert positional boolean to keyword argument. #410
 * Extract threading logic into `Util.concurrent_batch`. Simplify `Pull#pull_files` and fix thread-safety bug with shared mutable state. Use `Thread#value` for error propagation. #409
 * Separate display logic from business methods in `TranslationFile`. `fetch`, `upload`, `create`, and `delete` now return a `Result` struct instead of printing to stdout, enabling programmatic use without terminal side-effects. Remove broken `modified_remotely?` dead code. #407
 * Refactor long parameter lists to use keyword arguments in `TranslationFile#upload` and `TranslationFile#initialize`. Extract `TranslationFile.from_api` factory method. Remove unused `_global_options` parameter from `Runner#initialize`. #405

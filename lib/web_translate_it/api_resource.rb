@@ -129,7 +129,7 @@ module WebTranslateIt
     def create # rubocop:todo Metrics/AbcSize
       request = Net::HTTP::Post.new("/api/projects/#{connection.api_key}/#{self.class.resource_path}")
       WebTranslateIt::Util.add_fields(request)
-      request.body = to_json(true)
+      request.body = to_json(with_translations: true)
       Util.with_retries do
         response = JSON.parse(Util.handle_response(connection.http_connection.request(request), true, true))
         self.id = response['id']
@@ -138,14 +138,16 @@ module WebTranslateIt
       end
     end
 
-    def to_json_hash
-      {'id' => id}
-    end
-
-    def to_json(with_translations = false) # rubocop:todo Style/OptionalBooleanParameter
-      hash = to_json_hash
+    def to_json(*_args, with_translations: false)
+      hash = to_hash
       hash['translations'] = translations.map(&:to_hash) if translations.any? && with_translations
       MultiJson.dump(hash)
+    end
+
+    private
+
+    def to_hash
+      {'id' => id}
     end
 
   end
