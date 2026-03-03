@@ -29,7 +29,7 @@ module WebTranslateIt
 
         complete_success = true
         configuration.files.find_all { |file| file.file_path == source }.each do |master_file|
-          master_file.upload(conn.http_connection, false, false, nil, false, true, true, destination)
+          master_file.upload(conn.http_connection, force: true, rename_others: true, destination_path: destination)
           if File.exist?(source)
             File.rename(source, destination)
             puts StringUtil.success("Moved master file #{master_file.file_path}.")

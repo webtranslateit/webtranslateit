@@ -72,7 +72,7 @@ module WebTranslateIt
         elsif ignore_files&.any? { |glob| File.fnmatch(glob, project_file['name']) }
           puts "Ignoring #{project_file['name']}"
         else
-          array_files.push TranslationFile.new(project_file['id'], project_file['name'], project_file['locale_code'], api_key, project_file['updated_at'], project_file['hash_file'], project_file['master_project_file_id'], project_file['fresh'])
+          array_files.push TranslationFile.from_api(project_file, api_key)
         end
       end
       array_files

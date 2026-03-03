@@ -31,7 +31,7 @@ module WebTranslateIt
 
     attr_accessor :configuration, :command_options, :parameters
 
-    def initialize(command, command_options, _global_options, parameters, project_path) # rubocop:todo Metrics/MethodLength, Metrics/AbcSize
+    def initialize(command, command_options, parameters, project_path) # rubocop:todo Metrics/MethodLength, Metrics/AbcSize
       self.command_options = command_options
       self.parameters = parameters
       unless command == 'init'
