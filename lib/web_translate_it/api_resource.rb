@@ -66,7 +66,7 @@ module WebTranslateIt
 
     def delete
       Util.with_retries do
-        Util.handle_response(connection.delete("/api/projects/#{connection.api_key}/#{self.class.resource_path}/#{id}"), true, true)
+        Util.handle_response(connection.delete("/api/projects/#{connection.api_key}/#{self.class.resource_path}/#{id}"))
       end
     end
 
@@ -76,7 +76,7 @@ module WebTranslateIt
       return nil if new_record
 
       Util.with_retries do
-        response = Util.handle_response(connection.get("/api/projects/#{connection.api_key}/#{self.class.resource_path}/#{id}/locales/#{locale}/translations"), true, true)
+        response = Util.handle_response(connection.get("/api/projects/#{connection.api_key}/#{self.class.resource_path}/#{id}/locales/#{locale}/translations"))
         json = JSON.parse(response)
         return nil if json.empty?
 
@@ -106,14 +106,14 @@ module WebTranslateIt
       end
 
       Util.with_retries do
-        Util.handle_response(connection.put("/api/projects/#{connection.api_key}/#{self.class.resource_path}/#{id}", body: to_json), true, true)
+        Util.handle_response(connection.put("/api/projects/#{connection.api_key}/#{self.class.resource_path}/#{id}", body: to_json))
       end
     end
 
     def create
       Util.with_retries do
         raw = connection.post("/api/projects/#{connection.api_key}/#{self.class.resource_path}", body: to_json(with_translations: true))
-        response = JSON.parse(Util.handle_response(raw, true, true))
+        response = JSON.parse(Util.handle_response(raw))
         self.id = response['id']
         self.new_record = false
         return true
