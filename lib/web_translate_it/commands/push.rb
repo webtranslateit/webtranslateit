@@ -7,7 +7,6 @@ module WebTranslateIt
     class Push < Base
 
       def call # rubocop:todo Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
-        puts 'The `--low-priority` option in `wti push --low-priority` was removed and does nothing' if command_options.low_priority
         complete_success = true
         $stdout.sync = true
         run_hook(configuration.before_push, 'before_push')
@@ -35,22 +34,14 @@ module WebTranslateIt
 
       private
 
-      def fetch_locales # rubocop:todo Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
+      def fetch_locales
         if command_options.locale
-          command_options.locale.split.each do |locale|
-            puts "Locale #{locale} doesn't exist -- `wti addlocale #{locale}` to add it." unless configuration.target_locales.include?(locale)
-          end
-          locales = command_options.locale.split
-        else
-          locales = [configuration.source_locale]
-        end
-        if command_options.all
-          puts '`wti push --all` was deprecated in wti 2.3. Use `wti push --target` instead.'
-          return []
+          warn_unknown_locales(command_options.locale.split)
         elsif command_options.target
-          locales = configuration.target_locales.reject { |locale| locale == configuration.source_locale }
+          configuration.target_locales.reject { |locale| locale == configuration.source_locale }
+        else
+          [configuration.source_locale]
         end
-        locales.uniq
       end
 
     end

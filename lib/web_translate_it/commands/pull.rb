@@ -51,17 +51,13 @@ module WebTranslateIt
         results.all?
       end
 
-      def fetch_locales # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
-        if command_options.locale
-          command_options.locale.split.each do |locale|
-            puts "Locale #{locale} doesn't exist -- `wti addlocale #{locale}` to add it." unless configuration.target_locales.include?(locale)
-          end
-          locales = command_options.locale.split
+      def fetch_locales # rubocop:todo Metrics/AbcSize
+        locales = if command_options.locale
+          warn_unknown_locales(command_options.locale.split)
         elsif configuration.needed_locales.any?
-          locales = configuration.needed_locales
+          configuration.needed_locales
         else
-          locales = configuration.target_locales
-          configuration.ignore_locales.each { |locale_to_delete| locales.delete(locale_to_delete) } if configuration.ignore_locales.any?
+          configuration.target_locales - configuration.ignore_locales
         end
         locales.push(configuration.source_locale) if command_options.all
         locales.uniq
