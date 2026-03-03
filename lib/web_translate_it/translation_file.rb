@@ -12,6 +12,8 @@ module WebTranslateIt
 
     attr_accessor :id, :file_path, :locale, :api_key, :updated_at, :remote_checksum, :master_id, :fresh
 
+    Result = Struct.new(:success, :output)
+
     def self.from_api(project_file, api_key)
       new(
         project_file['id'],
@@ -79,8 +81,7 @@ module WebTranslateIt
       else
         display.push StringUtil.success('Skipped')
       end
-      print StringUtil.array_to_columns(display)
-      success
+      Result.new(success, display)
     end
 
     def fetch_remote_content(http_connection)
@@ -136,11 +137,10 @@ module WebTranslateIt
         else
           display.push StringUtil.success('Skipped')
         end
-        puts StringUtil.array_to_columns(display)
       else
-        puts StringUtil.failure("Can't push #{file_path}. File doesn't exist locally.")
+        display.push StringUtil.failure("Can't push #{file_path}. File doesn't exist locally.")
       end
-      success
+      Result.new(success, display)
     end
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/MethodLength
@@ -171,7 +171,6 @@ module WebTranslateIt
           request.set_form params, 'multipart/form-data'
           result = Util.with_retries do
             display.push Util.handle_response(http_connection.request(request))
-            puts StringUtil.array_to_columns(display)
             true
           end
           success = false if result == false
@@ -180,9 +179,9 @@ module WebTranslateIt
           success = false
         end
       else
-        puts StringUtil.failure("\nFile #{file_path} doesn't exist locally!")
+        display.push StringUtil.failure("File #{file_path} doesn't exist locally!")
       end
-      success
+      Result.new(success, display)
     end
 
     # Delete a master language file from Web Translate It by performing a DELETE Request.
@@ -197,7 +196,6 @@ module WebTranslateIt
           WebTranslateIt::Util.add_fields(request)
           result = Util.with_retries do
             display.push Util.handle_response(http_connection.request(request))
-            puts StringUtil.array_to_columns(display)
             true
           end
           success = false if result == false
@@ -206,17 +204,13 @@ module WebTranslateIt
           success = false
         end
       else
-        puts StringUtil.failure("\nMaster file #{file_path} doesn't exist locally!")
+        display.push StringUtil.failure("Master file #{file_path} doesn't exist locally!")
       end
-      success
+      Result.new(success, display)
     end
 
     def exists?
       File.exist?(file_path)
-    end
-
-    def modified_remotely?
-      fetch == '200 OK'
     end
 
     protected

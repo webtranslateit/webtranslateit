@@ -46,8 +46,9 @@ module WebTranslateIt
           threads << Thread.new(file_array) do |f_array|
             with_connection do |conn|
               f_array.each do |file|
-                success = file.fetch(conn.http_connection, command_options.force)
-                complete_success = false unless success
+                result = file.fetch(conn.http_connection, command_options.force)
+                print StringUtil.array_to_columns(result.output)
+                complete_success = false unless result.success
               end
             end
           end
