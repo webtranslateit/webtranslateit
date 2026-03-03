@@ -12,6 +12,7 @@ module WebTranslateIt
         self.configuration = configuration
         self.command_options = command_options
         self.parameters = parameters
+        $stdout.sync = true
       end
 
       def call
@@ -19,6 +20,14 @@ module WebTranslateIt
       end
 
       protected
+
+      def require_parameters!(error:, usage:, min: 0, max: nil)
+        return if parameters.size >= min && (max.nil? || parameters.size <= max)
+
+        puts StringUtil.failure(error)
+        puts "Usage: #{usage}"
+        exit 1
+      end
 
       def with_connection(&block)
         WebTranslateIt::Connection.new(configuration.api_key, &block)

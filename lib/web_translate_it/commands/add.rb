@@ -7,8 +7,11 @@ module WebTranslateIt
     class Add < Base
 
       def call
-        $stdout.sync = true
-        validate_parameters!
+        require_parameters!(
+          min: 1,
+          error: 'Error: You must provide the path to the master file to add.',
+          usage: 'wti add path/to/master_file_1 path/to/master_file_2 ...'
+        )
         complete_success = true
         with_connection do |conn|
           complete_success = add_files(conn)

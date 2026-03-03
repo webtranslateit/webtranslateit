@@ -7,8 +7,11 @@ module WebTranslateIt
     class Addlocale < Base
 
       def call
-        $stdout.sync = true
-        validate_parameters!
+        require_parameters!(
+          min: 1,
+          error: 'Locale code missing.',
+          usage: 'wti addlocale fr es ...'
+        )
         parameters.each do |param|
           print StringUtil.success("Adding locale #{param.upcase}... ")
           with_connection do |conn|
