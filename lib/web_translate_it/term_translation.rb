@@ -54,6 +54,7 @@ module WebTranslateIt
       MultiJson.dump(to_hash)
     end
 
+
     protected
 
     def create # rubocop:todo Metrics/AbcSize

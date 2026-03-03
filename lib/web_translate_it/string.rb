@@ -38,7 +38,9 @@ module WebTranslateIt
       translation.string_id = id
     end
 
-    def to_json_hash
+    private
+
+    def to_hash
       {
         'id' => id,
         'key' => key,

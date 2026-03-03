@@ -25,7 +25,9 @@ module WebTranslateIt
       translation.term_id = id
     end
 
-    def to_json_hash
+    private
+
+    def to_hash
       {
         'id' => id,
         'text' => text,
