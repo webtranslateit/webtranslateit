@@ -28,7 +28,7 @@ show_commands = <<~COMMANDS
 COMMANDS
 
 SUB_COMMANDS = %w[pull push match diff add rm mv addlocale rmlocale status st init].freeze
-global_options = Optimist.options do
+Optimist.options do
   stop_on SUB_COMMANDS
   banner show_commands
   version "wti version #{WebTranslateIt::Util.version}"
@@ -135,7 +135,7 @@ end
 
 begin
   WebTranslateIt::Connection.turn_debug_on if command_options.debug
-  WebTranslateIt::Runner.new(command, command_options, global_options, ARGV, File.expand_path('.'))
+  WebTranslateIt::Runner.new(command, command_options, ARGV, File.expand_path('.'))
 rescue Interrupt
   puts StringUtil.failure("\nQuitting...")
   exit 1

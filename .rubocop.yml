@@ -15,6 +15,9 @@ Metrics/BlockLength:
     - 'spec/**/*_spec.rb'
     - '*.gemspec'
 
+Metrics/ParameterLists:
+  CountKeywordArgs: false
+
 # - RSpec Cops --------------------------------------------------------------------------------------------------------
 # N.B. In some future version of ruboco-rspec IgnoredMetadata can be used instead of Exclude
 

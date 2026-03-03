@@ -12,7 +12,20 @@ module WebTranslateIt
 
     attr_accessor :id, :file_path, :locale, :api_key, :updated_at, :remote_checksum, :master_id, :fresh
 
-    def initialize(id, file_path, locale, api_key, updated_at = nil, remote_checksum = '', master_id = nil, fresh = nil) # rubocop:todo Metrics/ParameterLists
+    def self.from_api(project_file, api_key)
+      new(
+        project_file['id'],
+        project_file['name'],
+        project_file['locale_code'],
+        api_key,
+        updated_at: project_file['updated_at'],
+        remote_checksum: project_file['hash_file'],
+        master_id: project_file['master_project_file_id'],
+        fresh: project_file['fresh']
+      )
+    end
+
+    def initialize(id, file_path, locale, api_key, updated_at: nil, remote_checksum: '', master_id: nil, fresh: nil)
       self.id         = id
       self.file_path  = file_path
       self.locale     = locale
@@ -89,10 +102,9 @@ module WebTranslateIt
     # Note that the request might or might not eventually be acted upon, as it might be disallowed when processing
     # actually takes place. This is due to the fact that language file imports are handled by background processing.
     # rubocop:todo Metrics/PerceivedComplexity
-    # rubocop:todo Metrics/ParameterLists
     # rubocop:todo Metrics/MethodLength
     # rubocop:todo Metrics/AbcSize
-    def upload(http_connection, merge = false, ignore_missing = false, label = nil, minor_changes = false, force = false, rename_others = false, destination_path = nil) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength, Metrics/ParameterLists, Metrics/PerceivedComplexity
+    def upload(http_connection, merge: false, ignore_missing: false, label: nil, minor_changes: false, force: false, rename_others: false, destination_path: nil) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
       success = true
       display = []
       display.push(file_path)
@@ -132,7 +144,6 @@ module WebTranslateIt
     end
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/MethodLength
-    # rubocop:enable Metrics/ParameterLists
     # rubocop:enable Metrics/PerceivedComplexity
 
     # Create a master language file to Web Translate It by performing a POST Request.
@@ -141,7 +152,7 @@ module WebTranslateIt
     #
     #   configuration = WebTranslateIt::Configuration.new
     #   file = TranslationFile.new(nil, file_path, nil, configuration.api_key)
-    #   file.create # should respond the HTTP code 201 Created
+    #   file.create(http_connection) # should respond the HTTP code 201 Created
     #
     # Note that the request might or might not eventually be acted upon, as it might be disallowed when processing
     # actually takes place. This is due to the fact that language file imports are handled by background processing.
