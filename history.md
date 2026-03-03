@@ -1,5 +1,7 @@
 ## Edge (unreleased)
 
+* Separate display logic from business methods in `TranslationFile`. `fetch`, `upload`, `create`, and `delete` now return a `Result` struct instead of printing to stdout, enabling programmatic use without terminal side-effects. Remove broken `modified_remotely?` dead code. #407
+* Refactor long parameter lists to use keyword arguments in `TranslationFile#upload` and `TranslationFile#initialize`. Extract `TranslationFile.from_api` factory method. Remove unused `_global_options` parameter from `Runner#initialize`. #405
 * Replace fragile path splitting with `File.dirname` in `TranslationFile#fetch`. Add specs. #408
 * Decompose `CommandLine` god class into 11 focused command classes under `Commands::` namespace, rename to `Runner`. #404
 * Extract `ApiResource` base class from `String` and `Term` to remove duplicated CRUD logic. #403

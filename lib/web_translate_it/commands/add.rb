@@ -20,8 +20,9 @@ module WebTranslateIt
           if to_add.any?
             to_add.each do |param|
               file = TranslationFile.new(nil, param.gsub(/ /, '\\ '), nil, configuration.api_key)
-              success = file.create(conn.http_connection)
-              complete_success = false unless success
+              result = file.create(conn.http_connection)
+              puts StringUtil.array_to_columns(result.output)
+              complete_success = false unless result.success
             end
           else
             puts 'No new master file to add.'

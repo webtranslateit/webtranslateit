@@ -22,8 +22,9 @@ module WebTranslateIt
               puts "Couldn't find any local files registered on WebTranslateIt to push."
             else
               files.each do |file|
-                success = file.upload(conn.http_connection, merge: command_options[:merge], ignore_missing: command_options.ignore_missing, label: command_options.label, minor_changes: command_options[:minor], force: command_options.force)
-                complete_success = false unless success
+                result = file.upload(conn.http_connection, merge: command_options[:merge], ignore_missing: command_options.ignore_missing, label: command_options.label, minor_changes: command_options[:minor], force: command_options.force)
+                puts StringUtil.array_to_columns(result.output)
+                complete_success = false unless result.success
               end
             end
           end

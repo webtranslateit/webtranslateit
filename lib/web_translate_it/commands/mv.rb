@@ -29,7 +29,8 @@ module WebTranslateIt
 
         complete_success = true
         configuration.files.find_all { |file| file.file_path == source }.each do |master_file|
-          master_file.upload(conn.http_connection, force: true, rename_others: true, destination_path: destination)
+          result = master_file.upload(conn.http_connection, force: true, rename_others: true, destination_path: destination)
+          puts StringUtil.array_to_columns(result.output)
           if File.exist?(source)
             File.rename(source, destination)
             puts StringUtil.success("Moved master file #{master_file.file_path}.")
@@ -42,8 +43,9 @@ module WebTranslateIt
           end
           configuration.reload
           configuration.files.find_all { |file| file.master_id == master_file.id }.each do |target_file|
-            success = target_file.fetch(conn.http_connection)
-            complete_success = false unless success
+            result = target_file.fetch(conn.http_connection)
+            print StringUtil.array_to_columns(result.output)
+            complete_success = false unless result.success
           end
           puts StringUtil.success('All done.') if complete_success
         end

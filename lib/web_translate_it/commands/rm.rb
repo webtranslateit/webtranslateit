@@ -35,7 +35,8 @@ module WebTranslateIt
 
         complete_success = true
         files.each do |master_file|
-          master_file.delete(conn.http_connection)
+          result = master_file.delete(conn.http_connection)
+          puts StringUtil.array_to_columns(result.output)
           if File.exist?(master_file.file_path)
             File.delete(master_file.file_path)
             puts StringUtil.success("Deleted master file #{master_file.file_path}.")
