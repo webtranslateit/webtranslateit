@@ -3,11 +3,9 @@
 class StringUtil
 
   def self.backward_truncate(str)
-    return "...#{str[(str.length - 50 + 3)..str.length]}" if str.length > 50
+    return "...#{str[-(50 - 3)..]}" if str.length > 50
 
-    spaces = ''
-    (50 - str.length).times { spaces += ' ' }
-    str + spaces
+    str.ljust(50)
   end
 
   def self.success(str)
