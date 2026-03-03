@@ -16,16 +16,16 @@ module WebTranslateIt
 
     protected
 
-    def assign_attributes(params) # rubocop:todo Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
-      self.key          = params['key'] || nil
-      self.plural       = params['plural'] || nil
-      self.type         = params['type'] || nil
-      self.dev_comment  = params['dev_comment'] || nil
-      self.word_count   = params['word_count'] || nil
-      self.status       = params['status'] || nil
-      self.category     = params['category'] || nil
-      self.labels       = params['labels'] || nil
-      self.file         = params['file'] || nil
+    def assign_attributes(params) # rubocop:todo Metrics/AbcSize
+      self.key          = params['key']
+      self.plural       = params['plural']
+      self.type         = params['type']
+      self.dev_comment  = params['dev_comment']
+      self.word_count   = params['word_count']
+      self.status       = params['status']
+      self.category     = params['category']
+      self.labels       = params['labels']
+      self.file         = params['file']
     end
 
     def parse_translation_response(json)

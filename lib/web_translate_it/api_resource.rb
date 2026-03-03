@@ -9,9 +9,9 @@ module WebTranslateIt
     def initialize(params = {}, connection: nil)
       params = params.transform_keys(&:to_s)
       self.connection   = connection
-      self.id           = params['id'] || nil
-      self.created_at   = params['created_at'] || nil
-      self.updated_at   = params['updated_at'] || nil
+      self.id           = params['id']
+      self.created_at   = params['created_at']
+      self.updated_at   = params['updated_at']
       self.translations = params['translations'] || []
       self.new_record   = true
       assign_attributes(params)
