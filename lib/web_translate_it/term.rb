@@ -13,8 +13,8 @@ module WebTranslateIt
     protected
 
     def assign_attributes(params)
-      self.text         = params['text'] || nil
-      self.description  = params['description'] || nil
+      self.text         = params['text']
+      self.description  = params['description']
     end
 
     def parse_translation_response(json)

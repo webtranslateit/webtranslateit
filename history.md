@@ -1,3 +1,7 @@
+## Edge
+
+* Modernize code for Ruby 3.0+: use `match?` instead of `!~`, `start_with?`/`delete_prefix` instead of index slicing, array difference instead of `reject`, and remove redundant `|| nil` fallbacks.
+
 ## Version 3.2.2 / 2026-03-03
 
 * Replace O(n²) string concatenation loop in `StringUtil#backward_truncate` with `String#ljust`.

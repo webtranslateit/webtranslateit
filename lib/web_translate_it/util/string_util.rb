@@ -25,8 +25,8 @@ class StringUtil
   end
 
   def self.array_to_columns(array)
-    if array[0][0] == '*'
-      "*#{backward_truncate(array[0][1..])} | #{array[1]}  #{array[2]}\n"
+    if array[0].start_with?('*')
+      "*#{backward_truncate(array[0].delete_prefix('*'))} | #{array[1]}  #{array[2]}\n"
     else
       " #{backward_truncate(array[0])} | #{array[1]}  #{array[2]}\n"
     end

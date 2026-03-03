@@ -37,7 +37,7 @@ module WebTranslateIt
         if command_options.locale
           warn_unknown_locales(command_options.locale.split)
         elsif command_options.target
-          configuration.target_locales.reject { |locale| locale == configuration.source_locale }
+          configuration.target_locales - [configuration.source_locale]
         else
           [configuration.source_locale]
         end
