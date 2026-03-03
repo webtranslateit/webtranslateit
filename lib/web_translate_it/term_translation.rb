@@ -2,39 +2,12 @@
 
 module WebTranslateIt
 
-  class TermTranslation
+  class TermTranslation < TranslationBase
 
-    attr_accessor :id, :locale, :text, :description, :status, :new_record, :term_id, :connection
+    attr_accessor :description, :new_record, :term_id
 
-    # Initialize a new WebTranslateIt::TermTranslation
-    #
-    # Implementation Example:
-    #
-    #   WebTranslateIt::TermTranslation.new({ :text => "Super!" })
-    #
-    # to instantiate a new TermTranslation.
-    #
-
-    def initialize(params = {})
-      params.stringify_keys!
-      self.id          = params['id'] || nil
-      self.locale      = params['locale'] || nil
-      self.text        = params['text'] || nil
-      self.description = params['description'] || nil
-      self.status      = params['status'] || nil
-      self.term_id     = params['term_id'] || nil
-      self.new_record  = true
-    end
-
-    # Update or Create a WebTranslateIt::TermTranslation
-    #
-    # Implementation Example:
-    #
-    #   translation = WebTranslateIt::TermTranslation.new({ :term_id => "1234", :text => "Super!" })
-    #   WebTranslateIt::Connection.new('secret_api_token') do
-    #     translation.save
-    #   end
-    #
+    def self.parent_resource_path = 'terms'
+    def parent_id = term_id
 
     def save
       new_record ? create : update
@@ -50,15 +23,16 @@ module WebTranslateIt
       }
     end
 
-    def to_json(*_args)
-      MultiJson.dump(to_hash)
-    end
-
-
     protected
 
-    def create # rubocop:todo Metrics/AbcSize
-      request = Net::HTTP::Post.new("/api/projects/#{connection.api_key}/terms/#{term_id}/locales/#{locale}/translations")
+    def assign_attributes(params)
+      self.description = params['description']
+      self.term_id     = params['term_id']
+      self.new_record  = true
+    end
+
+    def create
+      request = Net::HTTP::Post.new(translation_path)
       WebTranslateIt::Util.add_fields(request)
       request.body = to_json
 

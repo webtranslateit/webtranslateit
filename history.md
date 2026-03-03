@@ -2,6 +2,8 @@
 
 * Simplify `fetch_locales` in `Pull` and `Push` commands. Extract `warn_unknown_locales` helper. Remove deprecated `--all` and `--low-priority` options from `push` and `add` commands. #422
 
+* Extract `TranslationBase` base class from `Translation` and `TermTranslation` to share `initialize`, `save`, `to_json`, and API path logic. #425
+
 * `Util.with_retries` now re-raises `Timeout::Error` after exhausting retries instead of returning `false`. Methods like `find_all`, `find`, `create`, and `update` now return consistent types. #411
 * Standardize `to_hash`/`to_json` pattern across all model classes. Make `to_hash` private in `ApiResource`, `String`, and `Term`. Convert positional boolean to keyword argument. #410
 * Extract threading logic into `Util.concurrent_batch`. Simplify `Pull#pull_files` and fix thread-safety bug with shared mutable state. Use `Thread#value` for error propagation. #409
