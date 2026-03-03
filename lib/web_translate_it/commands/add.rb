@@ -6,29 +6,46 @@ module WebTranslateIt
 
     class Add < Base
 
-      def call # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
-        complete_success = true
+      def call
         $stdout.sync = true
-        if parameters == []
-          puts StringUtil.failure('Error: You must provide the path to the master file to add.')
-          puts 'Usage: wti add path/to/master_file_1 path/to/master_file_2 ...'
-          exit
-        end
+        validate_parameters!
+        complete_success = true
         with_connection do |conn|
-          added = configuration.files.find_all { |file| file.locale == configuration.source_locale }.to_set { |file| File.expand_path(file.file_path) }
-          to_add = parameters.reject { |param| added.include?(File.expand_path(param)) }
-          if to_add.any?
-            to_add.each do |param|
-              file = TranslationFile.new(nil, param.gsub(/ /, '\\ '), nil, configuration.api_key)
-              result = file.create(conn)
-              puts StringUtil.array_to_columns(result.output)
-              complete_success = false unless result.success
-            end
-          else
-            puts 'No new master file to add.'
-          end
+          complete_success = add_files(conn)
         end
         complete_success
+      end
+
+      private
+
+      def validate_parameters!
+        return unless parameters == []
+
+        puts StringUtil.failure('Error: You must provide the path to the master file to add.')
+        puts 'Usage: wti add path/to/master_file_1 path/to/master_file_2 ...'
+        exit
+      end
+
+      def add_files(conn)
+        to_add = new_master_files
+        if to_add.empty?
+          puts 'No new master file to add.'
+          return true
+        end
+        to_add.all? { |param| create_file(param, conn) }
+      end
+
+      def create_file(param, conn)
+        file = TranslationFile.new(nil, param.gsub(/ /, '\\ '), nil, configuration.api_key)
+        result = file.create(conn)
+        puts StringUtil.array_to_columns(result.output)
+        result.success
+      end
+
+      def new_master_files
+        existing = configuration.files_for(locale: configuration.source_locale)
+                                .to_set { |file| File.expand_path(file.file_path) }
+        parameters.reject { |param| existing.include?(File.expand_path(param)) }
       end
 
     end

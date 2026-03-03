@@ -1,5 +1,6 @@
 ## Edge (unreleased)
 
+* Refactor all command classes for consistency: extract small private methods, use guard clauses, and drop all `rubocop:todo` annotations for `Metrics/AbcSize`, `Metrics/MethodLength`, `Metrics/CyclomaticComplexity`, and `Metrics/PerceivedComplexity` across Add, Addlocale, Diff, Init, Match, Mv, Rm, Rmlocale, and Status. Add `Configuration#target_files_for` to centralize `master_id` lookups.
 * Ensure `Addlocale#call` and `Rmlocale#call` return `true` on success. Previously they returned `nil`, causing `Runner` to `exit 1` even after successful operations.
 * Remove dead code: commented-out `ignore_files` method in `Configuration`, unused `last_modification` in `TranslationFile`, unused `titleize` in `StringUtil`.
 * Replace `Object#in?` (ActiveSupport) with `Array#include?` in `fetch_translations`. #435
@@ -10,13 +11,9 @@
 * Refactor `Util.handle_response` to return response body consistently and let callers decide what to print. Extract `status_label` for display formatting. #423
 * Remove `Hash#stringify_keys!` monkey-patch in favour of `Hash#transform_keys(&:to_s)`. #432
 * Extract `Spinner` class from `Runner#throb`. Thread management, ANSI codes, and frame animation are now testable and reusable. #426
-
 * Add `Connection#get`, `#post`, `#put`, `#delete` wrappers to eliminate repeated `Net::HTTP::*.new` / `Util.add_fields` / `http_connection.request` boilerplate across all API call sites. #424
-
 * Simplify `fetch_locales` in `Pull` and `Push` commands. Extract `warn_unknown_locales` helper. Remove deprecated `--all` and `--low-priority` options from `push` and `add` commands. #422
-
 * Extract `TranslationBase` base class from `Translation` and `TermTranslation` to share `initialize`, `save`, `to_json`, and API path logic. #425
-
 * `Util.with_retries` now re-raises `Timeout::Error` after exhausting retries instead of returning `false`. Methods like `find_all`, `find`, `create`, and `update` now return consistent types. #411
 * Standardize `to_hash`/`to_json` pattern across all model classes. Make `to_hash` private in `ApiResource`, `String`, and `Term`. Convert positional boolean to keyword argument. #410
 * Extract threading logic into `Util.concurrent_batch`. Simplify `Pull#pull_files` and fix thread-safety bug with shared mutable state. Use `Thread#value` for error propagation. #409
