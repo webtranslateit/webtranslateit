@@ -53,7 +53,7 @@ module WebTranslateIt
 
     config.logger&.debug { "   Fetching #{locale} language file(s) from WebTranslateIt" }
     WebTranslateIt::Connection.new(config.api_key) do |conn|
-      config.files.find_all { |file| file.locale.in?([locale, I18n.locale]) }.each do |file|
+      config.files.select { |file| [locale, I18n.locale.to_s].include?(file.locale) }.each do |file|
         file.fetch(conn)
       end
     end
