@@ -22,17 +22,10 @@ module WebTranslateIt
 
       private
 
-      def select_files # rubocop:todo Metrics/AbcSize
-        files = []
-        fetch_locales.each do |locale|
-          files |= configuration.files.find_all { |file| file.locale == locale }
-        end
-        found_files = []
-        parameters.each do |parameter|
-          found_files += files.find_all { |file| File.fnmatch(parameter, file.file_path) }
-        end
-        files = found_files if parameters.any?
-        files.uniq.sort { |a, b| a.file_path <=> b.file_path }
+      def select_files
+        files = fetch_locales.flat_map { |locale| configuration.files_for(locale: locale) }.uniq
+        files = files.select { |file| parameters.any? { |p| File.fnmatch(p, file.file_path) } } if parameters.any?
+        files.sort_by(&:file_path)
       end
 
       def pull_files(files) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength, Naming/PredicateMethod

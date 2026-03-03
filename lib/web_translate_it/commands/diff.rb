@@ -8,14 +8,14 @@ module WebTranslateIt
 
     class Diff < Base
 
-      def call # rubocop:todo Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+      def call # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
         complete_success = true
         $stdout.sync = true
         with_connection do |conn|
           files = if parameters.any?
-            configuration.files.find_all { |file| parameters.include?(file.file_path) }.sort { |a, b| a.file_path <=> b.file_path }
+            configuration.files_for(paths: parameters)
           else
-            configuration.files.find_all { |file| file.locale == configuration.source_locale }.sort { |a, b| a.file_path <=> b.file_path }
+            configuration.files_for(locale: configuration.source_locale)
           end
           if files.empty?
             puts "Couldn't find any local files registered on WebTranslateIt to diff."

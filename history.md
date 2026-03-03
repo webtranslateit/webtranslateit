@@ -1,5 +1,6 @@
 ## Edge (unreleased)
 
+* Add `Configuration#files_for` to centralize locale and path filtering. Replaces duplicated `find_all`/`sort` logic in Pull, Push, Diff, and Match commands. #436
 * Split `Util` class into focused modules: `HttpResponse`, `Concurrency`, and `Prompt`. `Util` retains only `version`, `calculate_percentage`, and `can_display_colors?`. #434
 * Extract `Configuration#load_project_data` to eliminate duplicated logic between `initialize` and `reload`. #433
 * Refactor `Util.handle_response` to return response body consistently and let callers decide what to print. Extract `status_label` for display formatting. #423

@@ -6,8 +6,8 @@ module WebTranslateIt
 
     class Match < Base
 
-      def call # rubocop:todo Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
-        configuration.files.find_all { |mf| mf.locale == configuration.source_locale }.each do |master_file|
+      def call # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
+        configuration.files_for(locale: configuration.source_locale).each do |master_file|
           if File.exist?(master_file.file_path)
             puts StringUtil.important(master_file.file_path) + " (#{master_file.locale})"
           else

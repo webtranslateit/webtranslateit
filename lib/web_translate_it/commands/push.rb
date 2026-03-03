@@ -6,16 +6,16 @@ module WebTranslateIt
 
     class Push < Base
 
-      def call # rubocop:todo Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+      def call # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
         complete_success = true
         $stdout.sync = true
         run_hook(configuration.before_push, 'before_push')
         with_connection do |conn|
           fetch_locales.each do |locale|
             files = if parameters.any?
-              configuration.files.find_all { |file| parameters.include?(file.file_path) }.sort { |a, b| a.file_path <=> b.file_path }
+              configuration.files_for(paths: parameters)
             else
-              configuration.files.find_all { |file| file.locale == locale }.sort { |a, b| a.file_path <=> b.file_path }
+              configuration.files_for(locale: locale)
             end
             if files.empty?
               puts "Couldn't find any local files registered on WebTranslateIt to push."
