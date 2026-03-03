@@ -81,6 +81,18 @@ module WebTranslateIt
     #   Array(configuration['ignore_files']).map(&:to_s)
     # end
 
+    # Return files filtered by locale or exact paths, sorted by file_path.
+    def files_for(locale: nil, paths: [])
+      result = if paths.any?
+        files.select { |f| paths.include?(f.file_path) }
+      elsif locale
+        files.select { |f| f.locale == locale }
+      else
+        files.dup
+      end
+      result.sort_by(&:file_path)
+    end
+
     # Convenience method which returns the endpoint for fetching a list of locales for a project.
     def api_url
       "/api/projects/#{api_key}"
