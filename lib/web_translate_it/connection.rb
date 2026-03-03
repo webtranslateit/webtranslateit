@@ -67,7 +67,7 @@ module WebTranslateIt
 
     def api_request(method_class, path, body: nil)
       request = method_class.new(path)
-      Util.add_fields(request)
+      HttpResponse.add_fields(request)
       request.body = body if body
       yield request if block_given?
       http_connection.request(request)

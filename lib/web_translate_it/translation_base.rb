@@ -16,8 +16,8 @@ module WebTranslateIt
     end
 
     def save
-      Util.with_retries do
-        Util.handle_response(connection.post(translation_path, body: to_json))
+      Concurrency.with_retries do
+        HttpResponse.handle_response(connection.post(translation_path, body: to_json))
       end
     end
 

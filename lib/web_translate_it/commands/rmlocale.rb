@@ -14,7 +14,7 @@ module WebTranslateIt
           exit 1
         end
         parameters.each do |param|
-          next unless Util.ask_yes_no("Are you certain you want to delete the locale #{param.upcase}?\nThis will also delete its files and translations.", false)
+          next unless Prompt.ask_yes_no("Are you certain you want to delete the locale #{param.upcase}?\nThis will also delete its files and translations.", false)
 
           print StringUtil.success("Deleting locale #{param.upcase}... ")
           with_connection do |conn|
