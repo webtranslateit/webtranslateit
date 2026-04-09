@@ -1,5 +1,7 @@
 ## Edge
 
+* Handle HTTP 429 (rate limit) errors: add `RateLimitError` class, retry with backoff respecting the `Retry-After` header, and fix garbled error messages when the response body is not JSON.
+* Add `--threads N` option to `wti pull` to control the number of concurrent download threads. Defaults to 10. Use `--threads 1` for sequential pulls.
 * Modernize code for Ruby 3.0+: use `match?` instead of `!~`, `start_with?`/`delete_prefix` instead of index slicing, array difference instead of `reject`, and remove redundant `|| nil` fallbacks.
 
 ## Version 3.2.2 / 2026-03-03

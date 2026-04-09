@@ -29,7 +29,7 @@ module WebTranslateIt
 
       def pull_files(files) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength, Naming/PredicateMethod
         time = Time.now
-        results, n_threads = Concurrency.concurrent_batch(files) do |batch|
+        results, n_threads = Concurrency.concurrent_batch(files, max_threads: command_options.threads) do |batch|
           with_connection do |conn|
             batch.map do |file|
               result = file.fetch(conn, command_options.force)
