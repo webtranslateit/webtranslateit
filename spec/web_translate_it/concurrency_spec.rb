@@ -43,7 +43,7 @@ describe WebTranslateIt::Concurrency do
         described_class.with_retries(retries: 2, delay: 0) { raise Timeout::Error }
       rescue Timeout::Error
         # expected
-      end.to output("Request timeout. Will retry in 0 seconds.\n" * 2).to_stdout
+      end.to output("Request timeout. Will retry in 0 seconds.\n").to_stdout
     end
 
     it 'defaults to 3 retries' do

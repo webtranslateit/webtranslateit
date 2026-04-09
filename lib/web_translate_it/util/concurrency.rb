@@ -4,18 +4,27 @@ module WebTranslateIt
 
   module Concurrency
 
-    # Execute a block with automatic retry on Timeout::Error.
+    # Execute a block with automatic retry on Timeout::Error and RateLimitError.
     # Returns the block's return value on success, or re-raises after retries are exhausted.
     def self.with_retries(retries: 3, delay: 5)
       yield
     rescue Timeout::Error
-      puts "Request timeout. Will retry in #{delay} seconds."
-      if (retries -= 1).positive?
-        sleep(delay)
-        retry
-      end
-      raise
+      raise unless (retries -= 1).positive?
+
+      log_retry('Request timeout', delay)
+      retry
+    rescue RateLimitError => e
+      raise unless (retries -= 1).positive?
+
+      log_retry('Rate limited', e.retry_after || delay)
+      retry
     end
+
+    def self.log_retry(message, wait)
+      puts "#{message}. Will retry in #{wait} seconds."
+      sleep(wait)
+    end
+    private_class_method :log_retry
 
     # Process items in parallel using a thread pool.
     # Yields each batch (array of items) to the block; collects return values.
