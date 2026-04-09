@@ -1,4 +1,4 @@
-## Edge
+## Version 3.2.3 / 2026-04-09
 
 * Handle HTTP 429 (rate limit) errors: add `RateLimitError` class, retry with backoff respecting the `Retry-After` header, and fix garbled error messages when the response body is not JSON.
 * Add `--threads N` option to `wti pull` to control the number of concurrent download threads. Defaults to 10. Use `--threads 1` for sequential pulls.
