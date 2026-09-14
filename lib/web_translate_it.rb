@@ -8,7 +8,6 @@ require 'net/http'
 require 'net/https'
 require 'openssl'
 require 'uri'
-require 'multi_json'
 require 'digest/sha1'
 require 'English'
 

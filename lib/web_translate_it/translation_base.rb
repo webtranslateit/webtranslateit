@@ -22,7 +22,7 @@ module WebTranslateIt
     end
 
     def to_json(*_args)
-      MultiJson.dump(to_hash)
+      JSON.generate(to_hash)
     end
 
     protected

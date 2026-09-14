@@ -1,3 +1,7 @@
+## Unreleased
+
+* Support json 3. `multi_json` 1.19 passes parse options positionally, which json 3 rejects, so API error messages came back as raw JSON. Replace `multi_json` with the `json` gem, which ships with Ruby, and run CI against both json 2 and json 3.
+
 ## Version 3.2.3 / 2026-04-09
 
 * Handle HTTP 429 (rate limit) errors: add `RateLimitError` class, retry with backoff respecting the `Retry-After` header, and fix garbled error messages when the response body is not JSON.
