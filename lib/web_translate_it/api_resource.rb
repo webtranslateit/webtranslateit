@@ -123,7 +123,7 @@ module WebTranslateIt
     def to_json(*_args, with_translations: false)
       hash = to_hash
       hash['translations'] = translations.map(&:to_hash) if translations.any? && with_translations
-      MultiJson.dump(hash)
+      JSON.generate(hash)
     end
 
     private

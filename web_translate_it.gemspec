@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
 
   s.files       = Dir['history.md', 'license', 'readme.md', 'version', 'examples/**/*', 'lib/**/*', 'generators/**/*', 'bin/**/*', 'man/**/*']
 
-  s.add_dependency 'multi_json'
+  s.add_dependency 'json', '>= 2.5', '< 4'
   s.add_dependency 'optimist', '~> 3.0'
 
   s.rdoc_options     = ['--main', 'readme.md']

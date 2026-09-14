@@ -21,7 +21,7 @@ describe WebTranslateIt::HttpResponse do
     end
 
     it 'raises on 4xx with error message from body' do
-      body = MultiJson.dump('error' => 'Not found')
+      body = JSON.generate('error' => 'Not found')
       expect { described_class.handle_response(fake_response(404, body)) }
         .to raise_error(RuntimeError, 'Error: Not found')
     end
@@ -59,7 +59,7 @@ describe WebTranslateIt::HttpResponse do
     end
 
     it 'returns failure with error message for 4xx' do
-      body = MultiJson.dump('error' => 'Bad request')
+      body = JSON.generate('error' => 'Bad request')
       expect(described_class.status_label(fake_response(400, body))).to include('Bad request')
     end
 

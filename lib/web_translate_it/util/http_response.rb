@@ -54,7 +54,7 @@ module WebTranslateIt
     end
 
     def self.error_message(response)
-      MultiJson.load(response.body)['error']
+      JSON.parse(response.body)['error']
     rescue StandardError
       response.body.to_s
     end
