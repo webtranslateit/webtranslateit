@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    web_translate_it (3.2.3)
+    web_translate_it (3.3.0)
       json (>= 2.5, < 4)
       optimist (~> 3.0)
       rubyzip (>= 2.3, < 4)
@@ -139,4 +139,4 @@ DEPENDENCIES
   webmock
 
 BUNDLED WITH
-  4.0.5
+  4.1.0.beta1

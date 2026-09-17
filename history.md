@@ -1,4 +1,4 @@
-## Unreleased
+## Version 3.3.0 / 2026-09-17
 
 * Add `--zip` option to `wti pull`. It downloads the language files through the zip file endpoint: one request per locale instead of one request per file, and a single request when the whole project is pulled. Much faster on projects with many files, for instance when pulling translations in a build. Files already up to date are left alone, only the locales needing an update are requested, and an archive which fails to download fails its own files instead of aborting the pull. #473
 * **`wti pull` now reports download and write failures in its exit code.** `Commands::Base#with_connection` returned the connection rather than the block's value, so `pull` discarded its per-file results and always exited `0`. Builds which were silently green on a partially failed pull will start failing.
