@@ -178,6 +178,10 @@ Append `--help` for each command for more information. For instance:
     <td>Force pull (to bypass WebTranslateIt’s HTTP caching)</td>
   </tr>
   <tr>
+    <td>wti pull --zip</td>
+    <td>Download the language files as zip archives: one request per locale instead of one per file, or a single request when the whole project is pulled. Much faster on projects with many files</td>
+  </tr>
+  <tr>
     <td>wti addlocale fr</td>
     <td>Add a new locale to the project</td>
   </tr>

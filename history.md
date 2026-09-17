@@ -1,5 +1,7 @@
 ## Unreleased
 
+* Add `--zip` option to `wti pull`. It downloads the language files through the zip file endpoint: one request per locale instead of one request per file, and a single request when the whole project is pulled. Much faster on projects with many files, for instance when pulling translations in a build. Files already up to date are left alone, only the locales needing an update are requested, and an archive which fails to download fails its own files instead of aborting the pull. #473
+* **`wti pull` now reports download and write failures in its exit code.** `Commands::Base#with_connection` returned the connection rather than the block's value, so `pull` discarded its per-file results and always exited `0`. Builds which were silently green on a partially failed pull will start failing.
 * Support json 3. `multi_json` 1.19 passes parse options positionally, which json 3 rejects, so API error messages came back as raw JSON. Replace `multi_json` with the `json` gem, which ships with Ruby, and run CI against both json 2 and json 3.
 
 ## Version 3.2.3 / 2026-04-09

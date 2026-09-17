@@ -1,3 +1,7 @@
 *.gem
 examples/en.yml
 gemfiles/*.lock
+
+# Local test project config: holds a live API key
+.wti
+/config/

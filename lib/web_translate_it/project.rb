@@ -21,6 +21,16 @@ module WebTranslateIt
       end
     end
 
+    # Fetch every language file of a project in a single request, as a zip
+    # archive. Pass a locale to narrow the archive down to that locale.
+    def self.fetch_zip(connection, locale: nil)
+      url = "/api/projects/#{connection.api_key}/zip_file"
+      url += "?locale=#{URI.encode_www_form_component(locale)}" if locale
+      Concurrency.with_retries do
+        HttpResponse.handle_response(connection.get(url))
+      end
+    end
+
     def self.create_locale(connection, locale_code)
       Concurrency.with_retries do
         response = connection.post("/api/projects/#{connection.api_key}/locales") { |req| req.set_form_data({'id' => locale_code}, ';') }

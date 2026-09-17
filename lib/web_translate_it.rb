@@ -10,6 +10,8 @@ require 'openssl'
 require 'uri'
 require 'digest/sha1'
 require 'English'
+require 'tempfile'
+require 'zip'
 
 require 'web_translate_it/connection'
 require 'web_translate_it/util'

@@ -46,6 +46,7 @@ when 'pull'
     opt :all,     'Pull all files'
     opt :force,   'Force pull (bypass conditional requests to WTI)'
     opt :threads, 'Number of threads for parallel downloads', type: :integer, default: 10
+    opt :zip,     'Download the project as a zip archive instead of one request per file'
     opt :config,  'Path to a configuration file', short: '-c', default: '.wti'
     opt :debug,   'Display debug information'
   end
