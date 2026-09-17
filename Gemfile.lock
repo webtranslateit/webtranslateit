@@ -4,6 +4,7 @@ PATH
     web_translate_it (3.2.3)
       json (>= 2.5, < 4)
       optimist (~> 3.0)
+      rubyzip (>= 2.3, < 4)
 
 GEM
   remote: https://rubygems.org/
@@ -99,6 +100,7 @@ GEM
       regexp_parser (>= 2.0)
       rubocop (~> 1.86, >= 1.86.2)
     ruby-progressbar (1.13.0)
+    rubyzip (3.6.0)
     shellany (0.0.1)
     simplecov (0.22.0)
       docile (~> 1.1)
@@ -121,6 +123,7 @@ PLATFORMS
   arm64-darwin-23
   arm64-darwin-24
   arm64-darwin-25
+  arm64-darwin-27
   x86_64-darwin-21
   x86_64-darwin-22
   x86_64-linux

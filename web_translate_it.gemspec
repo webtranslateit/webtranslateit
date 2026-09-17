@@ -14,6 +14,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'json', '>= 2.5', '< 4'
   s.add_dependency 'optimist', '~> 3.0'
+  s.add_dependency 'rubyzip', '>= 2.3', '< 4'
 
   s.rdoc_options     = ['--main', 'readme.md']
   s.extra_rdoc_files = ['history.md', 'readme.md']

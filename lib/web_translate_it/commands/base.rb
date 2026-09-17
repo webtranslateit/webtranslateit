@@ -29,8 +29,12 @@ module WebTranslateIt
         exit 1
       end
 
-      def with_connection(&block)
-        WebTranslateIt::Connection.new(configuration.api_key, &block)
+      # Yields a connection and returns the block's value. `Connection.new`
+      # returns the connection itself, so the block's value has to be captured.
+      def with_connection
+        result = nil
+        WebTranslateIt::Connection.new(configuration.api_key) { |conn| result = yield conn }
+        result
       end
 
       def run_hook(hook_command, label)

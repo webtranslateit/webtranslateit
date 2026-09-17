@@ -45,7 +45,17 @@ These options can be used to change this behaviour:
     The Web Translate It API use HTTP caching to be efficient, and check if your file needs
     to be updated by checking its modification date against the project’s latest activity.
     Use this option to bypass this check.
-    
+
+  * `--zip`:
+    Pull the language files as zip archives, one request per locale instead of one
+    request per file. Pulling the whole project, with `--all` and no ignored or needed
+    locales configured, takes a single request. Much faster on projects with many files.
+    Files already up to date are left alone, and only the locales needing an update
+    are requested.
+
+  * `--threads`:
+    Number of parallel downloads. Defaults to 10.
+
 You may additionally ask for help:
  
   * `-h`, `--help`:

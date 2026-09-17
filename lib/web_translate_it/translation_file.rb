@@ -50,28 +50,44 @@ module WebTranslateIt
     #   file.fetch # returns nothing, with a status 304 Not Modified
     #   file.fetch(true) # force to re-download the file, will return the content of the file with a 200 OK
     #
-    def fetch(connection, force = false) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
-      display = []
-      if fresh
-        display.push(file_path)
-      else
-        display.push("*#{file_path}")
-      end
-      display.push "#{StringUtil.checksumify(local_checksum.to_s)}..#{StringUtil.checksumify(remote_checksum.to_s)}"
-      if !File.exist?(file_path) || force || (remote_checksum != local_checksum)
+    def fetch(connection, force = false)
+      return skipped unless outdated?(force)
 
-        dir = File.dirname(file_path)
-        FileUtils.mkpath(dir) unless File.exist?(file_path) || dir == '.'
-        with_display(display) do
-          response = connection.get(api_url)
-          File.open(file_path, 'wb') { |file| file << response.body } if response.code.to_i == 200
-          response
-        end
-
-      else
-        display.push StringUtil.success('Skipped')
-        Result.new(true, display)
+      make_directory
+      with_display(display_columns) do
+        response = connection.get(api_url)
+        File.open(file_path, 'wb') { |file| file << response.body } if response.code.to_i == 200
+        response
       end
+    end
+
+    # Write a language file taken out of a project archive, as downloaded by
+    # `wti pull --zip`. `content` is nil when the archive didn't carry the file,
+    # which happens when it was deleted between listing the project and
+    # downloading the archive.
+    def save(content)
+      return failed('Missing from archive') if content.nil?
+
+      make_directory
+      File.open(file_path, 'wb') { |file| file << content }
+      Result.new(true, display_columns.push(StringUtil.success('OK')))
+    rescue StandardError => e
+      failed("An error occured: #{e.message}")
+    end
+
+    # The result of a file which could not be written.
+    def failed(message)
+      Result.new(false, display_columns.push(StringUtil.failure(message)))
+    end
+
+    # Whether the local file is missing or differs from the copy on WebTranslateIt.
+    def outdated?(force = false)
+      !File.exist?(file_path) || force || remote_checksum != local_checksum
+    end
+
+    # The result of leaving an already up-to-date file alone.
+    def skipped
+      Result.new(true, display_columns.push(StringUtil.success('Skipped')))
     end
 
     def fetch_remote_content(connection)
@@ -190,6 +206,18 @@ module WebTranslateIt
     end
 
     private
+
+    # The first two columns of a pull or push line: the file path, prefixed with
+    # a star when its translations are not up to date, and the local and remote
+    # checksums.
+    def display_columns
+      [fresh ? file_path : "*#{file_path}", "#{StringUtil.checksumify(local_checksum.to_s)}..#{StringUtil.checksumify(remote_checksum.to_s)}"]
+    end
+
+    def make_directory
+      dir = File.dirname(file_path)
+      FileUtils.mkpath(dir) unless File.exist?(file_path) || dir == '.'
+    end
 
     def with_display(display)
       Concurrency.with_retries do
