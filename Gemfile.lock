@@ -100,7 +100,7 @@ GEM
       regexp_parser (>= 2.0)
       rubocop (~> 1.86, >= 1.86.2)
     ruby-progressbar (1.13.0)
-    rubyzip (3.6.0)
+    rubyzip (3.7.0)
     shellany (0.0.1)
     simplecov (0.22.0)
       docile (~> 1.1)
