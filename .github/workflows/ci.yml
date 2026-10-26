@@ -13,7 +13,6 @@ jobs:
   test:
     name: test (ruby ${{ matrix.ruby-version }}, json ${{ matrix.json }})
     env:
-      COVERAGE: Y
       BUNDLE_GEMFILE: gemfiles/json_${{ matrix.json }}.gemfile
 
     runs-on: ubuntu-latest
