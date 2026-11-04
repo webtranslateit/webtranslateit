@@ -61,6 +61,18 @@ Check `wti --help` for help.
 
 If you’d like to specify another path for your configuration file, you can use `wti init`. This command will ask you to enter your project API token and where to save the configuration file (by default it will create a `.wti` in your project root directory).
 
+### Keeping the API token out of `.wti`
+
+`wti init` writes the API token into `.wti`. That's fine on your machine, but if you commit `.wti`, the token ends up in your repository's history. `wti init` warns you when `.wti` isn't in your `.gitignore`.
+
+To commit `.wti` without the token, set the `WTI_PROJECT_API_KEY` environment variable. It always takes precedence over the `api_key` in `.wti`. If it's set when you run `wti init`, the generated file reads the token from the environment instead of storing it:
+
+``` yaml
+api_key: <%= ENV['WTI_PROJECT_API_KEY'] %>
+```
+
+`.wti` is read through ERB, so you can point `api_key` at any environment variable this way. In CI, store the token as a secret and expose it as `WTI_PROJECT_API_KEY`.
+
 Now you’re all set and you can use the `wti` commands on your project.
 
 ## Using on multiple projects
