@@ -7,7 +7,7 @@ describe WebTranslateIt::Commands::Pull do
   subject(:command) { described_class.new(configuration, command_options, []) }
 
   let(:api_key) { 'test_api_key' }
-  let(:base_url) { "https://webtranslateit.com/api/projects/#{api_key}" }
+  let(:base_url) { 'https://webtranslateit.com/api/projects/current' }
   # Optimist hands commands a Hash with OpenStruct-style accessors.
   let(:command_options) do
     options = {zip: true, force: false, threads: 10, locale: nil, all: false}

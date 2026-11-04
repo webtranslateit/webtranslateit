@@ -95,7 +95,7 @@ module WebTranslateIt
 
     # Convenience method which returns the endpoint for fetching a list of locales for a project.
     def api_url
-      "/api/projects/#{api_key}"
+      Connection::PROJECT_PATH
     end
 
     # Returns a logger. If RAILS_DEFAULT_LOGGER is defined, use it, else, define a new logger.

@@ -4,6 +4,9 @@ module WebTranslateIt
 
   class Connection
 
+    # The API resolves `current` to the project the bearer token belongs to.
+    PROJECT_PATH = '/api/projects/current'
+
     @debug = false
 
     class << self
@@ -43,6 +46,7 @@ module WebTranslateIt
       yield self if block_given?
     end
 
+    # Caution: Net::HTTP's debug stream prints request headers, including Authorization.
     def self.turn_debug_on
       @debug = true
     end
@@ -68,6 +72,7 @@ module WebTranslateIt
     def api_request(method_class, path, body: nil)
       request = method_class.new(path)
       HttpResponse.add_fields(request)
+      request['Authorization'] = "Bearer #{api_key}"
       request.body = body if body
       yield request if block_given?
       http_connection.request(request)
