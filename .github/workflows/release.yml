@@ -1,0 +1,96 @@
+name: Release
+
+# Publishing is triggered by the gemspec changing on main. The gemspec also
+# changes for dependency bumps, so the job only releases when the version in
+# it has no tag yet.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "web_translate_it.gemspec"
+  # A release that failed on something unrelated should not need a fake
+  # version bump to retry.
+  workflow_dispatch:
+
+permissions:
+  contents: write # create the tag and the GitHub release
+  id-token: write # RubyGems trusted publishing (OIDC), no long-lived API key
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0 # tags, to tell whether this version already shipped
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "4.0"
+          bundler-cache: true
+
+      - name: Read the version being released
+        id: version
+        run: |
+          version=$(ruby -e 'print Gem::Specification.load("web_translate_it.gemspec").version')
+          echo "value=${version}" >> "$GITHUB_OUTPUT"
+          if git rev-parse -q --verify "refs/tags/${version}" >/dev/null; then
+            echo "Tag ${version} already exists, nothing to release."
+            echo "release=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "release=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      # The notes are the history.md entry, so the release page and the
+      # changelog cannot drift apart. Fails before anything is published if
+      # the entry is missing.
+      - name: Extract release notes from history.md
+        if: steps.version.outputs.release == 'true'
+        env:
+          VERSION: ${{ steps.version.outputs.value }}
+        run: |
+          ruby -e '
+            version = ENV.fetch("VERSION")
+            section = File.read("history.md")[/^## Version #{Regexp.escape(version)}(?![\w.]).*?(?=\n## |\z)/m]
+            abort "No \"## Version #{version}\" entry in history.md" unless section
+            File.write("release_notes.md", section.lines.drop(1).join.strip + "\n")
+          '
+
+      # The suite runs again here rather than trusting the pull request's run,
+      # because what ships is this commit, not the one that was reviewed.
+      - name: Run tests
+        if: steps.version.outputs.release == 'true'
+        run: bundle exec rspec
+
+      - name: Configure RubyGems credentials
+        if: steps.version.outputs.release == 'true'
+        uses: rubygems/configure-rubygems-credentials@v1.0.0
+
+      - name: Publish to rubygems.org
+        if: steps.version.outputs.release == 'true'
+        env:
+          VERSION: ${{ steps.version.outputs.value }}
+        run: |
+          # Lets a retry get past this step when the push worked but the
+          # release step after it failed.
+          if curl -sf "https://rubygems.org/api/v2/rubygems/web_translate_it/versions/${VERSION}.json" >/dev/null; then
+            echo "web_translate_it ${VERSION} is already on rubygems.org, skipping push."
+          else
+            gem build web_translate_it.gemspec
+            gem push "web_translate_it-${VERSION}.gem"
+          fi
+
+      - name: Tag the release and write its notes
+        if: steps.version.outputs.release == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ steps.version.outputs.value }}
+        run: |
+          gh release create "${VERSION}" \
+            --target "${GITHUB_SHA}" \
+            --title "${VERSION}" \
+            --notes-file release_notes.md
