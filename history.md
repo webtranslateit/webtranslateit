@@ -1,3 +1,8 @@
+## Unreleased
+
+* `wti init` keeps the API token out of `.wti` when `WTI_PROJECT_API_KEY` is set: the generated file reads `api_key: <%= ENV['WTI_PROJECT_API_KEY'] %>`, so it can be committed safely. Without parameters, `wti init` uses the token from the environment instead of prompting for it. Otherwise `wti init` still writes the token, and now warns when `.wti` is inside a git repository and not ignored. It also warns when `WTI_PROJECT_API_KEY` is set to a different token than the one passed, since the environment takes precedence.
+* Document `WTI_PROJECT_API_KEY` and ERB in `.wti` in the readme.
+
 ## Version 3.3.0 / 2026-09-17
 
 * Add `--zip` option to `wti pull`. It downloads the language files through the zip file endpoint: one request per locale instead of one request per file, and a single request when the whole project is pulled. Much faster on projects with many files, for instance when pulling translations in a build. Files already up to date are left alone, only the locales needing an update are requested, and an archive which fails to download fails its own files instead of aborting the pull. #473

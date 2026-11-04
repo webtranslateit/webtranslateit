@@ -6,12 +6,15 @@ module WebTranslateIt
 
     class Init < Base
 
+      ENV_API_KEY = 'WTI_PROJECT_API_KEY'
+
       def call
         puts '# Initializing project'
         api_key, path = read_parameters
         ensure_directory_exists(path)
         project_info = JSON.parse(WebTranslateIt::Project.fetch_info(api_key))['project']
         write_configuration(path, api_key, project_info)
+        warn_if_key_committable(path) unless key_from_env?(api_key)
         print_success(project_info)
         true
       end
@@ -20,10 +23,44 @@ module WebTranslateIt
 
       def read_parameters
         if parameters.any?
+          warn_env_takes_precedence if env_api_key && parameters[0] != env_api_key
           [parameters[0], '.wti']
+        elsif env_api_key
+          puts " Using the Project API Key from #{ENV_API_KEY}."
+          [env_api_key, Prompt.ask(' Path to configuration file:', '.wti')]
         else
           [Prompt.ask(' Project API Key:'), Prompt.ask(' Path to configuration file:', '.wti')]
         end
+      end
+
+      def env_api_key
+        ENV.fetch(ENV_API_KEY, nil).to_s.strip.then { |key| key.empty? ? nil : key }
+      end
+
+      # The key came from the environment, so the configuration file can read it
+      # from there too and never hold the secret itself.
+      def key_from_env?(api_key)
+        !env_api_key.nil? && api_key == env_api_key
+      end
+
+      def warn_env_takes_precedence
+        puts StringUtil.important(" Warning: #{ENV_API_KEY} is set and takes precedence over the key in the configuration file.")
+      end
+
+      # A `.wti` holding the raw key is safe on disk but not in git history. Only
+      # warn inside a git work tree, where the file is about to be committable.
+      def warn_if_key_committable(path)
+        return unless git?('rev-parse', '--is-inside-work-tree')
+        return if git?('check-ignore', '-q', path)
+
+        puts ''
+        puts StringUtil.important(" Warning: `#{path}` contains your Project API Key and is not ignored by git.")
+        puts "    Add `#{path}` to .gitignore, or keep the key out of the file: set #{ENV_API_KEY}"
+        puts "    and use `api_key: <%= ENV['#{ENV_API_KEY}'] %>` in `#{path}`."
+      end
+
+      def git?(*args)
+        system('git', *args, out: File::NULL, err: File::NULL) == true
       end
 
       def print_success(project_info)
@@ -71,12 +108,17 @@ module WebTranslateIt
         puts ''
       end
 
+      def api_key_line(api_key)
+        key_from_env?(api_key) ? "<%= ENV['#{ENV_API_KEY}'] %>" : api_key
+      end
+
       def generate_configuration(api_key, project_info)
         <<~FILE
           # Required - The Project API Token from WebTranslateIt.com
           # More information: https://github.com/webtranslateit/webtranslateit/wiki#configuration-file
+          # The #{ENV_API_KEY} environment variable, when set, takes precedence over this value.
 
-          api_key: #{api_key}
+          api_key: #{api_key_line(api_key)}
 
           # Optional - Locales not to sync with WebTranslateIt.
           # Takes a string, a symbol, or an array of string or symbol.
