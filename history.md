@@ -1,5 +1,7 @@
 ## Unreleased
 
+* **The project API key is now sent in an `Authorization: Bearer` header instead of in the URL.** Requests go to `/api/projects/current/...` rather than `/api/projects/<api key>/...`, so the key no longer ends up in proxy, load balancer and server logs. **Requires the matching WebTranslateIt server release**: older server versions answer 401/404 for `current`, so don't upgrade `wti` before the server is updated.
+* Caution: `wti --debug` prints the raw HTTP exchange through Net::HTTP, which now includes the `Authorization` header and therefore your API key. Don't paste debug output into tickets or CI logs.
 * `wti init` keeps the API token out of `.wti` when `WTI_PROJECT_API_KEY` is set: the generated file reads `api_key: <%= ENV['WTI_PROJECT_API_KEY'] %>`, so it can be committed safely. Without parameters, `wti init` uses the token from the environment instead of prompting for it. Otherwise `wti init` still writes the token, and now warns when `.wti` is inside a git repository and not ignored. It also warns when `WTI_PROJECT_API_KEY` is set to a different token than the one passed, since the environment takes precedence.
 * Document `WTI_PROJECT_API_KEY` and ERB in `.wti` in the readme.
 

@@ -4,7 +4,7 @@ require 'spec_helper'
 
 describe WebTranslateIt::String do
   let(:api_key) { 'test_api_key' }
-  let(:api_url) { "https://webtranslateit.com/api/projects/#{api_key}" }
+  let(:api_url) { 'https://webtranslateit.com/api/projects/current' }
   let!(:connection) { WebTranslateIt::Connection.new(api_key) }
 
   describe '#initialize' do
