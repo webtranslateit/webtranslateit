@@ -18,6 +18,7 @@ module WebTranslateIt
       self.path           = root_path
       self.logger         = logger
       if File.exist?(File.expand_path(path_to_config_file, path))
+        load_project_id
         self.api_key        = ENV.fetch('WTI_PROJECT_API_KEY') { configuration['api_key'] }
         self.before_pull    = configuration['before_pull']
         self.after_pull     = configuration['after_pull']
@@ -95,7 +96,7 @@ module WebTranslateIt
 
     # Convenience method which returns the endpoint for fetching a list of locales for a project.
     def api_url
-      Connection::PROJECT_PATH
+      Connection.project_path
     end
 
     # Returns a logger. If RAILS_DEFAULT_LOGGER is defined, use it, else, define a new logger.
@@ -112,6 +113,24 @@ module WebTranslateIt
     end
 
     private
+
+    # Fails early, with a clear message, on a project id that is not numeric.
+    def load_project_id
+      validate_project_id_text
+      Connection.project_id = configuration['project_id']
+      Connection.project_id
+    rescue ArgumentError => e
+      abort StringUtil.failure("\n#{e.message}")
+    end
+
+    # YAML turns `012` or `0x1F` into a different Integer, which can no longer be told
+    # from a plain id. Check the rendered text of the line instead.
+    def validate_project_id_text
+      raw = parse_erb_in_configuration[/^project_id:[ \t]*([^#\r\n]*)/, 1]&.strip
+      return if raw.nil? || raw.empty? || raw.match?(/\A(["']?)[1-9]\d*\1\z/)
+
+      raise ArgumentError, "Error: project_id must be the numeric id of your project (digits only, no leading zero), got `#{raw}`."
+    end
 
     def load_project_data # rubocop:todo Metrics/AbcSize
       project = JSON.parse(WebTranslateIt::Project.fetch_info(api_key))['project']

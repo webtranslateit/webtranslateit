@@ -30,7 +30,7 @@ module WebTranslateIt
     def assign_attributes(_params); end
 
     def translation_path
-      "#{Connection::PROJECT_PATH}/#{self.class.parent_resource_path}/#{parent_id}/locales/#{locale}/translations"
+      "#{Connection.project_path}/#{self.class.parent_resource_path}/#{parent_id}/locales/#{locale}/translations"
     end
 
   end

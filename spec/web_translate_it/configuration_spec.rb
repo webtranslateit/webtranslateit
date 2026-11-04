@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
+require 'tmpdir'
 
 describe WebTranslateIt::Configuration do
   describe '#files_for' do
@@ -43,6 +44,56 @@ describe WebTranslateIt::Configuration do
     it 'prefers paths over locale when both given' do
       result = configuration.files_for(locale: 'fr', paths: ['config/locales/en.yml'])
       expect(result).to eq [file_en]
+    end
+  end
+
+  describe '#initialize with a project_id' do
+    around do |example|
+      previous = ENV.delete('WTI_PROJECT_ID')
+      example.run
+    ensure
+      FileUtils.remove_entry(dir)
+      WebTranslateIt::Connection.project_id = nil
+      previous.nil? ? ENV.delete('WTI_PROJECT_ID') : ENV['WTI_PROJECT_ID'] = previous
+    end
+
+    let(:dir) { Dir.mktmpdir }
+    let(:project_info) do
+      {'project' => {'name' => 'Frontend', 'source_locale' => {'code' => 'en'},
+                     'target_locales' => [{'code' => 'en'}, {'code' => 'fr'}], 'project_files' => []}}
+    end
+
+    def write_config(project_id_line)
+      File.write(File.join(dir, '.wti'), "api_key: wti_ir_abc\n#{project_id_line}\n")
+    end
+
+    before { allow(WebTranslateIt::Project).to receive(:fetch_info).and_return(project_info.to_json) }
+
+    it 'sends the .wti project_id to Connection.project_path' do
+      write_config('project_id: 12345')
+      described_class.new(dir)
+      expect(WebTranslateIt::Connection.project_path).to eq '/api/projects/12345'
+    end
+
+    it 'accepts a quoted id and a trailing comment' do
+      write_config('project_id: "12345" # my project')
+      described_class.new(dir)
+      expect(WebTranslateIt::Connection.project_path).to eq '/api/projects/12345'
+    end
+
+    it 'stays on current without a project_id' do
+      write_config('')
+      described_class.new(dir)
+      expect(WebTranslateIt::Connection.project_path).to eq '/api/projects/current'
+    end
+
+    ['abc', '12a', '012', '0x1F', '0o17', '1_000', '-5'].each do |bad|
+      it "exits 1 with the message on stderr for project_id: #{bad}" do
+        write_config("project_id: #{bad}")
+        expect { described_class.new(dir) }
+          .to raise_error(SystemExit) { |e| expect(e.status).to eq 1 }
+          .and output(/project_id must be the numeric id of your project.*`#{Regexp.escape(bad)}`/).to_stderr
+      end
     end
   end
 end

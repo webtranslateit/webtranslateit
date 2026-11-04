@@ -59,7 +59,18 @@ Check `wti --help` for help.
 
 `proj_pvt_V8skdjsdDDA4` is the API token, which you can find in your project settings.
 
-If you’d like to specify another path for your configuration file, you can use `wti init`. This command will ask you to enter your project API token and where to save the configuration file (by default it will create a `.wti` in your project root directory).
+### API tokens
+
+`wti` accepts these credentials, passed to `wti init`, in `WTI_PROJECT_API_KEY` or as `api_key` in `.wti`. Legacy project API keys keep working. API tokens (`wti_…`) have two independent properties:
+
+* **Kind**: a **personal** token acts as you, within the roles you hold; an **integration** token is not tied to a person, so it keeps working when someone leaves.
+* **Owner**: a **project** token belongs to one project, and `wti` finds the project from the token. An **organization** token belongs to an organization, and can't tell which project you mean, so you also have to give the project's numeric id (see below).
+
+A token has the format `wti_<kind><scope>_…`: the first letter after `wti_` is the kind (`p` personal, `i` integration) and the second is the scope (`r` read-only, `w` read & write). So `wti_pr_…` is a personal read-only token and `wti_iw_…` an integration read & write token. A read-only token can pull but not push.
+
+`wti_` tokens only work once the project is set to "Both" or "API tokens only" in Project settings → API; for organization tokens, the organization must be set the same way too. Until then the API answers 404. A project set to "API tokens only" refuses the legacy project API keys, and `wti` tells you to create a token in Project settings → API (or Account settings → API tokens).
+
+If you’d like to specify another path for your configuration file, you can use `wti init`. This command will ask you to enter your API token and where to save the configuration file (by default it will create a `.wti` in your project root directory).
 
 ### Keeping the API token out of `.wti`
 
@@ -72,6 +83,21 @@ api_key: <%= ENV['WTI_PROJECT_API_KEY'] %>
 ```
 
 `.wti` is read through ERB, so you can point `api_key` at any environment variable this way. In CI, store the token as a secret and expose it as `WTI_PROJECT_API_KEY`.
+
+### Organization tokens: `project_id`
+
+With an organization token, add the numeric id of the project to `.wti`:
+
+``` yaml
+api_key: <%= ENV['WTI_PROJECT_API_KEY'] %>
+project_id: 12345
+```
+
+or set the `WTI_PROJECT_ID` environment variable. Like `WTI_PROJECT_API_KEY`, `WTI_PROJECT_ID` overrides every configuration file in that shell. If `WTI_PROJECT_ID` is set when you run `wti init`, the generated `.wti` includes `project_id`.
+
+Write the id as plain digits, without a leading zero: `wti` rejects anything else. If you get a "not found" error with a `wti_` token, either the project doesn't accept API tokens yet or you need `project_id`.
+
+Library users: `project_id` is process-wide. The last `WebTranslateIt::Configuration` loaded, or the `WTI_PROJECT_ID` environment variable, wins, so don't load configurations for different projects with organization tokens in the same process.
 
 Now you’re all set and you can use the `wti` commands on your project.
 

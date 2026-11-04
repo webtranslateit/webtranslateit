@@ -26,6 +26,32 @@ describe WebTranslateIt::HttpResponse do
         .to raise_error(RuntimeError, 'Error: Not found')
     end
 
+    {
+      [401, 'legacy_token_disabled'] => /only accepts API tokens now.*WTI_PROJECT_API_KEY/,
+      [401, 'invalid_token'] => /revoked or has expired.*Create a new token/,
+      [403, 'insufficient_scope'] => /read-only token; this command needs a read & write token/
+    }.each do |(status, code), message|
+      it "explains #{code}" do
+        body = JSON.generate('error' => 'Server wording', 'code' => code)
+        expect { described_class.handle_response(fake_response(status, body)) }.to raise_error(RuntimeError, message)
+      end
+    end
+
+    it 'keeps the server message for other codes' do
+      body = JSON.generate('error' => 'Role missing', 'code' => 'insufficient_role')
+      expect { described_class.handle_response(fake_response(403, body)) }.to raise_error(RuntimeError, 'Error: Role missing')
+    end
+
+    it 'returns the raw body when the JSON body is a string' do
+      expect { described_class.handle_response(fake_response(400, '"Bad request"')) }
+        .to raise_error(RuntimeError, 'Error: "Bad request"')
+    end
+
+    it 'returns the raw body when a hash has neither error nor code' do
+      expect { described_class.handle_response(fake_response(400, '{"foo":"bar"}')) }
+        .to raise_error(RuntimeError, 'Error: {"foo":"bar"}')
+    end
+
     it 'raises on 500' do
       expect { described_class.handle_response(fake_response(500)) }
         .to raise_error(RuntimeError, 'Error: Server temporarily unavailable (Error 500).')
