@@ -95,5 +95,26 @@ describe WebTranslateIt::Configuration do
           .and output(/project_id must be the numeric id of your project.*`#{Regexp.escape(bad)}`/).to_stderr
       end
     end
+
+    {
+      'a space before the colon' => 'project_id : 012',
+      'a quoted key' => '"project_id": 012',
+      'a repeated key, where the last one wins' => "project_id: 5\nproject_id: 012"
+    }.each do |spelling, lines|
+      it "checks the value as written with #{spelling}" do
+        write_config(lines)
+        expect { described_class.new(dir) }
+          .to raise_error(SystemExit) { |e| expect(e.status).to eq 1 }
+          .and output(/`012`/).to_stderr
+      end
+    end
+
+    %w[~ null].each do |empty|
+      it "treats project_id: #{empty} as no project id" do
+        write_config("project_id: #{empty}")
+        described_class.new(dir)
+        expect(WebTranslateIt::Connection.project_path).to eq '/api/projects/current'
+      end
+    end
   end
 end

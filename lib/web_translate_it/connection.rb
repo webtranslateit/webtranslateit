@@ -46,7 +46,7 @@ module WebTranslateIt
       def normalize_project_id(value, source = 'project_id')
         id = value.to_s.strip
         return nil if id.empty?
-        raise ArgumentError, "Error: #{source} must be the numeric id of your project (digits only), got `#{id}`." unless id.match?(/\A\d+\z/)
+        raise ArgumentError, "Error: #{source} must be the numeric id of your project (digits only, no leading zero), got `#{id}`." unless id.match?(/\A[1-9]\d*\z/)
 
         id
       end

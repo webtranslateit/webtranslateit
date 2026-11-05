@@ -109,27 +109,22 @@ module WebTranslateIt
     end
 
     def configuration
-      @configuration ||= YAML.safe_load(parse_erb_in_configuration)
+      @configuration ||= YAML.safe_load(rendered_configuration)
     end
 
     private
 
     # Fails early, with a clear message, on a project id that is not numeric.
     def load_project_id
-      validate_project_id_text
+      ProjectIdText.validate!(rendered_configuration)
       Connection.project_id = configuration['project_id']
       Connection.project_id
     rescue ArgumentError => e
       abort StringUtil.failure("\n#{e.message}")
     end
 
-    # YAML turns `012` or `0x1F` into a different Integer, which can no longer be told
-    # from a plain id. Check the rendered text of the line instead.
-    def validate_project_id_text
-      raw = parse_erb_in_configuration[/^project_id:[ \t]*([^#\r\n]*)/, 1]&.strip
-      return if raw.nil? || raw.empty? || raw.match?(/\A(["']?)[1-9]\d*\1\z/)
-
-      raise ArgumentError, "Error: project_id must be the numeric id of your project (digits only, no leading zero), got `#{raw}`."
+    def rendered_configuration
+      @rendered_configuration ||= parse_erb_in_configuration
     end
 
     def load_project_data # rubocop:todo Metrics/AbcSize

@@ -175,6 +175,13 @@ describe WebTranslateIt::Connection do
       expect { described_class.project_path }.to raise_error(ArgumentError, /WTI_PROJECT_ID must be the numeric id/)
     end
 
+    it 'rejects a WTI_PROJECT_ID with a leading zero or zero itself, like .wti' do
+      %w[012 0].each do |bad|
+        ENV['WTI_PROJECT_ID'] = bad
+        expect { described_class.project_path }.to raise_error(ArgumentError, /no leading zero/)
+      end
+    end
+
     it 'addresses the project by id in high-level helpers, with the same Bearer header' do
       described_class.project_id = 42
       stub_request(:get, "#{base_url}/api/projects/42").to_return(status: 200, body: '{}')
