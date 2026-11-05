@@ -43,7 +43,7 @@ module WebTranslateIt
 
     def update
       Concurrency.with_retries do
-        HttpResponse.handle_response(connection.put("#{Connection::PROJECT_PATH}/terms/#{id}/locales/#{locale}/translations/#{id}", body: to_json))
+        HttpResponse.handle_response(connection.put("#{Connection.project_path}/terms/#{id}/locales/#{locale}/translations/#{id}", body: to_json))
       end
     end
 

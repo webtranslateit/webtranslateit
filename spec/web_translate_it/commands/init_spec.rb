@@ -18,9 +18,12 @@ describe WebTranslateIt::Commands::Init do
 
   around do |example|
     previous = ENV.delete('WTI_PROJECT_API_KEY')
+    previous_id = ENV.delete('WTI_PROJECT_ID')
     Dir.mktmpdir { |dir| Dir.chdir(dir) { example.run } }
   ensure
     previous.nil? ? ENV.delete('WTI_PROJECT_API_KEY') : ENV['WTI_PROJECT_API_KEY'] = previous
+    WebTranslateIt::Connection.hint_without_config_file = nil
+    previous_id.nil? ? ENV.delete('WTI_PROJECT_ID') : ENV['WTI_PROJECT_ID'] = previous_id
   end
 
   before { allow(WebTranslateIt::Project).to receive(:fetch_info).and_return(project_info.to_json) }
@@ -38,7 +41,7 @@ describe WebTranslateIt::Commands::Init do
 
     it 'warns when the configuration file is not ignored by git' do
       git_init
-      expect { command.call }.to output(/`.wti` contains your Project API Key and is not ignored by git/).to_stdout
+      expect { command.call }.to output(/`.wti` contains your API token and is not ignored by git/).to_stdout
     end
 
     it 'does not warn when the configuration file is ignored by git' do
@@ -75,7 +78,7 @@ describe WebTranslateIt::Commands::Init do
       before { allow(WebTranslateIt::Prompt).to receive(:ask).with(' Path to configuration file:', '.wti').and_return('.wti') }
 
       it 'uses the key from the environment without prompting for it' do
-        expect { command.call }.to output(/Using the Project API Key from WTI_PROJECT_API_KEY/).to_stdout
+        expect { command.call }.to output(/Using the API token from WTI_PROJECT_API_KEY/).to_stdout
         expect(WebTranslateIt::Project).to have_received(:fetch_info).with(api_key)
       end
 
@@ -92,6 +95,28 @@ describe WebTranslateIt::Commands::Init do
         expect { command.call }.to output(/WTI_PROJECT_API_KEY is set and takes precedence/).to_stdout
         expect(configuration).to include("api_key: proj_pvt_other_key\n")
       end
+    end
+  end
+
+  context 'when WTI_PROJECT_ID is set' do
+    before { ENV['WTI_PROJECT_ID'] = '12345' }
+
+    it 'writes project_id into the configuration file' do
+      expect { command.call }.to output.to_stdout
+      expect(YAML.safe_load(ERB.new(configuration).result)['project_id']).to eq(12_345)
+    end
+
+    it 'stops on a non numeric id' do
+      ENV['WTI_PROJECT_ID'] = 'abc'
+      expect { command.call }.to raise_error(SystemExit).and output(/numeric id/).to_stderr
+      expect(WebTranslateIt::Project).not_to have_received(:fetch_info)
+    end
+  end
+
+  context 'when WTI_PROJECT_ID is not set' do
+    it 'does not write project_id' do
+      expect { command.call }.to output.to_stdout
+      expect(configuration).not_to include('project_id')
     end
   end
 end

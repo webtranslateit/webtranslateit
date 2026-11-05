@@ -18,6 +18,7 @@ module WebTranslateIt
       self.path           = root_path
       self.logger         = logger
       if File.exist?(File.expand_path(path_to_config_file, path))
+        load_project_id
         self.api_key        = ENV.fetch('WTI_PROJECT_API_KEY') { configuration['api_key'] }
         self.before_pull    = configuration['before_pull']
         self.after_pull     = configuration['after_pull']
@@ -95,7 +96,7 @@ module WebTranslateIt
 
     # Convenience method which returns the endpoint for fetching a list of locales for a project.
     def api_url
-      Connection::PROJECT_PATH
+      Connection.project_path
     end
 
     # Returns a logger. If RAILS_DEFAULT_LOGGER is defined, use it, else, define a new logger.
@@ -108,10 +109,23 @@ module WebTranslateIt
     end
 
     def configuration
-      @configuration ||= YAML.safe_load(parse_erb_in_configuration)
+      @configuration ||= YAML.safe_load(rendered_configuration)
     end
 
     private
+
+    # Fails early, with a clear message, on a project id that is not numeric.
+    def load_project_id
+      ProjectIdText.validate!(rendered_configuration)
+      Connection.project_id = configuration['project_id']
+      Connection.project_id
+    rescue ArgumentError => e
+      abort StringUtil.failure("\n#{e.message}")
+    end
+
+    def rendered_configuration
+      @rendered_configuration ||= parse_erb_in_configuration
+    end
 
     def load_project_data # rubocop:todo Metrics/AbcSize
       project = JSON.parse(WebTranslateIt::Project.fetch_info(api_key))['project']

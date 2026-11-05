@@ -4,12 +4,14 @@ module WebTranslateIt
 
   module Commands
 
-    class Init < Base
+    class Init < Base # rubocop:todo Metrics/ClassLength
 
       ENV_API_KEY = 'WTI_PROJECT_API_KEY'
 
       def call
         puts '# Initializing project'
+        Connection.hint_without_config_file = true
+        validate_project_id
         api_key, path = read_parameters
         ensure_directory_exists(path)
         project_info = JSON.parse(WebTranslateIt::Project.fetch_info(api_key))['project']
@@ -21,15 +23,21 @@ module WebTranslateIt
 
       private
 
+      def validate_project_id
+        Connection.project_id
+      rescue ArgumentError => e
+        abort StringUtil.failure(e.message)
+      end
+
       def read_parameters
         if parameters.any?
           warn_env_takes_precedence if env_api_key && parameters[0] != env_api_key
           [parameters[0], '.wti']
         elsif env_api_key
-          puts " Using the Project API Key from #{ENV_API_KEY}."
+          puts " Using the API token from #{ENV_API_KEY}."
           [env_api_key, Prompt.ask(' Path to configuration file:', '.wti')]
         else
-          [Prompt.ask(' Project API Key:'), Prompt.ask(' Path to configuration file:', '.wti')]
+          [Prompt.ask(' API token:'), Prompt.ask(' Path to configuration file:', '.wti')]
         end
       end
 
@@ -54,7 +62,7 @@ module WebTranslateIt
         return if git?('check-ignore', '-q', path)
 
         puts ''
-        puts StringUtil.important(" Warning: `#{path}` contains your Project API Key and is not ignored by git.")
+        puts StringUtil.important(" Warning: `#{path}` contains your API token and is not ignored by git.")
         puts "    Add `#{path}` to .gitignore, or keep the key out of the file: set #{ENV_API_KEY}"
         puts "    and use `api_key: <%= ENV['#{ENV_API_KEY}'] %>` in `#{path}`."
       end
@@ -112,14 +120,22 @@ module WebTranslateIt
         key_from_env?(api_key) ? "<%= ENV['#{ENV_API_KEY}'] %>" : api_key
       end
 
+      # Organization tokens reach a project by its numeric id only. Written when
+      # WTI_PROJECT_ID is set, so the generated file is unchanged otherwise.
+      def project_id_block
+        return '' if ENV.fetch('WTI_PROJECT_ID', '').strip.empty?
+
+        "\n# Project id, required for organization tokens. WTI_PROJECT_ID takes precedence over this value.\nproject_id: #{Connection.project_id}\n"
+      end
+
       def generate_configuration(api_key, project_info)
         <<~FILE
-          # Required - The Project API Token from WebTranslateIt.com
+          # Required - The API token from WebTranslateIt.com (project, personal, integration or organization token)
           # More information: https://github.com/webtranslateit/webtranslateit/wiki#configuration-file
           # The #{ENV_API_KEY} environment variable, when set, takes precedence over this value.
 
           api_key: #{api_key_line(api_key)}
-
+          #{project_id_block}
           # Optional - Locales not to sync with WebTranslateIt.
           # Takes a string, a symbol, or an array of string or symbol.
 

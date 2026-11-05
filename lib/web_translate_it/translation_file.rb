@@ -188,15 +188,15 @@ module WebTranslateIt
 
     # Convenience method which returns the URL of the API endpoint for a locale.
     def api_url
-      "#{Connection::PROJECT_PATH}/files/#{id}/locales/#{locale}"
+      "#{Connection.project_path}/files/#{id}/locales/#{locale}"
     end
 
     def api_url_for_create
-      "#{Connection::PROJECT_PATH}/files"
+      "#{Connection.project_path}/files"
     end
 
     def api_url_for_delete
-      "#{Connection::PROJECT_PATH}/files/#{id}"
+      "#{Connection.project_path}/files/#{id}"
     end
 
     def local_checksum
