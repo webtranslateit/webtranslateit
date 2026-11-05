@@ -1,4 +1,4 @@
-## Unreleased
+## Version 3.5.0 / 2026-11-05
 
 * Support the new API tokens (project, personal, integration) besides the project API keys. The environment variable `WTI_PROJECT_API_KEY` and the `api_key` setting in `.wti` keep their names.
 * Support organization tokens: set `project_id` in `.wti`, or `WTI_PROJECT_ID`, to the project's numeric id and `wti` addresses `/api/projects/<id>` instead of `/api/projects/current`. A non-numeric id is rejected. When the API finds no project for a `wti_` token at `/api/projects/current`, `wti` prints a hint, once. `wti init` writes `project_id` into `.wti` when `WTI_PROJECT_ID` is set.
