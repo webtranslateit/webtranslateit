@@ -22,16 +22,6 @@ module WebTranslateIt
         true
       end
 
-      private
-
-      def validate_parameters!
-        return unless parameters == []
-
-        puts StringUtil.failure('Locale code missing.')
-        puts 'Usage: wti addlocale fr es ...'
-        exit 1
-      end
-
     end
 
   end
