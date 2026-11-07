@@ -9,11 +9,7 @@ module WebTranslateIt
     class Diff < Base
 
       def call
-        complete_success = true
-        with_connection do |conn|
-          complete_success = diff_all_files(conn)
-        end
-        complete_success
+        with_connection { |conn| diff_all_files(conn) }
       end
 
       private

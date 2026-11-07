@@ -14,11 +14,7 @@ module WebTranslateIt
         )
         source = parameters[0]
         destination = parameters[1]
-        complete_success = true
-        with_connection do |conn|
-          complete_success = move_file(source, destination, conn)
-        end
-        complete_success
+        with_connection { |conn| move_file(source, destination, conn) }
       end
 
       private
