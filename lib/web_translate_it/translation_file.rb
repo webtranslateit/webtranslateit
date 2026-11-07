@@ -106,12 +106,8 @@ module WebTranslateIt
     #
     # Note that the request might or might not eventually be acted upon, as it might be disallowed when processing
     # actually takes place. This is due to the fact that language file imports are handled by background processing.
-    # rubocop:todo Metrics/AbcSize
-    # rubocop:todo Metrics/MethodLength
     def upload(connection, merge: false, ignore_missing: false, label: nil, minor_changes: false, force: false, rename_others: false, destination_path: nil) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
-      display = []
-      display.push(file_path)
-      display.push "#{StringUtil.checksumify(local_checksum.to_s)}..#{StringUtil.checksumify(remote_checksum.to_s)}"
+      display = [file_path, "#{StringUtil.checksumify(local_checksum.to_s)}..#{StringUtil.checksumify(remote_checksum.to_s)}"]
       if File.exist?(file_path)
         if force || (remote_checksum != local_checksum)
           File.open(file_path) do |file|
@@ -137,8 +133,6 @@ module WebTranslateIt
       Result.new(true, display)
     end
 
-    # rubocop:enable Metrics/MethodLength
-    # rubocop:enable Metrics/AbcSize
     # Create a master language file to Web Translate It by performing a POST Request.
     #
     # Example of implementation:
@@ -151,9 +145,7 @@ module WebTranslateIt
     # actually takes place. This is due to the fact that language file imports are handled by background processing.
     #
     def create(connection) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
-      display = []
-      display.push file_path
-      display.push "#{StringUtil.checksumify(local_checksum.to_s)}..[     ]"
+      display = [file_path, "#{StringUtil.checksumify(local_checksum.to_s)}..[     ]"]
       if File.exist?(file_path)
         File.open(file_path) do |file|
           params = [['name', file_path], ['file', file]]
@@ -170,8 +162,7 @@ module WebTranslateIt
     # Delete a master language file from Web Translate It by performing a DELETE Request.
     #
     def delete(connection)
-      display = []
-      display.push file_path
+      display = [file_path]
       if File.exist?(file_path)
         with_display(display) { connection.delete(api_url_for_delete) }
       else
