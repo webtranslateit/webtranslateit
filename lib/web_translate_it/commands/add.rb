@@ -21,14 +21,6 @@ module WebTranslateIt
 
       private
 
-      def validate_parameters!
-        return unless parameters == []
-
-        puts StringUtil.failure('Error: You must provide the path to the master file to add.')
-        puts 'Usage: wti add path/to/master_file_1 path/to/master_file_2 ...'
-        exit
-      end
-
       def add_files(conn)
         to_add = new_master_files
         if to_add.empty?

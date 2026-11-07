@@ -18,14 +18,6 @@ module WebTranslateIt
 
       private
 
-      def validate_parameters!
-        return unless parameters == []
-
-        puts StringUtil.failure('Error: You must provide the locale code to remove.')
-        puts 'Usage: wti rmlocale fr es ...'
-        exit 1
-      end
-
       def remove_locale(param)
         return unless Prompt.ask_yes_no("Are you certain you want to delete the locale #{param.upcase}?\nThis will also delete its files and translations.", false)
 
