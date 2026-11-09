@@ -68,7 +68,7 @@ jobs:
 
       - name: Configure RubyGems credentials
         if: steps.version.outputs.release == 'true'
-        uses: rubygems/configure-rubygems-credentials@v1.0.0
+        uses: rubygems/configure-rubygems-credentials@v2.1.0
 
       - name: Publish to rubygems.org
         if: steps.version.outputs.release == 'true'
