@@ -7,18 +7,24 @@ version: 2
 updates:
   - package-ecosystem: "bundler" # See documentation for possible values
     directory: "/" # Location of package manifests
+    groups:
+      bundler:
+        patterns:
+          - "*"
     schedule:
-      interval: "weekly"
-      day: "monday"
+      interval: monthly
       time: "04:00"
     assignees:
     - edouard
 
   - package-ecosystem: github-actions
     directory: "/"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
     schedule:
-      interval: weekly
-      day: monday
+      interval: monthly
       time: "04:00"
     assignees:
     - edouard
