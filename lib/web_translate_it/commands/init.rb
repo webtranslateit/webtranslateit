@@ -67,8 +67,8 @@ module WebTranslateIt
         puts "    and use `api_key: <%= ENV['#{ENV_API_KEY}'] %>` in `#{path}`."
       end
 
-      def git?(*args)
-        system('git', *args, out: File::NULL, err: File::NULL) == true
+      def git?(*)
+        system('git', *, out: File::NULL, err: File::NULL) == true
       end
 
       def print_success(project_info)

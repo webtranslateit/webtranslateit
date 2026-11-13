@@ -1,3 +1,7 @@
+## Unreleased
+
+* Require Ruby 3.3 or newer. Rubies 3.0 to 3.2 are end of life and were already untested; older Rubies keep installing wti 3.5.0.
+
 ## Version 3.5.0 / 2026-11-05
 
 * Support the new API tokens (project, personal, integration) besides the project API keys. The environment variable `WTI_PROJECT_API_KEY` and the `api_key` setting in `.wti` keep their names.

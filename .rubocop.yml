@@ -5,7 +5,7 @@ inherit_from:
   - .rubocop_todo.yml
 
 AllCops:
-  TargetRubyVersion: 3.0
+  TargetRubyVersion: 3.3
 
 
 # - Metrics Cops --------------------------------------------------------------

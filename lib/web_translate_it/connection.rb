@@ -97,12 +97,12 @@ module WebTranslateIt
       api_request(Net::HTTP::Get, path)
     end
 
-    def post(path, body: nil, &block)
-      api_request(Net::HTTP::Post, path, body: body, &block)
+    def post(path, body: nil, &)
+      api_request(Net::HTTP::Post, path, body: body, &)
     end
 
-    def put(path, body: nil, &block)
-      api_request(Net::HTTP::Put, path, body: body, &block)
+    def put(path, body: nil, &)
+      api_request(Net::HTTP::Put, path, body: body, &)
     end
 
     def delete(path)

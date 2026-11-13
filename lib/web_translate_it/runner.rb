@@ -63,8 +63,8 @@ module WebTranslateIt
       false
     end
 
-    def throb(&block)
-      Spinner.new.run(&block)
+    def throb(&)
+      Spinner.new.run(&)
     end
 
   end
